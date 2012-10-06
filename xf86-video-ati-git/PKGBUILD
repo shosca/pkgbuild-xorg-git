@@ -1,0 +1,54 @@
+# Maintainer: Riccardo Berto <riccardobrt@gmail.com>
+# Previous Contributor: vbmithr
+# Contributor: Flamelab <panosfilip at gmail dot com>
+
+pkgname=xf86-video-ati-git
+_realpkgname=xf86-video-ati
+pkgver=20121006
+pkgrel=1
+pkgdesc="X.org ati video driver"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+provides=("${_realpkgname}")
+depends=('libpciaccess' 'libdrm' 'udev' 'pixman' 'ati-dri')
+makedepends=('xorg-server-devel' 'libdrm' 'xf86driproto' 'mesa' 'git' 'glproto')
+conflicts=('xorg-server<1.11.0' 'xf86-video-ati')
+options=('!libtool')
+license=('custom')
+
+_gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-ati'
+_gitname="xf86-video-ati"
+
+build() {
+
+  cd "$srcdir"
+  msg "Connecting to GIT server...."
+
+  if [[ -d "$_gitname" ]]; then
+    cd "$_gitname" && git pull origin
+    msg "The local files are updated."
+  else
+    git clone "$_gitroot" "$_gitname"
+  fi
+
+  msg "GIT checkout done or server timeout"
+  msg "Starting build..."
+
+  rm -rf "$srcdir/$_gitname-build"
+  git clone "$srcdir/$_gitname" "$srcdir/$_gitname-build"
+  cd "$srcdir/$_gitname-build"
+
+  msg "Starting configure..."
+
+  autoreconf -v --install
+
+  ./configure --prefix=/usr
+
+  msg "Starting make..."
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}-build"
+  make DESTDIR="${pkgdir}" install 
+}
