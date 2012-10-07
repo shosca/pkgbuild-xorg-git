@@ -11,7 +11,7 @@ DIRS = \
 	   xf86-input-evdev-git \
 	   xf86-input-synaptics-git \
 	   monodevelop-git \
-	   miffin-git \
+	   muffin-git \
 	   cinnamon-git \
 	   nemo-git \
 	   nemo-fileroller-git \
@@ -26,7 +26,7 @@ clean:
 
 $(DIRS):
 	@echo "-- $@ --"; cd $@ ; \
-	yes "" | makepkg -fsic
+	yes "" | makepkg -fsi
 
 xorg-server-git: glproto-git
 

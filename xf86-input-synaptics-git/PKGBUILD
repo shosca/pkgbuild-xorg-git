@@ -16,6 +16,9 @@ options=('!libtool' '!makeflags')
 groups=('xorg-drivers' 'xorg')
 provides=("$_pkgname=99")
 conflicts=("$_pkgname" 'xorg-server<1.10.99.902')
+backup=('etc/X11/xorg.conf.d/10-synaptics.conf')
+source=(10-synaptics.conf)
+md5sums=('3b81a81b958dfe3cac3cdef7ee85f1ce')
 
 _gitroot=git://anongit.freedesktop.org/xorg/driver/$_pkgname
 _gitname=$_pkgname
@@ -34,12 +37,17 @@ build() {
 
   msg "Starting make..."
   cd $_gitname
-  ./autogen.sh --prefix=/usr
+  ./autogen.sh --prefix=/usr --disable-unit-tests
   make
 }
 
 package(){
   cd $_gitname
-  make DESTDIR="$pkgdir" install
-  install -Dm644 COPYING "$pkgdir/usr/share/licenses/$_pkgname/COPYING"
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/etc/X11/xorg.conf.d"
+  install -m644 "${srcdir}/10-synaptics.conf" "${pkgdir}/etc/X11/xorg.conf.d/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+
+  rm -rf "${pkgdir}/usr/share/X11"
 }
