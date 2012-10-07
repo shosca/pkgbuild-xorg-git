@@ -28,10 +28,16 @@ $(DIRS):
 	@echo "-- $@ --"; cd $@ ; \
 	yes "" | makepkg -fsic
 
+xorg-server-git: glproto-git
+
+mesa-git: glproto-git
+
 xf86-video-ati-git: drm-git xorg-server-git
 
 xf86-video-evdev-git: drm-git mesa-git xorg-server-git
 
 xf86-video-synaptics-git: mesa-git xorg-server-git
+
+libglu-git: mesa-git
 
 cinnamon-git: muffin-git
