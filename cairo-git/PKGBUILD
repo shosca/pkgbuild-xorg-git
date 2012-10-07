@@ -2,7 +2,7 @@
 # Based on the official cairo package
 
 pkgname=cairo-git
-pkgver=20121006
+pkgver=20121007
 pkgrel=1
 pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)
@@ -13,8 +13,6 @@ makedepends=('gtk-doc' 'git')
 options=('!libtool')
 provides=('cairo=1.10.0' 'cairo-xcb=1.10.0')
 conflicts=('cairo' 'cairo-xcb')
-source=(cairo-1.10.0-buggy_gradients.patch)
-sha1sums=('8b843a9934e5112b6188e5bcf4adfc1fdaf9fa04')
 _gitroot='git://anongit.freedesktop.org/git/cairo'
 _gitname='cairo'
 
@@ -27,8 +25,6 @@ build() {
     git clone ${_gitroot}
     cd ${_gitname}
   fi
-
-  patch -Np1 -i "${srcdir}/cairo-1.10.0-buggy_gradients.patch"
 
   #  sed -i -e 's/libpng13/libpng14/g' configure
   ./autogen.sh --prefix=/usr --sysconfdir=/etc \

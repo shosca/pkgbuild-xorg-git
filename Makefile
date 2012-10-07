@@ -17,12 +17,24 @@ DIRS = \
 	   nemo-fileroller-git \
 	   nemo-dropbox-git \
 
+DATE=$(shell date +"%Y%m%d")
 
-.PHONY: $(DIRS)
-all: $(DIRS)
+TARGETS=$(addsuffix /built-$(DATE), $(DIRS))
+
+all: $(TARGETS)
 
 clean:
 	find -name '*tar.xz' -exec rm {} \;
+
+show:
+	@echo $(DATE)
+	@echo $(TEST)
+
+%/built-$(DATE):
+	@cd $* ; \
+		yes "" | makepkg -f ; \
+		touch built-$(DATE)
+
 
 $(DIRS):
 	@echo "-- $@ --"; cd $@ ; \
