@@ -15,6 +15,9 @@ DIRS = \
 .PHONY: $(DIRS)
 all: $(DIRS)
 
+clean:
+	find -name '*tar.xz' -exec rm {} \;
+
 $(DIRS):
 	@echo "-- $@ --"; cd $@ ; \
 	yes "" | makepkg -fsic
