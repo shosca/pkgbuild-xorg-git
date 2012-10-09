@@ -1,3 +1,6 @@
+LOCAL=/home/packages
+REMOTE=74.72.157.140:/home/serkan/public_html
+
 DIRS = \
 	   pacaur-git \
 	   glproto-git \
@@ -39,6 +42,21 @@ show:
 $(DIRS):
 	@echo "-- $@ --"; cd $@ ; \
 	yes "" | makepkg -fsi
+
+push: add
+	@rsync -rv \
+		$(LOCAL)/* \
+		$(REMOTE)/
+
+add:
+	@cd $(LOCAL)
+	@rm -rf mine.db*
+	@repo-add $(LOCAL)/mine.db.tar.gz $(LOCAL)/*.xz
+
+fetch:
+	@rsync -rv \
+		$(REMOTE)/* \
+		$(LOCAL)/
 
 xorg-server-git: glproto-git
 
