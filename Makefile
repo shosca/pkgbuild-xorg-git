@@ -6,7 +6,7 @@ DIRS = \
 	   mesa-git \
 	   xorg-server-git \
 	   cairo-git \
-	   libglu-git \
+	   glu-git \
 	   xf86-video-ati-git \
 	   xf86-input-evdev-git \
 	   xf86-input-synaptics-git \

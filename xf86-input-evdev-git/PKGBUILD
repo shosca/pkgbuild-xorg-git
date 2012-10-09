@@ -4,7 +4,7 @@
 
 _pkgname=xf86-input-evdev
 pkgname=$_pkgname-git
-pkgver=20121007
+pkgver=20121009
 pkgrel=1
 pkgdesc="X.Org evdev Input driver - Git version"
 arch=('i686' 'x86_64')
