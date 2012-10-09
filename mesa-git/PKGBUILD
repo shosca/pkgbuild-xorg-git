@@ -1,109 +1,73 @@
-# Maintainer: Egon Ashrafinia <e,ashrafinia@gmail.com>
-# Contributor: Tavian Barnes <tavianator@gmail.com>
-# Contributor: Jan de Groot <jgc@archlinux.org>
-# Contributor: Andreas Radke <andyrtr@archlinux.org>
-# Contributor: Thomas Dziedzic < gostrc at gmail >
-# Contributor: Antti "Tera" Oja <antti.bofh@gmail.com>
-# Contributor: Diego Jose <diegoxter1006@gmail.com>
+# $Id$
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
 pkgbase=mesa-git
-pkgname=('mesa-git')
-true && pkgname=('mesa-git' 'libgl-git' 'osmesa-git' 'libglapi-git' 'libgles-git' 'libegl-git' 'ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'khrplatform-devel-git' 'libgbm-git')
+pkgname=('libglapi-git' 'libgl-git' 'mesa-git' 'osmesa-git' 'libgbm-git' 'libgles-git' 'libegl-git' 'khrplatform-devel-git' 'ati-dri-git' 'intel-dri-git' 'svga-dri-git' 'nouveau-dri-git')
 pkgver=20121009
 pkgrel=1
-_mesaver=9.1
-arch=(i686 x86_64)
-makedepends=('clang' 'git' 'glproto' 'libdrm' 'libxxf86vm' 'libxdamage' 'libva' 'libvdpau' 'libxvmc' 'expat'
-             'libx11' 'libxt' 'gcc-libs' 'dri2proto' 'python2' 'libxml2'
-             'imake' 'llvm' 'udev' 'flex' 'bison')
+arch=('i686' 'x86_64')
+makedepends=('glproto-git' 'libdrm-git' 'libxxf86vm>=1.1.2' 'libxdamage>=1.1.3' 'expat>=2.1.0' 'libx11>=1.5.0' 'libxt>=1.1.3'
+             'gcc-libs>=4.7.1-6' 'dri2proto>=2.8' 'python2' 'libxml2' 'imake' 'llvm' 'systemd' 'libvdpau>=0.5' 'libxvmc')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
+options=('!libtool')
 source=(LICENSE)
 md5sums=('5c65a0fe315dd347e09b1f2826a1df5a')
 
 _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
+_mesaver=9.1
 
 build() {
-  msg 'Connecting to git.freedesktop.org GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git pull origin
-  else
-    git clone ${_gitroot} --depth 1
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
+    msg 'Connecting to git.freedesktop.org GIT server....'
+    if [ -d ${_gitname} ] ; then
+        cd ${_gitname} && git pull origin
+    else
+        git clone ${_gitroot} --depth 1
+    fi
+    msg 'GIT checkout done or server timeout'
+    msg 'Starting make...'
 
-  cd "${srcdir}"
+    cd "${srcdir}"
 
-  # Cleanup and prepare the build dir
-  [ -d build ] && rm -rf build
-  cp -r ${_gitname} build
-  cd build
+    # Cleanup and prepare the build dir
+    [ -d mesa-${_mesaver} ] && rm -rf mesa-${_mesaver}
+    cp -r ${_gitname} mesa-${_mesaver}
+    cd mesa-${_mesaver}
 
-  ./autogen.sh --prefix=/usr \
+    COMMONOPTS="--prefix=/usr \
+    --sysconfdir=/etc \
     --with-dri-driverdir=/usr/lib/xorg/modules/dri \
     --with-gallium-drivers=r300,r600,radeonsi,nouveau,svga,swrast \
-    --with-clang-libdir=/usr/lib \
+    --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
     --enable-gallium-llvm \
-    --enable-gallium-egl \
-    --enable-glx-tls \
-    --enable-gles1 \
-    --enable-gles2 \
     --enable-egl \
+    --enable-gallium-egl \
+    --with-egl-platforms=x11,drm \
+    --enable-shared-glapi \
+    --enable-gbm \
+    --enable-glx-tls \
     --enable-dri \
     --enable-glx \
-    --enable-xa \
     --enable-osmesa \
-    --enable-gbm \
-    --enable-opencl \
-    --enable-vdpau \
+    --enable-gles1 \
+    --enable-gles2 \
+    --enable-texture-float \
+    --enable-xa \
     --enable-xvmc \
-    --enable-texture-float
+    --enable-vdpau "
 
-  make
-}
+# not default:
+#    --enable-gallium-egl enable optional EGL state tracker (not required for
+#                          EGL support in Gallium with OpenGL and OpenGL ES)
+#                          [default=disable]
+#    --enable-xa             enable build of the XA X Acceleration API                          [default=no]
 
-package_libgl-git() {
-  depends=('libdrm' 'libxxf86vm' 'libxdamage' 'expat' 'libglapi-git' 'gcc-libs')
-  conflicts=('libgl')
-  provides=("libgl=${_mesaver}")
-  pkgdesc="Mesa 3-D graphics library and DRI software rasterizer"
 
-  cd "${srcdir}"/build
-  install -m755 -d "${pkgdir}/usr/lib"
-  install -m755 -d "${pkgdir}/usr/lib/xorg/modules/extensions"
+    ./autogen.sh $COMMONOPTS
 
-  bin/minstall lib/libGL.so* "${pkgdir}/usr/lib/"
-  bin/minstall lib/libdricore* "${pkgdir}/usr/lib/"
-
-  cd src/mesa/drivers/dri
-  #make -C swrast DESTDIR="${pkgdir}" install
-  make -C "${srcdir}"/build/src/gallium/targets/dri-swrast DESTDIR="${pkgdir}" install
-  
-  #ln -s swrastg_dri.so "${pkgdir}/usr/lib/xorg/modules/dri/swrast_dri.so"
-  ln -s libglx.xorg "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so"
-
-  install -m755 -d "${pkgdir}/usr/share/licenses/libgl-git"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libgl-git/"
-}
-
-package_osmesa-git() {
-  depends=('mesa-git')
-  conflicts=('osmesa')
-  provides=("osmesa=${_mesaver}")
-  optdepends=('opengl-man-pages: for the OpenGL API man pages')
-  pkgdesc="Mesa 3D off-screen rendering library"
-
-  cd "${srcdir}"/build
-  install -m755 -d "${pkgdir}/usr/lib"
-  install -m755 -d "${pkgdir}/usr/lib/pkgconfig/"
-  
-  bin/minstall lib/libOSMesa.so* "${pkgdir}/usr/lib/"
-  bin/minstall src/mesa/drivers/osmesa/osmesa.pc "${pkgdir}/usr/lib/pkgconfig/"
-  
-  install -m755 -d "${pkgdir}/usr/share/licenses/osmesa-git"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/osmesa-git/"
+    make
 }
 
 package_libglapi-git() {
@@ -112,191 +76,236 @@ package_libglapi-git() {
   provides=("libglapi=${_mesaver}")
   pkgdesc="free implementation of the GL API -- shared library. The Mesa GL API module is responsible for dispatching all the gl* functions"
 
-  cd "${srcdir}"/build
-  install -m755 -d "${pkgdir}/usr/lib"
-  bin/minstall lib/libglapi.so* "${pkgdir}/usr/lib/"
+  make -C ${srcdir}/?esa-*/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
 
   install -m755 -d "${pkgdir}/usr/share/licenses/libglapi"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libglapi/"
 }
 
-package_libgles-git() {
-  depends=('libglapi-git' 'khrplatform-devel-git')
-  conflicts=('libgles')
-  provides=("libgles=${_mesaver}")
-  pkgdesc="Mesa GLES libraries and headers"
+package_libgl-git() {
+  depends=('libdrm-git' 'libxxf86vm>=1.1.2' 'libxdamage>=1.1.3' 'expat>=2.1.0' 'libglapi-git' 'gcc-libs')
+  pkgdesc="Mesa 3-D graphics library and DRI software rasterizer"
+  conflicts=('libgl')
+  provides=("libgl=${_mesaver}")
 
-  cd "${srcdir}"/build
-  install -m755 -d "${pkgdir}/usr/lib"
-  install -m755 -d "${pkgdir}/usr/lib/pkgconfig"
-  install -m755 -d "${pkgdir}/usr/include"
-  install -m755 -d "${pkgdir}/usr/include/GLES"
-  install -m755 -d "${pkgdir}/usr/include/GLES2"
-  bin/minstall lib/libGLESv* "${pkgdir}/usr/lib/"
-  bin/minstall src/mapi/es1api/glesv1_cm.pc "${pkgdir}/usr/lib/pkgconfig/"
-  bin/minstall src/mapi/es2api/glesv2.pc "${pkgdir}/usr/lib/pkgconfig/"
-  bin/minstall include/GLES/* "${pkgdir}/usr/include/GLES/"
-  bin/minstall include/GLES2/* "${pkgdir}/usr/include/GLES2/"
+  # fix linking because of splitted package
+  make -C ${srcdir}/?esa-*/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/libgles-git"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libgles-git/"
-}
+  # libGL & libdricore
+  make -C ${srcdir}/?esa-*/src/glx DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/?esa-*/src/mesa/libdricore DESTDIR="${pkgdir}" install
 
-package_libegl-git() {
-  depends=('libglapi-git' 'libdrm' 'libxext' 'libxfixes' 'udev' 'khrplatform-devel-git')
-  conflicts=('libegl')
-  provides=("libegl=${_mesaver}")
-  pkgdesc="Mesa libEGL libraries and headers"
-
-  cd "${srcdir}"/build
-  make -C src/gallium/targets/egl-static DESTDIR="${pkgdir}" install
-  install -m755 -d "${pkgdir}/usr/lib"
-  install -m755 -d "${pkgdir}/usr/lib/pkgconfig"
-  install -m755 -d "${pkgdir}/usr/include"
-  install -m755 -d "${pkgdir}/usr/include/"
-  install -m755 -d "${pkgdir}/usr/include/EGL"
-  install -m755 -d "${pkgdir}/usr/share"
-  install -m755 -d "${pkgdir}/usr/share/doc"
-  install -m755 -d "${pkgdir}/usr/share/doc/libegl"
-  bin/minstall lib/libEGL.so* "${pkgdir}/usr/lib/"
-  install -m755 -d "${pkgdir}/usr/lib/egl"
-  bin/minstall lib/egl/* "${pkgdir}/usr/lib/egl/"
-  bin/minstall src/egl/main/egl.pc "${pkgdir}/usr/lib/pkgconfig/"
-  bin/minstall include/EGL/* "${pkgdir}/usr/include/EGL/"
-  bin/minstall docs/egl.html "${pkgdir}/usr/share/doc/libegl/"
-
-  install -m755 -d "${pkgdir}/usr/share/licenses/libegl-git"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libegl-git/"
-}
-
-package_ati-dri-git() {
-  depends=('libgl-git')
-  conflicts=('ati-dri' 'xf86-video-ati<6.9.0-6')
-  provides=("ati-dri=${_mesaver}")
-  pkgdesc="Mesa DRI + Gallium3D r300 drivers for AMD/ATI Radeon"
-  
-  # Fix libtool relink issue
-  install -m755 -d "${pkgdir}/usr/lib"
-  cp ${srcdir}/build/lib/libdricore* ${pkgdir}/usr/lib/
-  make -C ${srcdir}/build/src/mesa/drivers/dri/radeon DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/build/src/mesa/drivers/dri/r200 DESTDIR="${pkgdir}" install
-  # classic mesa driver for R300 r300_dri.so
-  # gallium3D driver for R300 r300_dri.so
-  make -C "${srcdir}"/build/src/gallium/targets/dri-r300 DESTDIR="${pkgdir}" install
-  make -C "${srcdir}"/build/src/gallium/targets/dri-r600 DESTDIR="${pkgdir}" install
-  make -C "${srcdir}"/build/src/gallium/targets/dri-radeonsi DESTDIR="${pkgdir}" install
-  make -C "${srcdir}"/build/src/gallium/targets/vdpau-r300 DESTDIR="${pkgdir}" install
-  make -C "${srcdir}"/build/src/gallium/targets/vdpau-r600 DESTDIR="${pkgdir}" install
-  make -C "${srcdir}"/build/src/gallium/targets/vdpau-radeonsi DESTDIR="${pkgdir}" install
-  make -C "${srcdir}"/build/src/gallium/targets/xvmc-r300 DESTDIR="${pkgdir}" install
-  make -C "${srcdir}"/build/src/gallium/targets/xvmc-r600 DESTDIR="${pkgdir}" install
-  # Remove libdricore
-  rm ${pkgdir}/usr/lib/libdricore*
-
-}
-
-package_intel-dri-git() {
-  depends=('libgl-git')
-  conflicts=('intel-dri')
-  provides=("intel-dri=${_mesaver}")
-  pkgdesc="Mesa DRI drivers for Intel"
-  # Fix libtool relink issue
-  install -m755 -d "${pkgdir}/usr/lib"
-  cp ${srcdir}/build/lib/libdricore* ${pkgdir}/usr/lib/
-  make -C ${srcdir}/build/src/mesa/drivers/dri/i915 DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/build/src/mesa/drivers/dri/i965 DESTDIR="${pkgdir}" install
-  # Remove libdricore
-  rm ${pkgdir}/usr/lib/libdricore*
-}
-
-package_nouveau-dri-git() {
-  depends=('libgl-git')
-  conflicts=('nouveau-dri')
-  provides=("nouveau-dri=${_mesaver}")
-  pkgdesc="Mesa classic DRI + Gallium3D drivers for Nouveau"
-  # Fix libtool relink issue
-  install -m755 -d "${pkgdir}/usr/lib"
-  cp ${srcdir}/build/lib/libdricore* ${pkgdir}/usr/lib/
-  # classic mesa driver for nv10 , nv20 nouveau_vieux_dri.so
-  make -C ${srcdir}/build/src/mesa/drivers/dri/nouveau DESTDIR="${pkgdir}" install
-  # gallium3D driver for nv30 - nv40 - nv50 nouveau_dri.so
-  make -C ${srcdir}/build/src/gallium/targets/dri-nouveau DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/build/src/gallium/targets/vdpau-nouveau DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/build/src/gallium/targets/xvmc-nouveau DESTDIR="${pkgdir}" install
-  # Remove libdricore
-  rm ${pkgdir}/usr/lib/libdricore*
-}
+  # fix linking because of splitted package - cleanup
+  make -C ${srcdir}/?esa-*/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
 
 
-package_svga-dri-git() {
-  depends=("mesa-git")
-  conflicts=('svga-dri')
-  provides=("svga-dri=${_mesaver}")
-  pkgdesc="Gallium3D VMware guest GL driver"
+  make -C ${srcdir}/?esa-*/src/gallium/targets/dri-swrast DESTDIR="${pkgdir}" install
 
-  make -C ${srcdir}/build/src/gallium/targets/dri-vmwgfx DESTDIR="${pkgdir}" install
+  # See FS#26284
+  install -m755 -d "${pkgdir}/usr/lib/xorg/modules/extensions"
+  ln -s libglx.xorg "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so"
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/libgl"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libgl/"
 }
 
 package_mesa-git() {
-  depends=('libgl-git' 'libx11' 'libxt' 'gcc-libs' 'dri2proto' 'glproto')
+  # check also gl.pc
+  depends=('libgl-git' 'libx11>=1.5.0' 'libxext>=1.3.1' 'libxdamage' 'libxfixes' 'libxcb' 'libxxf86vm')
   optdepends=('opengl-man-pages: for the OpenGL API man pages')
+  pkgdesc="Mesa 3-D graphics libraries and include files"
   conflicts=('mesa')
   provides=("mesa=${_mesaver}")
-  pkgdesc="Mesa 3-D graphics libraries and include files"
 
-  cd "${srcdir}"/build
-  make DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/?esa-*/src/mesa DESTDIR="${pkgdir}" install-glHEADERS
+  make -C ${srcdir}/?esa-*/src/mesa/drivers/dri DESTDIR="${pkgdir}" install-driincludeHEADERS
+  make -C ${srcdir}/?esa-*/src/mesa DESTDIR="${pkgdir}" install-pkgconfigDATA
+  make -C ${srcdir}/?esa-*/src/mesa/drivers/dri DESTDIR="${pkgdir}" install-pkgconfigDATA
+  make -C ${srcdir}/?esa-*/src/mesa/drivers/dri/common DESTDIR="${pkgdir}" install-sysconfDATA
 
-  rm -f "${pkgdir}/usr/lib/libGL.so"*
-  rm -f "${pkgdir}/usr/lib/libglapi.so"*
-  rm -f "${pkgdir}/usr/lib/libgbm.so"*
-  rm -f "${pkgdir}/usr/lib/libGLESv"*
-  rm -f "${pkgdir}/usr/lib/libEGL"*
-  rm -f "${pkgdir}/usr/lib/libOSMesa.so"*
-  rm -f "${pkgdir}/usr/lib/libdricore${_mesaver}.0.so"*
-  rm -f "${pkgdir}/usr/lib/libXvMC"*
-  rm -rf "${pkgdir}/usr/lib/egl"
-  rm -rf "${pkgdir}/usr/lib/vdpau"
-  rm -f ${pkgdir}/usr/lib/pkgconfig/{glesv1_cm.pc,glesv2.pc,egl.pc,osmesa.pc,gbm.pc}
-  rm -rf "${pkgdir}/usr/lib/xorg"
-  rm -f "${pkgdir}/usr/include/GL/glew.h"
-  rm -f "${pkgdir}/usr/include/GL/glxew.h"
-  rm -f "${pkgdir}/usr/include/GL/wglew.h"
-  rm -f "${pkgdir}/usr/include/GL/glut.h"
-  rm -rf ${pkgdir}/usr/include/{GLES,GLES2,EGL,KHR}
-  
-  rm -f "${pkgdir}/usr/lib/libdricore9"*
+  make -C ${srcdir}/?esa-*/src/gallium/targets/xa-vmwgfx DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/mesa-git"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/mesa-git/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/mesa"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/mesa/"
+}
+
+package_osmesa-git() {
+  depends=('libglapi-git' 'gcc-libs')
+  optdepends=('opengl-man-pages: for the OpenGL API man pages')
+  pkgdesc="Mesa 3D off-screen rendering library"
+  conflicts=('osmesa')
+  provides=("osmesa=${_mesaver}")
+
+  # fix linking because of splitted package
+  make -C ${srcdir}/?esa-*/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
+
+  make -C ${srcdir}/?esa-*/src/mesa/drivers/osmesa DESTDIR="${pkgdir}" install
+
+  # fix linking because of splitted package - cleanup
+  make -C ${srcdir}/?esa-*/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/osmesa"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/osmesa/"
+}
+
+package_libgbm-git() {
+  depends=('systemd' 'libglapi-git' 'libdrm-git')
+  pkgdesc="Mesa gbm library"
+  conflicts=('libgbm')
+  provides=("libgbm=${_mesaver}")
+
+  # fix linking because of splitted package
+  make -C ${srcdir}/?esa-*/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
+
+  make -C ${srcdir}/?esa-*/src/gbm DESTDIR="${pkgdir}" install
+
+  # fix linking because of splitted package - cleanup
+  make -C ${srcdir}/?esa-*/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/libgbm"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libgbm/"
+}
+
+package_libgles-git() {
+  depends=('libglapi-git' 'libdrm-git' 'khrplatform-devel-git')
+  pkgdesc="Mesa GLES libraries and headers"
+  conflicts=('libgles')
+  provides=("libgles=${_mesaver}")
+
+  # fix linking because of splitted package
+  make -C ${srcdir}/?esa-*/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
+
+  make -C ${srcdir}/?esa-*/src/mapi/es1api DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/?esa-*/src/mapi/es2api DESTDIR="${pkgdir}" install
+
+  # fix linking because of splitted package - cleanup
+  make -C ${srcdir}/?esa-*/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/libgles"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libgles/"
+}
+
+package_libegl-git() {
+  # check also egl.pc
+  depends=('libx11' 'libxext' 'libxdamage' 'libxfixes' 'libxxf86vm' 'libxcb' 'libgbm-git' 'khrplatform-devel-git')
+  pkgdesc="Mesa EGL libraries and headers"
+  conflicts=('libegl')
+  provides=("libegl=${_mesaver}")
+
+  make -C ${srcdir}/?esa-*/src/gallium/targets/egl-static DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/doc/libegl"
+  install -m644 ${srcdir}/?esa-*/docs/egl.html "${pkgdir}/usr/share/doc/libegl/"
+
+  # fix linking because of splitted package
+  make -C ${srcdir}/?esa-*/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/?esa-*/src/gbm DESTDIR="${pkgdir}" install
+
+  make -C ${srcdir}/?esa-*/src/egl DESTDIR="${pkgdir}" install
+
+  # fix linking because of splitted package - cleanup
+  make -C ${srcdir}/?esa-*/src/gbm DESTDIR="${pkgdir}" uninstall
+  make -C ${srcdir}/?esa-*/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/libegl"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libegl/"
+
+  # fix file conflicts
+  rm -rf ${pkgdir}/usr/include/KHR
 }
 
 package_khrplatform-devel-git() {
+  pkgdesc="Khronos platform development package"
   conflicts=('khrplatform-devel')
   provides=("khrplatform-devel=${_mesaver}")
-  pkgdesc="Khronos platform development package"
 
-  cd ${srcdir}/build
   install -m755 -d "${pkgdir}/usr/include/KHR"
-  bin/minstall include/KHR/khrplatform.h "${pkgdir}/usr/include/KHR/"
+  install -m644 ${srcdir}/?esa-*/include/KHR/khrplatform.h "${pkgdir}/usr/include/KHR/"
 
   install -m755 -d "${pkgdir}/usr/share/licenses/khrplatform-devel"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/khrplatform-devel/"
 }
 
+package_ati-dri-git() {
+  depends=("libgl-git")
+  pkgdesc="Mesa DRI radeon/r200 + Gallium3D r300,r600 drivers for AMD/ATI Radeon"
+  conflicts=('ati-dri' 'xf86-video-ati<6.9.0-6')
+  provides=("ati-dri=${_mesaver}")
 
-package_libgbm-git() {
-  conflicts=('libgbm')
-  provides=("libgbm=${_mesaver}")
-  depends=('glibc')
-  pkgdesc="Mesa gbm library"
+  # fix linking because of splitted package
+  make -C ${srcdir}/?esa-*/src/mesa/libdricore DESTDIR="${pkgdir}" install
 
-  cd ${srcdir}/build
-  install -m755 -d "${pkgdir}/usr/lib"
-  bin/minstall lib/libgbm.so* "${pkgdir}/usr/lib/"
-  install -m755 -d "${pkgdir}/usr/lib/pkgconfig"
-  bin/minstall src/gbm/main/gbm.pc "${pkgdir}/usr/lib/pkgconfig/"
+  # classic mesa drivers for radeon,r200
+  make -C ${srcdir}/?esa-*/src/mesa/drivers/dri/radeon DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/?esa-*/src/mesa/drivers/dri/r200 DESTDIR="${pkgdir}" install
+  # gallium3D driver for r300,r600,radeonsi
+  make -C ${srcdir}/?esa-*/src/gallium/targets/dri-r300 DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/?esa-*/src/gallium/targets/dri-r600 DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/?esa-*/src/gallium/targets/dri-radeonsi DESTDIR="${pkgdir}" install
+  # vdpau driver
+  make -C ${srcdir}/?esa-*/src/gallium/targets/vdpau-r300 DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/?esa-*/src/gallium/targets/vdpau-r600 DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/?esa-*/src/gallium/targets/vdpau-radeonsi DESTDIR="${pkgdir}" install
+  # xvmc driver
+  make -C ${srcdir}/?esa-*/src/gallium/targets/xvmc-r300 DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/?esa-*/src/gallium/targets/xvmc-r600 DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/libgbm"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libgbm/"
+  # fix linking because of splitted package - cleanup
+  make -C ${srcdir}/?esa-*/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/ati-dri"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/ati-dri/"
+}
+
+package_intel-dri-git() {
+  depends=("libgl-git")
+  pkgdesc="Mesa DRI drivers for Intel"
+  conflicts=("intel-dri")
+  provides=("intel-dri=${_mesaver}")
+
+  # fix linking because of splitted package
+  make -C ${srcdir}/?esa-*/src/mesa/libdricore DESTDIR="${pkgdir}" install
+
+  make -C ${srcdir}/?esa-*/src/mesa/drivers/dri/i915 DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/?esa-*/src/mesa/drivers/dri/i965 DESTDIR="${pkgdir}" install
+
+  # fix linking because of splitted package - cleanup
+  make -C ${srcdir}/?esa-*/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/intel-dri"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/intel-dri/"
+}
+
+package_nouveau-dri-git() {
+  depends=("libgl-git")
+  pkgdesc="Mesa classic DRI + Gallium3D drivers for Nouveau"
+  conflicts=('nouveau-dri')
+  provides=("nouveau-dri=${_mesaver}")
+
+  # fix linking because of splitted package
+  make -C ${srcdir}/?esa-*/src/mesa/libdricore DESTDIR="${pkgdir}" install
+
+  # classic mesa driver for nv10 , nv20 nouveau_vieux_dri.so
+  make -C ${srcdir}/?esa-*/src/mesa/drivers/dri/nouveau DESTDIR="${pkgdir}" install
+  # gallium3D driver for nv30 - nv40 - nv50 nouveau_dri.so
+  make -C ${srcdir}/?esa-*/src/gallium/targets/dri-nouveau DESTDIR="${pkgdir}" install
+  # vdpau driver
+  make -C ${srcdir}/?esa-*/src/gallium/targets/vdpau-nouveau DESTDIR="${pkgdir}" install
+
+  # fix linking because of splitted package - cleanup
+  make -C ${srcdir}/?esa-*/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/nouveau-dri"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/nouveau-dri/"
+}
+
+package_svga-dri-git() {
+  depends=('gcc-libs' 'libdrm-git' 'expat')
+  pkgdesc="Gallium3D VMware guest GL driver"
+  conflicts=('svga-dri')
+  provides=("svga-dri=${_mesaver}")
+
+  make -C ${srcdir}/?esa-*/src/gallium/targets/dri-vmwgfx DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/svga-dri"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/svga-dri/"
 }
