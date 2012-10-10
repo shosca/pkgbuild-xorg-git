@@ -4,6 +4,7 @@ REMOTE=74.72.157.140:/home/serkan/public_html
 DIRS = \
 	   pacaur-git \
 	   glproto-git \
+	   dri2proto-git \
 	   pixman-git \
 	   drm-git \
 	   mesa-git \
@@ -19,6 +20,7 @@ DIRS = \
 	   nemo-git \
 	   nemo-fileroller-git \
 	   nemo-dropbox-git \
+	   firefox-nightly \
 
 DATE=$(shell date +"%Y%m%d")
 
@@ -28,6 +30,8 @@ all: $(TARGETS)
 
 clean:
 	find -name '*tar.xz' -exec rm {} \;
+	find -name 'built-*' -exec rm {} \;
+	rm -f $(LOCAL)/*-git-*
 
 show:
 	@echo $(DATE)
@@ -58,16 +62,3 @@ fetch:
 		$(REMOTE)/* \
 		$(LOCAL)/
 
-xorg-server-git: glproto-git
-
-mesa-git: glproto-git
-
-xf86-video-ati-git: drm-git xorg-server-git
-
-xf86-video-evdev-git: drm-git mesa-git xorg-server-git
-
-xf86-video-synaptics-git: mesa-git xorg-server-git
-
-libglu-git: mesa-git
-
-cinnamon-git: muffin-git
