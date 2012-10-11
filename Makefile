@@ -2,25 +2,25 @@ LOCAL=/home/packages
 REMOTE=74.72.157.140:/home/serkan/public_html
 
 DIRS = \
-	   pacaur-git \
-	   glproto-git \
-	   dri2proto-git \
-	   pixman-git \
-	   drm-git \
-	   mesa-git \
-	   xorg-server-git \
-	   cairo-git \
-	   glu-git \
-	   xf86-video-ati-git \
-	   xf86-input-evdev-git \
-	   xf86-input-synaptics-git \
-	   monodevelop-git \
-	   muffin-git \
-	   cinnamon-git \
-	   nemo-git \
-	   nemo-fileroller-git \
-	   nemo-dropbox-git \
-	   firefox-nightly \
+   pacaur-git \
+   glproto-git \
+   dri2proto-git \
+   pixman-git \
+   drm-git \
+   mesa-git \
+   xorg-server-git \
+   cairo-git \
+   glu-git \
+   xf86-video-ati-git \
+   xf86-input-evdev-git \
+   xf86-input-synaptics-git \
+   monodevelop-git \
+   muffin-git \
+   cinnamon-git \
+   nemo-git \
+   nemo-fileroller-git \
+   nemo-dropbox-git \
+   firefox-nightly \
 
 DATE=$(shell date +"%Y%m%d")
 
@@ -31,7 +31,7 @@ all: $(TARGETS)
 clean:
 	find -name '*tar.xz' -exec rm {} \;
 	find -name 'built-*' -exec rm {} \;
-	rm -f $(LOCAL)/*-git-*
+	rm -f "$(LOCAL)/*-git-*"
 
 show:
 	@echo $(DATE)
@@ -48,7 +48,7 @@ $(DIRS):
 	yes "" | makepkg -fsi
 
 push: add
-	@rsync -rv \
+	@rsync -rv --delete \
 		$(LOCAL)/* \
 		$(REMOTE)/
 
@@ -58,7 +58,7 @@ add:
 	@repo-add $(LOCAL)/mine.db.tar.gz $(LOCAL)/*.xz
 
 fetch:
-	@rsync -rv \
+	@rsync -rv --delete \
 		$(REMOTE)/* \
 		$(LOCAL)/
 
