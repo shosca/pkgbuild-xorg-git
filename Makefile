@@ -31,7 +31,7 @@ all: $(TARGETS)
 clean:
 	find -name '*tar.xz' -exec rm {} \;
 	find -name 'built-*' -exec rm {} \;
-	rm -f $(LOCAL)/*-git-*
+	rm -f $(LOCAL)/*-git-* $(LOCAL)/firefox-nightly*
 
 show:
 	@echo $(DATE)
@@ -39,7 +39,7 @@ show:
 
 %/built-$(DATE):
 	@cd $* ; \
-		yes "" | makepkg -f ; \
+		yes "" | makepkg -f && \
 		touch built-$(DATE)
 
 
