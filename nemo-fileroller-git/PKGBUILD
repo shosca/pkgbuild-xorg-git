@@ -2,7 +2,7 @@
 
 _pkgname=nemo-fileroller
 pkgname=${_pkgname}-git
-pkgver=20121012
+pkgver=20121014
 pkgrel=1
 pkgdesc="Nemo file rollerextension"
 arch=('i686' 'x86_64')
