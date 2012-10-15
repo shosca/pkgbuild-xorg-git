@@ -36,7 +36,7 @@ build() {
   git clone "$_gitname" "$_gitname-build"
   cd "$_gitname-build"
 
-  ./configure --prefix=/usr --sysconfdir=/etc \
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc \
       --localstatedir=/var --disable-static \
       --libexecdir=/usr/lib/nemo \
       --disable-nst-extension \
