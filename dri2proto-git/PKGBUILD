@@ -3,7 +3,7 @@
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
 pkgname=dri2proto-git
-pkgver=20121015
+pkgver=20121016
 pkgrel=1
 pkgdesc='X11 DRI extension wire protocol.'
 url='http://xorg.freedesktop.org/'
