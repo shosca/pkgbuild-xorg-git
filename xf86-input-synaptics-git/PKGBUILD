@@ -4,7 +4,7 @@
 
 _pkgname=xf86-input-synaptics
 pkgname=$_pkgname-git
-pkgver=20121017
+pkgver=20121018
 pkgrel=1
 pkgdesc="X.Org synaptics Input driver - Git version"
 arch=('i686' 'x86_64')
