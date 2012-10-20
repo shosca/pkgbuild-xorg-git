@@ -15,11 +15,6 @@ DIRS = \
    xf86-input-evdev-git \
    xf86-input-synaptics-git \
    monodevelop-git \
-   muffin-git \
-   cinnamon-git \
-   nemo-git \
-   nemo-fileroller-git \
-   nemo-dropbox-git \
    firefox-nightly \
 
 DATE=$(shell date +"%Y%m%d")
