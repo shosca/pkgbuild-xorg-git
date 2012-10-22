@@ -42,18 +42,18 @@ $(DIRS):
 	@echo "-- $@ --"; cd $@ ; \
 	yes "" | makepkg -fsi
 
-push: add
-	@rsync -rv --delete \
-		$(LOCAL)/* \
-		$(REMOTE)/
-
 add:
 	@cd $(LOCAL)
-	@rm -rf mine.db*
+	@rm -rf $(LOCAL)/mine.db*
 	@repo-add $(LOCAL)/mine.db.tar.gz $(LOCAL)/*.xz
 
-fetch:
-	@rsync -rv --delete \
+push: add
+	@rsync -v --recursive --links --times -D --delete \
+		$(LOCAL)/ \
+		$(REMOTE)/
+
+pull:
+	@rsync -v --recursive --links --times -D --delete \
 		$(REMOTE)/* \
 		$(LOCAL)/
 
