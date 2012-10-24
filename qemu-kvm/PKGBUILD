@@ -50,6 +50,10 @@ package()
     # install udev rules
     install -D -m644 "${srcdir}/65-kvm.rules" \
                      "${pkgdir}/usr/lib/udev/rules.d/65-kvm.rules"
+
+    # libcacard builds this
+    rm -f "${pkgdir}/usr/bin/vscclient"
+
     # strip scripts directory
     find "${pkgdir}/usr/bin"  -type f -perm -u+w 2>/dev/null | while read binary ; do
       case "$(file -bi "$binary")" in
