@@ -34,7 +34,7 @@ show:
 
 %/built-$(DATE):
 	@cd $* ; \
-		yes "" | makepkg -f && \
+		yes "" | makepkg -fsi && \
 		touch built-$(DATE)
 
 

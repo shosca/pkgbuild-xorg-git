@@ -4,7 +4,7 @@
 
 pkgname=xf86-video-ati-git
 _realpkgname=xf86-video-ati
-pkgver=20121023
+pkgver=20121024
 pkgrel=1
 pkgdesc="X.org ati video driver"
 arch=('i686' 'x86_64')
