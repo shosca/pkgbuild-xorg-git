@@ -6,7 +6,7 @@
 pkgbase=xorg-server
 pkgname=('xorg-server-git')
 true && pkgname=("$pkgname" 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=20121028
+pkgver=20121029
 pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
