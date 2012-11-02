@@ -14,6 +14,7 @@ DIRS = \
    xf86-video-ati-git \
    xf86-input-evdev-git \
    xf86-input-synaptics-git \
+   mesa-demos-git \
    monodevelop-git \
    firefox-nightly \
 

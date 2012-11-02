@@ -1,0 +1,41 @@
+# Maintainer: Perry3D <perry3d@gmail.com>
+
+pkgname=mesa-demos-git
+pkgver=20121101
+pkgrel=1
+pkgdesc="The mesa demos (glxinfo, glxgears, ...), built from the git master branch."
+arch=(i686 x86_64)
+url="http://mesa3d.org/"
+license=('LGPL')
+depends=('mesa-git' 'glew' 'glut')
+makedepends=('git')
+provides=("mesa-demos")
+replaces=('mesa-demos')
+conflicts=('mesa-demos')
+options=()
+
+_gitroot="git://anongit.freedesktop.org/mesa/demos"
+_gitname="demos"
+
+build() {
+	msg "Connecting to git.freedesktop.org GIT server...."
+
+	if [ -d $startdir/src/$_gitname ] ; then
+		cd $_gitname && git pull origin
+		msg "The local files are updated."
+	else
+		git clone $_gitroot
+	fi
+
+	msg "GIT checkout done or server timeout"
+	msg "Starting make..."
+
+	rm -rf $startdir/src/$_gitname-build
+	cp -rH $startdir/src/$_gitname $startdir/src/$_gitname-build
+	cd $startdir/src/$_gitname-build
+
+	sed -i -e '/texwrap/d' src/tests/Makefile.am
+	./autogen.sh --prefix=/usr
+	make -C src/xdemos || return 1
+	make -C src/xdemos DESTDIR="${pkgdir}" install || return 1
+}
