@@ -3,6 +3,7 @@ REMOTE=74.72.157.140:/home/serkan/public_html
 
 DIRS = \
    pacaur-git \
+   llvm-amdgpu-git \
    glproto-git \
    dri2proto-git \
    pixman-git \
