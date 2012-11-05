@@ -23,7 +23,9 @@ DATE=$(shell date +"%Y%m%d")
 
 TARGETS=$(addsuffix /built-$(DATE), $(DIRS))
 
-all: $(TARGETS)
+.PHONY: $(DIRS)
+
+all: $(DIRS)
 
 clean:
 	find -name '*tar.xz' -exec rm {} \;
@@ -34,15 +36,17 @@ show:
 	@echo $(DATE)
 	@echo $(TEST)
 
+%: %/built-$(DATE)
+
 %/built-$(DATE):
 	@cd $* ; \
 		yes "" | makepkg -fsi && \
-		touch built-$(DATE)
+		touch built-$(DATE) && \
+		rm -rf pkg
 
 
 $(DIRS):
-	@echo "-- $@ --"; cd $@ ; \
-	yes "" | makepkg -fsi
+	@$(MAKE) $@/built-$(DATE)
 
 add:
 	@cd $(LOCAL)
@@ -58,4 +62,18 @@ pull:
 	@rsync -v --recursive --links --times -D --delete \
 		$(REMOTE)/* \
 		$(LOCAL)/
+
+mesa-git: glproto-git dri2proto-git drm-git llvm-amdgpu-git
+
+glu-git: mesa-git
+
+mesa-demos-git: mesa-git
+
+xorg-server-git: glproto-git dri2proto-git drm-git pixman-git
+
+xf86-input-evdev-git: xorg-server-git
+
+xf86-input-synaptics-git: xorg-server-git
+
+xf86-video-ati-git: xorg-server-git
 
