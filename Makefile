@@ -70,7 +70,9 @@ xf86-input-evdev-git: xorg-server-git
 
 xf86-input-synaptics-git: xorg-server-git
 
-xf86-video-ati-git: xorg-server-git
+xf86-video-ati-git: xorg-server-git glamor-git
+
+glamor-git: xorg-server-git mesa-git
 
 monodevelop-git: mono
 

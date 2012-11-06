@@ -219,7 +219,7 @@ package_khrplatform-devel-git() {
   provides=("khrplatform-devel=${_mesaver}")
 
   install -m755 -d "${pkgdir}/usr/include/KHR"
-  #install -m644 ${srcdir}/?esa-*/include/KHR/khrplatform.h "${pkgdir}/usr/include/KHR/"
+  install -m644 ${srcdir}/?esa-*/include/KHR/khrplatform.h "${pkgdir}/usr/include/KHR/"
 
   install -m755 -d "${pkgdir}/usr/share/licenses/khrplatform-devel"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/khrplatform-devel/"

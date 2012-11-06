@@ -2,22 +2,22 @@
 # Previous Contributor: vbmithr
 # Contributor: Flamelab <panosfilip at gmail dot com>
 
-pkgname=xf86-video-ati-git
-_realpkgname=xf86-video-ati
+pkgname=glamor-git
+_realpkgname=glamor
 pkgver=20121106
 pkgrel=1
-pkgdesc="X.org ati video driver"
+pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 provides=("${_realpkgname}")
-depends=('libpciaccess' 'libdrm' 'udev' 'pixman' 'ati-dri')
-makedepends=('xorg-server-devel' 'libdrm' 'xf86driproto' 'mesa' 'git' 'glproto')
-conflicts=('xorg-server<1.11.0' 'xf86-video-ati')
+depends=('glibc' 'mesa' 'libdrm' 'xorg-server-devel' 'libx11')
+makedepends=('glibc' 'mesa' 'khrplatform-devel' 'libdrm' 'xorg-server-devel' 'libx11' 'xf86driproto' 'glproto')
+conflicts=('glamor')
 options=('!libtool')
 license=('custom')
 
-_gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-ati'
-_gitname="xf86-video-ati"
+_gitroot='git://anongit.freedesktop.org/xorg/driver/glamor'
+_gitname="glamor"
 
 build() {
 
@@ -42,7 +42,7 @@ build() {
 
   autoreconf -v --install
 
-  ./configure --prefix=/usr --enable-glamor
+  ./configure --prefix=/usr
 
   msg "Starting make..."
   make
