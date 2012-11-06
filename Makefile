@@ -1,23 +1,7 @@
 LOCAL=/home/packages
 REMOTE=74.72.157.140:/home/serkan/public_html
 
-DIRS = \
-   pacaur-git \
-   llvm-amdgpu-git \
-   glproto-git \
-   dri2proto-git \
-   pixman-git \
-   drm-git \
-   mesa-git \
-   xorg-server-git \
-   cairo-git \
-   glu-git \
-   xf86-video-ati-git \
-   xf86-input-evdev-git \
-   xf86-input-synaptics-git \
-   mesa-demos-git \
-   monodevelop-git \
-   firefox-nightly \
+DIRS=$(shell ls | grep -v Makefile)
 
 TARGETS=$(addsuffix /built, $(DIRS))
 
@@ -32,7 +16,7 @@ clean:
 
 show:
 	@echo $(DATE)
-	@echo $(TEST)
+	@echo $(DIRS)
 
 %/built:
 	@rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
@@ -43,6 +27,8 @@ show:
 		if [ -d src/$$_gitname/.git ]; then \
 			cd src/$$_gitname ; \
 			git log -1 | head -n1 > $$_c/built ; \
+		else \
+			touch $$_c/built ; \
 		fi \
 
 add:
@@ -86,3 +72,8 @@ xf86-input-synaptics-git: xorg-server-git
 
 xf86-video-ati-git: xorg-server-git
 
+monodevelop-git: mono
+
+spice: spice-protocol
+
+qemu-kvm: spice
