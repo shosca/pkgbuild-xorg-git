@@ -79,3 +79,6 @@ monodevelop-git: mono
 spice: spice-protocol
 
 qemu-kvm: spice
+
+cinnamon-git: muffin-git
+
