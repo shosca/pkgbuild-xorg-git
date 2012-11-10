@@ -10,7 +10,7 @@ arch=(i686 x86_64)
 license=('GPL' 'LGPL2' 'MPL' 'custom:MITX11')
 url="http://www.mono-project.com/"
 depends=('zlib' 'libgdiplus>=2.10' 'sh')
-makedepends=('pkgconfig')
+makedepends=('pkgconfig' 'llvm')
 options=('!libtool' '!makeflags')
 provides=('monodoc')
 conflicts=('monodoc')
@@ -21,7 +21,8 @@ build() {
   cd ${srcdir}/${pkgname}-${pkgver}
   # build mono
   ./configure --prefix=/usr --sysconfdir=/etc \
-              --with-libgdiplus=installed 
+              --with-libgdiplus=installed \
+              --enable-llvm
   make || return 1
 
   # build jay

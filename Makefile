@@ -11,8 +11,10 @@ all: $(DIRS)
 
 clean:
 	find -name '*tar.xz' -exec rm {} \;
+	rm -f firefox-nightly/built
+
+realclean: clean
 	find -name 'built' -exec rm {} \;
-	rm -f $(LOCAL)/*-git-* $(LOCAL)/firefox-nightly*
 
 show:
 	@echo $(DATE)
