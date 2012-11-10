@@ -45,7 +45,7 @@ push: add
 
 pull:
 	rsync -v --recursive --links --times -D --delete \
-		$(REMOTE)/* \
+		$(REMOTE)/ \
 		$(LOCAL)/
 
 $(DIRS):
