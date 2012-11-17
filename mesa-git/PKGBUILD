@@ -4,7 +4,7 @@
 
 pkgbase=mesa-git
 pkgname=('libglapi-git' 'libgl-git' 'mesa-git' 'osmesa-git' 'libgbm-git' 'libgles-git' 'libegl-git' 'khrplatform-devel-git' 'ati-dri-git' 'intel-dri-git' 'svga-dri-git' 'nouveau-dri-git')
-pkgver=20121116
+pkgver=20121117
 pkgrel=1
 arch=('i686' 'x86_64')
 makedepends=('glproto-git' 'libdrm-git' 'libxxf86vm>=1.1.2' 'libxdamage>=1.1.3' 'expat>=2.1.0' 'libx11>=1.5.0' 'libxt>=1.1.3'
