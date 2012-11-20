@@ -1,7 +1,7 @@
 # $Id$
 # Maintainer: Tobias Powalowski <tpowa@archlinux.org>
 pkgname=qemu-kvm
-pkgver=1.2.0
+pkgver=1.3.0-rc0
 pkgrel=1
 pkgdesc="Latest KVM QEMU is a generic and open source processor emulator which achieves a good emulation speed by using dynamic translation."
 arch=(i686 x86_64)
@@ -20,16 +20,16 @@ options=(!strip)
 
 build()
 {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    # fix esound building
-    ./configure --prefix=/usr \
-                --python=/usr/bin/python2 \
-                --sysconfdir=/etc \
-                --audio-drv-list=alsa,sdl,oss,pa \
-                --audio-card-list=ac97,sb16,es1370,hda \
-                --enable-docs \
-                --enable-spice
-    make
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  # fix esound building
+  ./configure --prefix=/usr \
+              --python=/usr/bin/python2 \
+              --sysconfdir=/etc \
+              --audio-drv-list=alsa,sdl,oss,pa \
+              --audio-card-list=ac97,sb16,es1370,hda \
+              --enable-docs \
+              --enable-spice
+  make
 }
 
 package()
