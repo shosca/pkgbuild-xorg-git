@@ -3,7 +3,7 @@
 # Based on [extra]'s xf86-input-evdev
 
 pkgname=xf86-input-evdev-git
-pkgver=20121121
+pkgver=20121124
 pkgrel=1
 pkgdesc="X.Org evdev Input driver - Git version"
 arch=('i686' 'x86_64')

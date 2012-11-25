@@ -7,11 +7,24 @@ TARGETS=$(addsuffix /built, $(DIRS))
 
 .PHONY: $(DIRS)
 
-all: $(DIRS)
+all:
+	$(MAKE) pull
+	rm -f firefox-*/built
+	$(MAKE) build
+	$(MAKE) push
+
+push:
+	rsync -v --recursive --links --times -D --delete \
+		$(LOCAL)/ \
+		$(REMOTE)/
+
+pull:
+	rsync -v --recursive --links --times -D --delete \
+		$(REMOTE)/ \
+		$(LOCAL)/
 
 clean:
 	find -name '*tar.xz' -exec rm {} \;
-	rm -f firefox-nightly/built
 
 realclean: clean
 	find -name 'built' -exec rm {} \;
@@ -20,9 +33,11 @@ show:
 	@echo $(DATE)
 	@echo $(DIRS)
 
+build: $(DIRS)
+
 %/built:
-	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
-	rm -f $(addsuffix /built, $(shell grep ^$* Makefile | cut -d':' -f1)) ; \
+	@rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
+	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) ; \
 	cd $* ; \
 		_c=$$(pwd) ;\
 		yes "" | makepkg -fsi && rm -rf pkg && \
@@ -34,21 +49,10 @@ show:
 			touch $$_c/built ; \
 		fi \
 
-
 add:
 	cd $(LOCAL)
 	rm -rf $(LOCAL)/mine.db*
 	repo-add $(LOCAL)/mine.db.tar.gz $(LOCAL)/*.xz
-
-push: add
-	rsync -v --recursive --links --times -D --delete \
-		$(LOCAL)/ \
-		$(REMOTE)/
-
-pull:
-	rsync -v --recursive --links --times -D --delete \
-		$(REMOTE)/ \
-		$(LOCAL)/
 
 $(DIRS):
 	@_gitname=$$(grep -R '^_gitname' $@/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') ; \
@@ -56,7 +60,7 @@ $(DIRS):
 		cd $@/src/$$_gitname ; \
 		git pull ; \
 		if [ -f ../../built ] && [ "$$(cat ../../built)" != "$$(git log -1 | head -n1)" ]; then \
-			rm ../../built ; \
+			rm -f ../../built ; \
 		fi ; \
 		cd ../../.. ; \
 	fi ; \
