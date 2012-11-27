@@ -11,6 +11,7 @@ all:
 	$(MAKE) pull
 	rm -f firefox-*/built
 	$(MAKE) build
+	$(MAKE) add
 	$(MAKE) push
 
 push:
