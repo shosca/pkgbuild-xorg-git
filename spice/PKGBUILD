@@ -21,7 +21,7 @@ build() {
         --enable-gui \
         --enable-opengl \
         --enable-smartcard \
-        --enable-tunnel
+        #--enable-tunnel
   make
 }
  
