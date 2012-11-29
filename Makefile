@@ -1,5 +1,5 @@
 LOCAL=/home/packages
-REMOTE=74.72.157.140:/home/serkan/public_html
+REMOTE=74.72.157.140:/home/serkan/public_html/arch
 
 DIRS=$(shell ls | grep -v Makefile)
 
