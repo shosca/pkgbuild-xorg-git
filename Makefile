@@ -56,7 +56,7 @@ add:
 	repo-add $(LOCAL)/mine.db.tar.gz $(LOCAL)/*.xz
 
 $(DIRS):
-	@_gitname=$$(grep -R '^_gitname' $@/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') ; \
+	@echo $@ ; _gitname=$$(grep -R '^_gitname' $@/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') ; \
 	if [ -d $@/src/$$_gitname/.git ]; then \
 		cd $@/src/$$_gitname ; \
 		git pull ; \
