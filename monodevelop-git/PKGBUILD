@@ -25,25 +25,26 @@ _gitroot="git://github.com/mono/monodevelop.git"
 _gitname="monodevelop"
 
 build() {
-	cd "$srcdir"
-	if [ -d "$_gitname" ]; then
-		cd "$_gitname"
-		git pull origin || return 1
-		cd ..
-	else
-		git clone "$_gitroot" || return 1
-	fi
-	rm -rf "$_gitname-build"
-	git clone "$_gitname" "$_gitname-build" || return 1
-	cd "$_gitname-build"
-	git submodule update --init --recursive || return 1
+  cd "$srcdir"
+  if [ -d "$_gitname" ]; then
+    cd "$_gitname"
+    git pull origin || return 1
+    cd ..
+  else
+    git clone "$_gitroot" || return 1
+  fi
 
-	./configure --prefix=/usr --profile=stable
-	make || return 1
+  rm -rf "$_gitname-build"
+  git clone --depth 1 "$_gitname" "$_gitname-build" || return 1
+  cd "$_gitname-build"
+  git submodule update --init --recursive || return 1
+
+  ./configure --prefix=/usr --profile=stable
+  make || return 1
 }
 
 package() {
-	cd "$_gitname-build"
-	make DESTDIR=$pkgdir install
-	rm -r $pkgdir/usr/share/mime #FIXME !
+  cd "$_gitname-build"
+  make DESTDIR=$pkgdir install
+  rm -r $pkgdir/usr/share/mime #FIXME !
 }

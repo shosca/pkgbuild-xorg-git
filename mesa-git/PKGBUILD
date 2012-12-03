@@ -22,9 +22,9 @@ _mesaver=9.1
 build() {
     msg 'Connecting to git.freedesktop.org GIT server....'
     if [ -d ${_gitname} ] ; then
-        cd ${_gitname} && git pull origin
+      cd ${_gitname} && git pull origin
     else
-        git clone ${_gitroot} --depth 1
+      git clone ${_gitroot} --depth 1
     fi
     msg 'GIT checkout done or server timeout'
     msg 'Starting make...'
