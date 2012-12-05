@@ -17,7 +17,7 @@ md5sums=('b9ef8a65fea497acf176cca16c1e2402')
 _gitroot="git://github.com/mono/mono.git"
 _gitname="mono"
 
-build() 
+build()
 {
   cd ${srcdir}
 
