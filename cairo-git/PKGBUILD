@@ -2,7 +2,7 @@
 # Based on the official cairo package
 
 pkgname=cairo-git
-pkgver=20121201
+pkgver=20121205
 pkgrel=1
 pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)
@@ -26,9 +26,13 @@ build() {
     cd ${_gitname}
   fi
 
-  #  sed -i -e 's/libpng13/libpng14/g' configure
-  ./autogen.sh --prefix=/usr --sysconfdir=/etc \
-    --localstatedir=/var --enable-xcb --disable-static
+  ./autogen.sh \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --enable-xcb \
+    --enable-gl \
+    --disable-static
   make
 }
 
