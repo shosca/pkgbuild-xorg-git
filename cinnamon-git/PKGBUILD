@@ -7,7 +7,7 @@ pkgdesc="Linux desktop which provides advanced innovative features and a traditi
 arch=('i686' 'x86_64')
 url="https://github.com/linuxmint/Cinnamon"
 license=('GPL')
-depends=('gnome-menus' 'libpulse' 'gnome-desktop' 'python2' 'gnome-bluetooth' 'gjs' 'libcroco' 'folks' 'telepathy-logger' 'networkmanager' 'caribou' 'gnome-session' 'muffin-git>=20120507' 'python2-gconf' 'python-imaging' 'libgnomekbd' 'gnome-menus2' 'python2-lxml')
+depends=('gnome-menus' 'libpulse' 'gnome-desktop' 'python2' 'gnome-bluetooth' 'gjs' 'libcroco' 'folks' 'telepathy-logger' 'networkmanager' 'caribou' 'gnome-session' 'muffin-git>=20120507' 'python2-gconf' 'python-imaging' 'libgnomekbd' 'gnome-menus2' 'python2-lxml' 'python2-dbus')
 makedepends=('git' 'intltool' 'gnome-common')
 optdepends=('nautilus: Default GNOME file manager'
             'nemo-git: Experimental Linux Mint fork of Nautilus')
@@ -24,7 +24,7 @@ build() {
   msg "Connecting to GIT server...."
 
   if [[ -d "${_gitname}" ]]; then
-    cd "${_gitname}" && git pull origin
+    cd "${_gitname}" && git checkout -f && git clean -xfd && git pull origin
     msg "The local files are updated."
   else
     git clone "${_gitroot}" "${_gitname}"
@@ -33,9 +33,7 @@ build() {
   msg "GIT checkout done or server timeout"
   msg "Starting build..."
 
-  rm -rf "${srcdir}/${_gitname}-build"
-  git clone "${srcdir}/${_gitname}" "${srcdir}/${_gitname}-build"
-  cd "${srcdir}/${_gitname}-build"
+  cd "${srcdir}/${_gitname}"
 
   # Hack to make cinnamon-settings work. The proper fix is to install
   # gnome-settings-daemon-ubuntu
@@ -48,7 +46,7 @@ build() {
 }
 
 package() {
-  cd "${srcdir}/${_gitname}-build"
+  cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}/" install
 
   # Python 2 fix

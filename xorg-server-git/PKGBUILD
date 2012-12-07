@@ -5,7 +5,7 @@
 
 pkgbase=xorg-server
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=20121206
+pkgver=20121207
 pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
@@ -24,23 +24,20 @@ sha1sums=('6e67c2ed130703c1c2bc85fccef763d600e2af5e'  # autoconfig-nvidia.patch
           '993798f3d22ad672d769dae5f48d1fa068d5578f') # 10-quirks.conf
 
 _gitroot="git://anongit.freedesktop.org/xorg/xserver"
-_gitname="xserver"
+_gitname="xserver-build"
 
 build() {
   msg "Connecting to anongit.freedesktop.org GIT server...."
 
   if [ -d $_gitname ]; then
-    cd $_gitname && git pull origin && cd ..
+    cd $_gitname && git checkout -f && git pull origin
     msg "The local files are updated."
   else
-    git clone --depth 1 $_gitroot
+    git clone --depth 1 $_gitroot $_gitname
+    cd $_gitname
   fi
 
   msg "GIT checkout done or server timeout."
-
-  rm -rf ${_gitname}-build
-  cp -r $_gitname ${_gitname}-build
-  cd ${_gitname}-build
 
   msg "Applying Patches..."
 

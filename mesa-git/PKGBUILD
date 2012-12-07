@@ -20,6 +20,7 @@ _gitname='mesa-build'
 _mesaver=9.1
 
 build() {
+    cd "${srcdir}"
     msg 'Connecting to git.freedesktop.org GIT server....'
     if [ -d ${_gitname} ] ; then
       cd ${_gitname} && git checkout -f && git pull origin
