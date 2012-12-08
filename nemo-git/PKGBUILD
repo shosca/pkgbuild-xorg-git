@@ -1,8 +1,8 @@
 # Maintainer: Ner0
 
 pkgname=nemo-git
-pkgver=20121207
-pkgrel=$(date +"%H%M")
+pkgver=20121208
+pkgrel=0
 pkgdesc="Cinnamon file manager (Nautilus fork), development version"
 arch=('i686' 'x86_64')
 url="https://github.com/linuxmint/nemo"

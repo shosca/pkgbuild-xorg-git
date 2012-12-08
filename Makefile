@@ -2,6 +2,7 @@ LOCAL=/home/packages
 REMOTE=74.72.157.140:/home/serkan/public_html/arch
 
 DIRS=$(shell ls | grep -v Makefile)
+DATE=$(shell date +"%Y-%m-%d")
 
 TARGETS=$(addsuffix /built, $(DIRS))
 
@@ -41,8 +42,8 @@ build: $(DIRS)
 	cd $* ; \
 		rm -f *.xz ; \
 		_c=$$(pwd) ;\
-		yes "" | makepkg -fs && rm -rf pkg && \
 		_gitname=$$(grep -R '^_gitname' PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
+		yes "" | makepkg -fs && rm -rf pkg && \
 		if [ -d src/$$_gitname/.git ]; then \
 			cd src/$$_gitname && \
 			git log -1 | head -n1 > $$_c/built ; \
@@ -59,8 +60,9 @@ add:
 $(DIRS):
 	@echo $@ ; _gitname=$$(grep -R '^_gitname' $@/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') ; \
 	if [ -d $@/src/$$_gitname/.git ]; then \
-		cd $@/src/$$_gitname ; \
-		git pull ; \
+		cd $@/src/$$_gitname && \
+		git checkout -f && git clean -xfd && git pull && \
+		sed -i "s/^pkgrel=[^ ]*/pkgrel=$$(git log --date=iso | grep $(DATE) | wc -l)/" "../../PKGBUILD" && \
 		if [ -f ../../built ] && [ "$$(cat ../../built)" != "$$(git log -1 | head -n1)" ]; then \
 			rm -f ../../built ; \
 		fi ; \

@@ -1,8 +1,8 @@
 # Maintainer: Remy Marquis <remy.marquis at gmail dot com>
 
 pkgname=pacaur-git
-pkgver=20121207
-pkgrel=$(date +"%H%M")
+pkgver=20121208
+pkgrel=0
 pkgdesc="A fast workflow AUR wrapper using cower as backend"
 arch=('any')
 url="https://github.com/Spyhawk/pacaur"

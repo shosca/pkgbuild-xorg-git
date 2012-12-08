@@ -1,8 +1,8 @@
 # Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
 
 pkgname=muffin-git
-pkgver=20121207
-pkgrel=$(date +"%H%M")
+pkgver=20121208
+pkgrel=2
 pkgdesc="A window manager for GNOME"
 arch=('i686' 'x86_64')
 url="https://github.com/linuxmint/muffin"

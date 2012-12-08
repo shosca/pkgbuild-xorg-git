@@ -2,8 +2,8 @@
 
 _pkgname=nemo-fileroller
 pkgname=nemo-fileroller-git
-pkgver=20121207
-pkgrel=$(date +"%H%M")
+pkgver=20121208
+pkgrel=0
 pkgdesc="Nemo file rollerextension"
 arch=('i686' 'x86_64')
 url="https://github.com/linuxmint/nemo-extensions"

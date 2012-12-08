@@ -3,8 +3,8 @@
 # Based on [extra]'s xf86-input-evdev
 
 pkgname=xf86-input-evdev-git
-pkgver=20121207
-pkgrel=$(date +"%H%M")
+pkgver=20121208
+pkgrel=0
 pkgdesc="X.Org evdev Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-evdev/"

@@ -3,9 +3,9 @@
 
 pkgname=pixman-git
 _realname=pixman
-pkgver=20121207
+pkgver=20121208
 _realver=0.27.1
-pkgrel=$(date +"%H%M")
+pkgrel=0
 pkgdesc="The pixel-manipulation library for X and cairo"
 arch=(i686 x86_64)
 url="http://pixman.org/"

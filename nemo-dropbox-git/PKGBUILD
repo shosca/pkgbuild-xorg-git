@@ -8,8 +8,8 @@
 
 _pkgname=nemo-dropbox
 pkgname=nemo-dropbox-git
-pkgver=20121207
-pkgrel=$(date +"%H%M")
+pkgver=20121208
+pkgrel=0
 pkgdesc="Dropbox for Linux - Nemo extension"
 arch=('i686' 'x86_64')
 url="https://github.com/linuxmint/nemo-extensions"
@@ -60,6 +60,6 @@ package() {
   make DESTDIR="${pkgdir}" install
   rm "${pkgdir}/usr/bin/dropbox"
   rm "${pkgdir}/usr/share/applications/dropbox.desktop"
-  rm "${pkgdir}/usr/share/man/man1/dropbox.1.gz"
+  rm -rf "${pkgdir}/usr/share/man/man1"
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${_pkgname}/COPYING"
 }
