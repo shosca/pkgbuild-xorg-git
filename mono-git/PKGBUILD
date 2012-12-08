@@ -1,6 +1,6 @@
 pkgname=mono-git
 pkgver=20121207
-pkgrel=1
+pkgrel=$(date +"%H%M")
 pkgdesc="Free implementation of the .NET platform including runtime and compiler"
 
 url="http://www.mono-project.com/"
@@ -17,19 +17,21 @@ md5sums=('b9ef8a65fea497acf176cca16c1e2402')
 _gitroot="git://github.com/mono/mono.git"
 _gitname="mono"
 
-build()
-{
-  cd ${srcdir}
-
-  msg "Cloning Mono from GIT"
-  if [ -d $_gitname ]; then
-    git pull || return 1
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git clean -xfd && git pull origin
   else
-    git clone $_gitroot $_gitname || return 1
+    git clone --depth 1 ${_gitroot} ${_gitname}
   fi
-  cd $_gitname
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
 
-  #build mono
+  cd "${srcdir}/${_gitname}"
+
+
+  # build mono
   ./autogen.sh --prefix=/usr --sysconfdir=/etc \
              --with-libgdiplus=installed
   make || return 1
@@ -43,7 +45,7 @@ package() {
   cd ${srcdir}/${_gitname}
   make DESTDIR=${pkgdir} install || return 1
 
-  #install jay
+  # install jay
   cd ${srcdir}/${_gitname}/mcs/jay
   make DESTDIR=${pkgdir} prefix=/usr install=../../install-sh install
   cd ${srcdir}/${_gitname}
@@ -55,6 +57,6 @@ package() {
   mkdir -p ${pkgdir}/usr/share/licenses/${pkgname}
   install -m644 mcs/MIT.X11 ${pkgdir}/usr/share/licenses/${pkgname}/
 
-  #fix the .pc file to be able to request mono on what it depends, fixes #go-oo build
+  # fix the .pc file to be able to request mono on what it depends, fixes #go-oo build
   sed -i -e "s:#Requires:Requires:" ${pkgdir}/usr/lib/pkgconfig/mono.pc
 }

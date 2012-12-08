@@ -5,7 +5,7 @@
 pkgname=glamor-git
 _realpkgname=glamor
 pkgver=20121207
-pkgrel=1
+pkgrel=$(date +"%H%M")
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -20,23 +20,20 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/glamor'
 _gitname="glamor"
 
 build() {
-
-  cd "$srcdir"
-  msg "Connecting to GIT server...."
-
-  if [[ -d "$_gitname" ]]; then
-    cd "$_gitname" && git checkout -f && git pull origin
-    msg "The local files are updated."
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git clean -xfd && git pull origin
   else
-    git clone "$_gitroot" "$_gitname"
+    git clone --depth 1 ${_gitroot} ${_gitname}
   fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
 
-  msg "GIT checkout done or server timeout"
-  msg "Starting build..."
+  cd "${srcdir}/${_gitname}"
 
-  cd "$srcdir/$_gitname"
 
-  msg "Starting configure..."
+
 
   autoreconf -v --install
 

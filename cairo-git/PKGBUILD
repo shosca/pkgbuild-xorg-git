@@ -3,7 +3,7 @@
 
 pkgname=cairo-git
 pkgver=20121207
-pkgrel=1
+pkgrel=$(date +"%H%M")
 pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)
 license=('LGPL' 'MPL')
@@ -18,13 +18,18 @@ _gitname='cairo'
 
 build() {
   cd "${srcdir}"
-  if [ -d "${_gitname}" ]; then
-    cd ${_gitname} && git checkout -f && git clean -xfd && git pull
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git clean -xfd && git pull origin
   else
-    git clone ${_gitroot} ${_gitname}
+    git clone --depth 1 ${_gitroot} ${_gitname}
   fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
 
   cd "${srcdir}/${_gitname}"
+
+
 
   ./autogen.sh \
     --prefix=/usr \

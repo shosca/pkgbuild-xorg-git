@@ -7,9 +7,9 @@
 # Contributor: Gordin <9ordin @t gmail.com>
 
 _pkgname=nemo-dropbox
-pkgname=${_pkgname}-git
-pkgver=20121108
-pkgrel=1
+pkgname=nemo-dropbox-git
+pkgver=20121207
+pkgrel=$(date +"%H%M")
 pkgdesc="Dropbox for Linux - Nemo extension"
 arch=('i686' 'x86_64')
 url="https://github.com/linuxmint/nemo-extensions"
@@ -23,31 +23,31 @@ _gitroot=git://github.com/linuxmint/nemo-extensions.git
 _gitname=nemo-extensions
 
 build() {
-  msg "Connecting to GIT server...."	
-
-  if [[ -d "$_gitname" ]]; then
-    cd "$_gitname" && git pull origin && cd ..
-    msg "The local files are updated."
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git clean -xfd && git pull origin
   else
-    git clone "$_gitroot" "$_gitname"
+    git clone --depth 1 ${_gitroot} ${_gitname}
   fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
 
-  msg "GIT checkout done or server timeout"
-  msg "Starting build..."
+  cd "${srcdir}/${_gitname}"
 
-  [ -d "$_gitname-build" ] && rm -rf "$_gitname-build"
-  git clone "$_gitname" "$_gitname-build"
-  cd "$_gitname-build"/${_pkgname}
+
+
+  cd "${_pkgname}"
 
   autoreconf -fi
-  
+
   sed -i "s:python:&2:" \
     configure \
-  	Makefile.am \
-  	dropbox.in \
-  	rst2man.py \
-	Makefile.in
-	
+    Makefile.am \
+    dropbox.in \
+    rst2man.py \
+    Makefile.in
+
   # since python2-docutils, rst2man.py is named "rst2man2.py"
   sed -i "s:rst2man.py:/usr/bin/rst2man2.py:" configure
 
@@ -56,9 +56,10 @@ build() {
 }
 
 package() {
-  cd "$_gitname-build"/${_pkgname}
+  cd "${srcdir}/${_gitname}/${_pkgname}"
   make DESTDIR="${pkgdir}" install
   rm "${pkgdir}/usr/bin/dropbox"
-  rm "${pkgdir}/usr/share/applications/dropbox.desktop"  
+  rm "${pkgdir}/usr/share/applications/dropbox.desktop"
+  rm "${pkgdir}/usr/share/man/man1/dropbox.1.gz"
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${_pkgname}/COPYING"
 }

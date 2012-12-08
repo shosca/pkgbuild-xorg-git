@@ -1,10 +1,10 @@
 # Arch libdrm Maintainers:
-#	Jan de Groot
-#	Andreas Radke
+#Jan de Groot
+#Andreas Radke
 
 pkgname=libdrm-git
-pkgver=20121128
-pkgrel=1
+pkgver=20121207
+pkgrel=$(date +"%H%M")
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
@@ -19,21 +19,18 @@ _gitroot='git://git.freedesktop.org/git/mesa/drm'
 _gitname='drm'
 
 build() {
-
-  cd "$srcdir"
-  msg "Connecting to GIT server...."
-
-  if [[ -d "$_gitname" ]]; then
-    cd "$_gitname" && git checkout -f && git pull origin
-    msg "The local files are updated."
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git clean -xfd && git pull origin
   else
-    git clone --depth 1 "$_gitroot" "$_gitname"
+    git clone --depth 1 ${_gitroot} ${_gitname}
   fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
 
-  msg "GIT checkout done or server timeout"
-  msg "Starting build..."
+  cd "${srcdir}/${_gitname}"
 
-  cd "$srcdir/$_gitname"
 
   sed -i 's/PKG_CHECK_MODULES(PTHREADSTUBS, pthread-stubs)//' configure.ac
 

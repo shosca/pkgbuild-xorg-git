@@ -3,8 +3,8 @@
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
 pkgname=dri2proto-git
-pkgver=20121124
-pkgrel=1
+pkgver=20121207
+pkgrel=$(date +"%H%M")
 pkgdesc='X11 DRI extension wire protocol.'
 url='http://xorg.freedesktop.org/'
 arch=('any')
@@ -17,35 +17,25 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/dri2proto'
 _gitname='dri2proto'
 
 build() {
-
-  cd "$srcdir"
-  msg "Connecting to GIT server...."
-
-  if [[ -d $_gitname ]] ; then
-    cd "$_gitname" && git pull origin
-    msg "The local files are updated."
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git clean -xfd && git pull origin
   else
-    git clone "$_gitroot" "$_gitname"
+    git clone --depth 1 ${_gitroot} ${_gitname}
   fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
 
-  msg "GIT checkout done or server timeout"
-  msg "Starting make..."
-
-  rm -rf "$srcdir/$_gitname-build"
-  cp -r "$srcdir/$_gitname" "$srcdir/$_gitname-build"
-  cd "$srcdir/$_gitname-build"
+  cd "${srcdir}/${_gitname}"
 
 
-  ./autogen.sh
-  ./configure --prefix=/usr
-
+  ./autogen.sh --prefix=/usr
   make
-
 }
 
 package() {
-  cd "$_gitname-build"
-
+  cd "${srcdir}/${_gitname}"
   make DESTDIR="$pkgdir" install
   install -D -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
 }

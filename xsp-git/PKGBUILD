@@ -4,7 +4,7 @@
 
 pkgname=xsp-git
 pkgver=20121207
-pkgrel=1
+pkgrel=$(date +"%H%M")
 pkgdesc="A simple webserver based on mono - provides ASP.NET support"
 arch=(i686 x86_64)
 license=('custom')
@@ -19,31 +19,33 @@ _gitroot="git://github.com/mono/xsp"
 _gitname="xsp"
 
 build() {
-  cd ${srcdir}
-
-  msg "Cloning Mono from GIT"
-  if [ -d $_gitname ]; then
-    cd $_gitname
-    git pull || return 1
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git clean -xfd && git pull origin
   else
-    git clone $_gitroot $_gitname || return 1
-    cd $_gitname
+    git clone --depth 1 ${_gitroot} ${_gitname}
   fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
 
- # get rid of that .wapi errors; thanks to brice
+  cd "${srcdir}/${_gitname}"
+
+
+  # get rid of that .wapi errors; thanks to brice
   export MONO_SHARED_DIR=${srcdir}/src/weird
   mkdir -p "${MONO_SHARED_DIR}"
- # import pathes
- # build
-  cd ${srcdir}/${_gitname}
-  #sed -i 's|/bin/sh|\0\nexport MONO_PATH=${MONO_PATH}:/opt/mono/lib/mono/1.0|' scripts/script.in
+  # import pathes
+  # build
   ./autogen.sh --prefix=/usr --sysconfdir=/etc
   make || return 1
- # tweak the xsp shellscript to grab system dll's
+
+  # tweak the xsp shellscript to grab system dll's
   for script in scripts/*2; do
     sed -i 's|/usr/lib/mono/1.0|/usr/lib/mono/2.0|' $script
   done
-   #destdir related bugfixes
+
+  #destdir related bugfixes
   sed -i 's|mkdir \$(datadir)|mkdir $(DESTDIR)$(datadir)|' test/2.0/treeview/Makefile
   sed -i 's|gif \$(datadir)|gif $(DESTDIR)$(datadir)|' test/2.0/treeview/Makefile
 }
@@ -51,26 +53,27 @@ build() {
 package(){
   cd ${srcdir}/${_gitname}
   make DESTDIR=${pkgdir}/ install
- # move test files from share to arch' default html home
+
+  # move test files from share to arch' default html home
   mkdir -p ${pkgdir}/srv/http/html
   mv ${pkgdir}/usr/lib/xsp/test ${pkgdir}/srv/http/html/xsp
   rm -rf ${pkgdir}/usr/share
   chown -R http:http ${pkgdir}/srv/http/html/xsp
 
- # install a deamon
-  install -D -m755 ${srcdir}/xsp.rc.d \
-    ${pkgdir}/etc/rc.d/xsp
- # install a deamon configurationfile
-  install -D -m644 ${srcdir}/xsp.conf.d \
-    ${pkgdir}/etc/conf.d/xsp
- # install a xsp configuration home
-  install -D -m644 ${srcdir}/xsp.webapp \
-    ${pkgdir}/etc/xsp/xsp.webapp
+  # install a deamon
+  install -D -m755 ${srcdir}/xsp.rc.d ${pkgdir}/etc/rc.d/xsp
+
+  # install a deamon configurationfile
+  install -D -m644 ${srcdir}/xsp.conf.d ${pkgdir}/etc/conf.d/xsp
+
+  # install a xsp configuration home
+  install -D -m644 ${srcdir}/xsp.webapp ${pkgdir}/etc/xsp/xsp.webapp
   install -D -m644 COPYING ${pkgdir}/usr/share/licenses/xsp/COPYING
- # install systemd service file
-  install -D -m644 ${srcdir}/xsp.service \
-    ${pkgdir}/usr/lib/systemd/system/xsp.service
+
+  # install systemd service file
+  install -D -m644 ${srcdir}/xsp.service ${pkgdir}/usr/lib/systemd/system/xsp.service
 }
+
 md5sums=('9575bd7d6f64d51ba05bdd6370665858'
          '35d921df0fefc30f47a438c95d420efc'
          'c917c07f68b945691506c29750db482f'

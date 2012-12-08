@@ -8,7 +8,7 @@
 pkgname=monodevelop-git
 _pkgname=monodevelop
 pkgver=20121207
-pkgrel=1
+pkgrel=$(date +"%H%M")
 pkgdesc="An IDE with support for Mono, C, C++, Vala, Java, Python..."
 arch=('i686' 'x86_64')
 url="http://www.monodevelop.com"
@@ -25,18 +25,19 @@ _gitroot="git://github.com/mono/monodevelop.git"
 _gitname="monodevelop"
 
 build() {
-  cd "$srcdir"
-  if [ -d "$_gitname" ]; then
-    cd "$_gitname"
-    git pull origin || return 1
-    cd ..
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git clean -xfd && git pull origin
   else
-    git clone "$_gitroot" || return 1
+    git clone --depth 1 ${_gitroot} ${_gitname}
   fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
 
-  rm -rf "$_gitname-build"
-  git clone --depth 1 "$_gitname" "$_gitname-build" || return 1
-  cd "$_gitname-build"
+  cd "${srcdir}/${_gitname}"
+
+
   git submodule update --init --recursive || return 1
 
   ./configure --prefix=/usr --profile=stable
@@ -44,7 +45,7 @@ build() {
 }
 
 package() {
-  cd "$_gitname-build"
+  cd "${srcdir}/${_gitname}"
   make DESTDIR=$pkgdir install
   rm -r $pkgdir/usr/share/mime #FIXME !
 }

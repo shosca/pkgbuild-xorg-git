@@ -1,8 +1,8 @@
 # Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
 
 pkgname=muffin-git
-pkgver=20121128
-pkgrel=1
+pkgver=20121207
+pkgrel=$(date +"%H%M")
 pkgdesc="A window manager for GNOME"
 arch=('i686' 'x86_64')
 url="https://github.com/linuxmint/muffin"
@@ -19,21 +19,18 @@ _gitname='muffin'
 
 build() {
   cd "${srcdir}"
-  msg "Connecting to GIT server...."
-
-  if [[ -d "${_gitname}" ]]; then
-    cd "${_gitname}" && git pull origin
-    msg "The local files are updated."
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git clean -xfd && git pull origin
   else
-    git clone "${_gitroot}" "${_gitname}"
+    git clone --depth 1 ${_gitroot} ${_gitname}
   fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
 
-  msg "GIT checkout done or server timeout"
-  msg "Starting build..."
+  cd "${srcdir}/${_gitname}"
 
-  rm -rf "${srcdir}/${_gitname}-build"
-  git clone "${srcdir}/${_gitname}" "${srcdir}/${_gitname}-build"
-  cd "${srcdir}/${_gitname}-build"
+
 
   autoreconf -vfi
   ./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/muffin --localstatedir=/var --disable-static --disable-schemas-compile
@@ -41,6 +38,6 @@ build() {
 }
 
 package() {
-  cd "${srcdir}/${_gitname}-build"
+  cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
 }

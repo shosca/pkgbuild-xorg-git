@@ -9,7 +9,6 @@ TARGETS=$(addsuffix /built, $(DIRS))
 
 all:
 	$(MAKE) pull
-	rm -f firefox-*/built
 	$(MAKE) build
 	$(MAKE) add
 	$(MAKE) push
@@ -40,15 +39,17 @@ build: $(DIRS)
 	@rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
 	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) ; \
 	cd $* ; \
+		rm -f *.xz ; \
 		_c=$$(pwd) ;\
-		yes "" | makepkg -fsi && rm -rf pkg && \
-		_gitname=$$(grep -R '^_gitname' PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') ; \
+		yes "" | makepkg -fs && rm -rf pkg && \
+		_gitname=$$(grep -R '^_gitname' PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
 		if [ -d src/$$_gitname/.git ]; then \
-			cd src/$$_gitname ; \
+			cd src/$$_gitname && \
 			git log -1 | head -n1 > $$_c/built ; \
 		else \
 			touch $$_c/built ; \
-		fi \
+		fi && \
+		yes "" | sudo pacman -U $$_c/*.xz
 
 add:
 	cd $(LOCAL)

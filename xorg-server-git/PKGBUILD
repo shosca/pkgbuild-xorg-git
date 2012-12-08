@@ -6,7 +6,7 @@
 pkgbase=xorg-server
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
 pkgver=20121207
-pkgrel=1
+pkgrel=$(date +"%H%M")
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -27,19 +27,18 @@ _gitroot="git://anongit.freedesktop.org/xorg/xserver"
 _gitname="xserver-build"
 
 build() {
-  msg "Connecting to anongit.freedesktop.org GIT server...."
-
-  if [ -d $_gitname ]; then
-    cd $_gitname && git checkout -f && git pull origin
-    msg "The local files are updated."
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git clean -xfd && git pull origin
   else
-    git clone --depth 1 $_gitroot $_gitname
-    cd $_gitname
+    git clone --depth 1 ${_gitroot} ${_gitname}
   fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
 
-  msg "GIT checkout done or server timeout."
+  cd "${srcdir}/${_gitname}"
 
-  msg "Applying Patches..."
 
   msg2 "Use nouveau/nv/nvidia drivers for nvidia devices"
   patch -p1 -i ../autoconfig-nvidia.patch
@@ -90,7 +89,7 @@ package_xorg-server-common-git() {
   provides=("xorg-server-common=$pkgver")
   conflicts=('xorg-server-common')
 
-  cd ${_gitname}-build
+  cd "${srcdir}/${_gitname}"
   make -C xkb DESTDIR="$pkgdir" install-data
 
   install -Dm644 COPYING "$pkgdir/usr/share/licenses/xorg-server-common/COPYING"
@@ -107,7 +106,7 @@ package_xorg-server-devel-git() {
   provides=("xorg-server-devel=$pkgver")
   conflicts=('xorg-server-devel')
 
-  cd ${_gitname}-build
+  cd "${srcdir}/${_gitname}"
   make DESTDIR="$pkgdir" install
 
   rm -rf "$pkgdir"/{usr/{bin,share/{man,doc,X11},lib/xorg},var}
@@ -121,7 +120,7 @@ package_xorg-server-xdmx-git() {
   provides=("xorg-server-xdmx=${pkgver}")
   conflicts=('xorg-server-xdmx')
 
-  cd ${_gitname}-build/hw/dmx
+  cd "${srcdir}/${_gitname}/hw/dmx"
   make DESTDIR="$pkgdir" install
 
   mkdir -p "$pkgdir/usr/share/licenses/xorg-server-xdmx"
@@ -134,7 +133,7 @@ package_xorg-server-xephyr-git() {
   provides=("xorg-server-xephyr=$pkgver")
   conflicts=('xorg-server-xephyr')
 
-  cd ${_gitname}-build/hw/kdrive
+  cd "${srcdir}/${_gitname}/hw/kdrive"
   make DESTDIR="$pkgdir" install
 
   mkdir -p "$pkgdir/usr/share/licenses/xorg-server-xephyr"
@@ -147,7 +146,7 @@ package_xorg-server-xnest-git() {
   provides=("xorg-server-xnest=$pkgver")
   conflicts=('xorg-server-xnest')
 
-  cd ${_gitname}-build/hw/xnest
+  cd "${srcdir}/${_gitname}/hw/xnest"
   make DESTDIR="$pkgdir" install
 
   mkdir -p "$pkgdir/usr/share/licenses/xorg-server-xnest"
@@ -160,7 +159,7 @@ package_xorg-server-xvfb-git() {
   provides=("xorg-server-xvfb=$pkgver")
   conflicts=('xorg-server-xvfb')
 
-  cd ${_gitname}-build/hw/vfb
+  cd "${srcdir}/${_gitname}/hw/vfb"
   make DESTDIR="$pkgdir" install
 
   install -m755 "$srcdir/xvfb-run" "$pkgdir/usr/bin/"
@@ -178,7 +177,7 @@ package_xorg-server-git() {
   conflicts=('xorg-server' 'nvidia-utils<=290.10')
   groups=('xorg')
 
-  cd ${_gitname}-build
+  cd "${srcdir}/${_gitname}"
   make DESTDIR="$pkgdir" install
 
   mkdir -p "$pkgdir/etc/X11"

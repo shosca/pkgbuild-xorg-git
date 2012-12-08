@@ -1,9 +1,9 @@
 # Maintainer: twa022 <twa022 at gmail dot com>
 
 _pkgname=nemo-fileroller
-pkgname=${_pkgname}-git
-pkgver=20121108
-pkgrel=1
+pkgname=nemo-fileroller-git
+pkgver=20121207
+pkgrel=$(date +"%H%M")
 pkgdesc="Nemo file rollerextension"
 arch=('i686' 'x86_64')
 url="https://github.com/linuxmint/nemo-extensions"
@@ -16,33 +16,33 @@ _gitroot=git://github.com/linuxmint/nemo-extensions.git
 _gitname=nemo-extensions
 
 build() {
-  msg "Connecting to GIT server...."	
-
-  if [[ -d "$_gitname" ]]; then
-    cd "$_gitname" && git pull origin && cd ..
-    msg "The local files are updated."
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git clean -xfd && git pull origin
   else
-    git clone "$_gitroot" "$_gitname"
+    git clone --depth 1 ${_gitroot} ${_gitname}
   fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
 
-  msg "GIT checkout done or server timeout"
-  msg "Starting build..."
+  cd "${srcdir}/${_gitname}"
 
-  [ -d "$_gitname-build" ] && rm -rf "$_gitname-build"
-  git clone "$_gitname" "$_gitname-build"
-  cd "$_gitname-build"/${_pkgname}
+
+
+  cd "${_pkgname}"
 
   ## I think they started with the nemo-dropbox source, so there
   ## are some unnecessary python dependencies
   patch -uNp2 -r- -i ${srcdir}/configure.in_fix.patch
   autoreconf -fi
-  
+
   ./configure --prefix=/usr --sysconfdir=/etc
   make
 }
 
 package() {
-  cd "$_gitname-build"/${_pkgname}
+  cd "${srcdir}/${_gitname}/${_pkgname}"
   make DESTDIR="${pkgdir}" install
 }
 
