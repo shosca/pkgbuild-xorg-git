@@ -1,6 +1,6 @@
 pkgname=mono-git
-pkgver=20121208
-pkgrel=0
+pkgver=20121209
+pkgrel=3
 pkgdesc="Free implementation of the .NET platform including runtime and compiler"
 
 url="http://www.mono-project.com/"
