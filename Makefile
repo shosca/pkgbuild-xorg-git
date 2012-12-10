@@ -70,7 +70,11 @@ $(DIRS):
 	fi ; \
 	$(MAKE) $@/built
 
-mesa-git: glproto-git dri2proto-git drm-git llvm-amdgpu-git
+mesa-git: glproto-git dri2proto-git drm-git llvm-amdgpu-git wayland-git
+
+wayland-git: drm-git
+
+weston-git: mesa-git libxkbcommon-git
 
 glu-git: mesa-git
 
