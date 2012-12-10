@@ -74,7 +74,7 @@ mesa-git: glproto-git dri2proto-git drm-git llvm-amdgpu-git wayland-git
 
 wayland-git: drm-git
 
-weston-git: mesa-git libxkbcommon-git
+weston-git: mesa-git libxkbcommon-git pixman-git
 
 glu-git: mesa-git
 
