@@ -3,7 +3,7 @@
 # Contributor: Tobias Kieslich <tobias@justdreams.de>
 
 pkgname=xsp-git
-pkgver=20121210
+pkgver=20121211
 pkgrel=0
 pkgdesc="A simple webserver based on mono - provides ASP.NET support"
 arch=(i686 x86_64)
