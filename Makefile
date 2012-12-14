@@ -60,9 +60,9 @@ add:
 $(DIRS):
 	@echo $@ ; _gitname=$$(grep -R '^_gitname' $@/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') ; \
 	if [ -d $@/src/$$_gitname/.git ]; then \
+		sed -i "s/^pkgrel=[^ ]*/pkgrel=$$(git whatchanged --since=yesterday | grep $@/PKGBUILD | wc -l)/" "$@/PKGBUILD" && \
 		cd $@/src/$$_gitname && \
 		git checkout -f && git clean -xfd && git pull && \
-		sed -i "s/^pkgrel=[^ ]*/pkgrel=$$(git log --date=iso | grep $(DATE) | wc -l)/" "../../PKGBUILD" && \
 		if [ -f ../../built ] && [ "$$(cat ../../built)" != "$$(git log -1 | head -n1)" ]; then \
 			rm -f ../../built ; \
 		fi ; \
