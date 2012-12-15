@@ -4,7 +4,7 @@
 
 pkgname=glamor-git
 _realpkgname=glamor
-pkgver=20121214
+pkgver=20121215
 pkgrel=3
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
