@@ -4,7 +4,7 @@
 
 pkgname=xsp-git
 pkgver=20121215
-pkgrel=2
+pkgrel=1
 pkgdesc="A simple webserver based on mono - provides ASP.NET support"
 arch=(i686 x86_64)
 license=('custom')
