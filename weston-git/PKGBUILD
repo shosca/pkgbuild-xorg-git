@@ -2,7 +2,7 @@
 # Contributor: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 
 pkgname=weston-git
-pkgver=20121216
+pkgver=20121217
 pkgrel=1
 pkgdesc="A modern display server."
 arch=(i686 x86_64)
