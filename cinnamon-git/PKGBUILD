@@ -1,8 +1,8 @@
 # Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
 
 pkgname=cinnamon-git
-pkgver=20121216
-pkgrel=4
+pkgver=20121218
+pkgrel=5
 pkgdesc="Linux desktop which provides advanced innovative features and a traditional user experience"
 arch=('i686' 'x86_64')
 url="https://github.com/linuxmint/Cinnamon"
@@ -15,6 +15,8 @@ provides=('cinnamon')
 conflicts=('cinnamon' 'cinnamon-session-git' 'cinnamon-session' 'cinnamon<20120118')
 options=('!libtool' '!emptydirs')
 install=${pkgname}.install
+source=("cinnamon-screensaver.desktop"
+       "cinnamon2d-screensaver.desktop")
 
 _gitroot='https://github.com/linuxmint/Cinnamon.git'
 _gitname='Cinnamon'
@@ -57,6 +59,12 @@ package() {
     "${pkgdir}/usr/lib/cinnamon-settings/cinnamon-settings.py" \
     "${pkgdir}/usr/bin/cinnamon-settings" \
     "${pkgdir}/usr/bin/cinnamon-menu-editor"
+
+  # Screensaver gnome 3.6 fix
+  mkdir -p $pkgdir/etc/xdg/autostart
+  cp $srcdir/cinnamon*-screensaver.desktop $pkgdir/etc/xdg/autostart
 }
 
 # vim:set ts=2 sw=2 et:
+md5sums=('d55c079cdc8bec606f510f87b2a6f776'
+         '5c6af851ab1cf7e9219f11d86353196a')
