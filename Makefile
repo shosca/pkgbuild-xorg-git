@@ -99,3 +99,7 @@ cinnamon-git: muffin-git
 monodevelop-git: mono-git xsp-git
 
 xsp-git: mono-git
+
+lightdm: pantheon-greeter
+
+pantheon-greeter: granite-bzr libindicator3
