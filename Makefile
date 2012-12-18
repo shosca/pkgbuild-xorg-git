@@ -37,7 +37,7 @@ show:
 build: $(DIRS)
 
 %/built:
-	@rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
+	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
 	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) ; \
 	cd $* ; \
 		rm -f *.xz ; \
