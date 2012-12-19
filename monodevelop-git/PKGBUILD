@@ -7,8 +7,8 @@
 
 pkgname=monodevelop-git
 _pkgname=monodevelop
-pkgver=20121218
-pkgrel=9
+pkgver=20121219
+pkgrel=1
 pkgdesc="An IDE with support for Mono, C, C++, Vala, Java, Python..."
 arch=('i686' 'x86_64')
 url="http://www.monodevelop.com"
