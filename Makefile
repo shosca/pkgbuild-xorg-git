@@ -1,6 +1,7 @@
 LOCAL=/home/packages
 REMOTE=74.72.157.140:/home/serkan/public_html/arch
 
+PWD=$(shell pwd)
 DIRS=$(shell ls | grep -v Makefile)
 DATE=$(shell date +"%Y-%m-%d")
 
@@ -39,18 +40,19 @@ build: $(DIRS)
 %/built:
 	@rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
 	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) ; \
-	cd $* ; \
-		rm -f *.xz ; \
-		_c=$$(pwd) ;\
-		_gitname=$$(grep -R '^_gitname' PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
-		yes "" | makepkg -fs && rm -rf pkg && \
-		if [ -d src/$$_gitname/.git ]; then \
-			cd src/$$_gitname && \
-			git log -1 | head -n1 > $$_c/built ; \
-		else \
-			touch $$_c/built ; \
-		fi && \
-		yes "" | sudo pacman -U $$_c/*.xz
+	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
+	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
+		sed -i "s/^pkgrel=[^ ]*/pkgrel=$$(git whatchanged --since=yesterday | grep $*/PKGBUILD | wc -l)/" "$(PWD)/$*/PKGBUILD" ; \
+	fi ; \
+	rm -f $(PWD)/$*/*.xz ; \
+	cd $* ; yes "" | makepkg -fs && cd $(PWD) ; \
+	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
+		cd $(PWD)/$*/src/$$_gitname && \
+		git log -1 | head -n1 > $(PWD)/$*/built ; \
+	else \
+		touch $(PWD)/$*/built ; \
+	fi ; \
+	cd $(PWD) ; yes "" | sudo pacman -U $*/*.xz
 
 add:
 	cd $(LOCAL)
@@ -58,15 +60,15 @@ add:
 	repo-add $(LOCAL)/mine.db.tar.gz $(LOCAL)/*.xz
 
 $(DIRS):
-	@echo $@ ; _gitname=$$(grep -R '^_gitname' $@/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') ; \
-	if [ -d $@/src/$$_gitname/.git ]; then \
-		sed -i "s/^pkgrel=[^ ]*/pkgrel=$$(git whatchanged --since=yesterday | grep $@/PKGBUILD | wc -l)/" "$@/PKGBUILD" && \
-		cd $@/src/$$_gitname && \
+	@echo $@ ; \
+	_gitname=$$(grep -R '^_gitname' $(PWD)/$@/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') ; \
+	if [ -d $(PWD)/$@/src/$$_gitname/.git ]; then \
+		cd $(PWD)/$@/src/$$_gitname && \
 		git checkout -f && git clean -xfd && git pull && \
-		if [ -f ../../built ] && [ "$$(cat ../../built)" != "$$(git log -1 | head -n1)" ]; then \
-			rm -f ../../built ; \
+		if [ -f $(PWD)/$@/built ] && [ "$$(cat $(PWD)/$@/built)" != "$$(git log -1 | head -n1)" ]; then \
+			rm -f $(PWD)/$@/built ; \
 		fi ; \
-		cd ../../.. ; \
+		cd $(PWD) ; \
 	fi ; \
 	$(MAKE) $@/built
 

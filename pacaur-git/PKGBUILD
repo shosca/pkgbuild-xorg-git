@@ -2,7 +2,7 @@
 
 pkgname=pacaur-git
 pkgver=20121217
-pkgrel=3
+pkgrel=4
 pkgdesc="A fast workflow AUR wrapper using cower as backend"
 arch=('any')
 url="https://github.com/Spyhawk/pacaur"

@@ -3,7 +3,7 @@
 
 pkgname=cairo-git
 pkgver=20121218
-pkgrel=3
+pkgrel=4
 pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)
 license=('LGPL' 'MPL')
