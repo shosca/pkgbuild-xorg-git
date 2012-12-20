@@ -4,7 +4,7 @@
 
 pkgname=glamor-git
 _realpkgname=glamor
-pkgver=20121219
+pkgver=20121220
 pkgrel=1
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
@@ -23,7 +23,7 @@ build() {
   cd "${srcdir}"
   msg 'Connecting to GIT server....'
   if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git checkout -f && git clean -xfd && git pull origin
+    cd ${_gitname} && git checkout -f && git pull origin
   else
     git clone --depth 1 ${_gitroot} ${_gitname}
   fi
