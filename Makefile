@@ -37,6 +37,10 @@ show:
 
 build: $(DIRS)
 
+test:
+	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
+	echo $$_gitname
+
 %/built:
 	@rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
 	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) ; \
@@ -59,26 +63,26 @@ add:
 	rm -rf $(LOCAL)/mine.db*
 	repo-add $(LOCAL)/mine.db.tar.gz $(LOCAL)/*.xz
 
-test:
-	source cinnamon-git/PKGBUILD ; \
-	if [ ! -z "$$_gitroot+xxx}" ]; then echo "bla bla"; fi ; \
-	unset _gitroot ;\
-	if [ ! -z "$${_gitroot+xxx}" ]; then echo "after unset bla bla"; fi ; \
-
 $(DIRS):
-	@echo $@ ; \
-	source $(PWD)/$@/PKGBUILD ;
-	if [ -d $(PWD)/$@/src/$$_gitname/.git ]; then \
-		cd $(PWD)/$@/src/$$_gitname && \
-		git checkout -f && git pull && \
-		if [ -f $(PWD)/$@/built ] && [ "$$(cat $(PWD)/$@/built)" != "$$(git log -1 | head -n1)" ]; then \
-			rm -f $(PWD)/$@/built ; \
+	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$@/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
+	_gitname=$$(grep -R '^_gitname' $(PWD)/$@/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
+	if [ -z $$_gitroot ]; then \
+		$(MAKE) $@/built ; \
+	else \
+		if [ -d $(PWD)/$@/src/$$_gitname/.git ]; then \
+			echo "Updating $$_gitname" ; \
+			cd $(PWD)/$@/src/$$_gitname && \
+			git checkout -f && git pull && \
+			if [ -f $(PWD)/$@/built ] && [ "$$(cat $(PWD)/$@/built)" != "$$(git log -1 | head -n1)" ]; then \
+				rm -f $(PWD)/$@/built ; \
+			fi ; \
+			cd $(PWD) ; \
+		else \
+			echo "Cloning $$_gitroot to $@/src/$$_gitname" ; \
+			git clone --depth 1 $$_gitroot $(PWD)/$@/src/$$_gitname ; \
 		fi ; \
-		cd $(PWD) ; \
-	elif [ ! -z "$$_gitroot+xxx}" ]; then \
-		git clone --depth $$_gitroot $(PWD)/$@/src/$$_gitname
+		$(MAKE) $@/built ; \
 	fi ; \
-	$(MAKE) $@/built
 
 mesa-git: glproto-git dri2proto-git drm-git llvm-amdgpu-git wayland-git
 
