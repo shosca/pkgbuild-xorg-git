@@ -82,7 +82,7 @@ glu-git: mesa-git
 
 mesa-demos-git: mesa-git
 
-xorg-server-git: glproto-git dri2proto-git drm-git pixman-git
+xorg-server-git: glproto-git dri2proto-git inputproto-git drm-git pixman-git
 
 xf86-input-evdev-git: xorg-server-git
 
