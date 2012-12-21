@@ -54,7 +54,7 @@ build() {
     --enable-shared \
     --enable-libffi \
     --enable-targets=all \
-    -enable-experimental-targets=AMDGPU \
+    --enable-experimental-targets=AMDGPU \
     --disable-expensive-checks \
     --with-binutils-include=/usr/include \
     --$_optimized_switch-optimized

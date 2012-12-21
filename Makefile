@@ -84,9 +84,9 @@ $(DIRS):
 		$(MAKE) $@/built ; \
 	fi ; \
 
-mesa-git: glproto-git dri2proto-git drm-git llvm-amdgpu-git wayland-git
+mesa-git: glproto-git dri2proto-git libdrm-git llvm-amdgpu-git wayland-git
 
-wayland-git: drm-git
+wayland-git: libdrm-git
 
 weston-git: mesa-git libxkbcommon-git pixman-git
 
@@ -94,7 +94,7 @@ glu-git: mesa-git
 
 mesa-demos-git: mesa-git
 
-xorg-server-git: glproto-git dri2proto-git inputproto-git drm-git pixman-git
+xorg-server-git: glproto-git dri2proto-git inputproto-git libdrm-git pixman-git
 
 xf86-input-evdev-git: xorg-server-git
 
