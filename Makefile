@@ -86,6 +86,8 @@ $(DIRS):
 
 mesa-git: glproto-git dri2proto-git libdrm-git llvm-amdgpu-git wayland-git
 
+lib32-mesa-git: glproto-git dri2proto-git lib32-libdrm-git lib32-llvm-amdgpu-git lib32-wayland-git
+
 wayland-git: libdrm-git
 
 weston-git: mesa-git libxkbcommon-git pixman-git
