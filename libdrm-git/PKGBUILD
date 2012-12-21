@@ -9,7 +9,7 @@ pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
 depends=('libpciaccess')
-provides=('libdrm=2.4.39')
+provides=('libdrm=2.4.40')
 makedepends=('git' 'cairo' 'udev' 'valgrind')
 options=('!libtool')
 url="http://dri.freedesktop.org/"
@@ -34,8 +34,7 @@ build() {
 
   sed -i 's/PKG_CHECK_MODULES(PTHREADSTUBS, pthread-stubs)//' configure.ac
 
-  ./autogen.sh
-  ./configure --prefix=/usr \
+  ./autogen.sh --prefix=/usr \
       --enable-udev \
       --enable-intel \
       --enable-radeon \
