@@ -90,6 +90,8 @@ lib32-mesa-git: glproto-git dri2proto-git lib32-libdrm-git lib32-llvm-amdgpu-git
 
 wayland-git: libdrm-git
 
+lib32-wayland-git: lib32-libdrm-git
+
 weston-git: mesa-git libxkbcommon-git pixman-git
 
 glu-git: mesa-git

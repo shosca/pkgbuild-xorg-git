@@ -3,7 +3,7 @@
 
 pkgname=fsharp-git
 pkgver=20121221
-pkgrel=1
+pkgrel=4
 pkgdesc="An ML based functional language integrated with the .NET platform."
 arch=(any)
 license=('APACHE')
