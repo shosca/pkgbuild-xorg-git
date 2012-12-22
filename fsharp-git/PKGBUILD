@@ -2,8 +2,8 @@
 # Contributor: Serkan Hosca <serkan@hosca.com>
 
 pkgname=fsharp-git
-pkgver=20121221
-pkgrel=3
+pkgver=20121222
+pkgrel=1
 pkgdesc="An ML based functional language integrated with the .NET platform."
 arch=(any)
 license=('APACHE')
