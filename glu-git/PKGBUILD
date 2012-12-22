@@ -9,7 +9,7 @@ url="http://mesa.freedesktop.org/"
 license=('LGPL')
 provides=('glu')
 depends=('libgl' 'gcc-libs')
-makedepends=('mesa')
+makedepends=('mesa-git')
 conflicts=('glu')
 options=(!libtool)
 
