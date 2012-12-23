@@ -110,7 +110,7 @@ glamor-git: xorg-server-git mesa-git
 
 spice: spice-protocol
 
-qemu-kvm: spice
+qemu: spice
 
 cinnamon-git: muffin-git
 
