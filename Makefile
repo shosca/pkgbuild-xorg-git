@@ -108,10 +108,6 @@ xf86-video-ati-git: xorg-server-git glamor-git
 
 glamor-git: xorg-server-git mesa-git
 
-spice: spice-protocol
-
-qemu: spice
-
 cinnamon-git: muffin-git
 
 monodevelop-git: mono-git xsp-git
