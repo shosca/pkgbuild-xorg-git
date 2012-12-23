@@ -12,7 +12,6 @@ TARGETS=$(addsuffix /built, $(DIRS))
 all:
 	$(MAKE) pull
 	$(MAKE) build
-	$(MAKE) add
 	$(MAKE) push
 
 push:
@@ -50,6 +49,8 @@ test:
 	fi ; \
 	rm -f $(PWD)/$*/*.xz ; \
 	cd $* ; yes "" | makepkg -fs && cd $(PWD) ; \
+	repo-remove $(LOCAL)/mine.db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') ; \
+	repo-add $(LOCAL)/mine.db.tar.gz $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
 	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
 		cd $(PWD)/$*/src/$$_gitname && \
 		git log -1 | head -n1 > $(PWD)/$*/built ; \
@@ -58,7 +59,7 @@ test:
 	fi ; \
 	cd $(PWD) ; yes "" | sudo pacman -U $*/*.xz
 
-add:
+rebuildrepo:
 	cd $(LOCAL)
 	rm -rf $(LOCAL)/mine.db*
 	repo-add $(LOCAL)/mine.db.tar.gz $(LOCAL)/*.xz

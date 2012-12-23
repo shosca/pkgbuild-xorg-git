@@ -24,7 +24,7 @@ build()
               --python=/usr/bin/python2 \
               --audio-card-list=ac97,sb16,es1370,hda \
               --enable-docs --enable-mixemu --libexecdir=/usr/lib/qemu \
-              --enable-spice
+              --enable-spice --enable-kvm
               make
 }
 
