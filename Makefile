@@ -4,6 +4,7 @@ REMOTE=74.72.157.140:/home/serkan/public_html/arch
 PWD=$(shell pwd)
 DIRS=$(shell ls | grep -v Makefile)
 DATE=$(shell date +"%Y-%m-%d")
+PACMAN=pacman
 
 TARGETS=$(addsuffix /built, $(DIRS))
 
@@ -57,7 +58,7 @@ test:
 	else \
 		touch $(PWD)/$*/built ; \
 	fi ; \
-	cd $(PWD) ; yes "" | sudo pacman -U $*/*.xz
+	cd $(PWD) ; yes "" | sudo $(PACMAN) -U $*/*.xz
 
 rebuildrepo:
 	cd $(LOCAL)
