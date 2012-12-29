@@ -2,7 +2,7 @@
 # Based on the official cairo package
 
 pkgname=cairo-git
-pkgver=20121223
+pkgver=20121228
 pkgrel=1
 pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)

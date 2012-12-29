@@ -49,16 +49,16 @@ test:
 		sed -i "s/^pkgrel=[^ ]*/pkgrel=$$(git whatchanged --since=yesterday | grep $*/PKGBUILD | wc -l)/" "$(PWD)/$*/PKGBUILD" ; \
 	fi ; \
 	rm -f $(PWD)/$*/*.xz ; \
-	cd $* ; yes "" | makepkg -fs && cd $(PWD) ; \
+	cd $* ; yes "" | makepkg -fsi && cd $(PWD) ; \
 	repo-remove $(LOCAL)/mine.db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') ; \
+	mv $*/*.pkg.tar.xz $(LOCAL) ; \
 	repo-add $(LOCAL)/mine.db.tar.gz $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
 	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
 		cd $(PWD)/$*/src/$$_gitname && \
 		git log -1 | head -n1 > $(PWD)/$*/built ; \
 	else \
 		touch $(PWD)/$*/built ; \
-	fi ; \
-	cd $(PWD) ; yes "" | sudo $(PACMAN) -U $*/*.xz
+	fi
 
 rebuildrepo:
 	cd $(LOCAL)
