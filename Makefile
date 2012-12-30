@@ -5,6 +5,7 @@ PWD=$(shell pwd)
 DIRS=$(shell ls | grep -v Makefile)
 DATE=$(shell date +"%Y-%m-%d")
 PACMAN=pacman
+PKGEXT=pkg.tar.xz
 
 TARGETS=$(addsuffix /built, $(DIRS))
 
@@ -26,7 +27,7 @@ pull:
 		$(LOCAL)/
 
 clean:
-	find -name '*tar.xz' -exec rm {} \;
+	find -name '*$(PKGEXT)' -exec rm {} \;
 
 realclean: clean
 	find -name 'built' -exec rm {} \;
@@ -48,10 +49,10 @@ test:
 	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
 		sed -i "s/^pkgrel=[^ ]*/pkgrel=$$(git whatchanged --since=yesterday | grep $*/PKGBUILD | wc -l)/" "$(PWD)/$*/PKGBUILD" ; \
 	fi ; \
-	rm -f $(PWD)/$*/*.xz ; \
-	cd $* ; yes "" | makepkg -fsi && cd $(PWD) ; \
+	rm -f $(PWD)/$*/*$(PKGEXT) ; \
+	cd $* ; yes "" | makepkg -fsi && cd $(PWD) && \
 	repo-remove $(LOCAL)/mine.db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') ; \
-	mv $*/*.pkg.tar.xz $(LOCAL) ; \
+	mv $*/*$(PKGEXT) $(LOCAL) ; \
 	repo-add $(LOCAL)/mine.db.tar.gz $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
 	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
 		cd $(PWD)/$*/src/$$_gitname && \
@@ -63,7 +64,7 @@ test:
 rebuildrepo:
 	cd $(LOCAL)
 	rm -rf $(LOCAL)/mine.db*
-	repo-add $(LOCAL)/mine.db.tar.gz $(LOCAL)/*.xz
+	repo-add $(LOCAL)/mine.db.tar.gz $(LOCAL)/*$(PKGEXT)
 
 $(DIRS):
 	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$@/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
