@@ -7,7 +7,7 @@
 pkgname=llvm-amdgpu-git
 pkgver=20121221
 pkgrel=2
-pkgdesc='Low Level Virtual Machine - Compiler infrastructure with experimental AMDGPU enabled (git version)'
+pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
 license=('custom:University of Illinois/NCSA Open Source License')
@@ -65,4 +65,11 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="$pkgdir" install
+
+  # Remove useless files
+  rm -r "$pkgdir"/usr/{docs,lib/ocaml}
+  # Fix permissions of static libs
+  chmod -x "$pkgdir"/usr/lib/lib*.a
+
+  install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

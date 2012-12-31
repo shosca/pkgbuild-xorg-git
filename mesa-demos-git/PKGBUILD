@@ -1,8 +1,8 @@
 # Maintainer: Perry3D <perry3d@gmail.com>
 
 pkgname=mesa-demos-git
-pkgver=20121229
-pkgrel=0
+pkgver=20121231
+pkgrel=1
 pkgdesc="The mesa demos (glxinfo, glxgears, ...), built from the git master branch."
 arch=(i686 x86_64)
 url="http://mesa3d.org/"
