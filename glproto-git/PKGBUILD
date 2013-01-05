@@ -2,7 +2,7 @@
 # Contributor: Cilyan Olowen <gaknar at gmail dot com>
 
 pkgname=glproto-git
-pkgver=20121208
+pkgver=20130104
 pkgrel=0
 pkgdesc="X11 OpenGL extension wire protocol"
 arch=('i686' 'x86_64')

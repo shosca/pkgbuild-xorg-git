@@ -5,8 +5,8 @@
 # Contributor: Tomas Wilhelmsson <tomas.wilhelmsson@gmail.com>
 
 pkgname=llvm-amdgpu-git
-pkgver=20121221
-pkgrel=2
+pkgver=20130104
+pkgrel=0
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -54,7 +54,7 @@ build() {
     --enable-shared \
     --enable-libffi \
     --enable-targets=all \
-    --enable-experimental-targets=AMDGPU \
+    --enable-experimental-targets=R600 \
     --disable-expensive-checks \
     --with-binutils-include=/usr/include \
     --$_optimized_switch-optimized

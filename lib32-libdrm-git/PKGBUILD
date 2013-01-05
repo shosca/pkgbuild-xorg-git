@@ -3,7 +3,7 @@
 #Andreas Radke
 
 pkgname=lib32-libdrm-git
-pkgver=20130102
+pkgver=20130104
 pkgrel=1
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
