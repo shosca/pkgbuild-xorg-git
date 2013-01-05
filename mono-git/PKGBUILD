@@ -1,5 +1,5 @@
 pkgname=mono-git
-pkgver=20130104
+pkgver=20130105
 pkgrel=2
 pkgdesc="Free implementation of the .NET platform including runtime and compiler"
 
@@ -30,10 +30,17 @@ build() {
 
   cd "${srcdir}/${_gitname}"
 
+    msg "Use automake-1.11"
+    rm -rf "${srcdir}/automake-1.11"
+    mkdir "${srcdir}/automake-1.11"
+    ln -s /usr/bin/automake-1.11 "${srcdir}/automake-1.11/automake"
+    ln -s /usr/bin/aclocal-1.11 "${srcdir}/automake-1.11/aclocal"
+    export PATH="${srcdir}/automake-1.11":$PATH
 
   # build mono
-  ./autogen.sh --prefix=/usr --sysconfdir=/etc \
-             --with-libgdiplus=installed
+  AUTOMAKE=/usr/bin/automake-1.11 ./autogen.sh \
+    --prefix=/usr --sysconfdir=/etc \
+    --with-libgdiplus=installed
   make || return 1
 
   # build jay
