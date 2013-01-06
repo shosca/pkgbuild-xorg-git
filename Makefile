@@ -111,11 +111,3 @@ xf86-video-ati-git: xorg-server-git glamor-git
 
 glamor-git: xorg-server-git mesa-git
 
-cinnamon-git: muffin-git
-
-monodevelop-git: mono-git xsp-git
-
-xsp-git: mono-git
-
-fsharp-git: mono-git
-

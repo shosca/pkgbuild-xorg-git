@@ -3,7 +3,7 @@
 
 pkgname=pixman-git
 _realname=pixman
-pkgver=20130104
+pkgver=20130106
 _realver=0.27.1
 pkgrel=1
 pkgdesc="The pixel-manipulation library for X and cairo"
