@@ -44,16 +44,16 @@ test:
 
 %/built:
 	@rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
-	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) ; \
 	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
 	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
 		sed -i "s/^pkgrel=[^ ]*/pkgrel=$$(git whatchanged --since=yesterday | grep $*/PKGBUILD | wc -l)/" "$(PWD)/$*/PKGBUILD" ; \
 	fi ; \
 	rm -f $(PWD)/$*/*$(PKGEXT) ; \
 	cd $* ; yes "" | makepkg -fsi || exit 1 && cd $(PWD) && \
-	repo-remove $(LOCAL)/mine.db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') ; \
-	mv $*/*$(PKGEXT) $(LOCAL) ; \
-	repo-add $(LOCAL)/mine.db.tar.gz $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
+	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) && \
+	repo-remove $(LOCAL)/mine.db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') && \
+	mv $*/*$(PKGEXT) $(LOCAL) && \
+	repo-add $(LOCAL)/mine.db.tar.gz $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
 	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
 		cd $(PWD)/$*/src/$$_gitname && \
 		git log -1 | head -n1 > $(PWD)/$*/built ; \
