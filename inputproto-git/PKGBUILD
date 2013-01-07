@@ -2,14 +2,14 @@
 # Contributor: Cilyan Olowen <gaknar at gmail dot com>
 
 pkgname=inputproto-git
-pkgver=20130104
+pkgver=20130106
 pkgrel=0
 pkgdesc="X11 input extension wire protocol"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-provides=('inputproto')
-makedepends=('xorg-util-macros>=1.2' 'git')
+provides=('inputproto=2.2.99.1')
+makedepends=('xorg-util-macros-git' 'git')
 conflicts=('inputproto')
 #groups=('xorg')
 
@@ -28,7 +28,6 @@ build() {
   msg 'Starting make...'
 
   cd "${srcdir}/${_gitname}"
-
 
 
   ./autogen.sh --prefix=/usr

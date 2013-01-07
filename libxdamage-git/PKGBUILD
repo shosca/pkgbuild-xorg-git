@@ -1,0 +1,43 @@
+# $Id: PKGBUILD 174256 2013-01-03 11:42:05Z jgc $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libxdamage-git
+pkgver=20130107
+pkgrel=1
+pkgdesc="X11 damaged region extension library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libxfixes-git' 'damageproto-git')
+makedepends=('pkg-config')
+provides=('libxdamage=1.1.4')
+conflicts=('libxdamage')
+options=('!libtool')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXdamage"
+_gitname="libxdamage"
+
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}

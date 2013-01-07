@@ -1,0 +1,43 @@
+# $Id: PKGBUILD 154156 2012-03-23 20:01:59Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=xorg-xkbcomp-git
+pkgver=20130107
+pkgrel=1
+pkgdesc="X Keyboard description compiler"
+arch=(i686 x86_64)
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libxkbfile-git')
+makedepends=('xorg-util-macros-git')
+groups=('xorg-apps' 'xorg')
+provides=('xorg-xkbcomp=1.2.4')
+conflicts=('xorg-xkbcomp')
+
+_gitroot='git://anongit.freedesktop.org/xorg/app/xkbcomp'
+_gitname='xkbcomp'
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

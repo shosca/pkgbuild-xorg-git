@@ -1,0 +1,43 @@
+# Contributor: Thomas Dziedzic <gostrc@@@gmail>
+# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
+# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+
+pkgname=xf86vidmodeproto-git
+pkgver=20130107
+pkgrel=1
+pkgdesc='X11 xf86vidmode extention protocol specification and header files'
+url='http://xorg.freedesktop.org/'
+arch=('any')
+license=('custom')
+makedepends=('xorg-util-macros-git' 'git')
+provides=('xf86vidmodeproto=2.3.1')
+conflicts=('xf86vidmodeproto')
+
+_gitroot='git://git.freedesktop.org/git/xorg/proto/xf86vidmodeproto'
+_gitname='xf86vidmodeproto'
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="$pkgdir" install
+  install -D -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}
+
+# vim: ft=sh syn=sh et

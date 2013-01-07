@@ -1,0 +1,43 @@
+# Contributor: Thomas Dziedzic <gostrc@@@gmail>
+# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
+# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+
+pkgname=resourceproto-git
+pkgver=20130106
+pkgrel=0
+pkgdesc='X11 composite extention protocol specification and header files'
+url='http://xorg.freedesktop.org/'
+arch=('any')
+license=('custom')
+makedepends=('xorg-util-macros' 'git')
+provides=('resourceproto=1.2.0')
+conflicts=('resourceproto')
+
+_gitroot='git://git.freedesktop.org/git/xorg/proto/resourceproto'
+_gitname='resourceproto'
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="$pkgdir" install
+  install -D -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}
+
+# vim: ft=sh syn=sh et

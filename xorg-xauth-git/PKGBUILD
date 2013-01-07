@@ -1,0 +1,43 @@
+# $Id: PKGBUILD 154150 2012-03-23 19:14:18Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=xorg-xauth-git
+pkgver=20130107
+pkgrel=1
+pkgdesc="X.Org authorization settings program"
+arch=(i686 x86_64)
+license=('custom')
+url="http://xorg.freedesktop.org/"
+depends=('libxmu-git')
+makedepends=('xorg-util-macros-git')
+groups=('xorg-apps' 'xorg')
+provides=('xorg-xauth=1.0.7')
+conflicts=('xorg-xauth')
+
+_gitroot="git://anongit.freedesktop.org/xorg/app/xauth"
+_gitname="xauth"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

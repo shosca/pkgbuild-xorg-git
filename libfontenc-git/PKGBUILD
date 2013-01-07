@@ -1,0 +1,44 @@
+# $Id: PKGBUILD 151844 2012-03-03 13:37:37Z andyrtr $
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libfontenc-git
+pkgver=20130107
+pkgrel=1
+pkgdesc="X11 font encoding library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('zlib')
+makedepends=('pkgconfig' 'xproto-git')
+options=('!libtool')
+provides=('libfontenc=1.1.1')
+conflicts=('libfontenc')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libfontenc"
+_gitname="libfontenc"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+      --localstatedir=/var --disable-static \
+      --with-encodingsdir=/usr/share/fonts/encodings
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}

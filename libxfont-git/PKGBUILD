@@ -1,0 +1,43 @@
+# $Id: PKGBUILD 151781 2012-03-02 18:55:43Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libxfont-git
+pkgver=20130107
+pkgrel=0
+pkgdesc="X11 font rasterisation library"
+arch=(i686 x86_64)
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('freetype2' 'libfontenc-git' 'xproto-git' 'fontsproto-git')
+makedepends=('xorg-util-macros-git' 'xtrans-git')
+options=('!libtool')
+provides=('libxfont=1.4.5')
+conflicts=('libxfont')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXfont"
+_gitname="libxfont"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

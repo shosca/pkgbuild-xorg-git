@@ -1,0 +1,44 @@
+# $Id: PKGBUILD 152773 2012-03-09 16:10:15Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libxext-git
+pkgver=20130106
+pkgrel=1
+pkgdesc="X11 miscellaneous extensions library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libx11-git' 'xextproto-git')
+provides=('libxext=1.3.1')
+conflicts=('libxext')
+makedepends=('xorg-util-macros-git')
+options=('!libtool')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXext"
+_gitname="libxext"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

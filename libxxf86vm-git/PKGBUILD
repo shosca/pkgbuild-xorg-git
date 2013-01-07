@@ -1,0 +1,43 @@
+# $Id: PKGBUILD 152801 2012-03-09 16:38:21Z andyrtr $
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libxxf86vm-git
+pkgver=20130107
+pkgrel=1
+pkgdesc="X11 XFree86 video mode extension library"
+arch=('x86_64' 'i686')
+license=('custom')
+url="http://xorg.freedesktop.org/"
+depends=('libxext-git' 'xf86vidmodeproto-git')
+makedepends=('xorg-util-macros-git')
+options=('!libtool')
+provides=('libxxf86vm=1.1.2')
+conflicts=('libxxf86vm')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXxf86vm"
+_gitname="libxxf86vm"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}

@@ -49,9 +49,9 @@ test:
 		sed -i "s/^pkgrel=[^ ]*/pkgrel=$$(git whatchanged --since=yesterday | grep $*/PKGBUILD | wc -l)/" "$(PWD)/$*/PKGBUILD" ; \
 	fi ; \
 	rm -f $(PWD)/$*/*$(PKGEXT) ; \
-	cd $* ; yes "" | makepkg -fsi || exit 1 && cd $(PWD) && \
+	cd $* ; makepkg -fsi --noconfirm || exit 1 && cd $(PWD) && \
 	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) && \
-	repo-remove $(LOCAL)/mine.db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') && \
+	repo-remove $(LOCAL)/mine.db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') ; \
 	mv $*/*$(PKGEXT) $(LOCAL) && \
 	repo-add $(LOCAL)/mine.db.tar.gz $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
 	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
@@ -82,32 +82,117 @@ $(DIRS):
 			cd $(PWD) ; \
 		else \
 			echo "Cloning $$_gitroot to $@/src/$$_gitname" ; \
-			git clone --depth 1 $$_gitroot $(PWD)/$@/src/$$_gitname ; \
+			git clone $$_gitroot $(PWD)/$@/src/$$_gitname ; \
 		fi ; \
 		$(MAKE) $@/built ; \
 	fi ; \
 
-mesa-git: glproto-git dri2proto-git libdrm-git llvm-amdgpu-git wayland-git
+PROTOS= \
+	bigreqsproto-git \
+	compositeproto-git \
+	damageproto-git \
+	dmxproto-git \
+	dri2proto-git \
+	fixesproto-git \
+	fontsproto-git \
+	glproto-git \
+	inputproto-git \
+	kbproto-git \
+	randrproto-git \
+	recordproto-git \
+	renderproto-git \
+	resourceproto-git \
+	scrnsaverproto-git \
+	videoproto-git \
+	xcb-proto-git \
+	xcmiscproto-git \
+	xextproto-git \
+	xf86dgaproto-git \
+	xf86driproto-git \
+	xineramaproto-git \
+	xproto-git
 
-lib32-mesa-git: glproto-git dri2proto-git lib32-libdrm-git lib32-llvm-amdgpu-git lib32-wayland-git
+$(PROTOS): xorg-util-macros-git
+
+libx11-git: $(PROTOS) libxcb-git xtrans-git
+
+libxext-git: $(PROTOS) libx11-git
+
+libxrender-git: libx11-git renderproto-git
+
+libxrandr-git: libxext-git libxrender-git randrproto-git
+
+libxcb-git: $(PROTOS) libxdmcp-git libxau-git
+
+libxdmcp-git: $(PROTOS)
+
+libxau-git: $(PROTOS)
+
+libxi-git: $(PROTOS) libxext-git
+
+libxtst-git: $(PROTOS) libxext-git libxi-git
+
+libxt: libsm-git libx11-git
+
+libsm-git: xtrans-git
+
+libxres-git: $(PROTOS) libxext-git
+
+libdmx-git: $(PROTOS) libxext-git
+
+libxfixes-git: $(PROTOS) libx11-git
+
+libxdamage-git: $(PROTOS) libxfixes-git
+
+libxxf86vm-git: $(PROTOS) libxext-git
+
+libice: xproto-git xtrans-git
+
+cairo-git: libxrender-git pixman-git
+
+mesa-git: $(PROTOS) libdrm-git llvm-amdgpu-git wayland-git libxfixes-git libxdamage-git libxxf86vm-git
+
+lib32-mesa-git: $(PROTOS) lib32-libdrm-git lib32-llvm-amdgpu-git lib32-wayland-git
 
 wayland-git: libdrm-git
 
 lib32-wayland-git: lib32-libdrm-git
 
-weston-git: mesa-git libxkbcommon-git pixman-git
+weston-git: mesa-git libxkbcommon-git pixman-git cairo-git glu-git
 
 glu-git: mesa-git
 
 mesa-demos-git: mesa-git
 
-xorg-server-git: glproto-git dri2proto-git inputproto-git libdrm-git pixman-git
+libxv-git: libxext-git videoproto-git
+
+libfontenc-git: xproto-git
+
+libxfont-git: libfontenc-git xproto-git fontsproto-git xorg-util-macros-git xtrans-git
+
+libxmu-git: libxext-git libxt-git xorg-util-macros-git
+
+libxpm-git: libxt-git libxext-git xorg-util-macros-git
+
+libxaw-git: libxmu-git libxpm-git xorg-util-macros-git
+
+xorg-font-util-git: xorg-util-macros-git
+
+xorg-setxkbmap-git: libxkbfile-git xorg-util-macros-git
+
+xorg-server-git: $(PROTOS) libdmx-git libdrm-git libpciaccess-git libx11-git libxau-git libxaw-git libxdmcp-git libxext-git libxfixes-git libxfont-git libxi-git libxkbfile-git libxmu-git libxrender-git libxres-git libxtst-git libxv-git mesa-git pixman-git xkeyboard-config-git xorg-font-util-git xorg-setxkbmap-git xorg-util-macros-git xorg-xkbcomp-git xtrans-git
+
+xorg-xauth-git: libxmu-git xorg-util-macros-git
+
+xorg-xrandr-git: libxrandr-git libx11-git xorg-util-macros-git
+
+xorg-xprop-git: libx11-git xorg-util-macros-git
 
 xf86-input-evdev-git: xorg-server-git
 
 xf86-input-synaptics-git: xorg-server-git
 
-xf86-video-ati-git: xorg-server-git glamor-git
+xf86-video-ati-git: $(PROTOS) xorg-server-git glamor-git libdrm-git libpciaccess-git pixman-git
 
 glamor-git: xorg-server-git mesa-git
 

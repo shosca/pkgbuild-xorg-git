@@ -1,0 +1,46 @@
+# $Id: PKGBUILD 165113 2012-08-11 08:21:35Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
+# Contributor: Alexander Baldeck <alexander@archlinux.org>
+
+pkgname=libxrandr-git
+pkgver=20130107
+pkgrel=0
+pkgdesc="X11 RandR extension library"
+arch=('i686' 'x86_64')
+license=('custom')
+url="http://xorg.freedesktop.org/"
+depends=('libxext-git' 'libxrender-git' 'randrproto-git')
+makedepends=('xorg-util-macros')
+options=('!libtool')
+provides=('libxrandr=1.4.0')
+conflicts=('libxrandr')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXrandr"
+_gitname="libxrandr"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

@@ -1,0 +1,44 @@
+# $Id: PKGBUILD 356 2008-04-18 22:56:27Z aaron $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Alexander Baldeck <alexander@archlinux.org>
+
+pkgname=libpciaccess-git
+pkgver=20130106
+pkgrel=0
+pkgdesc="X11 PCI access library"
+arch=(i686 x86_64)
+license=('custom')
+url="http://xorg.freedesktop.org/"
+depends=('glibc')
+makedepends=('pkgconfig' 'xorg-util-macros-git')
+provides=('libpciaccess')
+conflicts=('libpciaccess')
+options=('!libtool')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libpciaccess"
+_gitname="libpciaccess"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

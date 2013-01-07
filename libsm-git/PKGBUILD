@@ -1,0 +1,43 @@
+# $Id: PKGBUILD 151850 2012-03-03 13:43:52Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libsm-git
+pkgver=20130107
+pkgrel=1
+pkgdesc="X11 Session Management library"
+arch=('i686' 'x86_64')
+license=('custom')
+url="http://xorg.freedesktop.org/"
+depends=('libice-git' 'util-linux-ng')
+makedepends=('xorg-util-macros-git' 'xtrans-git')
+options=('!libtool')
+provides=('libsm=1.2.1')
+conflicts=('libsm')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libSM"
+_gitname="libsm"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}

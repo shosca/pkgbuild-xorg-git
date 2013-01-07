@@ -1,0 +1,44 @@
+# $Id: PKGBUILD 151848 2012-03-03 13:42:06Z andyrtr $
+# Contributor: Alexander Baldeck <alexander@archlinux.org>
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libice-git
+pkgver=1.0.8
+pkgrel=1
+pkgdesc="X11 Inter-Client Exchange library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+depends=('glibc' 'xproto-git')
+makedepends=('pkgconfig' 'xtrans-git')
+options=('!libtool')
+license=('custom')
+provides=('libice=1.0.8')
+conflicts=('libice')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libICE"
+_gitname="libICE"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}

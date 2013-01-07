@@ -1,0 +1,42 @@
+# $Id: PKGBUILD 152786 2012-03-09 16:24:03Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libxrender-git
+pkgver=20130107
+pkgrel=1
+pkgdesc="X Rendering Extension client library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libx11-git' 'renderproto-git')
+provides=('libxrender=0.9.7')
+conflicts=('libxrender')
+makedepends=('pkgconfig')
+options=('!libtool')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXrender"
+_gitname="libxrender"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR=${pkgdir} install
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}

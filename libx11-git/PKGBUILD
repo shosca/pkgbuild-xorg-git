@@ -1,0 +1,55 @@
+# $Id: PKGBUILD 160633 2012-06-02 21:43:25Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libx11-git
+pkgver=20130106
+pkgrel=0
+pkgdesc="X11 client-side library"
+arch=(i686 x86_64)
+url="http://xorg.freedesktop.org/"
+depends=('libxcb-git' 'xproto-git' 'kbproto-git')
+makedepends=('xorg-util-macros-git' 'xextproto-git' 'xtrans-git' 'inputproto-git')
+provides=('libx11=1.5.0')
+conflicts=('libx11')
+options=('!libtool')
+license=('custom')
+source=(xorg.sh
+        xorg.csh
+        fix-build.patch)
+
+sha256sums=('1a1b5db0320579958fba24774bae7984a1b1b8c647ac6fbd4d8937178c48ed46'
+            '96c85ccbdcb056540f2e2b6cf48dea067f80260c16957ee401c49cf94cea5894'
+            '265a1a7f4ea1101adb1b4a9a23e3b79139f92abadf8e71f25f172eb88867aa62')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libX11"
+_gitname="libX11"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  patch -p1 -i ../fix-build.patch
+  ./autogen.sh --prefix=/usr --disable-static --disable-xf86bigfont
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/etc/profile.d"
+  install -m755 "${srcdir}/"xorg.{sh,csh} "${pkgdir}/etc/profile.d/"
+
+  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

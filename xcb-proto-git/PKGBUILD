@@ -1,0 +1,42 @@
+# $Id: PKGBUILD 168377 2012-10-09 16:18:36Z andyrtr $
+# Maintainer: Alexander Baldeck <alexander@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+
+pkgname=xcb-proto-git
+pkgver=20130106
+pkgrel=0
+pkgdesc="XML-XCB protocol descriptions"
+arch=(any)
+url="http://xcb.freedesktop.org/"
+license=('custom')
+makedepends=('python2' 'libxml2')
+provides=('xcb-proto=1.8')
+conflicts=('xcb-proto')
+
+_gitroot="git://anongit.freedesktop.org/xcb/proto"
+_gitname="proto"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  PYTHON=/usr/bin/python2 ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="$pkgdir" install
+  install -m755 -d "$pkgdir/usr/share/licenses/$pkgname"
+  install -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname"
+}

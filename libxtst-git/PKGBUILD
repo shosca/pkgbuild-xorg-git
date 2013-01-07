@@ -1,0 +1,44 @@
+# $Id: PKGBUILD 152793 2012-03-09 16:30:31Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libxtst-git
+pkgver=20130107
+pkgrel=1
+pkgdesc="X11 Testing -- Resource extension library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libxext-git' 'libxi-git' 'recordproto-git' 'inputproto-git')
+makedepends=('xorg-util-macros-git')
+options=('!libtool')
+provides=('libxtst=1.2.1')
+conflicts=('libxtst')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXtst"
+_gitname="libxtst"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

@@ -1,0 +1,43 @@
+# $Id: PKGBUILD 130748 2011-07-07 22:27:50Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=xorg-xprop-git
+pkgver=20130107
+pkgrel=1
+pkgdesc="Property displayer for X"
+arch=(i686 x86_64)
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libx11-git')
+makedepends=('xorg-util-macros-git')
+groups=('xorg-apps' 'xorg')
+provides=('xorg-xprop=1.2.1')
+conflicts=('xorg-xprop')
+
+_gitroot="git://anongit.freedesktop.org/xorg/app/xprop"
+_gitname="xprop"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

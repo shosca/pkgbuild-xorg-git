@@ -3,16 +3,15 @@
 # Contributor: Flamelab <panosfilip at gmail dot com>
 
 pkgname=glamor-git
-_realpkgname=glamor
-pkgver=20130106
-pkgrel=3
+pkgver=20130107
+pkgrel=1
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
-provides=("${_realpkgname}")
-depends=('glibc' 'mesa' 'libdrm' 'xorg-server-devel' 'libx11')
-makedepends=('glibc' 'mesa' 'khrplatform-devel' 'libdrm' 'xorg-server-devel' 'libx11' 'xf86driproto' 'glproto')
+depends=('glibc' 'mesa-git' 'libdrm-git' 'xorg-server-devel-git' 'libx11-git')
+makedepends=('glibc' 'mesa-git' 'khrplatform-devel-git' 'libdrm-git' 'xorg-server-devel-git' 'libx11-git' 'xf86driproto-git' 'glproto-git')
 conflicts=('glamor')
+provides=('glamor')
 options=('!libtool')
 license=('custom')
 

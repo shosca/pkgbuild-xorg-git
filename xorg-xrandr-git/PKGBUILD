@@ -1,0 +1,44 @@
+# $Id: PKGBUILD 130753 2011-07-07 22:30:11Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=xorg-xrandr-git
+pkgver=20130107
+pkgrel=0
+pkgdesc="Primitive command line interface to RandR extension"
+arch=(i686 x86_64)
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libxrandr-git' 'libx11-git')
+makedepends=('xorg-util-macros-git')
+groups=('xorg-apps' 'xorg')
+provides=('xorg-xrandr=1.3.5')
+conflicts=('xorg-xrandr')
+
+_gitroot="git://anongit.freedesktop.org/xorg/app/xrandr"
+_gitname="xrandr"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+  rm -f "${pkgdir}/usr/bin/xkeystone"
+}

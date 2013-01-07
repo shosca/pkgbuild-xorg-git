@@ -1,0 +1,44 @@
+# $Id: PKGBUILD 152803 2012-03-09 17:01:00Z andyrtr $
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libdmx-git
+pkgver=20130106
+pkgrel=0
+pkgdesc="X11 Distributed Multihead extension library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('dmxproto-git' 'libxext-git')
+provides=('libdmx')
+conflicts=('libdmx')
+makedepends=('xorg-util-macros-git')
+options=('!libtool')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libdmx"
+_gitname="libdmx"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

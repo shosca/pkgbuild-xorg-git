@@ -1,0 +1,44 @@
+# $Id: PKGBUILD 152788 2012-03-09 16:26:13Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libxres-git
+pkgver=20130107
+pkgrel=0
+pkgdesc="X11 Resource extension library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org"
+license=('custom')
+depends=('libxext-git')
+makedepends=('resourceproto-git' 'damageproto-git' 'compositeproto-git' 'scrnsaverproto-git' 'xorg-util-macros-git')
+options=('!libtool')
+provides=('libxres=1.0.6')
+conflicts=('libxres')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXRes"
+_gitname="libxres"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

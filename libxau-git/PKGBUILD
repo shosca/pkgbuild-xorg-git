@@ -1,0 +1,44 @@
+# $Id: PKGBUILD 152650 2012-03-07 19:44:52Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Alexander Baldeck <alexander@archlinux.org>
+
+pkgname=libxau-git
+pkgver=20130106
+pkgrel=0
+pkgdesc="X11 authorisation library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+depends=('glibc' 'xproto-git')
+provides=('libxau=1.0.7')
+conflicts=('libxau')
+makedepends=('pkgconfig')
+license=('custom')
+options=('!libtool')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXau"
+_gitname="libXau"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}

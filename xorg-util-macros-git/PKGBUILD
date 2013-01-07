@@ -1,0 +1,43 @@
+# $Id: PKGBUILD 153461 2012-03-14 17:38:45Z andyrtr $
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=xorg-util-macros-git
+pkgver=20130106
+pkgrel=0
+pkgdesc="X.Org Autotools macros"
+arch=(any)
+license=('custom')
+url="http://xorg.freedesktop.org/"
+provides=('xorg-util-macros')
+conflicts=('xorg-util-macros')
+
+_gitroot="git://anongit.freedesktop.org/xorg/util/macros"
+_gitname="macros"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/lib"
+  mv "${pkgdir}/usr/share/pkgconfig" "${pkgdir}/usr/lib/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
