@@ -2,8 +2,8 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=xtrans-git
-pkgver=20130107
-pkgrel=0
+pkgver=20130108
+pkgrel=1
 pkgdesc="X transport library"
 arch=('any')
 license=('custom')

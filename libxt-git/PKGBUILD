@@ -2,7 +2,7 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libxt-git
-pkgver=20130107
+pkgver=20130108
 pkgrel=1
 pkgdesc="X11 toolkit intrinsics library"
 arch=('i686' 'x86_64')

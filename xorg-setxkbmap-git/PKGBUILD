@@ -3,8 +3,8 @@
 # Maintainer: Gaetan Bisson <bisson@archlinux.org>
 
 pkgname=xorg-setxkbmap-git
-pkgver=20130107
-pkgrel=0
+pkgver=20130108
+pkgrel=1
 pkgdesc='Set the keyboard using the X Keyboard Extension'
 url='http://xorg.freedesktop.org/'
 license=('custom')

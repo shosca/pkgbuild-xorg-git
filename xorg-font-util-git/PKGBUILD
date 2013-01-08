@@ -3,7 +3,7 @@
 # Maintainer: Gaetan Bisson <bisson@archlinux.org>
 
 pkgname=xorg-font-util-git
-pkgver=20130107
+pkgver=20130108
 pkgrel=1
 pkgdesc='X.Org font utilities'
 url='http://xorg.freedesktop.org/'

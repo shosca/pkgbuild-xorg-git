@@ -2,8 +2,8 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=xorg-util-macros-git
-pkgver=20130106
-pkgrel=0
+pkgver=20130108
+pkgrel=1
 pkgdesc="X.Org Autotools macros"
 arch=(any)
 license=('custom')

@@ -2,7 +2,7 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libxdamage-git
-pkgver=20130107
+pkgver=20130108
 pkgrel=1
 pkgdesc="X11 damaged region extension library"
 arch=('i686' 'x86_64')

@@ -1,8 +1,9 @@
-LOCAL=/home/packages
-REMOTE=74.72.157.140:/home/serkan/public_html/arch
+REPO=xorg-git
+LOCAL=/home/packages/$(REPO)
+REMOTE=74.72.157.140:/home/serkan/public_html/arch/$(REPO)
 
 PWD=$(shell pwd)
-DIRS=$(shell ls | grep -v Makefile)
+DIRS=$(shell ls | grep -v Makefile*)
 DATE=$(shell date +"%Y-%m-%d")
 PACMAN=pacman
 PKGEXT=pkg.tar.xz
@@ -28,8 +29,6 @@ pull:
 
 clean:
 	find -name '*$(PKGEXT)' -exec rm {} \;
-
-realclean: clean
 	find -name 'built' -exec rm {} \;
 
 show:
@@ -51,9 +50,9 @@ test:
 	rm -f $(PWD)/$*/*$(PKGEXT) ; \
 	cd $* ; makepkg -fsi --noconfirm || exit 1 && cd $(PWD) && \
 	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) && \
-	repo-remove $(LOCAL)/mine.db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') ; \
+	repo-remove $(LOCAL)/$(REPO).db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') ; \
 	mv $*/*$(PKGEXT) $(LOCAL) && \
-	repo-add $(LOCAL)/mine.db.tar.gz $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
+	repo-add $(LOCAL)/$(REPO).db.tar.gz $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
 	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
 		cd $(PWD)/$*/src/$$_gitname && \
 		git log -1 | head -n1 > $(PWD)/$*/built ; \
@@ -63,8 +62,8 @@ test:
 
 rebuildrepo:
 	cd $(LOCAL)
-	rm -rf $(LOCAL)/mine.db*
-	repo-add $(LOCAL)/mine.db.tar.gz $(LOCAL)/*$(PKGEXT)
+	rm -rf $(LOCAL)/$(REPO).db*
+	repo-add $(LOCAL)/$(REPO).db.tar.gz $(LOCAL)/*$(PKGEXT)
 
 $(DIRS):
 	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$@/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \

@@ -3,7 +3,7 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libice-git
-pkgver=1.0.8
+pkgver=20130108
 pkgrel=1
 pkgdesc="X11 Inter-Client Exchange library"
 arch=('i686' 'x86_64')

@@ -2,7 +2,7 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libxrender-git
-pkgver=20130107
+pkgver=20130108
 pkgrel=1
 pkgdesc="X Rendering Extension client library"
 arch=('i686' 'x86_64')

@@ -2,7 +2,7 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libxtst-git
-pkgver=20130107
+pkgver=20130108
 pkgrel=1
 pkgdesc="X11 Testing -- Resource extension library"
 arch=('i686' 'x86_64')
