@@ -4,7 +4,8 @@ REMOTE=74.72.157.140:/home/serkan/public_html/arch/$(REPO)
 
 PWD=$(shell pwd)
 DIRS=$(shell ls | grep -v Makefile*)
-DATE=$(shell date +"%Y-%m-%d")
+DATE=$(shell date +"%Y%m%d")
+TIME=$(shell date +"%H%M")
 PACMAN=pacman
 PKGEXT=pkg.tar.xz
 
@@ -42,13 +43,14 @@ test:
 	echo $$_gitname
 
 %/built:
-	@rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
-	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
+	@_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
 	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
-		sed -i "s/^pkgrel=[^ ]*/pkgrel=$$(git whatchanged --since=yesterday | grep $*/PKGBUILD | wc -l)/" "$(PWD)/$*/PKGBUILD" ; \
+		sed -i "s/^pkgver=[^ ]*/pkgver=$(DATE)/" "$(PWD)/$*/PKGBUILD" ; \
+		sed -i "s/^pkgrel=[^ ]*/pkgrel=$(TIME)/" "$(PWD)/$*/PKGBUILD" ; \
 	fi ; \
 	rm -f $(PWD)/$*/*$(PKGEXT) ; \
 	cd $* ; makepkg -fsi --noconfirm || exit 1 && cd $(PWD) && \
+	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
 	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) && \
 	repo-remove $(LOCAL)/$(REPO).db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') ; \
 	mv $*/*$(PKGEXT) $(LOCAL) && \
