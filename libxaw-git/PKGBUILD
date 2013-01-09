@@ -3,7 +3,7 @@
 
 pkgname=libxaw-git
 pkgver=20130109
-pkgrel=0022
+pkgrel=1301
 pkgdesc="X11 Athena Widget library"
 arch=('i686' 'x86_64')
 license=('custom')

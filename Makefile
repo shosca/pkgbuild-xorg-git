@@ -6,7 +6,7 @@ PWD=$(shell pwd)
 DIRS=$(shell ls | grep -v Makefile*)
 DATE=$(shell date +"%Y%m%d")
 TIME=$(shell date +"%H%M")
-PACMAN=pacman
+PACMAN=yaourt
 PKGEXT=pkg.tar.xz
 
 TARGETS=$(addsuffix /built, $(DIRS))
@@ -49,10 +49,11 @@ test:
 		sed -i "s/^pkgrel=[^ ]*/pkgrel=$(TIME)/" "$(PWD)/$*/PKGBUILD" ; \
 	fi ; \
 	rm -f $(PWD)/$*/*$(PKGEXT) ; \
-	cd $* ; makepkg -fsi --noconfirm || exit 1 && cd $(PWD) && \
+	cd $* ; makepkg -f || exit 1 && cd $(PWD) && \
 	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
 	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) && \
 	repo-remove $(LOCAL)/$(REPO).db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') ; \
+	$(PACMAN) -U --noconfirm $*/*$(PKGEXT) && \
 	mv $*/*$(PKGEXT) $(LOCAL) && \
 	repo-add $(LOCAL)/$(REPO).db.tar.gz $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
 	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
@@ -115,7 +116,7 @@ PROTOS= \
 
 $(PROTOS): xorg-util-macros-git
 
-libx11-git: $(PROTOS) libxcb-git xtrans-git
+libx11-git: libxcb-git xproto-git kbproto-git xorg-util-macros-git xextproto-git xtrans-git inputproto-git
 
 libxext-git: $(PROTOS) libx11-git
 

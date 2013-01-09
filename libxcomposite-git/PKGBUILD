@@ -3,7 +3,7 @@
 
 pkgname=libxcomposite-git
 pkgver=20130109
-pkgrel=0906
+pkgrel=1255
 pkgdesc="X11 Composite extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

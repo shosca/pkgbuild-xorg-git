@@ -2,8 +2,8 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libxxf86vm-git
-pkgver=20130108
-pkgrel=1
+pkgver=20130109
+pkgrel=1303
 pkgdesc="X11 XFree86 video mode extension library"
 arch=('x86_64' 'i686')
 license=('custom')
