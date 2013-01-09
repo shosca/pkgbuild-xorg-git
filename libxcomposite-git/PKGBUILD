@@ -1,0 +1,45 @@
+# $Id: PKGBUILD 174258 2013-01-03 11:50:21Z jgc $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libxcomposite-git
+pkgver=20130109
+pkgrel=0906
+pkgdesc="X11 Composite extension library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libxfixes-git' 'compositeproto-git')
+makedepends=('xorg-util-macros-git')
+options=('!libtool')
+provides=('libxcomposite=0.4.4')
+conflicts=('libxcomposite')
+replaces=('libxcomposite')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXcomposite"
+_gitname="libxcomposite"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

@@ -145,6 +145,8 @@ libxfixes-git: $(PROTOS) libx11-git
 
 libxdamage-git: $(PROTOS) libxfixes-git
 
+libxcomposite-git: libxfixes-git compositeproto-git xorg-util-macros-git
+
 libxxf86vm-git: $(PROTOS) libxext-git
 
 libice: xproto-git xtrans-git
@@ -189,6 +191,8 @@ xorg-xrandr-git: libxrandr-git libx11-git xorg-util-macros-git
 
 xorg-xprop-git: libx11-git xorg-util-macros-git
 
+xorg-xwininfo-git: libxcb-git libx11-git xorg-util-macros-git
+
 xf86-input-evdev-git: xorg-server-git
 
 xf86-input-synaptics-git: xorg-server-git
@@ -197,3 +201,4 @@ xf86-video-ati-git: $(PROTOS) xorg-server-git glamor-git libdrm-git libpciaccess
 
 glamor-git: xorg-server-git mesa-git
 
+compton-git: libx11-git libxcomposite-git libxdamage-git libxext-git libxrender-git xproto-git xorg-xprop-git xorg-xwininfo-git libxrandr-git

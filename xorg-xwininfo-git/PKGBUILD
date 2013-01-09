@@ -1,0 +1,44 @@
+# $Id: PKGBUILD 130758 2011-07-07 22:32:22Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=xorg-xwininfo-git
+pkgver=20130109
+pkgrel=0909
+pkgdesc="Command-line utility to print information about windows on an X server"
+arch=(i686 x86_64)
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libxcb-git')
+makedepends=('xorg-util-macros-git' 'libx11-git')
+groups=('xorg-apps' 'xorg')
+provides=('xorg-xwininfo=1.1.2')
+conflicts=('xorg-xwininfo')
+replaces=('xorg-xwininfo')
+
+_gitroot="git://anongit.freedesktop.org/xorg/app/xwininfo"
+_gitname="xwininfo"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
