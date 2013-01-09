@@ -9,8 +9,8 @@ pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
 depends=('libpciaccess-git')
-provides=('libdrm=2.4.40')
 makedepends=('git' 'cairo-git' 'udev' 'valgrind')
+provides=('libdrm=2.4.40')
 options=('!libtool')
 url="http://dri.freedesktop.org/"
 conflicts=('libdrm')

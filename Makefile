@@ -3,7 +3,7 @@ LOCAL=/home/packages/$(REPO)
 REMOTE=74.72.157.140:/home/serkan/public_html/arch/$(REPO)
 
 PWD=$(shell pwd)
-DIRS=$(shell ls | grep -v Makefile*)
+DIRS=$(shell ls | grep 'git')
 DATE=$(shell date +"%Y%m%d")
 TIME=$(shell date +"%H%M")
 PACMAN=yaourt
@@ -49,11 +49,12 @@ test:
 		sed -i "s/^pkgrel=[^ ]*/pkgrel=$(TIME)/" "$(PWD)/$*/PKGBUILD" ; \
 	fi ; \
 	rm -f $(PWD)/$*/*$(PKGEXT) ; \
-	cd $* ; makepkg -f || exit 1 && cd $(PWD) && \
+	cd $* ; makepkg -f || exit 1 && \
+	$(PACMAN) -U --noconfirm *$(PKGEXT) && \
+	cd $(PWD) && \
 	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
 	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) && \
 	repo-remove $(LOCAL)/$(REPO).db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') ; \
-	$(PACMAN) -U --noconfirm $*/*$(PKGEXT) && \
 	mv $*/*$(PKGEXT) $(LOCAL) && \
 	repo-add $(LOCAL)/$(REPO).db.tar.gz $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
 	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
@@ -89,68 +90,49 @@ $(DIRS):
 		$(MAKE) $@/built ; \
 	fi ; \
 
-PROTOS= \
-	bigreqsproto-git \
-	compositeproto-git \
-	damageproto-git \
-	dmxproto-git \
-	dri2proto-git \
-	fixesproto-git \
-	fontsproto-git \
-	glproto-git \
-	inputproto-git \
-	kbproto-git \
-	randrproto-git \
-	recordproto-git \
-	renderproto-git \
-	resourceproto-git \
-	scrnsaverproto-git \
-	videoproto-git \
-	xcb-proto-git \
-	xcmiscproto-git \
-	xextproto-git \
-	xf86dgaproto-git \
-	xf86driproto-git \
-	xineramaproto-git \
-	xproto-git
+PROTOS=$(shell ls | grep 'proto-git')
 
 $(PROTOS): xorg-util-macros-git
 
-libx11-git: libxcb-git xproto-git kbproto-git xorg-util-macros-git xextproto-git xtrans-git inputproto-git
+libxdmcp-git: xproto-git
 
-libxext-git: $(PROTOS) libx11-git
+libxau-git: xproto-git
+
+libxcb-git: xcb-proto-git libxdmcp-git libxau-git
+
+libx11-git: libxcb-git xproto-git kbproto-git xextproto-git xtrans-git inputproto-git
+
+libxext-git: libx11-git xextproto-git
 
 libxrender-git: libx11-git renderproto-git
 
 libxrandr-git: libxext-git libxrender-git randrproto-git
 
-libxcb-git: $(PROTOS) libxdmcp-git libxau-git
-
-libxdmcp-git: $(PROTOS)
-
-libxau-git: $(PROTOS)
-
-libxi-git: $(PROTOS) libxext-git
+libxi-git: libxext-git inputproto-git
 
 libxtst-git: $(PROTOS) libxext-git libxi-git
 
 libxt: libsm-git libx11-git
 
-libsm-git: xtrans-git
+libsm-git: libice-git xtrans-git xorg-util-macros-git
 
 libxres-git: $(PROTOS) libxext-git
 
-libdmx-git: $(PROTOS) libxext-git
+libdmx-git: dmxproto-git libxext-git
 
-libxfixes-git: $(PROTOS) libx11-git
+libxfixes-git: libx11-git fixesproto-git
 
-libxdamage-git: $(PROTOS) libxfixes-git
+libxdamage-git: libxfixes-git damageproto-git
 
-libxcomposite-git: libxfixes-git compositeproto-git xorg-util-macros-git
+libxcomposite-git: libxfixes-git compositeproto-git
 
 libxxf86vm-git: $(PROTOS) libxext-git
 
 libice: xproto-git xtrans-git
+
+libpciaccess-git: xorg-util-macros-git
+
+libdrm-git: libpciaccess-git
 
 cairo-git: libxrender-git pixman-git
 
@@ -172,13 +154,13 @@ libxv-git: libxext-git videoproto-git
 
 libfontenc-git: xproto-git
 
-libxfont-git: libfontenc-git xproto-git fontsproto-git xorg-util-macros-git xtrans-git
+libxfont-git: libfontenc-git xproto-git fontsproto-git xtrans-git
 
-libxmu-git: libxext-git libxt-git xorg-util-macros-git
+libxmu-git: libxext-git libxt-git
 
-libxpm-git: libxt-git libxext-git xorg-util-macros-git
+libxpm-git: libxt-git libxext-git
 
-libxaw-git: libxmu-git libxpm-git xorg-util-macros-git
+libxaw-git: libxmu-git libxpm-git
 
 xorg-font-util-git: xorg-util-macros-git
 
@@ -186,13 +168,13 @@ xorg-setxkbmap-git: libxkbfile-git xorg-util-macros-git
 
 xorg-server-git: $(PROTOS) libdmx-git libdrm-git libpciaccess-git libx11-git libxau-git libxaw-git libxdmcp-git libxext-git libxfixes-git libxfont-git libxi-git libxkbfile-git libxmu-git libxrender-git libxres-git libxtst-git libxv-git mesa-git pixman-git xkeyboard-config-git xorg-font-util-git xorg-setxkbmap-git xorg-util-macros-git xorg-xkbcomp-git xtrans-git
 
-xorg-xauth-git: libxmu-git xorg-util-macros-git
+xorg-xauth-git: libxmu-git
 
-xorg-xrandr-git: libxrandr-git libx11-git xorg-util-macros-git
+xorg-xrandr-git: libxrandr-git libx11-git
 
-xorg-xprop-git: libx11-git xorg-util-macros-git
+xorg-xprop-git: libx11-git
 
-xorg-xwininfo-git: libxcb-git libx11-git xorg-util-macros-git
+xorg-xwininfo-git: libxcb-git libx11-git
 
 xf86-input-evdev-git: xorg-server-git
 

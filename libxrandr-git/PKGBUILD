@@ -11,7 +11,7 @@ arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('libxext-git' 'libxrender-git' 'randrproto-git')
-makedepends=('xorg-util-macros')
+makedepends=('xorg-util-macros-git')
 options=('!libtool')
 provides=('libxrandr=1.4.0')
 conflicts=('libxrandr')

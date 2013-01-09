@@ -9,9 +9,9 @@ arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('dmxproto-git' 'libxext-git')
+makedepends=('xorg-util-macros-git')
 provides=('libdmx')
 conflicts=('libdmx')
-makedepends=('xorg-util-macros-git')
 options=('!libtool')
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libdmx"
