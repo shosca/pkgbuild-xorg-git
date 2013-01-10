@@ -1,0 +1,45 @@
+# $Id: PKGBUILD 152797 2012-03-09 16:34:16Z andyrtr $
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=libxvmc-git
+pkgver=20130110
+pkgrel=1317
+pkgdesc="X11 Video Motion Compensation extension library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libxv-git')
+makedepends=('pkgconfig')
+options=('!libtool')
+provides=('libxvmc=1.0.7')
+conflicts=('libxvmc')
+replaces=('libxvmc')
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXvMC"
+_gitname="libxvmc"
+
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR=${pkgdir} install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

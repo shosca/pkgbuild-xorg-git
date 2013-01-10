@@ -49,8 +49,8 @@ test:
 		sed -i "s/^pkgrel=[^ ]*/pkgrel=$(TIME)/" "$(PWD)/$*/PKGBUILD" ; \
 	fi ; \
 	rm -f $(PWD)/$*/*$(PKGEXT) ; \
-	cd $* ; makepkg -f || exit 1 && \
-	$(PACMAN) -U --noconfirm *$(PKGEXT) && \
+	cd $* ; makepkg -fL || exit 1 && \
+	$(PACMAN) -U --force *$(PKGEXT) && \
 	cd $(PWD) && \
 	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
 	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) && \
@@ -136,7 +136,7 @@ libdrm-git: libpciaccess-git
 
 cairo-git: libxrender-git pixman-git
 
-mesa-git: $(PROTOS) libdrm-git llvm-amdgpu-git wayland-git libxfixes-git libxdamage-git libxxf86vm-git
+mesa-git: $(PROTOS) libdrm-git llvm-amdgpu-git wayland-git libxfixes-git libxdamage-git libxxf86vm-git libxvmc-git
 
 lib32-mesa-git: $(PROTOS) lib32-libdrm-git lib32-llvm-amdgpu-git lib32-wayland-git
 
@@ -151,6 +151,8 @@ glu-git: mesa-git
 mesa-demos-git: mesa-git
 
 libxv-git: libxext-git videoproto-git
+
+libxvmc-git: libxv-git
 
 libfontenc-git: xproto-git
 
@@ -180,7 +182,11 @@ xf86-input-evdev-git: xorg-server-git
 
 xf86-input-synaptics-git: xorg-server-git
 
-xf86-video-ati-git: $(PROTOS) xorg-server-git glamor-git libdrm-git libpciaccess-git pixman-git
+xf86-video-ati-git: xorg-server-git mesa-git glamor-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
+
+xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git
+
+xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git
 
 glamor-git: xorg-server-git mesa-git
 
