@@ -3,8 +3,8 @@
 #Andreas Radke
 
 pkgname=libdrm-git
-pkgver=20130108
-pkgrel=1
+pkgver=20130109
+pkgrel=2157
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
@@ -40,7 +40,8 @@ build() {
       --enable-radeon \
       --enable-nouveau \
       --enable-vmwgfx
-  make V=1
+
+  make
 }
 
 package() {

@@ -1,8 +1,8 @@
 # Maintainer: Joel Teichroeb <joel@teichroeb.net>
 
 pkgname=lib32-wayland-git
-pkgver=20130108
-pkgrel=1
+pkgver=20130109
+pkgrel=2200
 pkgdesc="A modern display server."
 arch=(i686 x86_64)
 url="http://wayland.freedesktop.org"
