@@ -2,8 +2,8 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libxkbfile-git
-pkgver=20130108
-pkgrel=1
+pkgver=20130111
+pkgrel=1113
 pkgdesc="X11 keyboard file manipulation library"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -21,7 +21,7 @@ build() {
   cd "${srcdir}"
   msg 'Connecting to GIT server....'
   if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git checkout -f && git pull origin
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
   else
     git clone --depth 1 ${_gitroot} ${_gitname}
   fi

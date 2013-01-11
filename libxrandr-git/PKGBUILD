@@ -4,8 +4,8 @@
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
 pkgname=libxrandr-git
-pkgver=20130109
-pkgrel=1258
+pkgver=20130111
+pkgrel=1106
 pkgdesc="X11 RandR extension library"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -23,7 +23,7 @@ build() {
   cd "${srcdir}"
   msg 'Connecting to GIT server....'
   if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git checkout -f && git pull origin
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
   else
     git clone --depth 1 ${_gitroot} ${_gitname}
   fi

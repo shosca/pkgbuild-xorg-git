@@ -3,8 +3,8 @@
 # Based on [extra]'s xf86-input-evdev
 
 pkgname=xf86-input-evdev-git
-pkgver=20130110
-pkgrel=2307
+pkgver=20130111
+pkgrel=1509
 pkgdesc="X.Org evdev Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-evdev/"
@@ -23,7 +23,7 @@ build() {
   cd "${srcdir}"
   msg 'Connecting to GIT server....'
   if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git checkout -f && git pull origin
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
   else
     git clone --depth 1 ${_gitroot} ${_gitname}
   fi

@@ -3,8 +3,8 @@
 #Andreas Radke
 
 pkgname=lib32-libdrm-git
-pkgver=20130109
-pkgrel=2159
+pkgver=20130111
+pkgrel=1205
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
@@ -23,7 +23,7 @@ build() {
   cd "${srcdir}"
   msg 'Connecting to GIT server....'
   if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git checkout -f && git pull origin
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
   else
     git clone --depth 1 ${_gitroot} ${_gitname}
   fi

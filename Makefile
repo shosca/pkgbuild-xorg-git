@@ -31,10 +31,15 @@ pull:
 clean:
 	find -name '*$(PKGEXT)' -exec rm {} \;
 	find -name 'built' -exec rm {} \;
+	rm -f */*.log
 
 show:
 	@echo $(DATE)
 	@echo $(DIRS)
+
+updateversions:
+	sed -i "s/^pkgver=[^ ]*/pkgver=$(DATE)/" */PKGBUILD ; \
+	sed -i "s/^pkgrel=[^ ]*/pkgrel=$(TIME)/" */PKGBUILD
 
 build: $(DIRS)
 
@@ -50,7 +55,7 @@ test:
 	fi ; \
 	rm -f $(PWD)/$*/*$(PKGEXT) ; \
 	cd $* ; makepkg -fL || exit 1 && \
-	$(PACMAN) -U --noconfirm --force *$(PKGEXT) && \
+	yes y$$'\n' | $(PACMAN) -U --force *$(PKGEXT) && \
 	cd $(PWD) && \
 	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
 	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) && \

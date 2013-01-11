@@ -2,8 +2,8 @@
 # Based on the official cairo package
 
 pkgname=cairo-git
-pkgver=20130109
-pkgrel=1800
+pkgver=20130111
+pkgrel=1102
 pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)
 license=('LGPL' 'MPL')
@@ -22,7 +22,7 @@ build() {
   cd "${srcdir}"
   msg 'Connecting to GIT server....'
   if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git checkout -f && git pull origin
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
   else
     git clone --depth 1 ${_gitroot} ${_gitname}
   fi

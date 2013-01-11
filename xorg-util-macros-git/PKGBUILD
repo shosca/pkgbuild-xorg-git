@@ -2,8 +2,8 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=xorg-util-macros-git
-pkgver=20130108
-pkgrel=1
+pkgver=20130111
+pkgrel=1050
 pkgdesc="X.Org Autotools macros"
 arch=(any)
 license=('custom')
@@ -18,7 +18,7 @@ build() {
   cd "${srcdir}"
   msg 'Connecting to GIT server....'
   if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git checkout -f && git pull origin
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
   else
     git clone --depth 1 ${_gitroot} ${_gitname}
   fi

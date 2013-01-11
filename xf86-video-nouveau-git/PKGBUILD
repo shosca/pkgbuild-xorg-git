@@ -3,8 +3,8 @@
 # Contributor: buddabrod <buddabrod@gmail.com>
 
 pkgname=xf86-video-nouveau-git
-pkgver=20130110
-pkgrel=2307
+pkgver=20130111
+pkgrel=1511
 pkgdesc="Open Source 2D acceleration driver for nVidia cards"
 arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
@@ -24,7 +24,7 @@ build() {
   cd "${srcdir}"
   msg 'Connecting to GIT server....'
   if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git checkout -f && git pull origin
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
   else
     git clone --depth 1 ${_gitroot} ${_gitname}
   fi
