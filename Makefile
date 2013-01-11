@@ -50,7 +50,7 @@ test:
 	fi ; \
 	rm -f $(PWD)/$*/*$(PKGEXT) ; \
 	cd $* ; makepkg -fL || exit 1 && \
-	$(PACMAN) -U --force *$(PKGEXT) && \
+	$(PACMAN) -U --noconfirm --force *$(PKGEXT) && \
 	cd $(PWD) && \
 	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
 	rm -f $(addsuffix /built, $(shell grep $* Makefile | cut -d':' -f1)) && \
