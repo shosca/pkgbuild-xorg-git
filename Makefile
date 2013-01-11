@@ -136,15 +136,9 @@ libdrm-git: libpciaccess-git
 
 cairo-git: libxrender-git pixman-git
 
-mesa-git: $(PROTOS) libdrm-git llvm-amdgpu-git wayland-git libxfixes-git libxdamage-git libxxf86vm-git libxvmc-git
+mesa-git: $(PROTOS) libdrm-git llvm-amdgpu-git libxfixes-git libxdamage-git libxxf86vm-git libxvmc-git
 
-lib32-mesa-git: $(PROTOS) lib32-libdrm-git lib32-llvm-amdgpu-git lib32-wayland-git
-
-wayland-git: libdrm-git
-
-lib32-wayland-git: lib32-libdrm-git
-
-weston-git: mesa-git libxkbcommon-git pixman-git cairo-git glu-git
+lib32-mesa-git: $(PROTOS) lib32-libdrm-git lib32-llvm-amdgpu-git
 
 glu-git: mesa-git
 
