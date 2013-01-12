@@ -3,13 +3,13 @@
 
 pkgname=libxcomposite-git
 pkgver=20130111
-pkgrel=1104
+pkgrel=2050
 pkgdesc="X11 Composite extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxfixes-git' 'compositeproto-git')
-makedepends=('xorg-util-macros-git')
+depends=('libxfixes-git')
+makedepends=('xorg-util-macros-git' 'compositeproto-git')
 options=('!libtool')
 provides=('libxcomposite=0.4.4')
 conflicts=('libxcomposite')

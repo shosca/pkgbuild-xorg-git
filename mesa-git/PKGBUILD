@@ -5,7 +5,7 @@
 _mesaver=9.1
 pkgbase=mesa-git
 pkgver=20130111
-pkgrel=1448
+pkgrel=2051
 pkgname=('libglapi-git libgl-git' 'mesa-git' 'osmesa-git' 'libgbm-git' 'libgles-git' 'libegl-git' 'khrplatform-devel-git' 'ati-dri-git' 'intel-dri-git' 'svga-dri-git' 'nouveau-dri-git')
 
 arch=('i686' 'x86_64')
@@ -227,8 +227,8 @@ package_intel-dri-git() {
   provides=('intel-dri=${_mesaver}')
   conflicts=('intel-dri')
 
-  make -C ${srcdir}/?esa-*/src/mesa/drivers/dri/i915 DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/?esa-*/src/mesa/drivers/dri/i965 DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/i915 DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/i965 DESTDIR="${pkgdir}" install
 
   install -m755 -d "${pkgdir}/usr/share/licenses/intel-dri"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/intel-dri/"
@@ -241,11 +241,11 @@ package_nouveau-dri-git() {
   conflicts=('nouveau-dri')
 
   # classic mesa driver for nv10 , nv20 nouveau_vieux_dri.so
-  make -C ${srcdir}/?esa-*/src/mesa/drivers/dri/nouveau DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/nouveau DESTDIR="${pkgdir}" install
   # gallium3D driver for nv30 - nv40 - nv50 nouveau_dri.so
-  make -C ${srcdir}/?esa-*/src/gallium/targets/dri-nouveau DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/${_gitname}/src/gallium/targets/dri-nouveau DESTDIR="${pkgdir}" install
   # vdpau driver
-  make -C ${srcdir}/?esa-*/src/gallium/targets/vdpau-nouveau DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/${_gitname}/src/gallium/targets/vdpau-nouveau DESTDIR="${pkgdir}" install
 
   # install pipe loader
   install -m755 -d "${pkgdir}/usr/lib/gallium-pipe/"
@@ -262,7 +262,7 @@ package_svga-dri-git() {
   provides=('svga-dri=${_mesaver}')
   conflicts=('svga-dri')
 
-  make -C ${srcdir}/?esa-*/src/gallium/targets/dri-vmwgfx DESTDIR="${pkgdir}" install
+  make -C ${srcdir}/${_gitname}/src/gallium/targets/dri-vmwgfx DESTDIR="${pkgdir}" install
 
   # install pipe loader
   install -m755 -d "${pkgdir}/usr/lib/gallium-pipe/"
