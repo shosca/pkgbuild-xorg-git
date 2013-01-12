@@ -53,8 +53,8 @@ test:
 		sed -i "s/^pkgver=[^ ]*/pkgver=$(DATE)/" "$(PWD)/$*/PKGBUILD" ; \
 		sed -i "s/^pkgrel=[^ ]*/pkgrel=$(TIME)/" "$(PWD)/$*/PKGBUILD" ; \
 	fi ; \
-	rm -f $(PWD)/$*/*$(PKGEXT) ; \
-	cd $* ; makepkg -fL || exit 1 && \
+	rm -f $(PWD)/$*/*$(PKGEXT) $(PWD)/$*/*.log ; \
+	cd $* ; yes y$$'\n' | makepkg -sfL || exit 1 && \
 	yes y$$'\n' | $(PACMAN) -U --force *$(PKGEXT) && \
 	cd $(PWD) && \
 	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \

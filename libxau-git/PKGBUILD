@@ -3,8 +3,8 @@
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
 pkgname=libxau-git
-pkgver=20130111
-pkgrel=1051
+pkgver=20130112
+pkgrel=1229
 pkgdesc="X11 authorisation library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

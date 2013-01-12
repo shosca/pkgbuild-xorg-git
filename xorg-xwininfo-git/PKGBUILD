@@ -2,8 +2,8 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=xorg-xwininfo-git
-pkgver=20130111
-pkgrel=1106
+pkgver=20130112
+pkgrel=1236
 pkgdesc="Command-line utility to print information about windows on an X server"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

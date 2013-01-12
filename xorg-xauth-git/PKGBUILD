@@ -2,8 +2,8 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=xorg-xauth-git
-pkgver=20130111
-pkgrel=1245
+pkgver=20130112
+pkgrel=1307
 pkgdesc="X.Org authorization settings program"
 arch=(i686 x86_64)
 license=('custom')

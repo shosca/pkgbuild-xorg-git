@@ -2,8 +2,8 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libxfixes-git
-pkgver=20130111
-pkgrel=1104
+pkgver=20130112
+pkgrel=1234
 pkgdesc="X11 miscellaneous 'fixes' extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

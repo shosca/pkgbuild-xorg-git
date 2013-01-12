@@ -2,8 +2,8 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libxpm-git
-pkgver=20130111
-pkgrel=1110
+pkgver=20130112
+pkgrel=1238
 pkgdesc="X11 pixmap library"
 arch=('i686' 'x86_64')
 license=('custom')

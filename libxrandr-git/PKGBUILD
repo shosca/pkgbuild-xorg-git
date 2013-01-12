@@ -4,8 +4,8 @@
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
 pkgname=libxrandr-git
-pkgver=20130111
-pkgrel=1106
+pkgver=20130112
+pkgrel=1236
 pkgdesc="X11 RandR extension library"
 arch=('i686' 'x86_64')
 license=('custom')
