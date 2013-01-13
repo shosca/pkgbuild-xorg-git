@@ -3,7 +3,7 @@
 
 pkgname=libx11-git
 pkgver=20130112
-pkgrel=1232
+pkgrel=1907
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
