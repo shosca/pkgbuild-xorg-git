@@ -3,8 +3,8 @@
 # Contributor: Flamelab <panosfilip at gmail dot com>
 
 pkgname=glamor-git
-pkgver=20130112
-pkgrel=1918
+pkgver=20130113
+pkgrel=0727
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
