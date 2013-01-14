@@ -5,7 +5,7 @@
 _mesaver=9.1
 pkgbase=mesa-git
 pkgver=20130114
-pkgrel=0733
+pkgrel=1253
 pkgname=('libglapi-git libgl-git' 'mesa-git' 'osmesa-git' 'libgbm-git' 'libgles-git' 'libegl-git' 'khrplatform-devel-git' 'ati-dri-git' 'intel-dri-git' 'svga-dri-git' 'nouveau-dri-git')
 
 arch=('i686' 'x86_64')

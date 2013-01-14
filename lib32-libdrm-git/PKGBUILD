@@ -3,8 +3,8 @@
 #Andreas Radke
 
 pkgname=lib32-libdrm-git
-pkgver=20130113
-pkgrel=0727
+pkgver=20130114
+pkgrel=1306
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
