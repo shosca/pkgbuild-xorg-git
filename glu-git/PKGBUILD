@@ -1,8 +1,8 @@
 # Maintainer: Christoph Haag <haagch at studi.informatik.uni-stuttgart.de>
 
 pkgname=glu-git
-pkgver=20130113
-pkgrel=0727
+pkgver=20130114
+pkgrel=0746
 pkgdesc="GL utility library for mesa builds from git after 2012-08-31"
 arch=('i686' 'x86_64')
 url="http://mesa.freedesktop.org/"

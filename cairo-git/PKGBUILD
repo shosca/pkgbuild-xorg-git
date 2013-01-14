@@ -2,8 +2,8 @@
 # Based on the official cairo package
 
 pkgname=cairo-git
-pkgver=20130113
-pkgrel=2021
+pkgver=20130114
+pkgrel=0731
 pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)
 license=('LGPL' 'MPL')
