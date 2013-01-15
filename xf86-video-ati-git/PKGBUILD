@@ -3,8 +3,8 @@
 # Contributor: Flamelab <panosfilip at gmail dot com>
 
 pkgname=xf86-video-ati-git
-pkgver=20130114
-pkgrel=2043
+pkgver=20130115
+pkgrel=0828
 pkgdesc="X.org ati video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

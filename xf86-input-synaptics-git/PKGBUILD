@@ -3,8 +3,8 @@
 # Based on [extra]'s xf86-input-synaptics
 
 pkgname=xf86-input-synaptics-git
-pkgver=20130114
-pkgrel=2042
+pkgver=20130115
+pkgrel=0828
 pkgdesc="X.Org synaptics Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-synaptics/"
