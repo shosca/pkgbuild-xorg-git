@@ -1,16 +1,17 @@
 # $Id: PKGBUILD 174256 2013-01-03 11:42:05Z jgc $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.1.4
 pkgname=libxdamage-git
 pkgver=20130116
-pkgrel=1059
+pkgrel=1508
 pkgdesc="X11 damaged region extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libxfixes-git' 'damageproto-git')
 makedepends=('pkg-config')
-provides=('libxdamage=1.1.4')
+provides=('libxdamage=${_realver}')
 conflicts=('libxdamage')
 options=('!libtool')
 
@@ -41,3 +42,5 @@ package() {
   make DESTDIR="${pkgdir}" install
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
+# vim: ft=sh syn=sh et
+

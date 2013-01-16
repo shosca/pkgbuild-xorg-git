@@ -2,6 +2,7 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
+_realver=1.2.2
 pkgname=xcmiscproto-git
 pkgver=20130116
 pkgrel=1102
@@ -10,7 +11,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros' 'git')
-provides=('xcmiscproto=1.2.2')
+provides=('xcmiscproto=${_realver}')
 conflicts=('xcmiscproto')
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/xcmiscproto'
@@ -36,8 +37,8 @@ build() {
 
 package() {
   cd "${srcdir}/${_gitname}"
-  make DESTDIR="$pkgdir" install
-  install -D -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+  make DESTDIR="${pkgdir}" install
+  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 # vim: ft=sh syn=sh et

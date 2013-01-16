@@ -1,6 +1,7 @@
 # $Id: PKGBUILD 154130 2012-03-23 17:11:54Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.2.7
 pkgname=xtrans-git
 pkgver=20130116
 pkgrel=1052
@@ -9,7 +10,7 @@ arch=('any')
 license=('custom')
 url="http://xorg.freedesktop.org/"
 options=(!emptydirs)
-provides=('xtrans=1.2.7')
+provides=('xtrans=${_realver}')
 conflicts=('xtrans')
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libxtrans"
@@ -40,3 +41,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/lib"
   mv "${pkgdir}/usr/share/pkgconfig" "${pkgdir}/usr/lib/pkgconfig"
 }
+
+# vim: ft=sh syn=sh et

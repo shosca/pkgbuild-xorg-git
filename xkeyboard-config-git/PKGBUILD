@@ -2,6 +2,7 @@
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=2.7.99
 pkgname=xkeyboard-config-git
 pkgver=20130116
 pkgrel=1156
@@ -11,7 +12,7 @@ license=('custom')
 url="http://www.freedesktop.org/wiki/Software/XKeyboardConfig"
 depends=('xorg-xkbcomp')
 makedepends=('intltool')
-provides=('xkbdata' 'xkeyboard-config=2.7.99')
+provides=('xkbdata' 'xkeyboard-config=${_realver}')
 replaces=('xkbdata')
 conflicts=('xkbdata' 'xkeyboard-config')
 
@@ -47,3 +48,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+
+# vim: ft=sh syn=sh et

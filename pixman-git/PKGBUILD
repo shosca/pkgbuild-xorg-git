@@ -1,7 +1,6 @@
 # Maintainer: aboe76 AT gmail DOT com>
 # contribution: EdwardXXIV
 
-_realname=pixman
 _realver=0.29.1
 pkgname=pixman-git
 pkgver=20130116
@@ -43,6 +42,8 @@ build() {
 package() {
   cd "$srcdir/$_gitname"
   make DESTDIR="$pkgdir/" install
-  install -m755 -d "${pkgdir}/usr/share/licenses/${_realname}"
-  install -m644 COPYING "${pkgdir}/usr/share/licenses/${_realname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+
+# vim: ft=sh syn=sh et

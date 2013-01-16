@@ -1,9 +1,10 @@
 # $Id: PKGBUILD 130748 2011-07-07 22:27:50Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.2.1
 pkgname=xorg-xprop-git
 pkgver=20130116
-pkgrel=1100
+pkgrel=1509
 pkgdesc="Property displayer for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
@@ -11,7 +12,7 @@ license=('custom')
 depends=('libx11-git')
 makedepends=('xorg-util-macros-git')
 groups=('xorg-apps' 'xorg')
-provides=('xorg-xprop=1.2.1')
+provides=('xorg-xprop=${_realver}')
 conflicts=('xorg-xprop')
 
 _gitroot="git://anongit.freedesktop.org/xorg/app/xprop"
@@ -41,3 +42,6 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+
+# vim: ft=sh syn=sh et
+

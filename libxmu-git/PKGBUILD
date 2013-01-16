@@ -1,9 +1,10 @@
 # $Id: PKGBUILD 152301 2012-03-06 15:00:25Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.1.1
 pkgname=libxmu-git
 pkgver=20130116
-pkgrel=1106
+pkgrel=1511
 pkgdesc="X11 miscellaneous micro-utility library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -11,7 +12,7 @@ depends=('libxext-git' 'libxt-git')
 makedepends=('xorg-util-macros-git')
 license=('custom')
 options=('!libtool')
-provides=('libxmu=1.1.1')
+provides=('libxmu=${_realver}')
 conflicts=('libxmu')
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXmu"
@@ -42,3 +43,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+# vim: ft=sh syn=sh et
+

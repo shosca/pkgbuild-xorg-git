@@ -2,10 +2,10 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
-_mesaver=9.1.0
+_realver=9.1.0
 pkgbase=mesa-git
 pkgver=20130116
-pkgrel=1141
+pkgrel=1808
 pkgname=('libglapi-git libgl-git' 'mesa-git' 'osmesa-git' 'libgbm-git' 'libgles-git' 'libegl-git' 'khrplatform-devel-git' 'ati-dri-git' 'intel-dri-git' 'svga-dri-git' 'nouveau-dri-git')
 
 arch=('i686' 'x86_64')
@@ -68,7 +68,7 @@ build() {
 package_libglapi-git() {
   depends=('glibc')
   pkgdesc="free implementation of the GL API -- shared library. The Mesa GL API module is responsible for dispatching all the gl* functions"
-  provides=('libglapi=${_mesaver}')
+  provides=('libglapi=${_realver}')
   conflicts=('libglapi')
 
   make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
@@ -78,9 +78,9 @@ package_libglapi-git() {
 }
 
 package_libgl-git() {
-  depends=('libdrm>=2.4.39' 'libxxf86vm>=1.1.2' 'libxdamage>=1.1.3' 'expat>=2.1.0' 'libglapi>=${_mesaver}' 'gcc-libs')
+  depends=('libdrm-git' 'libxxf86vm>=1.1.2' 'libxdamage>=1.1.3' 'expat>=2.1.0' 'libglapi-git' 'gcc-libs')
   pkgdesc="Mesa 3-D graphics library and DRI software rasterizer"
-  provides=('libgl=${_mesaver}')
+  provides=('libgl=${_realver}')
   conflicts=('libgl')
 
   make -C ${srcdir}/${_gitname}/src/glx DESTDIR="${pkgdir}" install
@@ -97,10 +97,10 @@ package_libgl-git() {
 }
 
 package_mesa-git() {
-  depends=('libgl>=${_mesaver}' 'libx11>=1.5.0' 'libxext>=1.3.1' 'libxdamage' 'libxfixes' 'libxcb' 'libxxf86vm')
+  depends=('libgl-git' 'libx11>=1.5.0' 'libxext>=1.3.1' 'libxdamage' 'libxfixes' 'libxcb' 'libxxf86vm')
   optdepends=('opengl-man-pages: for the OpenGL API man pages')
   pkgdesc="Mesa 3-D graphics libraries and include files"
-  provides=('mesa=${_mesaver}')
+  provides=('mesa=${_realver}')
   conflicts=('mesa')
 
   make -C ${srcdir}/${_gitname}/src/mesa DESTDIR="${pkgdir}" install-glHEADERS
@@ -115,10 +115,10 @@ package_mesa-git() {
 }
 
 package_osmesa-git() {
-  depends=('libglapi>=${_mesaver}' 'gcc-libs')
+  depends=('libglapi-git' 'gcc-libs')
   optdepends=('opengl-man-pages: for the OpenGL API man pages')
   pkgdesc="Mesa 3D off-screen rendering library"
-  provides=('osmesa=${_mesaver}')
+  provides=('osmesa=${_realver}')
   conflicts=('osmesa')
 
   make -C ${srcdir}/${_gitname}/src/mesa/drivers/osmesa DESTDIR="${pkgdir}" install
@@ -128,9 +128,9 @@ package_osmesa-git() {
 }
 
 package_libgbm-git() {
-  depends=('systemd' 'libglapi>=${_mesaver}' 'libdrm')
+  depends=('systemd' 'libglapi-git' 'libdrm-git')
   pkgdesc="Mesa gbm library"
-  provides=('libgbm=${_mesaver}')
+  provides=('libgbm=${_realver}')
   conflicts=('libgbm')
 
   make -C ${srcdir}/${_gitname}/src/gbm DESTDIR="${pkgdir}" install
@@ -140,9 +140,9 @@ package_libgbm-git() {
 }
 
 package_libgles-git() {
-  depends=('libglapi' 'libdrm' 'khrplatform-devel')
+  depends=('libglapi-git' 'libdrm-git' 'khrplatform-devel-git')
   pkgdesc="Mesa GLES libraries and headers"
-  provides=('libgles=${_mesaver}')
+  provides=('libgles=${_realver}')
   conflicts=('libgles')
 
   make -C ${srcdir}/${_gitname}/src/mapi/es1api DESTDIR="${pkgdir}" install
@@ -154,9 +154,9 @@ package_libgles-git() {
 
 package_libegl-git() {
   # check also egl.pc
-  depends=('libx11' 'libxext' 'libxdamage' 'libxfixes' 'libxxf86vm' 'libxcb' 'libgbm' 'khrplatform-devel')
+  depends=('libx11' 'libxext' 'libxdamage' 'libxfixes' 'libxxf86vm' 'libxcb' 'libgbm-git' 'khrplatform-devel-git')
   pkgdesc="Mesa EGL libraries and headers"
-  provides=('libegl=${_mesaver}')
+  provides=('libegl=${_realver}')
   conflicts=('libegl')
 
   # fix link with libllvmradeon9.1
@@ -179,7 +179,7 @@ package_libegl-git() {
 
 package_khrplatform-devel-git() {
   pkgdesc="Khronos platform development package"
-  provides=('khrplatform-devel=${_mesaver}')
+  provides=('khrplatform-devel=${_realver}')
   conflicts=('khrplatform-devel')
 
   install -m755 -d "${pkgdir}/usr/include/KHR"
@@ -192,7 +192,7 @@ package_khrplatform-devel-git() {
 package_ati-dri-git() {
   depends=("libgl-git")
   pkgdesc="Mesa DRI radeon/r200 + Gallium3D r300,r600 drivers for AMD/ATI Radeon"
-  provides=('ati-dri=${_mesaver}')
+  provides=('ati-dri=${_realver}')
   conflicts=('ati-dri' 'xf86-video-ati<6.9.0-6')
 
   # classic mesa drivers for radeon,r200
@@ -224,7 +224,7 @@ package_ati-dri-git() {
 package_intel-dri-git() {
   depends=("libgl-git")
   pkgdesc="Mesa DRI drivers for Intel"
-  provides=('intel-dri=${_mesaver}')
+  provides=('intel-dri=${_realver}')
   conflicts=('intel-dri')
 
   make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/i915 DESTDIR="${pkgdir}" install
@@ -237,7 +237,7 @@ package_intel-dri-git() {
 package_nouveau-dri-git() {
   depends=("libgl-git")
   pkgdesc="Mesa classic DRI + Gallium3D drivers for Nouveau"
-  provides=('nouveau-dri=${_mesaver}')
+  provides=('nouveau-dri=${_realver}')
   conflicts=('nouveau-dri')
 
   # classic mesa driver for nv10 , nv20 nouveau_vieux_dri.so
@@ -257,9 +257,9 @@ package_nouveau-dri-git() {
 }
 
 package_svga-dri-git() {
-  depends=('gcc-libs' 'libdrm' 'expat')
+  depends=('gcc-libs' 'libdrm-git' 'expat')
   pkgdesc="Gallium3D VMware guest GL driver"
-  provides=('svga-dri=${_mesaver}')
+  provides=('svga-dri=${_realver}')
   conflicts=('svga-dri')
 
   make -C ${srcdir}/${_gitname}/src/gallium/targets/dri-vmwgfx DESTDIR="${pkgdir}" install
@@ -272,3 +272,5 @@ package_svga-dri-git() {
   install -m755 -d "${pkgdir}/usr/share/licenses/svga-dri"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/svga-dri/"
 }
+
+# vim: ft=sh syn=sh et

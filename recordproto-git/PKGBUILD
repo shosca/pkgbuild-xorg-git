@@ -2,6 +2,7 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
+_realver=1.14.2
 pkgname=recordproto-git
 pkgver=20130116
 pkgrel=1102
@@ -10,7 +11,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros' 'git')
-provides=('recordproto=1.14.2')
+provides=('recordproto=${_realver}')
 conflicts=('recordproto')
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/recordproto'

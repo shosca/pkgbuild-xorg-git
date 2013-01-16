@@ -1,9 +1,10 @@
 # $Id: PKGBUILD 154156 2012-03-23 20:01:59Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.2.4
 pkgname=xorg-xkbcomp-git
 pkgver=20130116
-pkgrel=1157
+pkgrel=1527
 pkgdesc="X Keyboard description compiler"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
@@ -41,3 +42,6 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+
+# vim: ft=sh syn=sh et
+

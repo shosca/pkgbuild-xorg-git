@@ -1,6 +1,7 @@
 # $Id: PKGBUILD 150979 2012-02-24 12:29:18Z allan $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.0.4
 pkgname=xorg-bdftopcf-git
 pkgver=20130116
 pkgrel=1241
@@ -11,7 +12,7 @@ license=('custom')
 depends=('libxfont-git')
 makedepends=('xorg-util-macros-git' 'xproto-git')
 groups=('xorg' 'xorg-apps')
-provides=('xorg-bdftopcf=1.0.4')
+provides=('xorg-bdftopcf=${_realver}')
 replaces=('xorg-bdftopcf')
 conflicts=('xorg-bdftopcf')
 
@@ -40,3 +41,6 @@ package() {
 
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
+
+# vim: ft=sh syn=sh et
+

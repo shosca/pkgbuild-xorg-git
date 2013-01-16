@@ -2,6 +2,7 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
+_realver=2.1
 pkgname=xf86dgaproto-git
 pkgver=20130116
 pkgrel=1103
@@ -10,7 +11,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros' 'git')
-provides=('xf86dgaproto=2.1')
+provides=('xf86dgaproto=${_realver}')
 conflicts=('xf86dgaproto')
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/xf86dgaproto'

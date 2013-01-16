@@ -1,15 +1,16 @@
 # Maintainer: Perry3D <perry3d@gmail.com>
 
+_realver=8.0.1
 pkgname=mesa-demos-git
 pkgver=20130116
-pkgrel=1238
+pkgrel=1825
 pkgdesc="The mesa demos (glxinfo, glxgears, ...), built from the git master branch."
 arch=(i686 x86_64)
 url="http://mesa3d.org/"
 license=('LGPL')
 depends=('mesa-git' 'glew' 'glut')
 makedepends=('git')
-provides=('mesa-demos=8.0.1')
+provides=('mesa-demos=${_realver}')
 replaces=('mesa-demos')
 conflicts=('mesa-demos')
 options=()
@@ -36,3 +37,6 @@ build() {
   make -C src/xdemos || return 1
   make -C src/xdemos DESTDIR="${pkgdir}" install || return 1
 }
+
+# vim: ft=sh syn=sh et
+

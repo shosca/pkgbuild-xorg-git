@@ -108,3 +108,5 @@ package() {
   install -d "$pkgdir"/usr/bin
   mv "$pkgdir/usr/lib32/llvm-config" "$pkgdir/usr/bin/llvm-config32"
 }
+# vim: ft=sh syn=sh et
+

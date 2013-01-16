@@ -1,6 +1,7 @@
 # $Id: PKGBUILD 151781 2012-03-02 18:55:43Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.4.5
 pkgname=libxfont-git
 pkgver=20130116
 pkgrel=1107
@@ -11,7 +12,7 @@ license=('custom')
 depends=('freetype2' 'libfontenc-git' 'xproto-git' 'fontsproto-git')
 makedepends=('xorg-util-macros-git' 'xtrans-git')
 options=('!libtool')
-provides=('libxfont=1.4.5')
+provides=('libxfont=${_realver}')
 conflicts=('libxfont')
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXfont"
@@ -41,3 +42,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+# vim: ft=sh syn=sh et
+

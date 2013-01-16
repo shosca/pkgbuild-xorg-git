@@ -2,6 +2,7 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
+_realver=1.2.1
 pkgname=damageproto-git
 pkgver=20130116
 pkgrel=1059
@@ -10,7 +11,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
-provides=('damageproto=1.2.1')
+provides=('damageproto=${_realver}')
 conflicts=('damageproto')
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/damageproto'
@@ -41,3 +42,4 @@ package() {
 }
 
 # vim: ft=sh syn=sh et
+

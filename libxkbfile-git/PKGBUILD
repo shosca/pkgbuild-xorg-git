@@ -1,6 +1,7 @@
 # $Id: PKGBUILD 152781 2012-03-09 16:19:36Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.0.8
 pkgname=libxkbfile-git
 pkgver=20130116
 pkgrel=1108
@@ -11,7 +12,7 @@ url="http://xorg.freedesktop.org/"
 depends=('libx11-git')
 makedepends=('xorg-util-macros-git')
 options=('!libtool')
-provides=('libxkbfile=1.0.8')
+provides=('libxkbfile=${_realver}')
 conflicts=('libxkbfile')
 
 _gitroot='git://anongit.freedesktop.org/xorg/lib/libxkbfile'
@@ -42,3 +43,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+# vim: ft=sh syn=sh et
+

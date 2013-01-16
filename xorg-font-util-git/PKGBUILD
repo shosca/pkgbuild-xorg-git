@@ -2,9 +2,10 @@
 # Contributor: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Gaetan Bisson <bisson@archlinux.org>
 
+_realver=1.3.0
 pkgname=xorg-font-util-git
 pkgver=20130116
-pkgrel=1156
+pkgrel=1527
 pkgdesc='X.Org font utilities'
 url='http://xorg.freedesktop.org/'
 arch=('i686' 'x86_64')
@@ -12,7 +13,7 @@ license=('custom')
 makedepends=('xorg-util-macros-git')
 
 replaces=('font-util')
-provides=('font-util' 'xorg-font-util=1.3.0')
+provides=('font-util' 'xorg-font-util=${_realver}')
 conflicts=('font-util' 'xorg-font-util')
 groups=('xorg-fonts' 'xorg')
 
@@ -47,3 +48,6 @@ package() {
   make DESTDIR="${pkgdir}" install
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
+
+# vim: ft=sh syn=sh et
+

@@ -2,9 +2,10 @@
 # Contributor: <Eugeny Borisov flekst@gmail.com>
 # Based on [extra]'s xf86-input-synaptics
 
+_realver=1.6.99
 pkgname=xf86-input-synaptics-git
 pkgver=20130116
-pkgrel=1239
+pkgrel=1826
 pkgdesc="X.Org synaptics Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-synaptics/"
@@ -13,8 +14,8 @@ depends=('glibc')
 makedepends=('xorg-server-devel-git' 'xf86driproto-git' 'glproto-git' 'git')
 options=('!libtool' '!makeflags')
 groups=('xorg-drivers' 'xorg')
-provides=("xf86-input-synaptics=1.6.99")
-conflicts=("xf86-input-synaptics" 'xorg-server<1.10.99.902')
+provides=('xf86-input-synaptics=${_realver}')
+conflicts=('xf86-input-synaptics' 'xorg-server<1.10.99.902')
 backup=('etc/X11/xorg.conf.d/10-synaptics.conf')
 source=(10-synaptics.conf)
 md5sums=('3b81a81b958dfe3cac3cdef7ee85f1ce')
@@ -50,3 +51,5 @@ package(){
 
   rm -rf "${pkgdir}/usr/share/X11"
 }
+
+# vim: ft=sh syn=sh et

@@ -2,6 +2,7 @@
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.0.8
 pkgname=libice-git
 pkgver=20130116
 pkgrel=1236
@@ -12,7 +13,7 @@ depends=('glibc' 'xproto-git')
 makedepends=('pkgconfig' 'xtrans-git')
 options=('!libtool')
 license=('custom')
-provides=('libice=1.0.8')
+provides=('libice=${_realver}')
 conflicts=('libice')
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libICE"
@@ -42,3 +43,5 @@ package() {
 
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
+# vim: ft=sh syn=sh et
+

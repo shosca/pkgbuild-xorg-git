@@ -1,6 +1,7 @@
 # $Id: PKGBUILD 152771 2012-03-09 16:07:19Z andyrtr $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.1.1
 pkgname=libxdmcp-git
 pkgver=20130116
 pkgrel=1045
@@ -10,7 +11,7 @@ url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('xproto-git' 'glibc')
 makedepends=('xorg-util-macros-git')
-provides=('libxdmcp=1.1.1')
+provides=('libxdmcp=${_realver}')
 conflicts=('libxdmcp')
 options=('!libtool')
 
@@ -42,3 +43,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+# vim: ft=sh syn=sh et
+

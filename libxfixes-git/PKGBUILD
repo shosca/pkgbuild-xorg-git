@@ -1,14 +1,15 @@
 # $Id: PKGBUILD 151418 2012-02-26 10:42:43Z pierre $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=5.0
 pkgname=libxfixes-git
 pkgver=20130116
-pkgrel=1058
+pkgrel=1507
 pkgdesc="X11 miscellaneous 'fixes' extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-provides=('libxfixes=5.0')
+provides=('libxfixes=${_realver}')
 conflicts=('libxfixes')
 depends=('libx11-git' 'fixesproto-git')
 makedepends=('xorg-util-macros-git')
@@ -42,3 +43,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+# vim: ft=sh syn=sh et
+

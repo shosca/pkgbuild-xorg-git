@@ -2,18 +2,19 @@
 #Jan de Groot
 #Andreas Radke
 
+_realver=2.4.41
 pkgname=lib32-libdrm-git
 pkgver=20130116
-pkgrel=1202
+pkgrel=1531
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
 groups=('lib32')
 depends=('lib32-libpciaccess')
-provides=('lib32-libdrm=2.4.41')
 makedepends=('gcc-multilib' 'git' 'cairo' 'udev')
 options=('!libtool')
 url="http://dri.freedesktop.org/"
+provides=('lib32-libdrm=${_realver}')
 conflicts=('lib32-libdrm')
 
 _gitroot='git://git.freedesktop.org/git/mesa/drm'
@@ -53,3 +54,5 @@ package() {
   make DESTDIR="$pkgdir" install
   rm -rf "${pkgdir}/usr/include" "${pkgdir}/usr/share"
 }
+# vim: ft=sh syn=sh et
+

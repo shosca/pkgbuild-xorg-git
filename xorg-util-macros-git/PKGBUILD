@@ -1,6 +1,7 @@
 # $Id: PKGBUILD 153461 2012-03-14 17:38:45Z andyrtr $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.17
 pkgname=xorg-util-macros-git
 pkgver=20130116
 pkgrel=1044
@@ -8,7 +9,7 @@ pkgdesc="X.Org Autotools macros"
 arch=(any)
 license=('custom')
 url="http://xorg.freedesktop.org/"
-provides=('xorg-util-macros=1.17')
+provides=('xorg-util-macros=${_realver}')
 conflicts=('xorg-util-macros')
 
 _gitroot="git://anongit.freedesktop.org/xorg/util/macros"
@@ -41,3 +42,6 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+
+# vim: ft=sh syn=sh et
+

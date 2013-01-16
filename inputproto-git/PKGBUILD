@@ -1,6 +1,7 @@
 # Maintainer: kfgz <kfgz at interia pl>
 # Contributor: Cilyan Olowen <gaknar at gmail dot com>
 
+_realver=2.2.99.1
 pkgname=inputproto-git
 pkgver=20130116
 pkgrel=1052
@@ -8,7 +9,7 @@ pkgdesc="X11 input extension wire protocol"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-provides=('inputproto=2.2.99.1')
+provides=('inputproto=${_realver}')
 makedepends=('xorg-util-macros-git' 'git')
 conflicts=('inputproto')
 #groups=('xorg')
@@ -41,3 +42,6 @@ package() {
   install -m644 "${srcdir}"/${_gitname-build}/COPYING \
                 "${pkgdir}"/usr/share/licenses/${pkgname}/
 }
+
+# vim: ft=sh syn=sh et
+

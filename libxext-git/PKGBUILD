@@ -1,16 +1,17 @@
 # $Id: PKGBUILD 152773 2012-03-09 16:10:15Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.3.1
 pkgname=libxext-git
 pkgver=20130116
-pkgrel=1059
+pkgrel=1508
 pkgdesc="X11 miscellaneous extensions library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libx11-git' 'xextproto-git')
 makedepends=('xorg-util-macros-git')
-provides=('libxext=1.3.1')
+provides=('libxext=${_1.3.1}')
 conflicts=('libxext')
 options=('!libtool')
 
@@ -42,3 +43,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+# vim: ft=sh syn=sh et
+

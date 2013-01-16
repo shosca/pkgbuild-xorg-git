@@ -2,15 +2,16 @@
 #Jan de Groot
 #Andreas Radke
 
+_realver=2.4.41
 pkgname=libdrm-git
 pkgver=20130116
-pkgrel=1104
+pkgrel=1510
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
 depends=('libpciaccess-git')
 makedepends=('git' 'cairo-git' 'udev' 'valgrind')
-provides=('libdrm=2.4.41')
+provides=('libdrm=${_realver}')
 options=('!libtool')
 url="http://dri.freedesktop.org/"
 conflicts=('libdrm')
@@ -48,3 +49,5 @@ package() {
   cd "$srcdir/$_gitname"
   make DESTDIR="$pkgdir" install
 }
+# vim: ft=sh syn=sh et
+

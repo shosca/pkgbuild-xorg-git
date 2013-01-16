@@ -2,6 +2,7 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
+_realver=2.3.1
 pkgname=videoproto-git
 pkgver=20130116
 pkgrel=1102
@@ -10,7 +11,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros' 'git')
-provides=('videoproto=2.3.1')
+provides=('videoproto=${_realver}')
 conflicts=('videoproto')
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/videoproto'
@@ -39,5 +40,4 @@ package() {
   make DESTDIR="$pkgdir" install
   install -D -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
 }
-
 # vim: ft=sh syn=sh et

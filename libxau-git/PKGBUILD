@@ -2,6 +2,7 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
+_realver=1.0.7
 pkgname=libxau-git
 pkgver=20130116
 pkgrel=1045
@@ -9,7 +10,7 @@ pkgdesc="X11 authorisation library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 depends=('glibc' 'xproto-git')
-provides=('libxau=1.0.7')
+provides=('libxau=${_realver}')
 conflicts=('libxau')
 makedepends=('pkgconfig')
 license=('custom')
@@ -42,3 +43,5 @@ package() {
 
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
+# vim: ft=sh syn=sh et
+

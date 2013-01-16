@@ -1,16 +1,17 @@
 # $Id: PKGBUILD 152803 2012-03-09 17:01:00Z andyrtr $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.1.2
 pkgname=libdmx-git
 pkgver=20130116
-pkgrel=1103
+pkgrel=1510
 pkgdesc="X11 Distributed Multihead extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('dmxproto-git' 'libxext-git')
 makedepends=('xorg-util-macros-git')
-provides=('libdmx=1.1.2')
+provides=('libdmx=${_realver}')
 conflicts=('libdmx')
 options=('!libtool')
 
@@ -42,3 +43,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+# vim: ft=sh syn=sh et
+

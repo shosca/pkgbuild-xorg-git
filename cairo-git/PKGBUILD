@@ -1,9 +1,10 @@
 # Maintainer: dx <dx@dxzone.com.ar>
 # Based on the official cairo package
 
+_realver=1.12.99
 pkgname=cairo-git
 pkgver=20130116
-pkgrel=1056
+pkgrel=1806
 pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)
 license=('LGPL' 'MPL')
@@ -11,7 +12,7 @@ url="http://cairographics.org/"
 depends=('libpng>=1.4.0' 'libxrender-git' 'fontconfig>=2.8.0' 'pixman-git' 'xcb-util>=0.3.6' 'glib2>=2.24.0')
 makedepends=('gtk-doc' 'git')
 options=('!libtool')
-provides=('cairo=1.12.99' 'cairo-xcb=1.12.99')
+provides=('cairo=${_realver}' 'cairo-xcb=${_realver}')
 replaces=('cairo')
 conflicts=('cairo' 'cairo-xcb')
 
@@ -32,7 +33,6 @@ build() {
   cd "${srcdir}/${_gitname}"
 
 
-
   ./autogen.sh \
     --prefix=/usr \
     --sysconfdir=/etc \
@@ -48,3 +48,6 @@ package(){
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
 }
+
+# vim: ft=sh syn=sh et
+

@@ -2,16 +2,17 @@
 # Previous Contributor: vbmithr
 # Contributor: Flamelab <panosfilip at gmail dot com>
 
+_realver=0.5.0
 pkgname=glamor-git
 pkgver=20130116
-pkgrel=1201
+pkgrel=1819
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 depends=('glibc' 'mesa-git' 'libdrm-git' 'libx11-git')
 makedepends=('glibc' 'xorg-server-devel-git' 'xf86driproto-git' 'glproto-git')
+provides=('glamor=${_realver}')
 conflicts=('glamor')
-provides=('glamor=0.5.0')
 options=('!libtool')
 license=('custom')
 
@@ -46,3 +47,7 @@ package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install 
 }
+
+
+# vim: ft=sh syn=sh et
+

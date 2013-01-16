@@ -1,9 +1,10 @@
 # $Id: PKGBUILD 158868 2012-05-12 16:25:29Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.6.99.1
 pkgname=libxi-git
 pkgver=20130116
-pkgrel=1108
+pkgrel=1513
 pkgdesc="X11 Input extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"
@@ -11,7 +12,7 @@ depends=('libxext-git' 'inputproto-git')
 makedepends=('pkgconfig' 'xorg-util-macros-git')
 options=(!libtool)
 license=('custom')
-provides=('libxi=1.6.99.1')
+provides=('libxi=${_realver}')
 conflicts=('libxi')
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXi"
@@ -42,3 +43,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+# vim: ft=sh syn=sh et
+

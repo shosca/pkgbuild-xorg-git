@@ -1,5 +1,6 @@
 # Maintainer: Joel Teichroeb <joel@teichroeb.net>
 
+_realver=0.2.0
 pkgname=libxkbcommon-git
 pkgver=20130116
 pkgrel=1237
@@ -8,7 +9,7 @@ url="http://xkbcommon.org/"
 arch=(i686 x86_64)
 license=('custom')
 makedepends=('git' 'xorg-util-macros-git' 'xkeyboard-config')
-provides=('libxkbcommon=0.2.0')
+provides=('libxkbcommon=${_realver}')
 replaces=('libxkbcommon')
 conflicts=('libxkbcommon')
 options=(!libtool)
@@ -37,3 +38,5 @@ package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
 }
+# vim: ft=sh syn=sh et
+

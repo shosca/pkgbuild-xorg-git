@@ -1,6 +1,7 @@
 # $Id: PKGBUILD 151850 2012-03-03 13:43:52Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.2.1
 pkgname=libsm-git
 pkgver=20130116
 pkgrel=1237
@@ -11,7 +12,7 @@ url="http://xorg.freedesktop.org/"
 depends=('libice-git' 'util-linux-ng')
 makedepends=('xorg-util-macros-git' 'xtrans-git')
 options=('!libtool')
-provides=('libsm=1.2.1')
+provides=('libsm=${_realver}')
 conflicts=('libsm')
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libSM"
@@ -41,3 +42,5 @@ package() {
 
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
+# vim: ft=sh syn=sh et
+

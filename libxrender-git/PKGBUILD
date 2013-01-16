@@ -1,15 +1,16 @@
 # $Id: PKGBUILD 152786 2012-03-09 16:24:03Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=0.9.7
 pkgname=libxrender-git
 pkgver=20130116
-pkgrel=1055
+pkgrel=1505
 pkgdesc="X Rendering Extension client library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libx11-git' 'renderproto-git')
-provides=('libxrender=0.9.7')
+provides=('libxrender=${_realver}')
 conflicts=('libxrender')
 makedepends=('pkgconfig')
 options=('!libtool')
@@ -40,3 +41,6 @@ package() {
   make DESTDIR=${pkgdir} install
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
+
+# vim: ft=sh syn=sh et
+

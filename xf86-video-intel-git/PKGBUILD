@@ -4,16 +4,17 @@
 # Contributor: fs4000 <matthias_dienstbier[at]yahoo[dot]de>
 # Contributor: William Heinbockel <wheinbockel[at]gmail[dot]com>
 
+_realver=2.20.17
 pkgname=xf86-video-intel-git
 pkgver=20130116
-pkgrel=1240
+pkgrel=1827
 pkgdesc='X.org Intel i810/i830/i915/945G/G965+ video drivers'
 arch=('i686' 'x86_64')
 url='http://intellinuxgraphics.org/'
 license=('custom')
 depends=('mesa-git' 'libxvmc-git' 'libpciaccess-git' 'libdrm-git' 'dri2proto-git' 'xcb-util' 'libxfixes-git' 'udev')
 makedepends=('git' 'xorg-server-devel-git' 'libx11-git' 'xf86driproto-git' 'glproto-git' 'resourceproto-git')
-provides=('xf86-video-intel=2.20.17')
+provides=('xf86-video-intel=${_realver}')
 conflicts=('xf86-video-intel')
 options=('!libtool')
 
@@ -47,3 +48,6 @@ package() {
 
   install -D -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
 }
+
+# vim: ft=sh syn=sh et
+

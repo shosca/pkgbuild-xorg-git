@@ -2,15 +2,16 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
+_realver=1.9
 pkgname=libxcb-git
 pkgver=20130116
-pkgrel=1045
+pkgrel=1456
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xcb.freedesktop.org/"
 depends=('xcb-proto-git' 'libxdmcp-git' 'libxau-git')
 makedepends=('pkgconfig' 'libxslt' 'python2')
-provides=('libxcb=1.9')
+provides=('libxcb=${_realver}')
 conflicts=('libxcb')
 options=('!libtool')
 license=('custom')
@@ -49,3 +50,5 @@ package() {
   install -m755 -d "$pkgdir/usr/share/licenses/$pkgname"
   install -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname"
 }
+# vim: ft=sh syn=sh et
+

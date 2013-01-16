@@ -1,9 +1,10 @@
 # $Id: PKGBUILD 152783 2012-03-09 16:22:06Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=3.5.10
 pkgname=libxpm-git
 pkgver=20130116
-pkgrel=1106
+pkgrel=1512
 pkgdesc="X11 pixmap library"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -11,7 +12,7 @@ url="http://xorg.freedesktop.org/"
 depends=('libxt' 'libxext')
 makedepends=('xorg-util-macros')
 options=('!libtool')
-provides=('libxpm=3.5.10')
+provides=('libxpm=${_realver}')
 conflicts=('libxpm')
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXpm"
@@ -42,3 +43,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+# vim: ft=sh syn=sh et
+

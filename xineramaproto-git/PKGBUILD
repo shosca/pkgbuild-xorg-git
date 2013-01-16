@@ -2,6 +2,7 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
+_realver=1.2.1
 pkgname=xineramaproto-git
 pkgver=20130116
 pkgrel=1103
@@ -10,7 +11,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros' 'git')
-provides=('xineramaproto=1.2.1')
+provides=('xineramaproto=${_realver}')
 conflicts=('xineramaproto')
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/xineramaproto'

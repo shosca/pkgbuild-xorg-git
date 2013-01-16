@@ -2,6 +2,7 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
+_realver=5.0
 pkgname=fixesproto-git
 pkgver=20130116
 pkgrel=1058
@@ -10,7 +11,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
-provides=('fixesproto=5.0')
+provides=('fixesproto=${_realver}')
 conflicts=('fixesproto')
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/fixesproto'

@@ -3,7 +3,7 @@
 
 pkgname=compton-git
 pkgver=20130116
-pkgrel=1101
+pkgrel=1510
 pkgdesc="X Compositor (a fork of xcompmgr-dana)"
 arch=(i686 x86_64)
 url="https://github.com/chjj/compton"
@@ -43,3 +43,5 @@ package() {
   # example conf
   install -D -m644 "compton.sample.conf" "$pkgdir/etc/xdg/compton.conf.example"
 }
+
+# vim: ft=sh syn=sh et

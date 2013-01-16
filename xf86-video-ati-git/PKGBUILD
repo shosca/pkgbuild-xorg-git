@@ -2,13 +2,14 @@
 # Previous Contributor: vbmithr
 # Contributor: Flamelab <panosfilip at gmail dot com>
 
+_realver=7.0.99
 pkgname=xf86-video-ati-git
 pkgver=20130116
-pkgrel=1239
+pkgrel=1827
 pkgdesc="X.org ati video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
-provides=('xf86-video-ati=7.0.99')
+provides=('xf86-video-ati=${_realver}')
 depends=('libpciaccess-git' 'libdrm-git' 'udev' 'pixman-git' 'mesa-git')
 makedepends=('xorg-server-devel-git' 'libdrm-git' 'xf86driproto-git' 'git' 'glproto-git')
 conflicts=('xorg-server<1.11.0' 'xf86-video-ati')
@@ -40,3 +41,6 @@ package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install 
 }
+
+# vim: ft=sh syn=sh et
+

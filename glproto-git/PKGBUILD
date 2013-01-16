@@ -1,6 +1,7 @@
 # Maintainer: kfgz <kfgz at interia pl>
 # Contributor: Cilyan Olowen <gaknar at gmail dot com>
 
+_realver=1.4.16
 pkgname=glproto-git
 pkgver=20130116
 pkgrel=1101
@@ -8,7 +9,7 @@ pkgdesc="X11 OpenGL extension wire protocol"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-provides=('glproto' 'glproto=1.4.16')
+provides=('glproto=${_realver}')
 makedepends=('xorg-util-macros-git' 'git')
 conflicts=('glproto')
 
@@ -41,3 +42,6 @@ package() {
   install -m644 "${srcdir}"/${_gitname-build}/COPYING \
                 "${pkgdir}"/usr/share/licenses/${pkgname}/
 }
+
+# vim: ft=sh syn=sh et
+

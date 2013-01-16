@@ -1,9 +1,10 @@
 # $Id: PKGBUILD 160631 2012-06-02 21:31:52Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.0.11
 pkgname=libxaw-git
 pkgver=20130116
-pkgrel=1106
+pkgrel=1512
 pkgdesc="X11 Athena Widget library"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -11,7 +12,7 @@ url="http://xorg.freedesktop.org/"
 depends=('libxmu-git' 'libxpm-git')
 makedepends=('xorg-util-macros-git')
 options=('!libtool')
-provides=('libxaw=1.0.11')
+provides=('libxaw=${_realver}')
 conflicts=('libxaw')
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXaw"
@@ -41,3 +42,5 @@ package() {
 
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
+# vim: ft=sh syn=sh et
+

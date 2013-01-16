@@ -73,3 +73,5 @@ package() {
 
   install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
+# vim: ft=sh syn=sh et
+

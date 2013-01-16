@@ -1,9 +1,10 @@
 # $Id: PKGBUILD 152797 2012-03-09 16:34:16Z andyrtr $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.0.7
 pkgname=libxvmc-git
 pkgver=20130116
-pkgrel=1140
+pkgrel=1515
 pkgdesc="X11 Video Motion Compensation extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -11,7 +12,7 @@ license=('custom')
 depends=('libxv-git')
 makedepends=('pkgconfig')
 options=('!libtool')
-provides=('libxvmc=1.0.7')
+provides=('libxvmc=${_realver}')
 conflicts=('libxvmc')
 replaces=('libxvmc')
 
@@ -43,3 +44,6 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+
+# vim: ft=sh syn=sh et
+

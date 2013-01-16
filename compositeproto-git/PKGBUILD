@@ -2,6 +2,7 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
+_realver=0.4.2
 pkgname=compositeproto-git
 pkgver=20130116
 pkgrel=1058
@@ -10,7 +11,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
-provides=('compositeproto=0.4.2')
+provides=('compositeproto=${_realver}')
 conflicts=('compositeproto')
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/compositeproto'

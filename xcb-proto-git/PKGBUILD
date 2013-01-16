@@ -2,15 +2,16 @@
 # Maintainer: Alexander Baldeck <alexander@archlinux.org>
 # Contributor: Jan de Groot <jgc@archlinux.org>
 
+_realver=1.8
 pkgname=xcb-proto-git
 pkgver=20130116
-pkgrel=1044
+pkgrel=1456
 pkgdesc="XML-XCB protocol descriptions"
 arch=(any)
 url="http://xcb.freedesktop.org/"
 license=('custom')
 makedepends=('python2' 'libxml2')
-provides=('xcb-proto=1.8')
+provides=('xcb-proto=${_realver}')
 conflicts=('xcb-proto')
 
 _gitroot="git://anongit.freedesktop.org/xcb/proto"
@@ -36,7 +37,8 @@ build() {
 
 package() {
   cd "${srcdir}/${_gitname}"
-  make DESTDIR="$pkgdir" install
-  install -m755 -d "$pkgdir/usr/share/licenses/$pkgname"
-  install -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname"
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}"
 }
+# vim: ft=sh syn=sh et

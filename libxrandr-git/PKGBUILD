@@ -3,9 +3,10 @@
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
+_realver=1.4.0
 pkgname=libxrandr-git
 pkgver=20130116
-pkgrel=1100
+pkgrel=1509
 pkgdesc="X11 RandR extension library"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -13,7 +14,7 @@ url="http://xorg.freedesktop.org/"
 depends=('libxext-git' 'libxrender-git' 'randrproto-git')
 makedepends=('xorg-util-macros-git')
 options=('!libtool')
-provides=('libxrandr=1.4.0')
+provides=('libxrandr=${_realver}')
 conflicts=('libxrandr')
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXrandr"
@@ -44,3 +45,5 @@ package() {
   install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+# vim: ft=sh syn=sh et
+
