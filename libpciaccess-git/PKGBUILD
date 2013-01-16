@@ -3,15 +3,15 @@
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
 pkgname=libpciaccess-git
-pkgver=20130115
-pkgrel=1956
+pkgver=20130116
+pkgrel=1104
 pkgdesc="X11 PCI access library"
 arch=(i686 x86_64)
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('glibc')
 makedepends=('pkgconfig' 'xorg-util-macros-git')
-provides=('libpciaccess')
+provides=('libpciaccess=0.13.1')
 conflicts=('libpciaccess')
 options=('!libtool')
 

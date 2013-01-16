@@ -1,14 +1,14 @@
 # Maintainer: Joel Teichroeb <joel@teichroeb.net>
 
 pkgname=libxkbcommon-git
-pkgver=20130111
-pkgrel=1241
+pkgver=20130116
+pkgrel=1237
 pkgdesc="A library to handle keyboard descriptions."
 url="http://xkbcommon.org/"
 arch=(i686 x86_64)
 license=('custom')
 makedepends=('git' 'xorg-util-macros-git' 'xkeyboard-config')
-provides=('libxkbcommon')
+provides=('libxkbcommon=0.2.0')
 replaces=('libxkbcommon')
 conflicts=('libxkbcommon')
 options=(!libtool)

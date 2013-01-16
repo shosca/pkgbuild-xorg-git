@@ -3,8 +3,8 @@
 # Contributor: Jan de Groot <jgc@archlinux.org>
 
 pkgname=xcb-proto-git
-pkgver=20130111
-pkgrel=1050
+pkgver=20130116
+pkgrel=1044
 pkgdesc="XML-XCB protocol descriptions"
 arch=(any)
 url="http://xcb.freedesktop.org/"

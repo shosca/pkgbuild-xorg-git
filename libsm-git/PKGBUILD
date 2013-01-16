@@ -2,8 +2,8 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libsm-git
-pkgver=20130115
-pkgrel=2035
+pkgver=20130116
+pkgrel=1237
 pkgdesc="X11 Session Management library"
 arch=('i686' 'x86_64')
 license=('custom')

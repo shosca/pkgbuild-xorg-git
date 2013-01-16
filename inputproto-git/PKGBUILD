@@ -2,8 +2,8 @@
 # Contributor: Cilyan Olowen <gaknar at gmail dot com>
 
 pkgname=inputproto-git
-pkgver=20130115
-pkgrel=1943
+pkgver=20130116
+pkgrel=1052
 pkgdesc="X11 input extension wire protocol"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

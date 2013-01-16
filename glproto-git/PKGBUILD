@@ -2,16 +2,15 @@
 # Contributor: Cilyan Olowen <gaknar at gmail dot com>
 
 pkgname=glproto-git
-pkgver=20130115
-pkgrel=1953
+pkgver=20130116
+pkgrel=1101
 pkgdesc="X11 OpenGL extension wire protocol"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-provides=('glproto' 'glproto=1.4.15')
+provides=('glproto' 'glproto=1.4.16')
 makedepends=('xorg-util-macros-git' 'git')
 conflicts=('glproto')
-#groups=('xorg')
 
 _gitroot="git://git.freedesktop.org/git/xorg/proto/glproto"
 _gitname="glproto"

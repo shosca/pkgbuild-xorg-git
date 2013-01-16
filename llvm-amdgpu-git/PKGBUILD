@@ -5,8 +5,8 @@
 # Contributor: Tomas Wilhelmsson <tomas.wilhelmsson@gmail.com>
 
 pkgname=llvm-amdgpu-git
-pkgver=20130111
-pkgrel=1115
+pkgver=20130116
+pkgrel=1110
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"

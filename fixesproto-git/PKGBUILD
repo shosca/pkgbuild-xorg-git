@@ -3,8 +3,8 @@
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
 pkgname=fixesproto-git
-pkgver=20130115
-pkgrel=1949
+pkgver=20130116
+pkgrel=1058
 pkgdesc='X11 fixes extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

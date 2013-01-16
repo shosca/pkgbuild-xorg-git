@@ -2,8 +2,8 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libxt-git
-pkgver=20130115
-pkgrel=1957
+pkgver=20130116
+pkgrel=1105
 pkgdesc="X11 toolkit intrinsics library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

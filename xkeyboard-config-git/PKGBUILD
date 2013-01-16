@@ -3,15 +3,15 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=xkeyboard-config-git
-pkgver=20130115
-pkgrel=2018
+pkgver=20130116
+pkgrel=1156
 pkgdesc="X keyboard configuration files"
 arch=(any)
 license=('custom')
 url="http://www.freedesktop.org/wiki/Software/XKeyboardConfig"
 depends=('xorg-xkbcomp')
 makedepends=('intltool')
-provides=('xkbdata' 'xkeyboard-config=2.7')
+provides=('xkbdata' 'xkeyboard-config=2.7.99')
 replaces=('xkbdata')
 conflicts=('xkbdata' 'xkeyboard-config')
 

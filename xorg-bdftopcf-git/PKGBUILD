@@ -1,21 +1,22 @@
-# $Id: PKGBUILD 151844 2012-03-03 13:37:37Z andyrtr $
-#Maintainer: Jan de Groot <jgc@archlinux.org>
+# $Id: PKGBUILD 150979 2012-02-24 12:29:18Z allan $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
 
-pkgname=libfontenc-git
+pkgname=xorg-bdftopcf-git
 pkgver=20130116
-pkgrel=1107
-pkgdesc="X11 font encoding library"
-arch=('i686' 'x86_64')
+pkgrel=1241
+pkgdesc="Convert X font from Bitmap Distribution Format to Portable Compiled Format"
+arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('zlib')
-makedepends=('pkgconfig' 'xproto-git')
-options=('!libtool')
-provides=('libfontenc=1.1.1')
-conflicts=('libfontenc')
+depends=('libxfont-git')
+makedepends=('xorg-util-macros-git' 'xproto-git')
+groups=('xorg' 'xorg-apps')
+provides=('xorg-bdftopcf=1.0.4')
+replaces=('xorg-bdftopcf')
+conflicts=('xorg-bdftopcf')
 
-_gitroot="git://anongit.freedesktop.org/xorg/lib/libfontenc"
-_gitname="libfontenc"
+_gitroot="git://anongit.freedesktop.org/xorg/app/bdftopcf"
+_gitname="bdftopcf"
 
 build() {
   cd "${srcdir}"
@@ -29,16 +30,13 @@ build() {
   msg 'Starting make...'
 
   cd "${srcdir}/${_gitname}"
-
-
-  ./autogen.sh --prefix=/usr --sysconfdir=/etc \
-      --localstatedir=/var --disable-static \
-      --with-encodingsdir=/usr/share/fonts/encodings
+  ./autogen.sh --prefix=/usr
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
+
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }

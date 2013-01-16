@@ -3,8 +3,8 @@
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
 pkgname=dmxproto-git
-pkgver=20130115
-pkgrel=1953
+pkgver=20130116
+pkgrel=1101
 pkgdesc='Xorg DMXProto protocol headers'
 url='http://xorg.freedesktop.org/'
 arch=('any')

@@ -3,14 +3,14 @@
 #Andreas Radke
 
 pkgname=lib32-libdrm-git
-pkgver=20130114
-pkgrel=1306
+pkgver=20130116
+pkgrel=1202
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
 groups=('lib32')
 depends=('lib32-libpciaccess')
-provides=('lib32-libdrm=2.4.40')
+provides=('lib32-libdrm=2.4.41')
 makedepends=('gcc-multilib' 'git' 'cairo' 'udev')
 options=('!libtool')
 url="http://dri.freedesktop.org/"

@@ -2,15 +2,15 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libdmx-git
-pkgver=20130115
-pkgrel=1956
+pkgver=20130116
+pkgrel=1103
 pkgdesc="X11 Distributed Multihead extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('dmxproto-git' 'libxext-git')
 makedepends=('xorg-util-macros-git')
-provides=('libdmx')
+provides=('libdmx=1.1.2')
 conflicts=('libdmx')
 options=('!libtool')
 

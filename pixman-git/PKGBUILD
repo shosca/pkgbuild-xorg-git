@@ -1,19 +1,20 @@
 # Maintainer: aboe76 AT gmail DOT com>
 # contribution: EdwardXXIV
 
-pkgname=pixman-git
 _realname=pixman
-pkgver=20130111
-_realver=0.27.1
-pkgrel=1101
+_realver=0.29.1
+pkgname=pixman-git
+pkgver=20130116
+pkgrel=1055
 pkgdesc="The pixel-manipulation library for X and cairo"
 arch=(i686 x86_64)
 url="http://pixman.org/"
 license=('GPL')
 depends=(glibc)
-makedepends=('git' autoconf automake libtool pkgconfig)
-provides=("pixman=${_realver}")
-conflicts=(pixman)
+makedepends=(git autoconf automake libtool pkgconfig)
+provides=('pixman=${_realver}')
+conflicts=('pixman')
+replaces=('pixman')
 options=('!libtool')
 source=()
 md5sums=()

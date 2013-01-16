@@ -2,8 +2,8 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libxres-git
-pkgver=20130115
-pkgrel=2002
+pkgver=20130116
+pkgrel=1109
 pkgdesc="X11 Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"
@@ -11,7 +11,7 @@ license=('custom')
 depends=('libxext-git')
 makedepends=('resourceproto-git' 'damageproto-git' 'compositeproto-git' 'scrnsaverproto-git' 'xorg-util-macros-git')
 options=('!libtool')
-provides=('libxres=1.0.6')
+provides=('libxres=1.1.99.0')
 conflicts=('libxres')
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXRes"

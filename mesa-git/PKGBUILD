@@ -2,10 +2,10 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
-_mesaver=9.1
+_mesaver=9.1.0
 pkgbase=mesa-git
-pkgver=20130115
-pkgrel=2004
+pkgver=20130116
+pkgrel=1141
 pkgname=('libglapi-git libgl-git' 'mesa-git' 'osmesa-git' 'libgbm-git' 'libgles-git' 'libegl-git' 'khrplatform-devel-git' 'ati-dri-git' 'intel-dri-git' 'svga-dri-git' 'nouveau-dri-git')
 
 arch=('i686' 'x86_64')

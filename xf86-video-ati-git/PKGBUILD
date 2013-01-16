@@ -3,12 +3,12 @@
 # Contributor: Flamelab <panosfilip at gmail dot com>
 
 pkgname=xf86-video-ati-git
-pkgver=20130115
-pkgrel=2038
+pkgver=20130116
+pkgrel=1239
 pkgdesc="X.org ati video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
-provides=('xf86-video-ati')
+provides=('xf86-video-ati=7.0.99')
 depends=('libpciaccess-git' 'libdrm-git' 'udev' 'pixman-git' 'mesa-git')
 makedepends=('xorg-server-devel-git' 'libdrm-git' 'xf86driproto-git' 'git' 'glproto-git')
 conflicts=('xorg-server<1.11.0' 'xf86-video-ati')

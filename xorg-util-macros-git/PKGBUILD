@@ -2,13 +2,13 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=xorg-util-macros-git
-pkgver=20130115
-pkgrel=1933
+pkgver=20130116
+pkgrel=1044
 pkgdesc="X.Org Autotools macros"
 arch=(any)
 license=('custom')
 url="http://xorg.freedesktop.org/"
-provides=('xorg-util-macros')
+provides=('xorg-util-macros=1.17')
 conflicts=('xorg-util-macros')
 
 _gitroot="git://anongit.freedesktop.org/xorg/util/macros"
