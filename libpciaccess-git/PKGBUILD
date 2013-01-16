@@ -3,8 +3,8 @@
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
 pkgname=libpciaccess-git
-pkgver=20130111
-pkgrel=1108
+pkgver=20130115
+pkgrel=1956
 pkgdesc="X11 PCI access library"
 arch=(i686 x86_64)
 license=('custom')

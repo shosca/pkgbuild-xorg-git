@@ -2,8 +2,8 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libxkbfile-git
-pkgver=20130111
-pkgrel=1113
+pkgver=20130115
+pkgrel=2001
 pkgdesc="X11 keyboard file manipulation library"
 arch=('i686' 'x86_64')
 license=('custom')

@@ -3,8 +3,8 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=xkeyboard-config-git
-pkgver=20130114
-pkgrel=1953
+pkgver=20130115
+pkgrel=2018
 pkgdesc="X keyboard configuration files"
 arch=(any)
 license=('custom')

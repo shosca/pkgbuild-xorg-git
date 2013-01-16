@@ -2,8 +2,8 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=libdmx-git
-pkgver=20130112
-pkgrel=1910
+pkgver=20130115
+pkgrel=1956
 pkgdesc="X11 Distributed Multihead extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

@@ -3,8 +3,8 @@
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
 pkgname=libxcb-git
-pkgver=20130112
-pkgrel=1905
+pkgver=20130115
+pkgrel=1936
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xcb.freedesktop.org/"
