@@ -6,7 +6,7 @@
 
 pkgname=lib32-llvm-amdgpu-git
 pkgver=20130117
-pkgrel=1136
+pkgrel=1425
 pkgdesc='Low Level Virtual Machine - Compiler infrastructure with experimental AMDGPU enabled (git version)'
 arch=('i686' 'x86_64')
 url="http://llvm.org"

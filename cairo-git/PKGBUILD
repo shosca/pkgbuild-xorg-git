@@ -3,8 +3,8 @@
 
 _realver=1.12.99
 pkgname=cairo-git
-pkgver=20130116
-pkgrel=1806
+pkgver=20130117
+pkgrel=1317
 pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)
 license=('LGPL' 'MPL')
@@ -40,6 +40,7 @@ build() {
     --enable-xcb \
     --enable-tee \
     --enable-gl \
+    --enable-egl \
     --disable-static
   make
 }

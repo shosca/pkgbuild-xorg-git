@@ -1,23 +1,23 @@
-# $Id: PKGBUILD 356 2008-04-18 22:56:27Z aaron $
+# $Id: PKGBUILD 152769 2012-03-09 16:04:11Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
-_realver=0.13.1
-pkgname=libpciaccess-git
+_realver=1.1.13
+pkgname=libxcursor-git
 pkgver=20130117
-pkgrel=1326
-pkgdesc="X11 PCI access library"
+pkgrel=1458
+pkgdesc="X cursor management library"
 arch=(i686 x86_64)
-license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('glibc')
-makedepends=('pkgconfig' 'xorg-util-macros-git')
-provides=('libpciaccess=${_realver}')
-conflicts=('libpciaccess')
+license=('custom')
+depends=('libxfixes-git' 'libxrender-git')
+makedepends=('xorg-util-macros')
 options=('!libtool')
+provides=('libxcursor=${_realver}')
+conflicts=('libxcursor')
 
-_gitroot="git://anongit.freedesktop.org/xorg/lib/libpciaccess"
-_gitname="libpciaccess"
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXcursor"
+_gitname="libxcursor"
 
 build() {
   cd "${srcdir}"
@@ -33,15 +33,14 @@ build() {
   cd "${srcdir}/${_gitname}"
 
 
-  ./autogen.sh --prefix=/usr --sysconfdir=/etc
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
+
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
-# vim: ft=sh syn=sh et
-

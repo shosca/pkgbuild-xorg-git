@@ -3,8 +3,8 @@
 
 _realver=1.1.1
 pkgname=libxdmcp-git
-pkgver=20130116
-pkgrel=1045
+pkgver=20130117
+pkgrel=1305
 pkgdesc="X11 Display Manager Control Protocol library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

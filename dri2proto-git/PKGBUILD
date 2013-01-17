@@ -4,8 +4,8 @@
 
 _realver=2.8
 pkgname=dri2proto-git
-pkgver=20130116
-pkgrel=1101
+pkgver=20130117
+pkgrel=1323
 pkgdesc='X11 DRI extension wire protocol.'
 url='http://xorg.freedesktop.org/'
 arch=('any')

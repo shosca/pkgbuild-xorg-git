@@ -3,8 +3,8 @@
 
 _realver=1.1.2
 pkgname=xorg-xwininfo-git
-pkgver=20130116
-pkgrel=1509
+pkgver=20130117
+pkgrel=1322
 pkgdesc="Command-line utility to print information about windows on an X server"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
