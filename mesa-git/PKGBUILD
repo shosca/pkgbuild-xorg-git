@@ -5,8 +5,8 @@
 _realver=9.1.0
 pkgbase=mesa-git
 pkgver=20130117
-pkgrel=0722
-pkgname=('libglapi-git libgl-git' 'mesa-git' 'osmesa-git' 'libgbm-git' 'libgles-git' 'libegl-git' 'khrplatform-devel-git' 'ati-dri-git' 'intel-dri-git' 'svga-dri-git' 'nouveau-dri-git')
+pkgrel=1119
+pkgname=('libglapi-git libgl-git' 'mesa-git' 'osmesa-git' 'libgbm-git' 'libgles-git' 'libegl-git' 'libegl-wayland-git' 'khrplatform-devel-git' 'ati-dri-git' 'intel-dri-git' 'svga-dri-git' 'nouveau-dri-git')
 
 arch=('i686' 'x86_64')
 depends=('gcc-libs' 'glibc' 'libdrm-git' 'expat' 'libxt-git' 'libxxf86vm-git'
@@ -23,7 +23,7 @@ source=(LICENSE)
 md5sums=('5c65a0fe315dd347e09b1f2826a1df5a')
 
 _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
-_gitname='mesa-build'
+_gitname='mesa'
 
 build() {
   cd "${srcdir}"
@@ -47,7 +47,7 @@ build() {
     --enable-gallium-llvm \
     --enable-egl \
     --enable-gallium-egl \
-    --with-egl-platforms=drm,x11 \
+    --with-egl-platforms=drm,x11,wayland \
     --enable-shared-glapi \
     --enable-gbm \
     --enable-glx-tls \
@@ -175,6 +175,18 @@ package_libegl-git() {
   install -m644 ${srcdir}/${_gitname}/docs/egl.html "${pkgdir}/usr/share/doc/libegl/"
   install -m755 -d "${pkgdir}/usr/share/licenses/libegl"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libegl/"
+}
+
+package_libegl-wayland-git() {
+  depends=('libegl-git')
+  pkgdesc="Mesa EGL wayland libraries and headers"
+  provides=('libegl-wayland=${_realver}')
+  conflicts=('libegl-wayland')
+
+  make -C ${srcdir}/${_gitname}/src/egl/wayland DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/libegl-wayland"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libegl-wayland/"
 }
 
 package_khrplatform-devel-git() {
