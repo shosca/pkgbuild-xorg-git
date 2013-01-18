@@ -5,7 +5,7 @@
 _realver=9.1.0
 pkgbase=mesa-git
 pkgver=20130117
-pkgrel=1406
+pkgrel=1908
 pkgname=('libglapi-git libgl-git' 'mesa-git' 'osmesa-git' 'libgbm-git' 'libgles-git' 'libegl-git' 'libegl-wayland-git' 'khrplatform-devel-git' 'ati-dri-git' 'intel-dri-git' 'svga-dri-git' 'nouveau-dri-git')
 
 arch=('i686' 'x86_64')
@@ -165,6 +165,7 @@ package_libegl-git() {
   make -C ${srcdir}/${_gitname}/src/gallium/targets/egl-static DESTDIR="${pkgdir}" install
   make -C ${srcdir}/${_gitname}/src/egl DESTDIR="${pkgdir}" install
 
+  make -C ${srcdir}/${_gitname}/src/egl/wayland DESTDIR="${pkgdir}" uninstall
   # fix link with libllvmradeon9.1
   make -C ${srcdir}/${_gitname}/src/gallium/drivers/radeon DESTDIR="${pkgdir}" uninstall
 
