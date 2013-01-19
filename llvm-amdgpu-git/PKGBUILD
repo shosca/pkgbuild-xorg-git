@@ -5,8 +5,8 @@
 # Contributor: Tomas Wilhelmsson <tomas.wilhelmsson@gmail.com>
 
 pkgname=llvm-amdgpu-git
-pkgver=20130117
-pkgrel=1333
+pkgver=20130118
+pkgrel=1921
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -38,10 +38,6 @@ build() {
 
   sed -i 's/python$/python2/' utils/llvm-build/llvm-build
 
-  # Apply strip option to configure
-  _optimized_switch="enable"
-  [[ $(check_option strip) == n ]] && _optimized_switch="disable"
-
   # Include location of libffi headers in CPPFLAGS
   export CPPFLAGS="$CPPFLAGS $(pkg-config --cflags libffi)"
 
@@ -54,12 +50,12 @@ build() {
     --enable-shared \
     --enable-libffi \
     --enable-targets=all \
+    --enable-optimized \
     --enable-experimental-targets=R600 \
     --disable-expensive-checks \
-    --with-binutils-include=/usr/include \
-    --$_optimized_switch-optimized
+    --with-binutils-include=/usr/include
 
-  make REQUIRES_RTTI=1
+  make REQUIRES_RTTI=1 ENABLE_OPTIMIZED=1
 }
 
 package() {
