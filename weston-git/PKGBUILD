@@ -3,8 +3,8 @@
 
 _realver=1.0.0
 pkgname=weston-git
-pkgver=20130118
-pkgrel=2011
+pkgver=20130119
+pkgrel=0835
 pkgdesc="A modern display server."
 arch=(i686 x86_64)
 url="http://wayland.freedesktop.org"

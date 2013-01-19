@@ -3,8 +3,8 @@
 
 _realver=1.0.8
 pkgname=libxkbfile-git
-pkgver=20130117
-pkgrel=1331
+pkgver=20130119
+pkgrel=0756
 pkgdesc="X11 keyboard file manipulation library"
 arch=('i686' 'x86_64')
 license=('custom')
