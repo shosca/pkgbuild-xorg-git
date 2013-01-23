@@ -4,8 +4,8 @@
 
 _realver=2.4.41
 pkgname=lib32-libdrm-git
-pkgver=20130118
-pkgrel=1857
+pkgver=20130123
+pkgrel=1
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
@@ -39,14 +39,18 @@ build() {
 
   sed -i 's/PKG_CHECK_MODULES(PTHREADSTUBS, pthread-stubs)//' configure.ac
 
-  ./autogen.sh --prefix=/usr \
-      --libdir=/usr/lib32 \
-      --enable-udev \
-      --enable-intel \
-      --enable-radeon \
-      --enable-nouveau \
-      --enable-vmwgfx
-  make V=1
+  ./autogen.sh \
+    --build=x86_64-pc-linux-gnu \
+    --host=i686-pc-linux-gnu \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --enable-udev \
+    --enable-intel \
+    --enable-radeon \
+    --enable-nouveau \
+    --enable-vmwgfx
+
+  make
 }
 
 package() {
