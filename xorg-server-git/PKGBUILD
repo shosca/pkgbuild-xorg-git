@@ -6,8 +6,8 @@
 _realver=1.13.99.901
 pkgbase=xorg-server
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=20130123
-pkgrel=1411
+pkgver=20130124
+pkgrel=0936
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
