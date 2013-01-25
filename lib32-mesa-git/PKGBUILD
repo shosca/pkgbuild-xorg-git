@@ -6,8 +6,8 @@ _realver=9.1.0
 pkgbase=lib32-mesa-git
 pkgdesc="Open-source implementation of the OpenGL specification, device drivers ranging from software emulation to complete hardware acceleration for modern GPUs."
 pkgname=('lib32-libglapi-git' 'lib32-libgl-git' 'lib32-mesa-git' 'lib32-libgbm-git' 'lib32-libgles-git' 'lib32-libegl-git' 'lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git')
-pkgver=20130124
-pkgrel=1836
+pkgver=20130125
+pkgrel=0750
 arch=('x86_64')
 makedepends=('glproto-git' 'lib32-libdrm-git' 'lib32-libxxf86vm>=1.1.2' 'lib32-libxdamage>=1.1.3' 'lib32-expat>=2.1.0' 'lib32-libx11>=1.5.0' 'lib32-libxt>=1.1.3'
              'gcc-multilib' 'dri2proto-git' 'python2' 'libxml2' 'lib32-llvm-amdgpu-git' 'lib32-systemd')

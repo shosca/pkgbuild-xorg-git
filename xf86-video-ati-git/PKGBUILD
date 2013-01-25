@@ -4,8 +4,8 @@
 
 _realver=7.0.99
 pkgname=xf86-video-ati-git
-pkgver=20130124
-pkgrel=1850
+pkgver=20130125
+pkgrel=0801
 pkgdesc="X.org ati video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
