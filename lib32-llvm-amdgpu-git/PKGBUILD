@@ -5,8 +5,8 @@
 # Contributor: Tomas Wilhelmsson <tomas.wilhelmsson@gmail.com>
 
 pkgname=lib32-llvm-amdgpu-git
-pkgver=20130124
-pkgrel=1812
+pkgver=20130125
+pkgrel=1416
 pkgdesc='Low Level Virtual Machine - Compiler infrastructure with experimental AMDGPU enabled (git version)'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -39,6 +39,9 @@ build() {
   export CXX="g++ -m32"
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
+  rm -rf tools/clang
+  rm -rf projects/compiler-rt
+
   sed -i 's/python$/python2/' utils/llvm-build/llvm-build
 
   # Include location of libffi headers in CPPFLAGS
@@ -58,18 +61,19 @@ build() {
   # Fix insecure rpath (http://bugs.archlinux.org/task/14017)
   sed -i 's:$(RPATH) -Wl,$(\(ToolDir\|LibDir\|ExmplDir\))::g' Makefile.rules
 
-  # Force the use of GCC instead of clang
   PYTHON=python2 ./configure \
     --prefix=/usr \
-    --libdir=/usr/lib/llvm \
+    --libdir=/usr/lib32/llvm \
     --sysconfdir=/etc \
     --enable-shared \
     --enable-libffi \
     --enable-targets=all \
-    --enable-optimized \
     --enable-experimental-targets=R600 \
     --disable-expensive-checks \
-    --with-binutils-include=/usr/include
+    --with-binutils-include=/usr/include \
+    --host=i386-pc-linux-gnu \
+    --target=i386-pc-linux-gnu \
+    --enable-optimized
 
   make REQUIRES_RTTI=1 ENABLE_OPTIMIZED=1
 }
@@ -81,7 +85,7 @@ package() {
   # Fix permissions of static libs
   chmod -x "$pkgdir"/usr/lib32/llvm/*.a
 
-  mv "$pkgdir/usr/bin/llvm-config" "$pkgdir/usr/lib32/llvm-config"
+  mv "$pkgdir/usr/bin/i386-pc-linux-gnu-llvm-config" "$pkgdir/usr/lib32/llvm-config"
 
   # Get rid of example Hello transformation
   rm "$pkgdir"/usr/lib32/llvm/*LLVMHello.*
