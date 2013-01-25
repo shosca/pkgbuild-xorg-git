@@ -5,7 +5,7 @@
 _realver=2.7.0
 pkgname=xf86-input-evdev-git
 pkgver=20130124
-pkgrel=0951
+pkgrel=1849
 pkgdesc="X.Org evdev Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-evdev/"
