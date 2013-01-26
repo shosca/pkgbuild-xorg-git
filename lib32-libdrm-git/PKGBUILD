@@ -4,8 +4,8 @@
 
 _realver=2.4.41
 pkgname=lib32-libdrm-git
-pkgver=20130123
-pkgrel=1
+pkgver=20130125
+pkgrel=1911
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
