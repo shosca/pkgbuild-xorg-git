@@ -4,8 +4,8 @@
 
 _realver=0.11.1
 pkgname=renderproto-git
-pkgver=20130117
-pkgrel=1316
+pkgver=20130127
+pkgrel=1007
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

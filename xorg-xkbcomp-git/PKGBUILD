@@ -3,8 +3,8 @@
 
 _realver=1.2.4
 pkgname=xorg-xkbcomp-git
-pkgver=20130123
-pkgrel=0939
+pkgver=20130127
+pkgrel=1027
 pkgdesc="X Keyboard description compiler"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

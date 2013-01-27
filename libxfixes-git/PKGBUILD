@@ -3,8 +3,8 @@
 
 _realver=5.0
 pkgname=libxfixes-git
-pkgver=20130119
-pkgrel=0753
+pkgver=20130127
+pkgrel=1009
 pkgdesc="X11 miscellaneous 'fixes' extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
