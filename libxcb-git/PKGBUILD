@@ -9,7 +9,7 @@ pkgrel=1003
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xcb.freedesktop.org/"
-depends=('xcb-proto-git' 'libxdmcp-git' 'libxau-git')
+depends=('xcb-proto>=1.8' 'libxdmcp>=1.1.1' 'libxau>=1.0.7')
 makedepends=('pkgconfig' 'libxslt' 'python2')
 provides=('libxcb=${_realver}')
 conflicts=('libxcb')

@@ -3,13 +3,13 @@
 
 _realver=1.1.4
 pkgname=libxdamage-git
-pkgver=20130127
-pkgrel=1010
+pkgver=20130128
+pkgrel=0810
 pkgdesc="X11 damaged region extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxfixes-git' 'damageproto-git')
+depends=('libxfixes>=5.0' 'damageproto>=1.2.1')
 makedepends=('pkg-config')
 provides=('libxdamage=${_realver}')
 conflicts=('libxdamage')

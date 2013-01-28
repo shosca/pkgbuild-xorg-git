@@ -9,8 +9,8 @@ pkgrel=1038
 pkgdesc="X11 Inter-Client Exchange library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
-depends=('glibc' 'xproto-git')
-makedepends=('pkgconfig' 'xtrans-git')
+depends=('glibc' 'xproto>=7.0.23')
+makedepends=('pkgconfig' 'xtrans>=1.2.7')
 options=('!libtool')
 license=('custom')
 provides=('libice=${_realver}')

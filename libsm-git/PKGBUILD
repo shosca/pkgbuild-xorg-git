@@ -3,14 +3,14 @@
 
 _realver=1.2.1
 pkgname=libsm-git
-pkgver=20130127
-pkgrel=1039
+pkgver=20130128
+pkgrel=0938
 pkgdesc="X11 Session Management library"
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libice-git' 'util-linux-ng')
-makedepends=('xorg-util-macros-git' 'xtrans-git')
+depends=('libice>=1.0.8' 'util-linux-ng')
+makedepends=('xorg-util-macros-git' 'xtrans>=1.2.7')
 options=('!libtool')
 provides=('libsm=${_realver}')
 conflicts=('libsm')

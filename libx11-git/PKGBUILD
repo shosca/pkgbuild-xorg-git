@@ -3,13 +3,13 @@
 
 _realver=1.5.0
 pkgname=libx11-git
-pkgver=20130127
-pkgrel=1006
+pkgver=20130128
+pkgrel=0804
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
-depends=('libxcb-git' 'xproto-git' 'kbproto-git')
-makedepends=('xorg-util-macros-git' 'xextproto-git' 'xtrans-git' 'inputproto-git')
+depends=('libxcb>=1.9' 'xproto>=7.0.23' 'kbproto>=1.0.6')
+makedepends=('xorg-util-macros-git' 'xextproto>=7.2.1' 'xtrans>=1.2.7' 'inputproto>=2.2.99.1')
 provides=('libx11=${_realver}')
 conflicts=('libx11')
 options=('!libtool')

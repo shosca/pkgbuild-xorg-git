@@ -3,13 +3,13 @@
 
 _realver=1.1.2
 pkgname=libdmx-git
-pkgver=20130127
-pkgrel=1013
+pkgver=20130128
+pkgrel=0812
 pkgdesc="X11 Distributed Multihead extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('dmxproto-git' 'libxext-git')
+depends=('dmxproto>=2.3.1' 'libxext>=1.3.1')
 makedepends=('xorg-util-macros-git')
 provides=('libdmx=${_realver}')
 conflicts=('libdmx')

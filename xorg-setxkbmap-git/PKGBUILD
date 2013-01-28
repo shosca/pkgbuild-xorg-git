@@ -10,7 +10,7 @@ pkgdesc='Set the keyboard using the X Keyboard Extension'
 url='http://xorg.freedesktop.org/'
 license=('custom')
 arch=('i686' 'x86_64')
-depends=('libxkbfile-git')
+depends=('libxkbfile>=1.0.8')
 makedepends=('xorg-util-macros-git')
 provides=('xorg-setxkbmap=${_realver}')
 conflicts=('xorg-setxkbmap')

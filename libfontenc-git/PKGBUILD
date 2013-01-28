@@ -10,7 +10,7 @@ arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('zlib')
-makedepends=('pkgconfig' 'xproto-git')
+makedepends=('pkgconfig' 'xproto>=7.0.23')
 options=('!libtool')
 provides=('libfontenc=${_realver}')
 conflicts=('libfontenc')

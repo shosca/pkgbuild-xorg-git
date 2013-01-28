@@ -3,14 +3,14 @@
 
 _realver=1.1.2
 pkgname=xorg-xwininfo-git
-pkgver=20130127
-pkgrel=1010
+pkgver=20130128
+pkgrel=0811
 pkgdesc="Command-line utility to print information about windows on an X server"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxcb-git')
-makedepends=('xorg-util-macros-git' 'libx11-git')
+depends=('libxcb>=1.9')
+makedepends=('xorg-util-macros-git' 'libx11>=1.5.0')
 groups=('xorg-apps' 'xorg')
 provides=('xorg-xwininfo=${_realver}')
 conflicts=('xorg-xwininfo')

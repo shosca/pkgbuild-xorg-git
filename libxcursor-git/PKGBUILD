@@ -4,13 +4,13 @@
 
 _realver=1.1.13
 pkgname=libxcursor-git
-pkgver=20130127
-pkgrel=1039
+pkgver=20130128
+pkgrel=0939
 pkgdesc="X cursor management library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxfixes-git' 'libxrender-git')
+depends=('libxfixes>=5.0' 'libxrender>=0.9.7')
 makedepends=('xorg-util-macros')
 options=('!libtool')
 provides=('libxcursor=${_realver}')
@@ -44,3 +44,6 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+
+# vim: ft=sh syn=sh et
+

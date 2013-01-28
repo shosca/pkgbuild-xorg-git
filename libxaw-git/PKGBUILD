@@ -3,13 +3,13 @@
 
 _realver=1.0.11
 pkgname=libxaw-git
-pkgver=20130127
-pkgrel=1015
+pkgver=20130128
+pkgrel=0813
 pkgdesc="X11 Athena Widget library"
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libxmu-git' 'libxpm-git')
+depends=('libxmu>=1.1.1' 'libxpm>=3.5.10')
 makedepends=('xorg-util-macros-git')
 options=('!libtool')
 provides=('libxaw=${_realver}')

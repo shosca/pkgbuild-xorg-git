@@ -3,13 +3,13 @@
 
 _realver=1.3.1
 pkgname=libxext-git
-pkgver=20130127
-pkgrel=1010
+pkgver=20130128
+pkgrel=0810
 pkgdesc="X11 miscellaneous extensions library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libx11-git' 'xextproto-git')
+depends=('libx11>=1.5.0' 'xextproto>=7.2.1')
 makedepends=('xorg-util-macros-git')
 provides=('libxext=${_1.3.1}')
 conflicts=('libxext')

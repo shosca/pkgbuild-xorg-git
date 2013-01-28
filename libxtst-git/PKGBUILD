@@ -3,13 +3,13 @@
 
 _realver=1.2.1
 pkgname=libxtst-git
-pkgver=20130127
-pkgrel=1017
+pkgver=20130128
+pkgrel=0815
 pkgdesc="X11 Testing -- Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxext-git' 'libxi-git' 'recordproto-git' 'inputproto-git')
+depends=('libxext>=1.3.1' 'libxi>=1.6.99.1' 'recordproto-git' 'inputproto>=2.2.99.1')
 makedepends=('xorg-util-macros-git')
 options=('!libtool')
 provides=('libxtst=${_realver}')

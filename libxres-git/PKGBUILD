@@ -3,14 +3,14 @@
 
 _realver=1.1.99.0
 pkgname=libxres-git
-pkgver=20130127
-pkgrel=1016
+pkgver=20130128
+pkgrel=0815
 pkgdesc="X11 Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"
 license=('custom')
-depends=('libxext-git')
-makedepends=('resourceproto-git' 'damageproto-git' 'compositeproto-git' 'scrnsaverproto-git' 'xorg-util-macros-git')
+depends=('libxext>=1.3.1')
+makedepends=('resourceproto>=1.2.0' 'damageproto>=1.2.1' 'compositeproto>=0.4.2' 'scrnsaverproto>=1.2.2' 'xorg-util-macros-git')
 options=('!libtool')
 provides=('libxres=${_realver}')
 conflicts=('libxres')
