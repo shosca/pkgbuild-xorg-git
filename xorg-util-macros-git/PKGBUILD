@@ -3,8 +3,8 @@
 
 _realver=1.17
 pkgname=xorg-util-macros-git
-pkgver=20130127
-pkgrel=1002
+pkgver=20130128
+pkgrel=1433
 pkgdesc="X.Org Autotools macros"
 arch=(any)
 license=('custom')

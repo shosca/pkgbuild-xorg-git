@@ -4,7 +4,7 @@
 _realver=1.6.99.1
 pkgname=libxi-git
 pkgver=20130128
-pkgrel=0814
+pkgrel=1447
 pkgdesc="X11 Input extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"

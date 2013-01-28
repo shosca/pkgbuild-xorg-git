@@ -6,7 +6,7 @@
 _realver=1.4.0
 pkgname=libxrandr-git
 pkgver=20130128
-pkgrel=0811
+pkgrel=1442
 pkgdesc="X11 RandR extension library"
 arch=('i686' 'x86_64')
 license=('custom')

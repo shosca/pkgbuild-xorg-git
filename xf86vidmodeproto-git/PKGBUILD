@@ -4,8 +4,8 @@
 
 _realver=2.3.1
 pkgname=xf86vidmodeproto-git
-pkgver=20130127
-pkgrel=1013
+pkgver=20130128
+pkgrel=1444
 pkgdesc='X11 xf86vidmode extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

@@ -4,8 +4,8 @@
 
 _realver=1.2.0
 pkgname=resourceproto-git
-pkgver=20130127
-pkgrel=1012
+pkgver=20130128
+pkgrel=1443
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
