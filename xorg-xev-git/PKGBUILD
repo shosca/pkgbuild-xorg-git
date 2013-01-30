@@ -1,0 +1,45 @@
+# $Id: PKGBUILD 150821 2012-02-23 07:20:15Z andyrtr $
+# Contributor: Jan de Groot <jgc@archlinux.org>
+# Maintainer: Gaetan Bisson <bisson@archlinux.org>
+
+_realver=1.2.0
+pkgname=xorg-xev-git
+pkgver=20130129
+pkgrel=1953
+pkgdesc='Print contents of X events'
+url='http://xorg.freedesktop.org/'
+arch=('i686' 'x86_64')
+license=('custom')
+depends=('libx11>=1.5.0' 'libxrandr>=1.4.0')
+makedepends=('xorg-util-macros>=1.17' 'xproto>=7.0.23')
+groups=('xorg-apps' 'xorg')
+provides=('xorg-xev=${_realver}')
+conflicts=('xorg-xev')
+
+_gitroot="git://anongit.freedesktop.org/xorg/app/xev"
+_gitname="xev"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+}
+
+# vim: ft=sh syn=sh et
