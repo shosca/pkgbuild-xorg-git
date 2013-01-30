@@ -2,7 +2,7 @@
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=2.7.99
+_realver=2.8
 pkgname=xkeyboard-config-git
 pkgver=20130129
 pkgrel=2004

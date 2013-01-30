@@ -1,7 +1,7 @@
 # Maintainer: dx <dx@dxzone.com.ar>
 # Based on the official cairo package
 
-_realver=1.12.99
+_realver=1.12.11
 pkgname=cairo-git
 pkgver=20130130
 pkgrel=0715
@@ -9,7 +9,7 @@ pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)
 license=('LGPL' 'MPL')
 url="http://cairographics.org/"
-depends=('libpng>=1.4.0' 'libxrender>=0.9.7' 'fontconfig>=2.8.0' 'pixman>=0.29.1' 'xcb-util>=0.3.6' 'glib2>=2.24.0')
+depends=('libpng>=1.4.0' 'libxrender>=0.9.7' 'fontconfig>=2.8.0' 'pixman>=0.29.3' 'xcb-util>=0.3.6' 'glib2>=2.24.0')
 makedepends=('gtk-doc' 'git')
 options=('!libtool')
 provides=('cairo=${_realver}' 'cairo-xcb=${_realver}')

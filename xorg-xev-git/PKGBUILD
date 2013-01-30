@@ -2,7 +2,7 @@
 # Contributor: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Gaetan Bisson <bisson@archlinux.org>
 
-_realver=1.2.0
+_realver=1.2.1
 pkgname=xorg-xev-git
 pkgver=20130129
 pkgrel=1953

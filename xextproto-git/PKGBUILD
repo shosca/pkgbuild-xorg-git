@@ -2,6 +2,7 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
+_realver=7.2.1
 pkgname=xextproto-git
 pkgver=20130128
 pkgrel=1437
@@ -10,7 +11,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros' 'git')
-provides=('xextproto=7.2.1')
+provides=('xextproto=${_realver}')
 conflicts=('xextproto')
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/xextproto'

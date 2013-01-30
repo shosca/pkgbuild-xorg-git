@@ -95,6 +95,39 @@ $(DIRS):
 		$(MAKE) $@/built ; \
 	fi ; \
 
+PULL_TARGETS=$(addsuffix -pull, $(DIRS))
+
+pull: $(PULL_TARGETS)
+
+%-pull:
+	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$*/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
+	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
+	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
+		echo "Updating $$_gitname" ; \
+		cd $(PWD)/$*/src/$$_gitname && \
+		git checkout -f && git pull && \
+		cd $(PWD) ; \
+	fi
+
+VER_TARGETS=$(addsuffix -ver, $(DIRS))
+
+vers: $(VER_TARGETS)
+
+%-ver:
+	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$*/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
+	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
+	echo $$_gitname ; \
+	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
+		cd $(PWD)/$*/src/$$_gitname && \
+		autoreconf -f > /dev/null 2>&1 && \
+		_oldver=$$(grep -R '^_realver' $(PWD)/$*/PKGBUILD | sed -e 's/_realver=//' -e "s/'//g" -e 's/"//g') && \
+		_realver=$$(grep 'PACKAGE_VERSION=' configure | sed -e 's/PACKAGE_VERSION=//' -e "s/'//g") ; \
+		if [ ! -z $$_realver ] && [ $$_oldver != $$_realver ]; then \
+			echo "$(subst -git,,$*) : $$_oldver $$_realver" ; \
+			sed -i "s/^_realver=[^ ]*/_realver=$$_realver/" "$(PWD)/$*/PKGBUILD" ; \
+		fi ; \
+	fi
+
 PROTOS=$(shell ls | grep 'proto-git')
 
 $(PROTOS): xorg-util-macros-git

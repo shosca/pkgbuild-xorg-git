@@ -7,11 +7,11 @@ _realver=1.13.99.901
 pkgbase=xorg-server
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
 pkgver=20130130
-pkgrel=0725
+pkgrel=1548
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
-makedepends=('bigreqsproto>=1.1.2' 'compositeproto>=0.4.2' 'dmxproto>=2.3.1' 'dri2proto>=2.8' 'fontsproto>=2.1.2' 'git' 'glproto>=1.4.16' 'inputproto>=2.2.99.1' 'libdmx>=1.1.2' 'libgcrypt' 'libgl' 'libpciaccess>=0.13.1' 'libx11>=1.5.0' 'libxaw' 'libxfont' 'libxi' 'libxkbfile' 'libxmu' 'libxrender>=0.9.7' 'libxres>=1.1.99.0' 'libxtst>=1.2.1' 'libxv' 'mesa' 'pixman>=0.29.1' 'randrproto>=1.4.0' 'recordproto>=1.14.2' 'renderproto>=0.11.1' 'resourceproto>=1.2.0' 'scrnsaverproto>=1.2.2' 'udev' 'videoproto>=2.3.1' 'xcmiscproto>=1.2.2' 'xextproto>=7.2.1' 'xf86dgaproto>=2.1' 'xf86driproto>=2.1.1' 'xineramaproto>=1.2.1' 'xorg-font-util' 'xorg-util-macros-git' 'xorg-xkbcomp' 'xtrans>=1.2.7')
+makedepends=('bigreqsproto>=1.1.2' 'compositeproto>=0.4.2' 'dmxproto>=2.3.1' 'dri2proto>=2.8' 'fontsproto>=2.1.2' 'git' 'glproto>=1.4.16' 'inputproto>=2.2.99.1' 'libdmx>=1.1.2' 'libgcrypt' 'libgl' 'libpciaccess>=0.13.1' 'libx11>=1.5.0' 'libxaw' 'libxfont' 'libxi' 'libxkbfile' 'libxmu' 'libxrender>=0.9.7' 'libxres>=1.1.99.0' 'libxtst>=1.2.1' 'libxv' 'mesa' 'pixman>=0.29.3' 'randrproto>=1.4.0' 'recordproto>=1.14.2' 'renderproto>=0.11.1' 'resourceproto>=1.2.0' 'scrnsaverproto>=1.2.2' 'udev' 'videoproto>=2.3.1' 'xcmiscproto>=1.2.2' 'xextproto>=7.2.1' 'xf86dgaproto>=2.1' 'xf86driproto>=2.1.1' 'xineramaproto>=1.2.1' 'xorg-font-util' 'xorg-util-macros-git' 'xorg-xkbcomp' 'xtrans>=1.2.7')
 options=('!libtool')
 source=(autoconfig-nvidia.patch
         autoconfig-sis.patch
@@ -86,7 +86,7 @@ build() {
 
 package_xorg-server-common-git() {
   pkgdesc="Xorg server common files - Git ones"
-  depends=('xkeyboard-config>=2.7.99' 'xorg-fonts-misc' 'xorg-setxkbmap' 'xorg-xkbcomp')
+  depends=('xkeyboard-config>=2.8' 'xorg-fonts-misc' 'xorg-setxkbmap' 'xorg-xkbcomp')
   provides=("xorg-server-common=${_realver}")
   conflicts=('xorg-server-common')
 
@@ -103,7 +103,7 @@ package_xorg-server-common-git() {
 
 package_xorg-server-devel-git() {
   pkgdesc="Development files for the X.Org X server from Git"
-  depends=('dri2proto>=2.8' 'fontsproto>=2.1.2' 'inputproto>=2.2.99.1' 'kbproto>=1.0.6' 'libpciaccess>=0.13.1' 'pixman>=0.29.1' 'randrproto>=1.4.0' 'renderproto>=0.11.1' 'videoproto-git' 'xextproto>=7.2.1' 'xineramaproto>=1.2.1' 'xorg-util-macros-git' 'xproto>=7.0.23')
+  depends=('dri2proto>=2.8' 'fontsproto>=2.1.2' 'inputproto>=2.2.99.1' 'kbproto>=1.0.6' 'libpciaccess>=0.13.1' 'pixman>=0.29.3' 'randrproto>=1.4.0' 'renderproto>=0.11.1' 'videoproto-git' 'xextproto>=7.2.1' 'xineramaproto>=1.2.1' 'xorg-util-macros-git' 'xproto>=7.0.23')
   provides=("xorg-server-devel=${_realver}")
   conflicts=('xorg-server-devel')
 
@@ -117,7 +117,7 @@ package_xorg-server-devel-git() {
 
 package_xorg-server-xdmx-git() {
   pkgdesc="Distributed Multihead X Server and utilities - Git ones"
-  depends=('libdmx>=1.1.2' 'libgcrypt' 'libxaw' 'libxfixes>=5.0' 'libxfont' 'libxi' 'libxrender>=0.9.7' 'pixman>=0.29.1' 'xorg-server-common')
+  depends=('libdmx>=1.1.2' 'libgcrypt' 'libxaw' 'libxfixes>=5.0' 'libxfont' 'libxi' 'libxrender>=0.9.7' 'pixman>=0.29.3' 'xorg-server-common')
   provides=("xorg-server-xdmx=${_realver}")
   conflicts=('xorg-server-xdmx')
 
@@ -130,7 +130,7 @@ package_xorg-server-xdmx-git() {
 
 package_xorg-server-xephyr-git() {
   pkgdesc="A nested X server that runs as an X application - Git version"
-  depends=('libgcrypt' 'libgl' 'libxfont' 'libxv' 'pixman>=0.29.1' 'xorg-server-common')
+  depends=('libgcrypt' 'libgl' 'libxfont' 'libxv' 'pixman>=0.29.3' 'xorg-server-common')
   provides=("xorg-server-xephyr=${_realver}")
   conflicts=('xorg-server-xephyr')
 
@@ -143,7 +143,7 @@ package_xorg-server-xephyr-git() {
 
 package_xorg-server-xnest-git() {
   pkgdesc="A nested X server that runs as an X application - Git version"
-  depends=('libgcrypt' 'libxext>=1.3.1' 'libxfont' 'pixman>=0.29.1' 'xorg-server-common')
+  depends=('libgcrypt' 'libxext>=1.3.1' 'libxfont' 'pixman>=0.29.3' 'xorg-server-common')
   provides=("xorg-server-xnest=${_realver}")
   conflicts=('xorg-server-xnest')
 
@@ -156,7 +156,7 @@ package_xorg-server-xnest-git() {
 
 package_xorg-server-xvfb-git() {
   pkgdesc="Virtual framebuffer X server - Git version"
-  depends=('libgcrypt' 'libxau' 'libxdmcp' 'libxfont' 'pixman>=0.29.1' 'xorg-server-common')
+  depends=('libgcrypt' 'libxau' 'libxdmcp' 'libxfont' 'pixman>=0.29.3' 'xorg-server-common')
   provides=("xorg-server-xvfb=${_realver}")
   conflicts=('xorg-server-xvfb')
 
@@ -172,7 +172,7 @@ package_xorg-server-xvfb-git() {
 
 package_xorg-server-git() {
   pkgdesc="Xorg X server - Git version"
-  depends=('libdrm' 'libgcrypt' 'libpciaccess>=0.13.1' 'libxau' 'libxdmcp' 'libxfont' 'pixman>=0.29.1' 'udev' 'xf86-input-evdev' 'xorg-server-common')
+  depends=('libdrm' 'libgcrypt' 'libpciaccess>=0.13.1' 'libxau' 'libxdmcp' 'libxfont' 'pixman>=0.29.3' 'udev' 'xf86-input-evdev' 'xorg-server-common')
   backup=('etc/X11/xorg.conf.d/10-evdev.conf' 'etc/X11/xorg.conf.d/10-quirks.conf')
   provides=('x-server' "xorg-server=${_realver}")
   conflicts=('xorg-server' 'nvidia-utils<=290.10')
