@@ -97,7 +97,7 @@ $(DIRS):
 
 PULL_TARGETS=$(addsuffix -pull, $(DIRS))
 
-pull: $(PULL_TARGETS)
+pullall: $(PULL_TARGETS)
 
 %-pull:
 	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$*/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
