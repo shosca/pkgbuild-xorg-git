@@ -3,8 +3,8 @@
 
 _realver=0.29.1
 pkgname=pixman-git
-pkgver=20130129
-pkgrel=1555
+pkgver=20130130
+pkgrel=0715
 pkgdesc="The pixel-manipulation library for X and cairo"
 arch=(i686 x86_64)
 url="http://pixman.org/"
