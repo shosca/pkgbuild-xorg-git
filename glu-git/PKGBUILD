@@ -2,14 +2,14 @@
 
 _realver=9.0.0
 pkgname=glu-git
-pkgver=20130130
-pkgrel=1550
+pkgver=20130131
+pkgrel=0755
 pkgdesc="GL utility library for mesa builds from git after 2012-08-31"
 arch=('i686' 'x86_64')
 url="http://mesa.freedesktop.org/"
 license=('LGPL')
 provides=('glu=${_realver}')
-depends=('mesa>=9.1.0' 'gcc-libs')
+depends=('mesa>=9.2.0' 'gcc-libs')
 conflicts=('glu')
 options=(!libtool)
 

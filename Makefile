@@ -97,7 +97,7 @@ $(DIRS):
 
 PULL_TARGETS=$(addsuffix -pull, $(DIRS))
 
-pullall: $(PULL_TARGETS)
+gitpull: $(PULL_TARGETS)
 
 %-pull:
 	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$*/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
@@ -116,7 +116,6 @@ vers: $(VER_TARGETS)
 %-ver:
 	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$*/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
 	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
-	echo $$_gitname ; \
 	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
 		cd $(PWD)/$*/src/$$_gitname && \
 		autoreconf -f > /dev/null 2>&1 && \

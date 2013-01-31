@@ -2,10 +2,10 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
-_realver=9.1.0
+_realver=9.2.0
 pkgbase=mesa-git
-pkgver=20130130
-pkgrel=1544
+pkgver=20130131
+pkgrel=0747
 pkgname=('libglapi-git libgl-git' 'mesa-git' 'osmesa-git' 'libgbm-git' 'libgles-git' 'libegl-git' 'libegl-wayland-git' 'khrplatform-devel-git' 'ati-dri-git' 'intel-dri-git' 'svga-dri-git' 'nouveau-dri-git')
 
 arch=('i686' 'x86_64')
@@ -209,6 +209,8 @@ package_ati-dri-git() {
   provides=('ati-dri=${_realver}')
   conflicts=('ati-dri' 'xf86-video-ati<6.9.0-6')
 
+  make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" install-libLTLIBRARIES
+
   # classic mesa drivers for radeon,r200
   make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/radeon DESTDIR="${pkgdir}" install
   make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/r200 DESTDIR="${pkgdir}" install
@@ -231,6 +233,8 @@ package_ati-dri-git() {
   install -m644 ${srcdir}/${_gitname}/src/gallium/targets/pipe-loader/.libs/pipe_radeonsi.so \
     ${pkgdir}/usr/lib/gallium-pipe/
 
+  make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall-libLTLIBRARIES
+
   install -m755 -d "${pkgdir}/usr/share/licenses/ati-dri"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/ati-dri/"
 }
@@ -241,8 +245,12 @@ package_intel-dri-git() {
   provides=('intel-dri=${_realver}')
   conflicts=('intel-dri')
 
+  make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" install-libLTLIBRARIES
+
   make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/i915 DESTDIR="${pkgdir}" install
   make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/i965 DESTDIR="${pkgdir}" install
+
+  make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall-libLTLIBRARIES
 
   install -m755 -d "${pkgdir}/usr/share/licenses/intel-dri"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/intel-dri/"
@@ -253,6 +261,8 @@ package_nouveau-dri-git() {
   pkgdesc="Mesa classic DRI + Gallium3D drivers for Nouveau"
   provides=('nouveau-dri=${_realver}')
   conflicts=('nouveau-dri')
+
+  make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" install-libLTLIBRARIES
 
   # classic mesa driver for nv10 , nv20 nouveau_vieux_dri.so
   make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/nouveau DESTDIR="${pkgdir}" install
@@ -265,6 +275,8 @@ package_nouveau-dri-git() {
   install -m755 -d "${pkgdir}/usr/lib/gallium-pipe/"
   install -m644 ${srcdir}/${_gitname}/src/gallium/targets/pipe-loader/.libs/pipe_nouveau.so \
     ${pkgdir}/usr/lib/gallium-pipe/
+
+  make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall-libLTLIBRARIES
 
   install -m755 -d "${pkgdir}/usr/share/licenses/nouveau-dri"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/nouveau-dri/"
