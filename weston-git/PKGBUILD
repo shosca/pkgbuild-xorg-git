@@ -4,12 +4,12 @@
 _realver=1.0.0
 pkgname=weston-git
 pkgver=20130131
-pkgrel=1411
+pkgrel=1909
 pkgdesc="A modern display server."
 arch=(i686 x86_64)
 url="http://wayland.freedesktop.org"
 license=('MIT')
-depends=('libxkbcommon>=0.2.0' 'wayland>=1.1.0' 'libegl-wayland-git' 'cairo>=1.12.11'
+depends=('libxkbcommon>=0.2.0' 'wayland>=1.1.0' 'libegl-wayland-git' 'cairo>=1.12.13'
          'poppler-glib' 'mtdev' 'libxcursor>=1.1.13' 'pixman>=0.29.1' 'glu>=9.0.0')
 options=(!libtool)
 provides=('weston=${_realver}')

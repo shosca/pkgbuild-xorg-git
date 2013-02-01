@@ -1,7 +1,7 @@
 # Maintainer: dx <dx@dxzone.com.ar>
 # Based on the official cairo package
 
-_realver=1.12.11
+_realver=1.12.13
 pkgname=cairo-git
 pkgver=20130131
 pkgrel=1354
