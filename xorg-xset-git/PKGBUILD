@@ -1,0 +1,47 @@
+# $Id: PKGBUILD 134284 2011-08-02 18:56:04Z jgc $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_realver=1.2.2
+pkgname=xorg-xset-git
+pkgver=20130202
+pkgrel=0717
+pkgdesc="User preference utility for X"
+arch=(i686 x86_64)
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libxmu')
+makedepends=('xorg-util-macros')
+groups=('xorg-apps' 'xorg')
+provides=('xorg-xset=${_realver}')
+conflicts=('xorg-xset')
+replaces=('xorg-xset')
+
+_gitroot="git://anongit.freedesktop.org/xorg/app/xset"
+_gitname="xset"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr --without-fontcache --without-xf86misc
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+# vim: ft=sh syn=sh et

@@ -169,6 +169,8 @@ libice: xproto-git xtrans-git
 
 libpciaccess-git: xorg-util-macros-git
 
+libvdpau-git: libx11-git
+
 libdrm-git: libpciaccess-git
 
 cairo-git: libxrender-git pixman-git
@@ -210,6 +212,8 @@ xorg-xrandr-git: libxrandr-git libx11-git
 xorg-xprop-git: libx11-git
 
 xorg-xev-git: libx11-git libxrandr-git xproto-git
+
+xorg-xset-git: libxmu-git xorg-util-macros-git
 
 xorg-xwininfo-git: libxcb-git libx11-git
 
