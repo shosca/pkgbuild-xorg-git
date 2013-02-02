@@ -5,13 +5,13 @@
 _realver=9.2.0
 pkgbase=mesa-git
 pkgver=20130202
-pkgrel=0712
+pkgrel=1106
 pkgname=('libglapi-git libgl-git' 'mesa-git' 'osmesa-git' 'libgbm-git' 'libgles-git' 'libegl-git' 'libegl-wayland-git' 'khrplatform-devel-git' 'ati-dri-git' 'intel-dri-git' 'svga-dri-git' 'nouveau-dri-git')
 
 arch=('i686' 'x86_64')
 depends=('gcc-libs' 'glibc' 'libdrm>=2.4.41' 'expat' 'libxt>=1.1.3' 'libxxf86vm>=1.1.2'
           'libxdamage>=1.1.4' 'libx11-git' 'libxcb-git' 'libxfixes-git' 'libxext-git'
-          'libxvmc>=1.0.7', 'wayland>=1.1.0')
+          'libxvmc>=1.0.7', 'wayland>=1.0.90')
 makedepends=('glproto>=1.4.16' 'expat>=2.1.0' 'gcc-libs>=4.7.1-6' 'dri2proto>=2.8'
               'python2' 'libxml2' 'llvm-amdgpu-git' 'systemd'
               'libvdpau>=0.5')
@@ -180,7 +180,7 @@ package_libegl-git() {
 }
 
 package_libegl-wayland-git() {
-  depends=('libegl-git' 'wayland>=1.1.0')
+  depends=('libegl-git' 'wayland>=1.0.90')
   pkgdesc="Mesa EGL wayland libraries and headers"
   provides=('libegl-wayland=${_realver}')
   conflicts=('libegl-wayland')
