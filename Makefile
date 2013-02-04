@@ -219,6 +219,8 @@ xorg-xwininfo-git: libxcb-git libx11-git
 
 xorg-bdftopcf-git: libxfont-git xproto-git
 
+xorg-xmessage-git: libxaw-git
+
 xf86-input-evdev-git: xorg-server-git
 
 xf86-input-synaptics-git: xorg-server-git

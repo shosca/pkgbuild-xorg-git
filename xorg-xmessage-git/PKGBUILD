@@ -1,0 +1,45 @@
+# $Id: PKGBUILD 175089 2013-01-13 09:51:21Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_realver=1.0.4
+pkgname=xorg-xmessage-git
+pkgver=20130204
+pkgrel=1353
+pkgdesc="Display a message or query in a window"
+arch=(i686 x86_64)
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libxaw')
+makedepends=('xorg-util-macros')
+provides=('xorg-xmessage=${_realver}')
+conflicts=('xorg-xmessage')
+replaces=('xorg-xmessage')
+
+_gitroot="git://anongit.freedesktop.org/xorg/app/xmessage"
+_gitname="xmessage"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
+
+# vim: ft=sh syn=sh et
