@@ -2,9 +2,9 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.1.0
-pkgname=xorg-mkfontscale
+pkgname=xorg-mkfontscale-git
 pkgver=20130205
-pkgrel=0911
+pkgrel=0945
 pkgdesc="Create an index of scalable font files for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
