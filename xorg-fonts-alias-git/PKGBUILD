@@ -1,0 +1,43 @@
+# $Id: PKGBUILD 141648 2011-11-01 09:57:08Z pierre $
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_realver=1.0.3
+pkgname=xorg-fonts-alias-git
+pkgver=20130205
+pkgrel=0901
+pkgdesc="X.org font alias files"
+arch=('any')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+source=('LICENSE')
+md5sums=('ff91ae6d96d76130482d04653e7a836a')
+provides=('xorg-fonts-alias=${_realver}')
+conflicts=('xorg-fonts-alias')
+provides=('xorg-fonts-alias')
+
+_gitroot='git://git.freedesktop.org/git/xorg/font/alias'
+_gitname='xorg-fonts-alias'
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --with-fontrootdir=/usr/share/fonts
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+}
+
+# vim: ft=sh syn=sh et

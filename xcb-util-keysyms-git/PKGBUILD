@@ -1,0 +1,58 @@
+# $Id: PKGBUILD 160619 2012-06-02 21:15:01Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
+
+_realver=0.3.9
+pkgname=xcb-util-keysyms-git
+pkgver=20130205
+pkgrel=0847
+pkgdesc="Utility libraries for XC Binding - Standard X key constants and conversion to/from keycodes"
+arch=('i686' 'x86_64')
+url="http://xcb.freedesktop.org"
+license=('custom')
+depends=('libxcb>=1.7')
+makedepends=('xorg-util-macros')
+options=('!libtool')
+source=('LICENSE')
+sha256sums=('ded299aa179dcf0d885bf89274a4db77a530e03f9f5e7cf1c3c4ef1d60e914b9')
+provides=('xcb-util-keysyms=${_realver}')
+conflicts=('xcb-util-keysyms')
+replaces=('xcb-util-keysyms')
+
+_gitroot="git://anongit.freedesktop.org/xcb/util-keysyms"
+_gitname="xcb-util-keysyms"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+  git submodule init && git submodule update
+
+
+  ./autogen.sh --prefix=/usr --disable-static
+  make
+}
+
+check() {
+  cd "${srcdir}/${_gitname}"
+  make check
+}
+
+package() { 
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -D -m644 "${srcdir}/LICENSE" \
+    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
+# vim: ft=sh syn=sh et

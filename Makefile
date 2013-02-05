@@ -139,6 +139,10 @@ libxcb-git: xcb-proto-git libxdmcp-git libxau-git
 
 libx11-git: libxcb-git xproto-git kbproto-git xextproto-git xtrans-git inputproto-git
 
+xcb-util-git: libxcb-git xproto-git
+
+xcb-util-keysyms-git: libxcb-git
+
 libxext-git: libx11-git xextproto-git
 
 libxrender-git: libx11-git renderproto-git
@@ -173,7 +177,7 @@ libvdpau-git: libx11-git
 
 libdrm-git: libpciaccess-git
 
-cairo-git: libxrender-git pixman-git
+cairo-git: libxrender-git pixman-git xcb-util-git
 
 mesa-git: $(PROTOS) libdrm-git llvm-amdgpu-git libxfixes-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git
 
@@ -215,11 +219,15 @@ xorg-xev-git: libx11-git libxrandr-git xproto-git
 
 xorg-xset-git: libxmu-git xorg-util-macros-git
 
+xorg-mkfontscale-git: libfontenc-git xproto-git
+
 xorg-xwininfo-git: libxcb-git libx11-git
 
 xorg-bdftopcf-git: libxfont-git xproto-git
 
 xorg-xmessage-git: libxaw-git
+
+xorg-fonts-encodings-git: xorg-mkfontscale-git xorg-util-macros-git xorg-font-util-git
 
 xf86-input-evdev-git: xorg-server-git
 
@@ -227,7 +235,7 @@ xf86-input-synaptics-git: xorg-server-git
 
 xf86-video-ati-git: xorg-server-git mesa-git glamor-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
 
-xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git
+xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git
 
 xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git
 

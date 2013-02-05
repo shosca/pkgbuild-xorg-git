@@ -1,0 +1,46 @@
+# $Id: PKGBUILD 149834 2012-02-11 10:04:54Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_realver=1.1.0
+pkgname=xorg-mkfontscale
+pkgver=20130205
+pkgrel=0911
+pkgdesc="Create an index of scalable font files for X"
+arch=(i686 x86_64)
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('freetype2' 'libfontenc')
+makedepends=('xorg-util-macros' 'xproto')
+groups=('xorg-apps' 'xorg')
+provides=('xorg-mkfontscale')
+conflicts=('xorg-mkfontscale')
+
+_gitroot="git://anongit.freedesktop.org/xorg/app/mkfontscale"
+_gitname="mkfontscale"
+
+build() {
+  cd "${srcdir}"
+  msg 'Connecting to GIT server....'
+  if [ -d ${_gitname} ] ; then
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
+  else
+    git clone --depth 1 ${_gitroot} ${_gitname}
+  fi
+  msg 'GIT checkout done or server timeout'
+  msg 'Starting make...'
+
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+# vim: ft=sh syn=sh et
