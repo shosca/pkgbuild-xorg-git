@@ -1,5 +1,5 @@
 REPO=xorg-git
-LOCAL=/home/packages/$(REPO)
+LOCAL=/home/serkan/public_html/arch/$(REPO)
 REMOTE=74.72.157.140:/home/serkan/public_html/arch/$(REPO)
 
 PWD=$(shell pwd)
