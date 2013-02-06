@@ -2,7 +2,7 @@
 #Jan de Groot
 #Andreas Radke
 
-_realver=2.4.41
+_realver=2.4.42
 pkgname=lib32-libdrm-git
 pkgver=20130205
 pkgrel=0845

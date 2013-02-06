@@ -4,13 +4,13 @@
 
 _realver=1.0.6
 pkgname=xf86-video-nouveau-git
-pkgver=20130205
-pkgrel=0944
+pkgver=20130206
+pkgrel=0801
 pkgdesc="Open Source 2D acceleration driver for nVidia cards"
 arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
 license=('GPL')
-depends=('libdrm>=2.4.41' 'udev' 'nouveau-dri>=9.2.0')
+depends=('libdrm>=2.4.42' 'udev' 'nouveau-dri>=9.2.0')
 makedepends=('xorg-server-devel-git')
 provides=('xf86-video-nouveau=${_realver}')
 conflicts=('xf86-video-nouveau')

@@ -6,10 +6,10 @@ _realver=9.2.0
 pkgbase=lib32-mesa-git
 pkgdesc="Open-source implementation of the OpenGL specification, device drivers ranging from software emulation to complete hardware acceleration for modern GPUs."
 pkgname=('lib32-libglapi-git' 'lib32-libgl-git' 'lib32-mesa-git' 'lib32-libgbm-git' 'lib32-libgles-git' 'lib32-libegl-git' 'lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git')
-pkgver=20130205
-pkgrel=0935
+pkgver=20130206
+pkgrel=0748
 arch=('x86_64')
-makedepends=('glproto>=1.4.16' 'lib32-libdrm>=2.4.41' 'lib32-libxxf86vm>=1.1.2' 'lib32-libxdamage>=1.1.3' 'lib32-expat>=2.1.0' 'lib32-libx11>=1.5.0' 'lib32-libxt>=1.1.3'
+makedepends=('glproto>=1.4.16' 'lib32-libdrm>=2.4.42' 'lib32-libxxf86vm>=1.1.2' 'lib32-libxdamage>=1.1.3' 'lib32-expat>=2.1.0' 'lib32-libx11>=1.5.0' 'lib32-libxt>=1.1.3'
              'gcc-multilib' 'dri2proto-git' 'python2' 'libxml2' 'lib32-llvm-amdgpu-git' 'lib32-systemd')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
@@ -79,7 +79,7 @@ package_lib32-libglapi-git() {
 }
 
 package_lib32-libgl-git() {
-  depends=('lib32-libdrm>=2.4.41' 'lib32-libxxf86vm>=1.1.2' 'lib32-libxdamage>=1.1.3' 'lib32-expat>=2.1.0' 'lib32-libglapi-git' 'gcc-libs-multilib')
+  depends=('lib32-libdrm>=2.4.42' 'lib32-libxxf86vm>=1.1.2' 'lib32-libxdamage>=1.1.3' 'lib32-expat>=2.1.0' 'lib32-libglapi-git' 'gcc-libs-multilib')
   pkgdesc="Mesa 3-D graphics library and DRI software rasterizer"
   provides=('lib32-libgl=${_realver}')
   conflicts=('lib32-libgl')
@@ -134,7 +134,7 @@ package_lib32-libgbm-git() {
 }
 
 package_lib32-libgles-git() {
-  depends=('lib32-libglapi-git' 'lib32-libdrm>=2.4.41' 'khrplatform-devel')
+  depends=('lib32-libglapi-git' 'lib32-libdrm>=2.4.42' 'khrplatform-devel')
   pkgdesc="Mesa GLES libraries and headers"
   provides=('lib32-libgles=${_realver}')
   conflicts=('lib32-libgles')
