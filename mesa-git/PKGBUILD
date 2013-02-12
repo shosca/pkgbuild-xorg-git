@@ -4,8 +4,8 @@
 
 _realver=9.2.0
 pkgbase=mesa-git
-pkgver=20130211
-pkgrel=1724
+pkgver=20130212
+pkgrel=0848
 pkgname=('libglapi-git libgl-git' 'mesa-git' 'osmesa-git' 'libgbm-git' 'libgles-git' 'libegl-git' 'libegl-wayland-git' 'khrplatform-devel-git' 'ati-dri-git' 'intel-dri-git' 'svga-dri-git' 'nouveau-dri-git')
 
 arch=('i686' 'x86_64')
