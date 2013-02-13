@@ -4,10 +4,10 @@
 # Contributor: fs4000 <matthias_dienstbier[at]yahoo[dot]de>
 # Contributor: William Heinbockel <wheinbockel[at]gmail[dot]com>
 
-_realver=2.21.0
+_realver=2.21.2
 pkgname=xf86-video-intel-git
-pkgver=20130212
-pkgrel=1817
+pkgver=20130213
+pkgrel=0736
 pkgdesc='X.org Intel i810/i830/i915/945G/G965+ video drivers'
 arch=('i686' 'x86_64')
 url='http://intellinuxgraphics.org/'

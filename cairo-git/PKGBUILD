@@ -1,10 +1,10 @@
 # Maintainer: dx <dx@dxzone.com.ar>
 # Based on the official cairo package
 
-_realver=1.12.13
+_realver=1.12.15
 pkgname=cairo-git
-pkgver=20130212
-pkgrel=0844
+pkgver=20130213
+pkgrel=0715
 pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)
 license=('LGPL' 'MPL')
