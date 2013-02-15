@@ -3,8 +3,8 @@
 
 _realver=0.9.7
 pkgname=libxrender-git
-pkgver=20130128
-pkgrel=1439
+pkgver=20130214
+pkgrel=1845
 pkgdesc="X Rendering Extension client library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

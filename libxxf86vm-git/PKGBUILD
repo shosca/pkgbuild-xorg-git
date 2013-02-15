@@ -3,8 +3,8 @@
 
 _realver=1.1.2
 pkgname=libxxf86vm-git
-pkgver=20130128
-pkgrel=1453
+pkgver=20130214
+pkgrel=1850
 pkgdesc="X11 XFree86 video mode extension library"
 arch=('x86_64' 'i686')
 license=('custom')
