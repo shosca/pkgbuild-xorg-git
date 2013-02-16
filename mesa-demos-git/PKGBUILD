@@ -3,7 +3,7 @@
 _realver=8.0.1
 pkgname=mesa-demos-git
 pkgver=20130216
-pkgrel=0613
+pkgrel=1254
 pkgdesc="The mesa demos (glxinfo, glxgears, ...), built from the git master branch."
 arch=(i686 x86_64)
 url="http://mesa3d.org/"
