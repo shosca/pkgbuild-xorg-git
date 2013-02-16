@@ -3,8 +3,8 @@
 
 _realver=1.0.7
 pkgname=libxvmc-git
-pkgver=20130214
-pkgrel=1850
+pkgver=20130216
+pkgrel=0600
 pkgdesc="X11 Video Motion Compensation extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

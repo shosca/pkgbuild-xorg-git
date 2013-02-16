@@ -3,8 +3,8 @@
 
 _realver=3.5.10
 pkgname=libxpm-git
-pkgver=20130214
-pkgrel=1848
+pkgver=20130216
+pkgrel=0558
 pkgdesc="X11 pixmap library"
 arch=('i686' 'x86_64')
 license=('custom')
