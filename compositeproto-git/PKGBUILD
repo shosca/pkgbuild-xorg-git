@@ -4,8 +4,8 @@
 
 _realver=0.4.2
 pkgname=compositeproto-git
-pkgver=20130128
-pkgrel=1440
+pkgver=20130218
+pkgrel=0753
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

@@ -3,8 +3,8 @@
 
 _realver=1.0.90
 pkgname=weston-git
-pkgver=20130217
-pkgrel=1440
+pkgver=20130218
+pkgrel=0904
 pkgdesc="A modern display server."
 arch=(i686 x86_64)
 url="http://wayland.freedesktop.org"
@@ -31,27 +31,22 @@ build() {
   cd "${srcdir}/${_gitname}"
 
 
-  ./autogen.sh --prefix=/usr --libexecdir=/usr/lib/weston
+  ./autogen.sh \
+    --prefix=/usr \
+    --libexecdir=/usr/lib/weston \
+    --disable-android-compositor
+
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 
-  install -m 755 -D clients/clickdot "${pkgdir}/usr/bin/weston-clickdot"
-  install -m 755 -D clients/dnd "${pkgdir}/usr/bin/weston-dnd"
-  install -m 755 -D clients/editor "${pkgdir}/usr/bin/weston-editor"
-  install -m 755 -D clients/eventdemo "${pkgdir}/usr/bin/weston-eventdemo"
-  install -m 755 -D clients/flower "${pkgdir}/usr/bin/weston-flower"
-  install -m 755 -D clients/gears "${pkgdir}/usr/bin/weston-gears"
-  install -m 755 -D clients/image "${pkgdir}/usr/bin/weston-image"
-  install -m 755 -D clients/resizor "${pkgdir}/usr/bin/weston-resizor"
-  install -m 755 -D clients/simple-egl "${pkgdir}/usr/bin/weston-simple-egl"
-  install -m 755 -D clients/simple-shm "${pkgdir}/usr/bin/weston-simple-shm"
-  install -m 755 -D clients/simple-touch "${pkgdir}/usr/bin/weston-simple-touch"
-  install -m 755 -D clients/smoke "${pkgdir}/usr/bin/weston-smoke"
-  install -m 755 -D clients/view "${pkgdir}/usr/bin/weston-view"
+  for _c in clickdot cliptest dnd editor eventdemo flower gears image resizor simple-egl simple-shm simple-touch smoke view; do
+    install -Dm755 "clients/$_c" "${pkgdir}/usr/bin/weston-$_c"
+  done
 }
 
 # vim: ft=sh syn=sh et
