@@ -74,8 +74,8 @@ package_libglapi-git() {
 
   make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/libglapi"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libglapi/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_libgl-git() {
@@ -93,8 +93,8 @@ package_libgl-git() {
   install -m644 ${srcdir}/${_gitname}/src/gallium/targets/pipe-loader/.libs/pipe_swrast.so \
     ${pkgdir}/usr/lib/gallium-pipe/
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/libgl"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libgl/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_mesa-git() {
@@ -111,8 +111,8 @@ package_mesa-git() {
   make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/common DESTDIR="${pkgdir}" install-sysconfDATA
   make -C ${srcdir}/${_gitname}/src/gallium/targets/xa-vmwgfx DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/mesa"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/mesa/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_osmesa-git() {
@@ -124,8 +124,8 @@ package_osmesa-git() {
 
   make -C ${srcdir}/${_gitname}/src/mesa/drivers/osmesa DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/osmesa"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/osmesa/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_libgbm-git() {
@@ -136,8 +136,8 @@ package_libgbm-git() {
 
   make -C ${srcdir}/${_gitname}/src/gbm DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/libgbm"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libgbm/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_libgles-git() {
@@ -149,8 +149,8 @@ package_libgles-git() {
   make -C ${srcdir}/${_gitname}/src/mapi/es1api DESTDIR="${pkgdir}" install
   make -C ${srcdir}/${_gitname}/src/mapi/es2api DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/libgles"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libgles/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_libegl-git() {
@@ -160,23 +160,23 @@ package_libegl-git() {
   provides=('libegl=${_realver}')
   conflicts=('libegl')
 
-  # fix link with libllvmradeon9.1
+  # fix link with libllvmradeon
   make -C ${srcdir}/${_gitname}/src/gallium/drivers/radeon DESTDIR="${pkgdir}" install
 
   make -C ${srcdir}/${_gitname}/src/gallium/targets/egl-static DESTDIR="${pkgdir}" install
   make -C ${srcdir}/${_gitname}/src/egl DESTDIR="${pkgdir}" install
-
+  install -m755 -d "${pkgdir}/usr/share/doc/libegl"
+  install -m644 ${srcdir}/${_gitname}/docs/egl.html "${pkgdir}/usr/share/doc/libegl/"
   make -C ${srcdir}/${_gitname}/src/egl/wayland DESTDIR="${pkgdir}" uninstall
-  # fix link with libllvmradeon9.1
+
+  # fix link with libllvmradeon
   make -C ${srcdir}/${_gitname}/src/gallium/drivers/radeon DESTDIR="${pkgdir}" uninstall
 
   # fix file conflicts
   rm -rf ${pkgdir}/usr/include/KHR
 
-  install -m755 -d "${pkgdir}/usr/share/doc/libegl"
-  install -m644 ${srcdir}/${_gitname}/docs/egl.html "${pkgdir}/usr/share/doc/libegl/"
-  install -m755 -d "${pkgdir}/usr/share/licenses/libegl"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libegl/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_libegl-wayland-git() {
@@ -187,8 +187,8 @@ package_libegl-wayland-git() {
 
   make -C ${srcdir}/${_gitname}/src/egl/wayland DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/libegl-wayland"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libegl-wayland/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_khrplatform-devel-git() {
@@ -199,8 +199,8 @@ package_khrplatform-devel-git() {
   install -m755 -d "${pkgdir}/usr/include/KHR"
   install -m644 ${srcdir}/${_gitname}/include/KHR/khrplatform.h "${pkgdir}/usr/include/KHR/"
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/khrplatform-devel"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/khrplatform-devel/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_ati-dri-git() {
@@ -209,6 +209,7 @@ package_ati-dri-git() {
   provides=('ati-dri=${_realver}')
   conflicts=('ati-dri' 'xf86-video-ati<6.9.0-6')
 
+  # fix linking
   make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" install-libLTLIBRARIES
 
   # classic mesa drivers for radeon,r200
@@ -233,10 +234,11 @@ package_ati-dri-git() {
   install -m644 ${srcdir}/${_gitname}/src/gallium/targets/pipe-loader/.libs/pipe_radeonsi.so \
     ${pkgdir}/usr/lib/gallium-pipe/
 
+  # fix linking
   make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall-libLTLIBRARIES
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/ati-dri"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/ati-dri/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_intel-dri-git() {
@@ -245,15 +247,17 @@ package_intel-dri-git() {
   provides=('intel-dri=${_realver}')
   conflicts=('intel-dri')
 
+  # fix linking
   make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" install-libLTLIBRARIES
 
   make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/i915 DESTDIR="${pkgdir}" install
   make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/i965 DESTDIR="${pkgdir}" install
 
+  # fix linking
   make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall-libLTLIBRARIES
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/intel-dri"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/intel-dri/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_nouveau-dri-git() {
@@ -262,6 +266,7 @@ package_nouveau-dri-git() {
   provides=('nouveau-dri=${_realver}')
   conflicts=('nouveau-dri')
 
+  # fix linking
   make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" install-libLTLIBRARIES
 
   # classic mesa driver for nv10 , nv20 nouveau_vieux_dri.so
@@ -276,10 +281,11 @@ package_nouveau-dri-git() {
   install -m644 ${srcdir}/${_gitname}/src/gallium/targets/pipe-loader/.libs/pipe_nouveau.so \
     ${pkgdir}/usr/lib/gallium-pipe/
 
+  # fix linking
   make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall-libLTLIBRARIES
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/nouveau-dri"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/nouveau-dri/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_svga-dri-git() {
@@ -295,8 +301,8 @@ package_svga-dri-git() {
   install -m644 ${srcdir}/${_gitname}/src/gallium/targets/pipe-loader/.libs/pipe_vmwgfx.so \
     ${pkgdir}/usr/lib/gallium-pipe/
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/svga-dri"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/svga-dri/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 # vim: ft=sh syn=sh et
