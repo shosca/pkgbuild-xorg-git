@@ -5,8 +5,8 @@
 # Contributor: Tomas Wilhelmsson <tomas.wilhelmsson@gmail.com>
 
 pkgname=lib32-llvm-amdgpu-git
-pkgver=20130213
-pkgrel=1841
+pkgver=20130219
+pkgrel=1751
 pkgdesc='Low Level Virtual Machine - Compiler infrastructure with experimental AMDGPU enabled (git version)'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
