@@ -3,8 +3,8 @@
 
 _realver=0.6
 pkgname=libvdpau-git
-pkgver=20130216
-pkgrel=0612
+pkgver=20130222
+pkgrel=1959
 pkgdesc="Nvidia VDPAU library"
 arch=(i686 x86_64)
 url='http://cgit.freedesktop.org/~aplattner/libvdpau'

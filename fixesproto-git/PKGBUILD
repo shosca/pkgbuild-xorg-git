@@ -4,8 +4,8 @@
 
 _realver=5.0
 pkgname=fixesproto-git
-pkgver=20130211
-pkgrel=0737
+pkgver=20130222
+pkgrel=1908
 pkgdesc='X11 fixes extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

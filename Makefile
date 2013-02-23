@@ -31,7 +31,7 @@ pull:
 clean:
 	find -name '*$(PKGEXT)' -exec rm {} \;
 	find -name 'built' -exec rm {} \;
-	rm -f */*.log
+	rm -f */*.log $(LOCAL)/*$(PKGEXT)
 
 show:
 	@echo $(DATE)

@@ -3,8 +3,8 @@
 
 _realver=1.2.2
 pkgname=xorg-xset-git
-pkgver=20130221
-pkgrel=0753
+pkgver=20130222
+pkgrel=2003
 pkgdesc="User preference utility for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

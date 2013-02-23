@@ -2,8 +2,8 @@
 # Previous Maintainer: Valère Monseur <valere dot monseur at ymail dot com>
 
 pkgname=compton-git
-pkgver=20130218
-pkgrel=0754
+pkgver=20130222
+pkgrel=1911
 pkgdesc="X Compositor (a fork of xcompmgr-dana)"
 arch=(i686 x86_64)
 url="https://github.com/chjj/compton"

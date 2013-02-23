@@ -4,8 +4,8 @@
 
 _realver=1.0.6
 pkgname=kbproto-git
-pkgver=20130128
-pkgrel=1437
+pkgver=20130222
+pkgrel=1901
 pkgdesc='X11 kb extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

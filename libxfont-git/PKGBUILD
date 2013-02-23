@@ -3,8 +3,8 @@
 
 _realver=1.4.5
 pkgname=libxfont-git
-pkgver=20130128
-pkgrel=1446
+pkgver=20130222
+pkgrel=1916
 pkgdesc="X11 font rasterisation library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

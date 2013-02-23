@@ -3,8 +3,8 @@
 
 _realver=1.2.1
 pkgname=libsm-git
-pkgver=20130128
-pkgrel=1510
+pkgver=20130222
+pkgrel=1959
 pkgdesc="X11 Session Management library"
 arch=('i686' 'x86_64')
 license=('custom')

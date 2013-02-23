@@ -2,8 +2,8 @@
 
 _realver=0.2.0
 pkgname=libxkbcommon-git
-pkgver=20130128
-pkgrel=1511
+pkgver=20130222
+pkgrel=1959
 pkgdesc="A library to handle keyboard descriptions."
 url="http://xkbcommon.org/"
 arch=(i686 x86_64)
