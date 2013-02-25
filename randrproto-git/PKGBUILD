@@ -4,8 +4,8 @@
 
 _realver=1.4.0
 pkgname=randrproto-git
-pkgver=20130222
-pkgrel=1910
+pkgver=20130224
+pkgrel=1902
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

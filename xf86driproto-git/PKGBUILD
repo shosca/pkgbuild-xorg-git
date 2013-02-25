@@ -4,8 +4,8 @@
 
 _realver=2.1.1
 pkgname=xf86driproto-git
-pkgver=20130222
-pkgrel=1912
+pkgver=20130224
+pkgrel=1904
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
