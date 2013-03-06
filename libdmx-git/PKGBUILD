@@ -3,8 +3,8 @@
 
 _realver=1.1.2
 pkgname=libdmx-git
-pkgver=20130224
-pkgrel=1904
+pkgver=20130304
+pkgrel=2157
 pkgdesc="X11 Distributed Multihead extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
