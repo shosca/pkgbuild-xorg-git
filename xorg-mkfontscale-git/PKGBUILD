@@ -3,8 +3,8 @@
 
 _realver=1.1.0
 pkgname=xorg-mkfontscale-git
-pkgver=20130304
-pkgrel=2213
+pkgver=20130308
+pkgrel=1744
 pkgdesc="Create an index of scalable font files for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

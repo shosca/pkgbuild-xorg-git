@@ -4,14 +4,14 @@
 # Contributor: Anders Bergh <anders@archlinuxppc.org>
 # Contributor: Tomas Wilhelmsson <tomas.wilhelmsson@gmail.com>
 
-pkgname=lib32-llvm-amdgpu-git
-pkgver=20130301
-pkgrel=1854
+pkgname=lib32-llvm-git
+pkgver=20130308
+pkgrel=1733
 pkgdesc='Low Level Virtual Machine - Compiler infrastructure with experimental AMDGPU enabled (git version)'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
 license=('custom:University of Illinois/NCSA Open Source License')
-depends=('lib32-libffi' 'llvm-amdgpu-git' 'python2' 'ocaml')
+depends=('lib32-libffi' 'llvm-git' 'python2' 'ocaml')
 makedepends=('git' 'gcc-multilib')
 provides=('lib32-llvm')
 conflicts=('lib32-llvm')
@@ -19,7 +19,7 @@ conflicts=('lib32-llvm')
 # git so it can be useful
 options=('!strip')
 
-_gitroot="git://people.freedesktop.org/~tstellar/llvm"
+_gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 build() {

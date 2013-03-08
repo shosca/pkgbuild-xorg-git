@@ -3,8 +3,8 @@
 
 _realver=1.0.4
 pkgname=xorg-fonts-encodings-git
-pkgver=20130304
-pkgrel=2213
+pkgver=20130308
+pkgrel=1744
 pkgdesc="X.org font encoding files"
 arch=(any)
 url="http://xorg.freedesktop.org/"

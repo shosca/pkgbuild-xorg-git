@@ -4,13 +4,12 @@
 
 _realver=9.2.0
 pkgbase=lib32-mesa-git
-pkgdesc="Open-source implementation of the OpenGL specification, device drivers ranging from software emulation to complete hardware acceleration for modern GPUs."
-pkgname=('lib32-libglapi-git' 'lib32-libgl-git' 'lib32-mesa-git' 'lib32-libgbm-git' 'lib32-libgles-git' 'lib32-libegl-git' 'lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git')
-pkgver=20130305
-pkgrel=2033
+pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
+pkgver=20130308
+pkgrel=1738
 arch=('x86_64')
 makedepends=('glproto>=1.4.16' 'lib32-libdrm>=2.4.42' 'lib32-libxxf86vm>=1.1.2' 'lib32-libxdamage>=1.1.3' 'lib32-expat>=2.1.0' 'lib32-libx11>=1.5.0' 'lib32-libxt>=1.1.3'
-             'gcc-multilib' 'dri2proto-git' 'python2' 'libxml2' 'lib32-llvm-amdgpu-git' 'lib32-systemd')
+             'gcc-multilib' 'dri2proto-git' 'python2' 'libxml2' 'lib32-llvm-git' 'lib32-systemd')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
@@ -62,235 +61,98 @@ build() {
     --enable-glx \
     --enable-gles1 \
     --enable-gles2 \
-    --enable-texture-float
+    --enable-texture-float \
 
   make
-}
 
-package_lib32-libglapi-git() {
-  depends=('glibc')
-  pkgdesc="free implementation of the GL API -- shared library. The Mesa GL API module is responsible for dispatching all the gl* functions"
-  provides=('lib32-libglapi=${_realver}')
-  conflicts=('lib32-libglapi')
-
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
-
-  rm -rf ${pkgdir}/{etc,usr/include}
-}
-
-package_lib32-libgl-git() {
-  depends=('lib32-libdrm>=2.4.42' 'lib32-libxxf86vm>=1.1.2' 'lib32-libxdamage>=1.1.3' 'lib32-expat>=2.1.0' 'lib32-libglapi-git' 'gcc-libs-multilib')
-  pkgdesc="Mesa 3-D graphics library and DRI software rasterizer"
-  provides=('lib32-libgl=${_realver}')
-  conflicts=('lib32-libgl')
-
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
-
-  make -C ${srcdir}/${_gitname}/src/glx DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gallium/targets/dri-swrast DESTDIR="${pkgdir}" install
-
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
-
-  # install pipe loader
-  install -m755 -d "${pkgdir}/usr/lib32/gallium-pipe/"
-  install -m644 ${srcdir}/${_gitname}/src/gallium/targets/pipe-loader/.libs/pipe_swrast.so \
-    ${pkgdir}/usr/lib32/gallium-pipe/
-
-  rm -rf ${pkgdir}/{etc,usr/include}
-}
-
-package_lib32-mesa-git() {
-  depends=('lib32-libgl-git' 'lib32-libx11>=1.5.0' 'lib32-libxext>=1.3.1' 'lib32-libxdamage' 'lib32-libxfixes' 'lib32-libxcb' 'lib32-libxxf86vm')
-  optdepends=('opengl-man-pages: for the OpenGL API man pages')
-  pkgdesc="Mesa 3-D graphics libraries and include files"
-  provides=('lib32-mesa=${_realver}')
-  conflicts=('lib32-mesa')
-
-  make -C ${srcdir}/${_gitname}/src/mesa DESTDIR="${pkgdir}" install-pkgconfigDATA
-  make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri DESTDIR="${pkgdir}" install-pkgconfigDATA
-  make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/common DESTDIR="${pkgdir}" install-sysconfDATA
-
-  rm -rf ${pkgdir}/{etc,usr/include}
-}
-
-package_lib32-libgbm-git() {
-  depends=('systemd' 'lib32-libglapi-git' 'lib32-libdrm')
-  pkgdesc="Mesa gbm library"
-  provides=('lib32-libgbm=${_realver}')
-  conflicts=('lib32-libgbm')
-
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
-
-  make -C ${srcdir}/${_gitname}/src/gbm DESTDIR="${pkgdir}" install
-
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
-
-  rm -rf ${pkgdir}/{etc,usr/include}
-}
-
-package_lib32-libgles-git() {
-  depends=('lib32-libglapi-git' 'lib32-libdrm>=2.4.42' 'khrplatform-devel')
-  pkgdesc="Mesa GLES libraries and headers"
-  provides=('lib32-libgles=${_realver}')
-  conflicts=('lib32-libgles')
-
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
-
-  make -C ${srcdir}/${_gitname}/src/mapi/es1api DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/mapi/es2api DESTDIR="${pkgdir}" install
-
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
-
-  rm -rf ${pkgdir}/{etc,usr/include}
-}
-
-package_lib32-libegl-git() {
-  # check also egl.pc
-  depends=('lib32-libx11' 'lib32-libxext' 'lib32-libxdamage' 'lib32-libxfixes' 'lib32-libxxf86vm' 'lib32-libxcb' 'lib32-libgbm-git' 'khrplatform-devel')
-  pkgdesc="Mesa EGL libraries and headers"
-  provides=('lib32-libegl=${_realver}')
-  conflicts=('lib32-libegl')
-
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gbm DESTDIR="${pkgdir}" install
-
-  # fix link with libllvmradeon9.1
-  make -C ${srcdir}/${_gitname}/src/gallium/drivers/radeon DESTDIR="${pkgdir}" install
-
-  make -C ${srcdir}/${_gitname}/src/egl DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gallium/targets/egl-static DESTDIR="${pkgdir}" install
-
-  # fix link with libllvmradeon9.1
-  make -C ${srcdir}/${_gitname}/src/gallium/drivers/radeon DESTDIR="${pkgdir}" uninstall
-
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/gbm DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
-
-  # fix file conflicts
-  rm -rf ${pkgdir}/usr/include/KHR
-
-  rm -rf ${pkgdir}/{etc,usr/include}
+  rm -rf $srcdir/fakeinstall
+  mkdir $srcdir/fakeinstall
+  make DESTDIR=${srcdir}/fakeinstall install
 }
 
 package_lib32-ati-dri-git() {
-  depends=("lib32-libgl-git")
-  pkgdesc="Mesa DRI radeon/r200 + Gallium3D r300,r600 drivers for AMD/ATI Radeon"
+  depends=("lib32-mesa-libgl-git")
+  pkgdesc="Mesa drivers for AMD/ATI Radeon (32-bit)"
   provides=('lib32-ati-dri=${_realver}')
   conflicts=('lib32-ati-dri' 'xf86-video-ati<6.9.0-6')
 
-  make -C ${srcdir}/${_gitname}/src/gallium/drivers/radeon DESTDIR="${pkgdir}" install
+  install -m755 -d ${pkgdir}/usr/lib32/dri
+  install -m755 -d ${pkgdir}/usr/lib32/gallium-pipe
 
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gbm DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/egl DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gallium/targets/egl-static DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
+  mv -v ${srcdir}/fakeinstall/usr/lib32/dri/{r200,r300,r600,radeon,radeonsi}_dri.so ${pkgdir}/usr/lib32/dri/
+  mv -v ${srcdir}/fakeinstall/usr/lib32/gallium-pipe/pipe_{r300,r600,radeonsi}* ${pkgdir}/usr/lib32/gallium-pipe/
+  mv -v ${srcdir}/fakeinstall/usr/lib32/libllvmradeon* ${pkgdir}/usr/lib32/
 
-  # classic mesa drivers for radeon,r200
-  make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/radeon DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/r200 DESTDIR="${pkgdir}" install
-  # gallium3D driver for r300,r600,radeonsi
-  make -C ${srcdir}/${_gitname}/src/gallium/drivers/radeon DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gallium/targets/dri-r300 DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gallium/targets/dri-r600 DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gallium/targets/dri-radeonsi DESTDIR="${pkgdir}" install
-
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/egl DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/gallium/targets/egl-static DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/gbm DESTDIR="${pkgdir}" uninstall
-
-  # install pipe loader
-  install -m755 -d "${pkgdir}/usr/lib32/gallium-pipe/"
-  install -m644 ${srcdir}/${_gitname}/src/gallium/targets/pipe-loader/.libs/pipe_r300.so \
-    ${pkgdir}/usr/lib32/gallium-pipe/
-  install -m644 ${srcdir}/${_gitname}/src/gallium/targets/pipe-loader/.libs/pipe_r600.so \
-    ${pkgdir}/usr/lib32/gallium-pipe/
-  install -m644 ${srcdir}/${_gitname}/src/gallium/targets/pipe-loader/.libs/pipe_radeonsi.so \
-    ${pkgdir}/usr/lib32/gallium-pipe/
-
-  rm -rf ${pkgdir}/{etc,usr/include}
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_lib32-intel-dri-git() {
-  depends=("lib32-libgl-git")
-  pkgdesc="Mesa DRI drivers for Intel"
+  pkgdesc="Mesa drivers for Intel (32-bit)"
+  depends=("lib32-mesa-libgl-git")
   provides=('lib32-intel-dri=${_realver}')
   conflicts=('lib32-intel-dri')
+  replaces=('lib32-intel-dri')
 
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gbm DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gallium/drivers/radeon DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/egl DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gallium/targets/egl-static DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
+  install -m755 -d ${pkgdir}/usr/lib32/dri
+  mv -v ${srcdir}/fakeinstall/usr/lib32/dri/{i915,i965}_dri.so ${pkgdir}/usr/lib32/dri/
 
-  make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/i915 DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/i965 DESTDIR="${pkgdir}" install
-
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/gbm DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/gallium/drivers/radeon DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/egl DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/gallium/targets/egl-static DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
-
-  rm -rf ${pkgdir}/{etc,usr/include}
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_lib32-nouveau-dri-git() {
-  depends=("lib32-libgl-git")
-  pkgdesc="Mesa classic DRI + Gallium3D drivers for Nouveau"
+  pkgdesc="Mesa drivers for Nouveau (32-bit)"
+  depends=("lib32-mesa-libgl-git")
   provides=('lib32-nouveau-dri=${_realver}')
   conflicts=('lib32-nouveau-dri')
+  replaces=('lib32-nouveau-dri')
 
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gbm DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gallium/drivers/radeon DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/egl DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/gallium/targets/egl-static DESTDIR="${pkgdir}" install
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
+  install -m755 -d ${pkgdir}/usr/lib32/vdpau/
+  install -m755 -d ${pkgdir}/usr/lib32/dri/
+  install -m755 -d ${pkgdir}/usr/lib32/gallium-pipe/
 
-  # classic mesa driver for nv10 , nv20 nouveau_vieux_dri.so
-  make -C ${srcdir}/${_gitname}/src/mesa/drivers/dri/nouveau DESTDIR="${pkgdir}" install
-  # gallium3D driver for nv30 - nv40 - nv50 nouveau_dri.so
-  make -C ${srcdir}/${_gitname}/src/gallium/targets/dri-nouveau DESTDIR="${pkgdir}" install
+  mv -v ${srcdir}/fakeinstall/usr/lib32/dri/nouveau_{dri,vieux_dri}.so ${pkgdir}/usr/lib32/dri/
+  mv -v ${srcdir}/fakeinstall/usr/lib32/gallium-pipe/pipe_nouveau* ${pkgdir}/usr/lib32/gallium-pipe/
 
-  # fix for linking
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/gbm DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/gallium/drivers/radeon DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/egl DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/gallium/targets/egl-static DESTDIR="${pkgdir}" uninstall
-  make -C ${srcdir}/${_gitname}/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
 
-  # install pipe loader
-  install -m755 -d "${pkgdir}/usr/lib32/gallium-pipe/"
-  install -m644 ${srcdir}/${_gitname}/src/gallium/targets/pipe-loader/.libs/pipe_nouveau.so \
-    ${pkgdir}/usr/lib32/gallium-pipe/
+package_lib32-mesa-git() {
+  pkgdesc="an open-source implementation of the OpenGL specification"
+  depends=('lib32-libdrm' 'lib32-libxxf86vm' 'lib32-libxdamage' 'lib32-systemd')
+  optdepends=('opengl-man-pages: for the OpenGL API man pages')
+  provides=('lib32-mesa=${_realver}' 'lib32-libglapi=${_realver}' 'lib32-osmesa=${_realver}' 'lib32-libgbm=${_realver}' 'lib32-libgles=${_realver}' 'lib32-libegl=${_realver}')
+  conflicts=('lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')
+  replaces=('lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')
 
-  rm -rf ${pkgdir}/{etc,usr/include}
+  mv -v ${srcdir}/fakeinstall/* ${pkgdir}
+  # rename libgl.so to not conflict with blobs - may break gl.pc ?
+  mv ${pkgdir}/usr/lib32/libGL.so.1.2.0   ${pkgdir}/usr/lib32/mesa-libGL.so.1.2.0
+  rm ${pkgdir}/usr/lib32/libGL.so{,.1}
+
+  rm -rf ${pkgdir}/etc
+  rm -rf ${pkgdir}/usr/include
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+package_lib32-mesa-libgl-git(){
+  pkgdesc="Mesa 3-D graphics library"
+  depends=("lib32-mesa-git")
+  provides=("lib32-libgl=${_realver}")
+  replaces=('lib32-libgl')
+
+  install -m755 -d ${pkgdir}/usr/lib32
+
+  ln -s mesa-libGL.so.1.2.0 ${pkgdir}/usr/lib32/libGL.so
+  ln -s mesa-libGL.so.1.2.0 ${pkgdir}/usr/lib32/libGL.so.1
+  ln -s mesa-libGL.so.1.2.0 ${pkgdir}/usr/lib32/libGL.so.1.2.0
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 # vim: ft=sh syn=sh et

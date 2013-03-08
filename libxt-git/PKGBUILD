@@ -3,8 +3,8 @@
 
 _realver=1.1.3
 pkgname=libxt-git
-pkgver=20130224
-pkgrel=1905
+pkgver=20130308
+pkgrel=1720
 pkgdesc="X11 toolkit intrinsics library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
