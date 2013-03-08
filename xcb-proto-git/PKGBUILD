@@ -5,7 +5,7 @@
 _realver=1.8
 pkgname=xcb-proto-git
 pkgver=20130308
-pkgrel=1710
+pkgrel=1825
 pkgdesc="XML-XCB protocol descriptions"
 arch=(any)
 url="http://xcb.freedesktop.org/"

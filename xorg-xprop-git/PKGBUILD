@@ -4,7 +4,7 @@
 _realver=1.2.1
 pkgname=xorg-xprop-git
 pkgver=20130308
-pkgrel=1717
+pkgrel=1833
 pkgdesc="Property displayer for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

@@ -4,7 +4,7 @@
 _realver=1.5.0
 pkgname=libx11-git
 pkgver=20130308
-pkgrel=1713
+pkgrel=1828
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

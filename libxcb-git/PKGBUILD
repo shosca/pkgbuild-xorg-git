@@ -5,7 +5,7 @@
 _realver=1.9
 pkgname=libxcb-git
 pkgver=20130308
-pkgrel=1711
+pkgrel=1826
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xcb.freedesktop.org/"
