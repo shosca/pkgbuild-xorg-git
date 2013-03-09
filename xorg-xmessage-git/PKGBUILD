@@ -3,8 +3,8 @@
 
 _realver=1.0.4
 pkgname=xorg-xmessage-git
-pkgver=20130308
-pkgrel=2212
+pkgver=20130309
+pkgrel=0850
 pkgdesc="Display a message or query in a window"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

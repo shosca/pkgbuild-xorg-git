@@ -3,8 +3,8 @@
 
 _realver=1.3.1
 pkgname=libxext-git
-pkgver=20130308
-pkgrel=2144
+pkgver=20130309
+pkgrel=0836
 pkgdesc="X11 miscellaneous extensions library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

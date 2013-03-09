@@ -4,8 +4,8 @@
 
 _realver=1.1.13
 pkgname=libxcursor-git
-pkgver=20130308
-pkgrel=2209
+pkgver=20130309
+pkgrel=0848
 pkgdesc="X cursor management library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
