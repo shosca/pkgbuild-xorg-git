@@ -5,7 +5,7 @@
 _realver=1.2.1
 pkgname=xorg-xev-git
 pkgver=20130308
-pkgrel=1852
+pkgrel=2212
 pkgdesc='Print contents of X events'
 url='http://xorg.freedesktop.org/'
 arch=('i686' 'x86_64')

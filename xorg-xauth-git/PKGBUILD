@@ -4,7 +4,7 @@
 _realver=1.0.7
 pkgname=xorg-xauth-git
 pkgver=20130308
-pkgrel=1851
+pkgrel=2211
 pkgdesc="X.Org authorization settings program"
 arch=(i686 x86_64)
 license=('custom')

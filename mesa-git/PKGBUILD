@@ -5,7 +5,7 @@
 _realver=9.2.0
 pkgbase=mesa-git
 pkgver=20130308
-pkgrel=1841
+pkgrel=2154
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -63,7 +63,6 @@ build() {
     --enable-xvmc \
     --enable-vdpau \
     --with-llvm-shared-libs \
-    --enable-r600-llvm-compiler
 
   make
 

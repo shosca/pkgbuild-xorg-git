@@ -4,7 +4,7 @@
 _realver=1.5.0
 pkgname=libx11-git
 pkgver=20130308
-pkgrel=1828
+pkgrel=2140
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
@@ -15,12 +15,10 @@ conflicts=('libx11')
 options=('!libtool')
 license=('custom')
 source=(xorg.sh
-        xorg.csh
-        fix-build.patch)
+        xorg.csh)
 
 sha256sums=('1a1b5db0320579958fba24774bae7984a1b1b8c647ac6fbd4d8937178c48ed46'
-            '96c85ccbdcb056540f2e2b6cf48dea067f80260c16957ee401c49cf94cea5894'
-            '265a1a7f4ea1101adb1b4a9a23e3b79139f92abadf8e71f25f172eb88867aa62')
+            '96c85ccbdcb056540f2e2b6cf48dea067f80260c16957ee401c49cf94cea5894')
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libX11"
 _gitname="libX11"
@@ -39,7 +37,6 @@ build() {
   cd "${srcdir}/${_gitname}"
 
 
-  patch -p1 -i ../fix-build.patch
   ./autogen.sh --prefix=/usr --disable-static --disable-xf86bigfont
   make
 }
