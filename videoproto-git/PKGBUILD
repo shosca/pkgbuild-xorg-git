@@ -4,8 +4,8 @@
 
 _realver=2.3.1
 pkgname=videoproto-git
-pkgver=20130308
-pkgrel=1834
+pkgver=20130311
+pkgrel=2206
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

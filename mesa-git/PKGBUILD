@@ -4,8 +4,8 @@
 
 _realver=9.2.0
 pkgbase=mesa-git
-pkgver=20130309
-pkgrel=0841
+pkgver=20130311
+pkgrel=2214
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -40,7 +40,6 @@ build() {
 
   autoreconf -vfi
 
-    #--enable-r600-llvm-compiler
   ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
@@ -63,9 +62,11 @@ build() {
     --enable-xvmc \
     --enable-vdpau \
     --with-llvm-shared-libs \
+    --enable-r600-llvm-compiler
 
   make
 
+  msg 'Starting fake install..'
   rm -rf $srcdir/fakeinstall
   mkdir $srcdir/fakeinstall
   make DESTDIR=${srcdir}/fakeinstall install

@@ -5,8 +5,8 @@
 
 _realver=0.3.9
 pkgname=xcb-util-git
-pkgver=20130308
-pkgrel=1830
+pkgver=20130311
+pkgrel=2203
 pkgdesc="Utility libraries for XC Binding"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"

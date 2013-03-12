@@ -2,8 +2,8 @@
 
 _realver=1.0.90
 pkgname=wayland-git
-pkgver=20130308
-pkgrel=1841
+pkgver=20130311
+pkgrel=2214
 pkgdesc="A modern display server."
 arch=(i686 x86_64)
 url="http://wayland.freedesktop.org"

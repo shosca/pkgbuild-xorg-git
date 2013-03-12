@@ -241,6 +241,4 @@ xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git
 
 glamor-git: xorg-server-git mesa-git
 
-compton-git: libx11-git libxcomposite-git libxdamage-git libxext-git libxrender-git xproto-git xorg-xprop-git xorg-xwininfo-git libxrandr-git
-
 weston-git: libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git

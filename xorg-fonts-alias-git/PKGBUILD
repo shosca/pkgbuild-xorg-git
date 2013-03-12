@@ -3,8 +3,8 @@
 
 _realver=1.0.3
 pkgname=xorg-fonts-alias-git
-pkgver=20130308
-pkgrel=1851
+pkgver=20130311
+pkgrel=2227
 pkgdesc="X.org font alias files"
 arch=('any')
 url="http://xorg.freedesktop.org/"

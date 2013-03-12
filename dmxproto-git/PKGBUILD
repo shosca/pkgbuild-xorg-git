@@ -4,8 +4,8 @@
 
 _realver=2.3.1
 pkgname=dmxproto-git
-pkgver=20130308
-pkgrel=1833
+pkgver=20130311
+pkgrel=2205
 pkgdesc='Xorg DMXProto protocol headers'
 url='http://xorg.freedesktop.org/'
 arch=('any')

@@ -3,8 +3,8 @@
 
 _realver=1.2.1
 pkgname=libxtst-git
-pkgver=20130309
-pkgrel=0839
+pkgver=20130311
+pkgrel=2211
 pkgdesc="X11 Testing -- Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

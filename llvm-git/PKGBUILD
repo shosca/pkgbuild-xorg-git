@@ -5,8 +5,8 @@
 # Contributor: Tomas Wilhelmsson <tomas.wilhelmsson@gmail.com>
 
 pkgname=llvm-git
-pkgver=20130309
-pkgrel=0839
+pkgver=20130311
+pkgrel=2211
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -19,14 +19,15 @@ conflicts=('llvm')
 # git so it can be useful
 options=('!strip')
 
-_gitroot="http://llvm.org/git/llvm"
+_gitroot="git://people.freedesktop.org/~tstellar/llvm"
+#_gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 build() {
   cd "${srcdir}"
   msg 'Connecting to GIT server....'
   if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
+    cd ${_gitname} && git clean -xfd && git checkout -f # && git pull origin
   else
     git clone --depth 1 ${_gitroot} ${_gitname}
   fi
@@ -53,7 +54,8 @@ build() {
     --enable-optimized \
     --enable-experimental-targets=R600 \
     --disable-expensive-checks \
-    --with-binutils-include=/usr/include
+    --with-binutils-include=/usr/include \
+    --enable-optimized
 
   make REQUIRES_RTTI=1 ENABLE_OPTIMIZED=1
 }

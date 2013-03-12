@@ -3,8 +3,8 @@
 
 _realver=1.2.7
 pkgname=xtrans-git
-pkgver=20130308
-pkgrel=1828
+pkgver=20130311
+pkgrel=2201
 pkgdesc="X transport library"
 arch=('any')
 license=('custom')

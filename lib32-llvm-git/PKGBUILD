@@ -5,8 +5,8 @@
 # Contributor: Tomas Wilhelmsson <tomas.wilhelmsson@gmail.com>
 
 pkgname=lib32-llvm-git
-pkgver=20130309
-pkgrel=0845
+pkgver=20130311
+pkgrel=2221
 pkgdesc='Low Level Virtual Machine - Compiler infrastructure with experimental AMDGPU enabled (git version)'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -19,14 +19,15 @@ conflicts=('lib32-llvm')
 # git so it can be useful
 options=('!strip')
 
-_gitroot="http://llvm.org/git/llvm"
+_gitroot="git://people.freedesktop.org/~tstellar/llvm"
+#_gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 build() {
   cd "${srcdir}"
   msg 'Connecting to GIT server....'
   if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
+    cd ${_gitname} && git clean -xfd && git checkout -f # && git pull origin
   else
     git clone --depth 1 ${_gitroot} ${_gitname}
   fi
