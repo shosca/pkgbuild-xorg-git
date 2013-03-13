@@ -183,6 +183,8 @@ mesa-git: $(PROTOS) libdrm-git llvm-git libxfixes-git libxdamage-git libxxf86vm-
 
 lib32-mesa-git: $(PROTOS) lib32-libdrm-git lib32-llvm-git
 
+lib32-llvm-git: llvm-git
+
 glu-git: mesa-git
 
 mesa-demos-git: mesa-git
