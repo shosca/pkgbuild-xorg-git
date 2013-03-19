@@ -5,8 +5,8 @@
 # Contributor: Tomas Wilhelmsson <tomas.wilhelmsson@gmail.com>
 
 pkgname=lib32-llvm-git
-pkgver=20130313
-pkgrel=1654
+pkgver=20130319
+pkgrel=0915
 pkgdesc='Low Level Virtual Machine - Compiler infrastructure with experimental AMDGPU enabled (git version)'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -63,6 +63,8 @@ build() {
   sed -i 's:$(RPATH) -Wl,$(\(ToolDir\|LibDir\|ExmplDir\))::g' Makefile.rules
 
   PYTHON=python2 ./configure \
+    --host=i386-pc-linux-gnu \
+    --target=i386-pc-linux-gnu \
     --prefix=/usr \
     --libdir=/usr/lib32/llvm \
     --sysconfdir=/etc \
@@ -71,9 +73,9 @@ build() {
     --enable-targets=all \
     --enable-experimental-targets=R600 \
     --disable-expensive-checks \
+    --disable-debug-runtime \
+    --disable-assertions \
     --with-binutils-include=/usr/include \
-    --host=i386-pc-linux-gnu \
-    --target=i386-pc-linux-gnu \
     --enable-optimized
 
   make REQUIRES_RTTI=1 ENABLE_OPTIMIZED=1

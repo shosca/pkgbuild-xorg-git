@@ -5,8 +5,8 @@
 # Contributor: Tomas Wilhelmsson <tomas.wilhelmsson@gmail.com>
 
 pkgname=llvm-git
-pkgver=20130311
-pkgrel=2211
+pkgver=20130319
+pkgrel=0906
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -54,6 +54,8 @@ build() {
     --enable-optimized \
     --enable-experimental-targets=R600 \
     --disable-expensive-checks \
+    --disable-debug-runtime \
+    --disable-assertions \
     --with-binutils-include=/usr/include \
     --enable-optimized
 
