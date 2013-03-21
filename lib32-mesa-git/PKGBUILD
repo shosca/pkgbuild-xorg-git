@@ -6,7 +6,7 @@ _realver=9.2.0
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
 pkgver=20130320
-pkgrel=1946
+pkgrel=2130
 arch=('x86_64')
 makedepends=('glproto>=1.4.16' 'lib32-libdrm>=2.4.42' 'lib32-libxxf86vm>=1.1.2' 'lib32-libxdamage>=1.1.3' 'lib32-expat>=2.1.0' 'lib32-libx11>=1.5.0' 'lib32-libxt>=1.1.3'
              'gcc-multilib' 'dri2proto-git' 'python2' 'libxml2' 'lib32-llvm-git' 'lib32-systemd')
@@ -23,7 +23,7 @@ build() {
   cd "${srcdir}"
   msg 'Connecting to GIT server....'
   if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout # -f && git pull origin
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
   else
     git clone --depth 1 ${_gitroot} ${_gitname}
   fi
@@ -43,7 +43,7 @@ build() {
     #--host=i686-pc-linux-gnu \
     #--target=i686-pc-linux-gnu \
     #--build=x86_64-pc-linux-gnu \
-    #--enable-r600-llvm-compiler \
+    #--enable-gallium-llvm \
   ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
@@ -51,7 +51,6 @@ build() {
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
     --enable-32-bit \
     --libdir=/usr/lib32 \
-    --enable-gallium-llvm \
     --with-llvm-shared-libs \
     --enable-egl \
     --enable-gallium-egl \
@@ -64,6 +63,7 @@ build() {
     --enable-gles1 \
     --enable-gles2 \
     --enable-texture-float \
+    --enable-r600-llvm-compiler
 
   make
 

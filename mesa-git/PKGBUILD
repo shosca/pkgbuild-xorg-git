@@ -5,7 +5,7 @@
 _realver=9.2.0
 pkgbase=mesa-git
 pkgver=20130320
-pkgrel=1941
+pkgrel=2118
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -29,7 +29,7 @@ build() {
   cd "${srcdir}"
   msg 'Connecting to GIT server....'
   if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f # && git pull origin
+    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
   else
     git clone --depth 1 ${_gitroot} ${_gitname}
   fi
@@ -38,16 +38,15 @@ build() {
 
   cd "${srcdir}/${_gitname}"
 
-  autoreconf -vfi
-
-  ./configure \
+    #--enable-gallium-egl \
+  ./autogen.sh \
     --prefix=/usr \
     --sysconfdir=/etc \
+    --disable-static \
     --with-gallium-drivers=r300,r600,radeonsi,nouveau,svga,swrast \
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
     --enable-gallium-llvm \
     --enable-egl \
-    --enable-gallium-egl \
     --with-egl-platforms=drm,x11,wayland \
     --enable-shared-glapi \
     --enable-gbm \
@@ -69,7 +68,7 @@ build() {
   msg 'Starting fake install..'
   rm -rf $srcdir/fakeinstall
   mkdir $srcdir/fakeinstall
-  make DESTDIR=${srcdir}/fakeinstall install
+  make -j1 DESTDIR=${srcdir}/fakeinstall install
 }
 
 package_ati-dri-git() {
@@ -81,14 +80,14 @@ package_ati-dri-git() {
   install -m755 -d ${pkgdir}/usr/lib/
   install -m755 -d ${pkgdir}/usr/lib/vdpau/
   install -m755 -d ${pkgdir}/usr/lib/dri/
-  install -m755 -d ${pkgdir}/usr/lib/gallium-pipe/
+  #install -m755 -d ${pkgdir}/usr/lib/gallium-pipe/
 
   mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_{r300,r600,radeonsi}.* ${pkgdir}/usr/lib/vdpau/
   mv -v ${srcdir}/fakeinstall/usr/lib/dri/{r200,r300,r600,radeon,radeonsi}_dri.so ${pkgdir}/usr/lib/dri/
-  mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_{r300,r600,radeonsi}* ${pkgdir}/usr/lib/gallium-pipe/
+  #mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_{r300,r600,radeonsi}* ${pkgdir}/usr/lib/gallium-pipe/
   mv -v ${srcdir}/fakeinstall/usr/lib/libllvmradeon* ${pkgdir}/usr/lib/
-  mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCr600.* ${pkgdir}/usr/lib/gallium-pipe/
-  mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCr300.* ${pkgdir}/usr/lib/gallium-pipe/
+  mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCr600.* ${pkgdir}/usr/lib/
+  mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCr300.* ${pkgdir}/usr/lib/
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
@@ -117,12 +116,13 @@ package_nouveau-dri-git() {
 
   install -m755 -d ${pkgdir}/usr/lib/vdpau/
   install -m755 -d ${pkgdir}/usr/lib/dri
-  install -m755 -d ${pkgdir}/usr/lib/gallium-pipe
+  #install -m755 -d ${pkgdir}/usr/lib/gallium-pipe
 
   mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_nouveau.* ${pkgdir}/usr/lib/vdpau/
-  mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCnouveau* ${pkgdir}/usr/lib/gallium-pipe/
   mv -v ${srcdir}/fakeinstall/usr/lib/dri/nouveau_{dri,vieux_dri}.so ${pkgdir}/usr/lib/dri/
-  mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_nouveau* ${pkgdir}/usr/lib/gallium-pipe/
+
+  #mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCnouveau* ${pkgdir}/usr/lib/gallium-pipe/
+  #mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_nouveau* ${pkgdir}/usr/lib/gallium-pipe/
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
@@ -135,8 +135,8 @@ package_svga-dri-git() {
   install -m755 -d ${pkgdir}/usr/lib/dri
   mv -v ${srcdir}/fakeinstall/usr/lib/dri/vmwgfx_dri.so ${pkgdir}/usr/lib/dri/
 
-  install -m755 -d ${pkgdir}/usr/lib/gallium-pipe
-  mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_vmwgfx* ${pkgdir}/usr/lib/gallium-pipe/
+  #install -m755 -d ${pkgdir}/usr/lib/gallium-pipe
+  #mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_vmwgfx* ${pkgdir}/usr/lib/gallium-pipe/
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
@@ -176,3 +176,5 @@ package_mesa-libgl-git(){
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+
+# vim: ft=sh syn=sh et
