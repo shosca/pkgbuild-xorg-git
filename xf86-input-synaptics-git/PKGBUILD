@@ -5,7 +5,7 @@
 _realver=1.6.99
 pkgname=xf86-input-synaptics-git
 pkgver=20130322
-pkgrel=1257
+pkgrel=1937
 pkgdesc="X.Org synaptics Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-synaptics/"
