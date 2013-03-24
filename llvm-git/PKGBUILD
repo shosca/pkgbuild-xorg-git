@@ -6,7 +6,7 @@
 
 pkgname=llvm-git
 pkgver=20130323
-pkgrel=1813
+pkgrel=2131
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
