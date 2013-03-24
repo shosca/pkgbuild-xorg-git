@@ -3,7 +3,7 @@
 _realver=9.0.0
 pkgname=glu-git
 pkgver=20130323
-pkgrel=2143
+pkgrel=2209
 pkgdesc="GL utility library for mesa builds from git after 2012-08-31"
 arch=('i686' 'x86_64')
 url="http://mesa.freedesktop.org/"
