@@ -9,7 +9,7 @@ pkgdesc="X11 miscellaneous extensions library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libx11>=1.5.0' 'xextproto>=7.2.1')
+depends=('libx11>=1.5.99.901' 'xextproto>=7.2.1')
 makedepends=('xorg-util-macros-git')
 provides=('libxext=${_1.3.1}')
 conflicts=('libxext')

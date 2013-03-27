@@ -2,10 +2,10 @@
 # Contributor: <Eugeny Borisov flekst@gmail.com>
 # Based on [extra]'s xf86-input-evdev
 
-_realver=2.7.0
+_realver=2.8.0
 pkgname=xf86-input-evdev-git
 pkgver=20130327
-pkgrel=0737
+pkgrel=1440
 pkgdesc="X.Org evdev Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-evdev/"

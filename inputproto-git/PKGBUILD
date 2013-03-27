@@ -1,7 +1,7 @@
 # Maintainer: kfgz <kfgz at interia pl>
 # Contributor: Cilyan Olowen <gaknar at gmail dot com>
 
-_realver=2.2.99.1
+_realver=2.3
 pkgname=inputproto-git
 pkgver=20130311
 pkgrel=2201

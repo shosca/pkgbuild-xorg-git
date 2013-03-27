@@ -5,11 +5,11 @@
 _realver=0.5.0
 pkgname=glamor-git
 pkgver=20130327
-pkgrel=0733
+pkgrel=1431
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
-depends=('glibc' 'mesa>=9.2.0' 'libdrm>=2.4.42' 'libx11>=1.5.0')
+depends=('glibc' 'mesa>=9.2.0' 'libdrm>=2.4.43' 'libx11>=1.5.99.901')
 makedepends=('glibc' 'xorg-server-devel-git' 'xf86driproto>=2.1.1' 'glproto>=1.4.16')
 provides=('glamor=${_realver}')
 conflicts=('glamor')

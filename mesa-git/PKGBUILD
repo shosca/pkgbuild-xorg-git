@@ -5,12 +5,12 @@
 _realver=9.2.0
 pkgbase=mesa-git
 pkgver=20130327
-pkgrel=0730
+pkgrel=1428
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
-depends=('gcc-libs' 'glibc' 'libdrm>=2.4.42' 'expat' 'libxt>=1.1.3' 'libxxf86vm>=1.1.2'
-          'libxdamage>=1.1.4' 'libx11-git' 'libxcb-git' 'libxfixes-git' 'libxext-git'
+depends=('gcc-libs' 'glibc' 'libdrm>=2.4.43' 'expat' 'libxt>=1.1.3' 'libxxf86vm>=1.1.2'
+          'libxdamage>=1.1.4' 'libx11' 'libxcb' 'libxfixes' 'libxext'
           'libxvmc>=1.0.7', 'wayland>=1.0.90')
 makedepends=('glproto>=1.4.16' 'expat>=2.1.0' 'gcc-libs>=4.7.1-6' 'dri2proto>=2.8'
               'python2' 'libxml2' 'llvm-git' 'systemd'

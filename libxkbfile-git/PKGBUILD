@@ -9,7 +9,7 @@ pkgdesc="X11 keyboard file manipulation library"
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libx11>=1.5.0')
+depends=('libx11>=1.5.99.901')
 makedepends=('xorg-util-macros-git')
 options=('!libtool')
 provides=('libxkbfile=${_realver}')

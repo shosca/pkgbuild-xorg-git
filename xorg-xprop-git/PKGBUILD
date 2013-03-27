@@ -9,7 +9,7 @@ pkgdesc="Property displayer for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libx11>=1.5.0')
+depends=('libx11>=1.5.99.901')
 makedepends=('xorg-util-macros-git')
 groups=('xorg-apps' 'xorg')
 provides=('xorg-xprop=${_realver}')

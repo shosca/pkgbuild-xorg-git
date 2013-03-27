@@ -2,10 +2,10 @@
 #Jan de Groot
 #Andreas Radke
 
-_realver=2.4.42
+_realver=2.4.43
 pkgname=libdrm-git
 pkgver=20130327
-pkgrel=0601
+pkgrel=1421
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')

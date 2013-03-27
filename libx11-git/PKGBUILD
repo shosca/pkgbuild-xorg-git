@@ -1,7 +1,7 @@
 # $Id: PKGBUILD 160633 2012-06-02 21:43:25Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.5.0
+_realver=1.5.99.901
 pkgname=libx11-git
 pkgver=20130318
 pkgrel=2314
@@ -9,7 +9,7 @@ pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 depends=('libxcb>=1.9' 'xproto>=7.0.23' 'kbproto>=1.0.6')
-makedepends=('xorg-util-macros-git' 'xextproto>=7.2.1' 'xtrans>=1.2.7' 'inputproto>=2.2.99.1')
+makedepends=('xorg-util-macros-git' 'xextproto>=7.2.1' 'xtrans>=1.2.7' 'inputproto>=2.3')
 provides=('libx11=${_realver}')
 conflicts=('libx11')
 options=('!libtool')
