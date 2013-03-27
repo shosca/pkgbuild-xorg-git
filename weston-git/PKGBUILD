@@ -3,8 +3,8 @@
 
 _realver=1.0.90
 pkgname=weston-git
-pkgver=20130326
-pkgrel=1755
+pkgver=20130327
+pkgrel=0042
 pkgdesc="Reference implementation of a Wayland compositor"
 arch=(i686 x86_64)
 url="http://wayland.freedesktop.org"
