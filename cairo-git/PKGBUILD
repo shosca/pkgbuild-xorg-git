@@ -3,8 +3,8 @@
 
 _realver=1.12.15
 pkgname=cairo-git
-pkgver=20130327
-pkgrel=0025
+pkgver=20130328
+pkgrel=1717
 pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)
 license=('LGPL' 'MPL')

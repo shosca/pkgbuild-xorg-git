@@ -3,8 +3,8 @@
 
 _realver=2.3
 pkgname=inputproto-git
-pkgver=20130311
-pkgrel=2201
+pkgver=20130328
+pkgrel=1715
 pkgdesc="X11 input extension wire protocol"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

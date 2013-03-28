@@ -4,8 +4,8 @@
 
 _realver=1.3.0
 pkgname=xorg-font-util-git
-pkgver=20130311
-pkgrel=2216
+pkgver=20130328
+pkgrel=1729
 pkgdesc='X.Org font utilities'
 url='http://xorg.freedesktop.org/'
 arch=('i686' 'x86_64')

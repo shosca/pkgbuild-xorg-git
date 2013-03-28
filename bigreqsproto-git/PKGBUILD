@@ -4,8 +4,8 @@
 
 _realver=1.1.2
 pkgname=bigreqsproto-git
-pkgver=20130311
-pkgrel=2158
+pkgver=20130328
+pkgrel=1712
 pkgdesc='X11 DRI extension wire protocol.'
 url='http://xorg.freedesktop.org/'
 arch=('any')

@@ -4,8 +4,8 @@
 
 _realver=7.0.23
 pkgname=xproto-git
-pkgver=20130311
-pkgrel=2158
+pkgver=20130328
+pkgrel=1712
 pkgdesc='X11 x extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

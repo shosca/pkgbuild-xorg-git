@@ -4,8 +4,8 @@
 
 _realver=0.13.1
 pkgname=libpciaccess-git
-pkgver=20130311
-pkgrel=2207
+pkgver=20130328
+pkgrel=1721
 pkgdesc="X11 PCI access library"
 arch=(i686 x86_64)
 license=('custom')

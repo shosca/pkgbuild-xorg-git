@@ -3,8 +3,8 @@
 
 _realver=1.0.7
 pkgname=libxv-git
-pkgver=20130318
-pkgrel=2319
+pkgver=20130328
+pkgrel=1724
 pkgdesc="X11 Video extension library"
 arch=('i686' 'x86_64')
 license=('custom')
