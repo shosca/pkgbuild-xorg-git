@@ -3,8 +3,8 @@
 
 _realver=1.1.4
 pkgname=libxdamage-git
-pkgver=20130328
-pkgrel=1726
+pkgver=20130330
+pkgrel=0956
 pkgdesc="X11 damaged region extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

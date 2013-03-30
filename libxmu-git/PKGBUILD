@@ -3,8 +3,8 @@
 
 _realver=1.1.1
 pkgname=libxmu-git
-pkgver=20130328
-pkgrel=1722
+pkgver=20130330
+pkgrel=0951
 pkgdesc="X11 miscellaneous micro-utility library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
