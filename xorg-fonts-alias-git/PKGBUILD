@@ -2,9 +2,12 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.0.3
+_gitroot='git://git.freedesktop.org/git/xorg/font/alias'
+_gitname='alias'
+
 pkgname=xorg-fonts-alias-git
-pkgver=20130328
-pkgrel=1741
+pkgver=20130402
+pkgrel=0827
 pkgdesc="X.org font alias files"
 arch=('any')
 url="http://xorg.freedesktop.org/"
@@ -14,21 +17,10 @@ md5sums=('ff91ae6d96d76130482d04653e7a836a')
 provides=('xorg-fonts-alias=${_realver}')
 conflicts=('xorg-fonts-alias')
 provides=('xorg-fonts-alias')
-
-_gitroot='git://git.freedesktop.org/git/xorg/font/alias'
-_gitname='xorg-fonts-alias'
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
 
   ./autogen.sh --prefix=/usr --with-fontrootdir=/usr/share/fonts

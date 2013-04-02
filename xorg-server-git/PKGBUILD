@@ -4,42 +4,33 @@
 # Based on xorg-server-dev
 
 _realver=1.14.99.0
+_gitroot="git://anongit.freedesktop.org/xorg/xserver"
+_gitname="xserver"
+
 pkgbase=xorg-server
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=20130401
-pkgrel=1253
+pkgver=20130402
+pkgrel=0817
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
 makedepends=('bigreqsproto>=1.1.2' 'compositeproto>=0.4.2' 'dmxproto>=2.3.1' 'dri2proto>=2.8' 'fontsproto>=2.1.2' 'git' 'glproto>=1.4.16' 'inputproto>=2.3' 'libdmx>=1.1.2' 'libgcrypt' 'libgl' 'libpciaccess>=0.13.1' 'libx11>=1.5.99.901' 'libxaw' 'libxfont' 'libxi' 'libxkbfile' 'libxmu' 'libxrender>=0.9.7' 'libxres>=1.1.99.0' 'libxtst>=1.2.1' 'libxv' 'mesa' 'pixman>=0.29.3' 'randrproto>=1.4.0' 'recordproto>=1.14.2' 'renderproto>=0.11.1' 'resourceproto>=1.2.0' 'scrnsaverproto>=1.2.2' 'udev' 'videoproto>=2.3.1' 'xcmiscproto>=1.2.2' 'xextproto>=7.2.1' 'xf86dgaproto>=2.1' 'xf86driproto>=2.1.1' 'xineramaproto>=1.2.1' 'xorg-font-util' 'xorg-util-macros-git' 'xorg-xkbcomp' 'xtrans>=1.2.7')
 options=('!libtool')
-source=(autoconfig-nvidia.patch
+source=($_gitroot
+        autoconfig-nvidia.patch
         autoconfig-sis.patch
         xvfb-run
         xvfb-run.1
         10-quirks.conf)
-sha1sums=('6e67c2ed130703c1c2bc85fccef763d600e2af5e'  # autoconfig-nvidia.patch
+sha1sums=(SKIP
+          '6e67c2ed130703c1c2bc85fccef763d600e2af5e'  # autoconfig-nvidia.patch
           '175de5630b43dbc97778adfba5563b7fdd77f11f'  # autoconfig-sis.patch
           'c94f742d3f9cabf958ae58e4015d9dd185aabedc'  # xvfb-run
           '6838fc00ef4618c924a77e0fb03c05346080908a'  # xvfb-run.1
           '993798f3d22ad672d769dae5f48d1fa068d5578f') # 10-quirks.conf
 
-_gitroot="git://anongit.freedesktop.org/xorg/xserver"
-_gitname="xserver"
-
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   msg2 "Use nouveau/nv/nvidia drivers for nvidia devices"
   patch -p1 -i ../autoconfig-nvidia.patch

@@ -3,9 +3,12 @@
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
 _realver=9.2.0
+_gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
+_gitname='mesa'
+
 pkgbase=mesa-git
-pkgver=20130401
-pkgrel=1251
+pkgver=20130402
+pkgrel=0815
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -19,23 +22,10 @@ optdepends=('opengl-man-pages: for the OpenGL API man pages')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
-source=(LICENSE)
-md5sums=('5c65a0fe315dd347e09b1f2826a1df5a')
-
-_gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
-_gitname='mesa'
+source=($_gitroot LICENSE)
+md5sums=(SKIP '5c65a0fe315dd347e09b1f2826a1df5a')
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
 
     #--enable-gallium-egl \

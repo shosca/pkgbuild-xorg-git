@@ -49,7 +49,7 @@ test:
 
 %/built:
 	@_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
-	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
+	if [ -f $(PWD)/$*/$$_gitname/HEAD ]; then \
 		sed -i "s/^pkgver=[^ ]*/pkgver=$(DATE)/" "$(PWD)/$*/PKGBUILD" ; \
 		sed -i "s/^pkgrel=[^ ]*/pkgrel=$(TIME)/" "$(PWD)/$*/PKGBUILD" ; \
 	fi ; \
@@ -62,8 +62,8 @@ test:
 	repo-remove $(LOCAL)/$(REPO).db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') ; \
 	mv $*/*$(PKGEXT) $(LOCAL) && \
 	repo-add $(LOCAL)/$(REPO).db.tar.gz $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
-	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
-		cd $(PWD)/$*/src/$$_gitname && \
+	if [ -f $(PWD)/$*/$$_gitname/HEAD ]; then \
+		cd $(PWD)/$*/$$_gitname && \
 		git log -1 | head -n1 > $(PWD)/$*/built ; \
 	else \
 		touch $(PWD)/$*/built ; \
@@ -80,17 +80,16 @@ $(DIRS):
 	if [ -z $$_gitroot ]; then \
 		$(MAKE) $@/built ; \
 	else \
-		if [ -d $(PWD)/$@/src/$$_gitname/.git ]; then \
+		if [ -f $(PWD)/$@/$$_gitname/HEAD ]; then \
 			echo "Updating $$_gitname" ; \
-			cd $(PWD)/$@/src/$$_gitname && \
-			git checkout -f && git pull && \
+			cd $(PWD)/$@/$$_gitname && git fetch --all -p && \
 			if [ -f $(PWD)/$@/built ] && [ "$$(cat $(PWD)/$@/built)" != "$$(git log -1 | head -n1)" ]; then \
 				rm -f $(PWD)/$@/built ; \
 			fi ; \
 			cd $(PWD) ; \
 		else \
-			echo "Cloning $$_gitroot to $@/src/$$_gitname" ; \
-			git clone $$_gitroot $(PWD)/$@/src/$$_gitname ; \
+			echo "Cloning $$_gitroot to $@/$$_gitname" ; \
+			git clone --mirror $$_gitroot $(PWD)/$@/$$_gitname ; \
 		fi ; \
 		$(MAKE) $@/built ; \
 	fi ; \
@@ -102,10 +101,10 @@ gitpull: $(PULL_TARGETS)
 %-pull:
 	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$*/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
 	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
-	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
+	if [ -f $(PWD)/$*/$$_gitname/HEAD ]; then \
 		echo "Updating $$_gitname" ; \
-		cd $(PWD)/$*/src/$$_gitname && \
-		git checkout -f && git pull && \
+		cd $(PWD)/$*/$$_gitname && \
+		git fetch --all -p && \
 		cd $(PWD) ; \
 	fi
 
@@ -116,11 +115,11 @@ vers: $(VER_TARGETS)
 %-ver:
 	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$*/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
 	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
-	if [ -d $(PWD)/$*/src/$$_gitname/.git ]; then \
+	if [ -d $(PWD)/$*/src/$$_gitname ]; then \
 		cd $(PWD)/$*/src/$$_gitname && \
 		autoreconf -f > /dev/null 2>&1 && \
 		_oldver=$$(grep -R '^_realver' $(PWD)/$*/PKGBUILD | sed -e 's/_realver=//' -e "s/'//g" -e 's/"//g') && \
-		_realver=$$(grep 'PACKAGE_VERSION=' configure | sed -e 's/PACKAGE_VERSION=//' -e "s/'//g") ; \
+		_realver=$$(grep 'PACKAGE_VERSION=' configure | head -n1 | sed -e 's/PACKAGE_VERSION=//' -e "s/'//g") ; \
 		if [ ! -z $$_realver ] && [ $$_oldver != $$_realver ]; then \
 			echo "$(subst -git,,$*) : $$_oldver $$_realver" ; \
 			sed -i "s/^_realver=[^ ]*/_realver=$$_realver/" "$(PWD)/$*/PKGBUILD" ; \

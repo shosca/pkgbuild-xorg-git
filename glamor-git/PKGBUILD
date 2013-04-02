@@ -3,9 +3,12 @@
 # Contributor: Flamelab <panosfilip at gmail dot com>
 
 _realver=0.5.0
+_gitroot='git://anongit.freedesktop.org/xorg/driver/glamor'
+_gitname="glamor"
+
 pkgname=glamor-git
-pkgver=20130401
-pkgrel=1254
+pkgver=20130402
+pkgrel=0818
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -15,31 +18,13 @@ provides=('glamor=${_realver}')
 conflicts=('glamor')
 options=('!libtool')
 license=('custom')
-
-_gitroot='git://anongit.freedesktop.org/xorg/driver/glamor'
-_gitname="glamor"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
 
-
-
-
-  autoreconf -v --install
-
-  ./configure --prefix=/usr
-
-  msg "Starting make..."
+  ./autogen.sh --prefix=/usr
   make
 }
 

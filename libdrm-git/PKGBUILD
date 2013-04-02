@@ -3,9 +3,12 @@
 #Andreas Radke
 
 _realver=2.4.43
+_gitroot='git://git.freedesktop.org/git/mesa/drm'
+_gitname='drm'
+
 pkgname=libdrm-git
-pkgver=20130328
-pkgrel=1721
+pkgver=20130402
+pkgrel=0815
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
@@ -15,23 +18,11 @@ provides=('libdrm=${_realver}')
 options=('!libtool')
 url="http://dri.freedesktop.org/"
 conflicts=('libdrm')
-
-_gitroot='git://git.freedesktop.org/git/mesa/drm'
-_gitname='drm'
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   sed -i 's/PKG_CHECK_MODULES(PTHREADSTUBS, pthread-stubs)//' configure.ac
 

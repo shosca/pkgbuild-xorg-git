@@ -1,36 +1,27 @@
 # Maintainer: Joel Teichroeb <joel@teichroeb.net>
 
 _realver=1.0.90
+_gitroot="git://anongit.freedesktop.org/wayland/wayland"
+_gitname="wayland"
+
 pkgname=wayland-git
-pkgver=20130328
-pkgrel=1727
+pkgver=20130402
+pkgrel=0746
 pkgdesc="A modern display server."
 arch=(i686 x86_64)
 url="http://wayland.freedesktop.org"
 provides=("wayland=${_realver}")
 conflicts=('libwayland' 'wayland')
-replaces=('libwayland-git')
+replaces=('libwayland' 'wayland')
 license=('MIT')
 depends=('libffi')
 makedepends=('git' 'expat' 'doxygen')
 options=(!libtool)
-
-_gitroot="git://anongit.freedesktop.org/wayland/wayland"
-_gitname="wayland"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr
   make

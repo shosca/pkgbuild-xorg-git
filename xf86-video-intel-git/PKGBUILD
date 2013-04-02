@@ -5,9 +5,12 @@
 # Contributor: William Heinbockel <wheinbockel[at]gmail[dot]com>
 
 _realver=2.21.5
+_gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-intel'
+_gitname='xf86-video-intel'
+
 pkgname=xf86-video-intel-git
-pkgver=20130401
-pkgrel=1301
+pkgver=20130402
+pkgrel=0824
 pkgdesc='X.org Intel i810/i830/i915/945G/G965+ video drivers'
 arch=('i686' 'x86_64')
 url='http://intellinuxgraphics.org/'
@@ -17,21 +20,10 @@ makedepends=('git' 'xorg-server-devel-git' 'libx11>=1.5.99.901' 'xf86driproto>=2
 provides=('xf86-video-intel=${_realver}')
 conflicts=('xf86-video-intel')
 options=('!libtool')
-
-_gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-intel'
-_gitname='xf86-video-intel'
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
 
   ./autogen.sh \

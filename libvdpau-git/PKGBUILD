@@ -2,9 +2,12 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=0.6
+_gitroot="git://people.freedesktop.org/~aplattner/libvdpau"
+_gitname="libvdpau"
+
 pkgname=libvdpau-git
-pkgver=20130330
-pkgrel=1003
+pkgver=20130402
+pkgrel=0810
 pkgdesc="Nvidia VDPAU library"
 arch=(i686 x86_64)
 url='http://cgit.freedesktop.org/~aplattner/libvdpau'
@@ -16,23 +19,11 @@ license=('custom')
 provides=('libvdpau=${_realver}')
 conflicts=('libvdpau')
 replaces=('libvdpau')
-
-_gitroot="git://people.freedesktop.org/~aplattner/libvdpau"
-_gitname="libvdpau"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr --sysconfdir=/etc
   make

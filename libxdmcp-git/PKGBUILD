@@ -2,9 +2,12 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.1.1
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXdmcp"
+_gitname="libXdmcp"
+
 pkgname=libxdmcp-git
-pkgver=20130330
-pkgrel=0946
+pkgver=20130402
+pkgrel=0716
 pkgdesc="X11 Display Manager Control Protocol library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -14,23 +17,11 @@ makedepends=('xorg-util-macros-git')
 provides=('libxdmcp=${_realver}')
 conflicts=('libxdmcp')
 options=('!libtool')
-
-_gitroot="git://anongit.freedesktop.org/xorg/lib/libXdmcp"
-_gitname="libxdmcp"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
   make

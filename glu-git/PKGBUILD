@@ -1,9 +1,12 @@
 # Maintainer: Christoph Haag <haagch at studi.informatik.uni-stuttgart.de>
 
 _realver=9.0.0
+_gitroot="git://cgit.freedesktop.org/mesa/glu/"
+_gitname="glu"
+
 pkgname=glu-git
-pkgver=20130401
-pkgrel=1255
+pkgver=20130402
+pkgrel=0818
 pkgdesc="GL utility library for mesa builds from git after 2012-08-31"
 arch=('i686' 'x86_64')
 url="http://mesa.freedesktop.org/"
@@ -12,23 +15,11 @@ provides=('glu=${_realver}')
 depends=('mesa>=9.2.0' 'gcc-libs')
 conflicts=('glu')
 options=(!libtool)
-
-_gitroot="git://cgit.freedesktop.org/mesa/glu/"
-_gitname="glu"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr
   make

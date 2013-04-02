@@ -2,9 +2,12 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.0.11
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXaw"
+_gitname="libXaw"
+
 pkgname=libxaw-git
-pkgver=20130330
-pkgrel=0952
+pkgver=20130402
+pkgrel=0729
 pkgdesc="X11 Athena Widget library"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -14,23 +17,11 @@ makedepends=('xorg-util-macros-git')
 options=('!libtool')
 provides=('libxaw=${_realver}')
 conflicts=('libxaw')
-
-_gitroot="git://anongit.freedesktop.org/xorg/lib/libXaw"
-_gitname="libxaw"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
   make

@@ -3,9 +3,12 @@
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
 _realver=1.9
+_gitroot="git://anongit.freedesktop.org/xcb/libxcb"
+_gitname="libxcb"
+
 pkgname=libxcb-git
-pkgver=20130330
-pkgrel=0946
+pkgver=20130402
+pkgrel=0716
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xcb.freedesktop.org/"
@@ -15,25 +18,11 @@ provides=('libxcb=${_realver}')
 conflicts=('libxcb')
 options=('!libtool')
 license=('custom')
-source=(libxcb-1.1-no-pthread-stubs.patch)
-sha1sums=('d2df03ddf3e949c10c2c185256b0eb7fa02837ab')
-
-_gitroot="git://anongit.freedesktop.org/xcb/libxcb"
-_gitname="libxcb"
+source=($_gitroot libxcb-1.1-no-pthread-stubs.patch)
+sha1sums=(SKIP 'd2df03ddf3e949c10c2c185256b0eb7fa02837ab')
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   patch -Np1 -i "$srcdir/libxcb-1.1-no-pthread-stubs.patch"
   PYTHON=/usr/bin/python2 

@@ -3,9 +3,12 @@
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
 _realver=1.14.2
+_gitroot='git://git.freedesktop.org/git/xorg/proto/recordproto'
+_gitname='recordproto'
+
 pkgname=recordproto-git
-pkgver=20130328
-pkgrel=1719
+pkgver=20130402
+pkgrel=0725
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
@@ -13,23 +16,11 @@ license=('custom')
 makedepends=('xorg-util-macros' 'git')
 provides=('recordproto=${_realver}')
 conflicts=('recordproto')
-
-_gitroot='git://git.freedesktop.org/git/xorg/proto/recordproto'
-_gitname='recordproto'
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr
   make

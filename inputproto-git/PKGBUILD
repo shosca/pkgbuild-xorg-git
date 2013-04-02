@@ -2,9 +2,12 @@
 # Contributor: Cilyan Olowen <gaknar at gmail dot com>
 
 _realver=2.3
+_gitroot="git://git.freedesktop.org/git/xorg/proto/inputproto"
+_gitname="inputproto"
+
 pkgname=inputproto-git
-pkgver=20130328
-pkgrel=1715
+pkgver=20130402
+pkgrel=0715
 pkgdesc="X11 input extension wire protocol"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -12,24 +15,11 @@ license=('custom')
 provides=('inputproto=${_realver}')
 makedepends=('xorg-util-macros-git' 'git')
 conflicts=('inputproto')
-#groups=('xorg')
-
-_gitroot="git://git.freedesktop.org/git/xorg/proto/inputproto"
-_gitname="inputproto"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr
   make

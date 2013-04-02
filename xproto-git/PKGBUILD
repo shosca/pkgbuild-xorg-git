@@ -3,9 +3,12 @@
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
 _realver=7.0.23
+_gitroot='git://git.freedesktop.org/git/xorg/proto/xproto'
+_gitname='xproto'
+
 pkgname=xproto-git
-pkgver=20130330
-pkgrel=0945
+pkgver=20130402
+pkgrel=0712
 pkgdesc='X11 x extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
@@ -13,23 +16,11 @@ license=('custom')
 makedepends=('xorg-util-macros' 'git')
 provides=('xproto=${_realver}')
 conflicts=('xproto')
-
-_gitroot='git://git.freedesktop.org/git/xorg/proto/xproto'
-_gitname='xproto'
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr
   make

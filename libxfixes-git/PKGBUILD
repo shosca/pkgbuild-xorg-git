@@ -2,9 +2,12 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=5.0
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXfixes"
+_gitname="libXfixes"
+
 pkgname=libxfixes-git
-pkgver=20130330
-pkgrel=0952
+pkgver=20130402
+pkgrel=0730
 pkgdesc="X11 miscellaneous 'fixes' extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -14,23 +17,11 @@ conflicts=('libxfixes')
 depends=('libx11>=1.5.99.901' 'fixesproto>=5.0')
 makedepends=('xorg-util-macros-git')
 options=('!libtool')
-
-_gitroot="git://anongit.freedesktop.org/xorg/lib/libXfixes"
-_gitname="libxfixes"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
   make

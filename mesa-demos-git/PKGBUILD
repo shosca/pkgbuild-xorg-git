@@ -1,9 +1,12 @@
 # Maintainer: Perry3D <perry3d@gmail.com>
 
 _realver=8.1.0
+_gitroot="git://anongit.freedesktop.org/mesa/demos"
+_gitname="demos"
+
 pkgname=mesa-demos-git
-pkgver=20130401
-pkgrel=1300
+pkgver=20130402
+pkgrel=0821
 pkgdesc="The mesa demos (glxinfo, glxgears, ...), built from the git master branch."
 arch=(i686 x86_64)
 url="http://mesa3d.org/"
@@ -13,24 +16,11 @@ makedepends=('git')
 provides=('mesa-demos=${_realver}')
 replaces=('mesa-demos')
 conflicts=('mesa-demos')
-options=()
-
-_gitroot="git://anongit.freedesktop.org/mesa/demos"
-_gitname="demos"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   sed -i -e '/texwrap/d' src/tests/Makefile.am
   ./autogen.sh --prefix=/usr
@@ -39,4 +29,3 @@ build() {
 }
 
 # vim: ft=sh syn=sh et
-

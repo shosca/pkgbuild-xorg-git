@@ -2,9 +2,12 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.1.2
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libdmx"
+_gitname="libdmx"
+
 pkgname=libdmx-git
-pkgver=20130330
-pkgrel=0951
+pkgver=20130402
+pkgrel=0727
 pkgdesc="X11 Distributed Multihead extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -14,23 +17,11 @@ makedepends=('xorg-util-macros-git')
 provides=('libdmx=${_realver}')
 conflicts=('libdmx')
 options=('!libtool')
-
-_gitroot="git://anongit.freedesktop.org/xorg/lib/libdmx"
-_gitname="libdmx"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr --disable-static
   make

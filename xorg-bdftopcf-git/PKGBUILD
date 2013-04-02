@@ -2,9 +2,12 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.0.4
+_gitroot="git://anongit.freedesktop.org/xorg/app/bdftopcf"
+_gitname="bdftopcf"
+
 pkgname=xorg-bdftopcf-git
-pkgver=20130330
-pkgrel=1006
+pkgver=20130402
+pkgrel=0825
 pkgdesc="Convert X font from Bitmap Distribution Format to Portable Compiled Format"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
@@ -15,21 +18,10 @@ groups=('xorg' 'xorg-apps')
 provides=('xorg-bdftopcf=${_realver}')
 replaces=('xorg-bdftopcf')
 conflicts=('xorg-bdftopcf')
-
-_gitroot="git://anongit.freedesktop.org/xorg/app/bdftopcf"
-_gitname="bdftopcf"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
   ./autogen.sh --prefix=/usr
   make

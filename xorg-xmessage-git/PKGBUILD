@@ -2,9 +2,12 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.0.4
+_gitroot="git://anongit.freedesktop.org/xorg/app/xmessage"
+_gitname="xmessage"
+
 pkgname=xorg-xmessage-git
-pkgver=20130330
-pkgrel=1007
+pkgver=20130402
+pkgrel=0832
 pkgdesc="Display a message or query in a window"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
@@ -14,23 +17,11 @@ makedepends=('xorg-util-macros')
 provides=('xorg-xmessage=${_realver}')
 conflicts=('xorg-xmessage')
 replaces=('xorg-xmessage')
-
-_gitroot="git://anongit.freedesktop.org/xorg/app/xmessage"
-_gitname="xmessage"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr
   make

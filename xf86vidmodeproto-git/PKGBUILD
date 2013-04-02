@@ -3,9 +3,12 @@
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
 _realver=2.3.1
+_gitroot='git://git.freedesktop.org/git/xorg/proto/xf86vidmodeproto'
+_gitname='xf86vidmodeproto'
+
 pkgname=xf86vidmodeproto-git
-pkgver=20130328
-pkgrel=1720
+pkgver=20130402
+pkgrel=0726
 pkgdesc='X11 xf86vidmode extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
@@ -13,23 +16,11 @@ license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
 provides=('xf86vidmodeproto=${_realver}')
 conflicts=('xf86vidmodeproto')
-
-_gitroot='git://git.freedesktop.org/git/xorg/proto/xf86vidmodeproto'
-_gitname='xf86vidmodeproto'
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr
   make

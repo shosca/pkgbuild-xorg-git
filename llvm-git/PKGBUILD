@@ -4,9 +4,12 @@
 # Contributor: Anders Bergh <anders@archlinuxppc.org>
 # Contributor: Tomas Wilhelmsson <tomas.wilhelmsson@gmail.com>
 
+_gitroot="http://llvm.org/git/llvm"
+_gitname="llvm"
+
 pkgname=llvm-git
-pkgver=20130401
-pkgrel=1247
+pkgver=20130402
+pkgrel=0738
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -15,27 +18,12 @@ depends=('libffi' 'python2' 'ocaml')
 makedepends=('git')
 provides=('llvm')
 conflicts=('llvm')
-
-# git so it can be useful
 options=('!strip')
-
-#_gitroot="git://people.freedesktop.org/~tstellar/llvm"
-_gitroot="http://llvm.org/git/llvm"
-_gitname="llvm"
+source=("git+$_gitroot")
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   sed -i 's/python$/python2/' utils/llvm-build/llvm-build
 

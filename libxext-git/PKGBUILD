@@ -2,9 +2,12 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.3.1
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXext"
+_gitname="libXext"
+
 pkgname=libxext-git
-pkgver=20130330
-pkgrel=0951
+pkgver=20130402
+pkgrel=0726
 pkgdesc="X11 miscellaneous extensions library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -14,23 +17,11 @@ makedepends=('xorg-util-macros-git')
 provides=('libxext=${_1.3.1}')
 conflicts=('libxext')
 options=('!libtool')
-
-_gitroot="git://anongit.freedesktop.org/xorg/lib/libXext"
-_gitname="libxext"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
   make

@@ -2,9 +2,12 @@
 # contribution: EdwardXXIV
 
 _realver=0.29.3
+_gitroot="git://anongit.freedesktop.org/git/pixman"
+_gitname="pixman"
+
 pkgname=pixman-git
-pkgver=20130328
-pkgrel=1717
+pkgver=20130402
+pkgrel=0714
 pkgdesc="The pixel-manipulation library for X and cairo"
 arch=(i686 x86_64)
 url="http://pixman.org/"
@@ -15,25 +18,11 @@ provides=('pixman=${_realver}')
 conflicts=('pixman')
 replaces=('pixman')
 options=('!libtool')
-source=()
-md5sums=()
-
-_gitroot="git://anongit.freedesktop.org/git/pixman"
-_gitname="pixman"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr --disable-static
   make

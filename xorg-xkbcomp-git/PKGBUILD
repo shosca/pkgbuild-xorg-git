@@ -2,9 +2,12 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.2.4
+_gitroot='git://anongit.freedesktop.org/xorg/app/xkbcomp'
+_gitname='xkbcomp'
+
 pkgname=xorg-xkbcomp-git
-pkgver=20130328
-pkgrel=1730
+pkgver=20130402
+pkgrel=0751
 pkgdesc="X Keyboard description compiler"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
@@ -14,23 +17,11 @@ makedepends=('xorg-util-macros-git')
 groups=('xorg-apps' 'xorg')
 provides=('xorg-xkbcomp=1.2.4')
 conflicts=('xorg-xkbcomp')
-
-_gitroot='git://anongit.freedesktop.org/xorg/app/xkbcomp'
-_gitname='xkbcomp'
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr
   make

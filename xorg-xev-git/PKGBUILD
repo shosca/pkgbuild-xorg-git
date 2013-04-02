@@ -3,9 +3,12 @@
 # Maintainer: Gaetan Bisson <bisson@archlinux.org>
 
 _realver=1.2.1
+_gitroot="git://anongit.freedesktop.org/xorg/app/xev"
+_gitname="xev"
+
 pkgname=xorg-xev-git
-pkgver=20130330
-pkgrel=1007
+pkgver=20130402
+pkgrel=0832
 pkgdesc='Print contents of X events'
 url='http://xorg.freedesktop.org/'
 arch=('i686' 'x86_64')
@@ -15,23 +18,11 @@ makedepends=('xorg-util-macros>=1.17' 'xproto>=7.0.23')
 groups=('xorg-apps' 'xorg')
 provides=('xorg-xev=${_realver}')
 conflicts=('xorg-xev')
-
-_gitroot="git://anongit.freedesktop.org/xorg/app/xev"
-_gitname="xev"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr
   make

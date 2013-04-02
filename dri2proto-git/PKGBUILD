@@ -3,9 +3,12 @@
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
 _realver=2.8
+_gitroot='git://git.freedesktop.org/git/xorg/proto/dri2proto'
+_gitname='dri2proto'
+
 pkgname=dri2proto-git
-pkgver=20130328
-pkgrel=1719
+pkgver=20130402
+pkgrel=0725
 pkgdesc='X11 DRI extension wire protocol.'
 url='http://xorg.freedesktop.org/'
 arch=('any')
@@ -13,23 +16,11 @@ license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
 provides=('dri2proto=${_realver}')
 conflicts=('dri2proto')
-
-_gitroot='git://git.freedesktop.org/git/xorg/proto/dri2proto'
-_gitname='dri2proto'
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr
   make

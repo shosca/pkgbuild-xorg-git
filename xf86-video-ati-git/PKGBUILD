@@ -3,9 +3,12 @@
 # Contributor: Flamelab <panosfilip at gmail dot com>
 
 _realver=7.1.99
+_gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-ati'
+_gitname="xf86-video-ati"
+
 pkgname=xf86-video-ati-git
-pkgver=20130401
-pkgrel=1301
+pkgver=20130402
+pkgrel=0824
 pkgdesc="X.org ati video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -15,23 +18,11 @@ makedepends=('xorg-server-devel-git' 'xf86driproto>=2.1.1' 'git' 'glproto>=1.4.1
 conflicts=('xorg-server<1.11.0' 'xf86-video-ati')
 options=('!libtool')
 license=('custom')
-
-_gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-ati'
-_gitname="xf86-video-ati"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr --enable-glamor
   make

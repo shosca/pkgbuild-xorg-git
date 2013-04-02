@@ -2,9 +2,12 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.1.1
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXmu"
+_gitname="libXmu"
+
 pkgname=libxmu-git
-pkgver=20130330
-pkgrel=0951
+pkgver=20130402
+pkgrel=0728
 pkgdesc="X11 miscellaneous micro-utility library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -14,23 +17,11 @@ license=('custom')
 options=('!libtool')
 provides=('libxmu=${_realver}')
 conflicts=('libxmu')
-
-_gitroot="git://anongit.freedesktop.org/xorg/lib/libXmu"
-_gitname="libxmu"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
   make

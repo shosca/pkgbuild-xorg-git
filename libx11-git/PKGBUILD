@@ -2,9 +2,12 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.5.99.901
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libX11"
+_gitname="libX11"
+
 pkgname=libx11-git
-pkgver=20130330
-pkgrel=0948
+pkgver=20130402
+pkgrel=0718
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
@@ -14,28 +17,16 @@ provides=('libx11=${_realver}')
 conflicts=('libx11')
 options=('!libtool')
 license=('custom')
-source=(xorg.sh
+source=($_gitroot
+        xorg.sh
         xorg.csh)
 
-sha256sums=('1a1b5db0320579958fba24774bae7984a1b1b8c647ac6fbd4d8937178c48ed46'
+sha256sums=(SKIP
+            '1a1b5db0320579958fba24774bae7984a1b1b8c647ac6fbd4d8937178c48ed46'
             '96c85ccbdcb056540f2e2b6cf48dea067f80260c16957ee401c49cf94cea5894')
 
-_gitroot="git://anongit.freedesktop.org/xorg/lib/libX11"
-_gitname="libX11"
-
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr --disable-static --disable-xf86bigfont
   make

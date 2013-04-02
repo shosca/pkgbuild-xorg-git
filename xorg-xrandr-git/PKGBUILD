@@ -2,9 +2,12 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.4.0
+_gitroot="git://anongit.freedesktop.org/xorg/app/xrandr"
+_gitname="xrandr"
+
 pkgname=xorg-xrandr-git
-pkgver=20130330
-pkgrel=1007
+pkgver=20130402
+pkgrel=0832
 pkgdesc="Primitive command line interface to RandR extension"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
@@ -14,23 +17,11 @@ makedepends=('xorg-util-macros-git')
 groups=('xorg-apps' 'xorg')
 provides=('xorg-xrandr=${_realver}')
 conflicts=('xorg-xrandr')
-
-_gitroot="git://anongit.freedesktop.org/xorg/app/xrandr"
-_gitname="xrandr"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr
   make

@@ -3,9 +3,12 @@
 # Contributor: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.8
+_gitroot="git://anongit.freedesktop.org/xcb/proto"
+_gitname="proto"
+
 pkgname=xcb-proto-git
-pkgver=20130328
-pkgrel=1712
+pkgver=20130402
+pkgrel=0716
 pkgdesc="XML-XCB protocol descriptions"
 arch=(any)
 url="http://xcb.freedesktop.org/"
@@ -13,23 +16,11 @@ license=('custom')
 makedepends=('python2' 'libxml2')
 provides=('xcb-proto=${_realver}')
 conflicts=('xcb-proto')
-
-_gitroot="git://anongit.freedesktop.org/xcb/proto"
-_gitname="proto"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   PYTHON=/usr/bin/python2 ./autogen.sh --prefix=/usr
   make

@@ -2,9 +2,12 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.2.1
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libSM"
+_gitname="libSM"
+
 pkgname=libsm-git
-pkgver=20130328
-pkgrel=1737
+pkgver=20130402
+pkgrel=0810
 pkgdesc="X11 Session Management library"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -14,23 +17,11 @@ makedepends=('xorg-util-macros-git' 'xtrans>=1.2.7')
 options=('!libtool')
 provides=('libsm=${_realver}')
 conflicts=('libsm')
-
-_gitroot="git://anongit.freedesktop.org/xorg/lib/libSM"
-_gitname="libsm"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr --sysconfdir=/etc
   make

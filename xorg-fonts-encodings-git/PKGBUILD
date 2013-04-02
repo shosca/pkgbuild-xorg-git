@@ -2,9 +2,12 @@
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=1.0.4
+_gitroot='git://git.freedesktop.org/git/xorg/font/encodings'
+_gitname='encodings'
+
 pkgname=xorg-fonts-encodings-git
-pkgver=20130330
-pkgrel=1006
+pkgver=20130402
+pkgrel=0831
 pkgdesc="X.org font encoding files"
 arch=(any)
 url="http://xorg.freedesktop.org/"
@@ -14,21 +17,10 @@ groups=('xorg-fonts' 'xorg')
 options=(!makeflags)
 provides=('xorg-fonts-encodings=${_realver}')
 conflicts=('xorg-fonts-encodings')
-
-_gitroot='git://git.freedesktop.org/git/xorg/font/encodings'
-_gitname='xorg-fonts-encodings'
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
 
   ./autogen.sh --prefix=/usr

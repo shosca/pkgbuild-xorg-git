@@ -2,9 +2,12 @@
 # Contributor: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 
 _realver=1.0.90
+_gitroot="git://anongit.freedesktop.org/wayland/weston"
+_gitname="weston"
+
 pkgname=weston-git
-pkgver=20130401
-pkgrel=1300
+pkgver=20130402
+pkgrel=0822
 pkgdesc="Reference implementation of a Wayland compositor"
 arch=(i686 x86_64)
 url="http://wayland.freedesktop.org"
@@ -13,23 +16,11 @@ depends=('libxkbcommon' 'wayland' 'mesa' 'cairo'
          'poppler-glib' 'mtdev' 'libxcursor' 'pixman' 'glu')
 options=(!libtool)
 provides=('weston=${_realver}')
-
-_gitroot="git://anongit.freedesktop.org/wayland/weston"
-_gitname="weston"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh \
     --prefix=/usr \

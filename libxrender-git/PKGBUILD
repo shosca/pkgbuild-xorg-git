@@ -2,9 +2,12 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=0.9.7
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXrender"
+_gitname="libXrender"
+
 pkgname=libxrender-git
-pkgver=20130330
-pkgrel=0949
+pkgver=20130402
+pkgrel=0719
 pkgdesc="X Rendering Extension client library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -14,23 +17,11 @@ provides=('libxrender=${_realver}')
 conflicts=('libxrender')
 makedepends=('pkgconfig')
 options=('!libtool')
-
-_gitroot="git://anongit.freedesktop.org/xorg/lib/libXrender"
-_gitname="libxrender"
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
-
 
   ./autogen.sh --prefix=/usr --disable-static
   make
