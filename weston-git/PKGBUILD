@@ -7,12 +7,12 @@ _gitname="weston"
 
 pkgname=weston-git
 pkgver=20130403
-pkgrel=1253
+pkgrel=1528
 pkgdesc="Reference implementation of a Wayland compositor"
 arch=(i686 x86_64)
 url="http://wayland.freedesktop.org"
 license=('MIT')
-depends=('libxkbcommon' 'wayland' 'mesa' 'cairo'
+depends=('libxkbcommon' 'wayland' 'mesa' 'cairo' 'libunwind'
          'poppler-glib' 'mtdev' 'libxcursor' 'pixman' 'glu')
 options=(!libtool)
 provides=('weston=${_realver}')
