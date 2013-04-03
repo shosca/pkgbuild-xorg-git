@@ -54,7 +54,7 @@ test:
 		sed -i "s/^pkgrel=[^ ]*/pkgrel=$(TIME)/" "$(PWD)/$*/PKGBUILD" ; \
 	fi ; \
 	rm -f $(PWD)/$*/*$(PKGEXT) $(PWD)/$*/*.log ; \
-	cd $* ; yes y$$'\n' | makepkg -sfcL || exit 1 && \
+	cd $* ; yes y$$'\n' | makepkg -sfL || exit 1 && \
 	yes y$$'\n' | $(PACMAN) -U --force *$(PKGEXT) && \
 	cd $(PWD) && \
 	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
@@ -117,6 +117,7 @@ vers: $(VER_TARGETS)
 	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
 	if [ -d $(PWD)/$*/src/$$_gitname ]; then \
 		cd $(PWD)/$*/src/$$_gitname && \
+		echo $$_gitname ; \
 		autoreconf -f > /dev/null 2>&1 && \
 		_oldver=$$(grep -R '^_realver' $(PWD)/$*/PKGBUILD | sed -e 's/_realver=//' -e "s/'//g" -e 's/"//g') && \
 		_realver=$$(grep 'PACKAGE_VERSION=' configure | head -n1 | sed -e 's/PACKAGE_VERSION=//' -e "s/'//g") ; \
