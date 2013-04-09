@@ -1,6 +1,6 @@
 # Maintainer: Joel Teichroeb <joel@teichroeb.net>
 
-_realver=0.2.0
+_realver=0.3.0
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libxkbcommon"
 _gitname="libxkbcommon"
 

@@ -1,7 +1,7 @@
 # $Id: PKGBUILD 158868 2012-05-12 16:25:29Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.7
+_realver=1.7.1
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXi"
 _gitname="libXi"
 pkgname=libxi-git

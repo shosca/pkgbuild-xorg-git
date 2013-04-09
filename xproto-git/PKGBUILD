@@ -2,7 +2,7 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
-_realver=7.0.23
+_realver=7.0.24
 _gitroot='git://git.freedesktop.org/git/xorg/proto/xproto'
 _gitname='xproto'
 

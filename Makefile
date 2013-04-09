@@ -6,7 +6,7 @@ PWD=$(shell pwd)
 DIRS=$(shell ls | grep 'git')
 DATE=$(shell date +"%Y%m%d")
 TIME=$(shell date +"%H%M")
-PACMAN=yaourt
+PACMAN=sudo pacman
 PKGEXT=pkg.tar.xz
 
 TARGETS=$(addsuffix /built, $(DIRS))
@@ -113,11 +113,9 @@ VER_TARGETS=$(addsuffix -ver, $(DIRS))
 vers: $(VER_TARGETS)
 
 %-ver:
-	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$*/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
-	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
+	@_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
 	if [ -d $(PWD)/$*/src/$$_gitname ]; then \
 		cd $(PWD)/$*/src/$$_gitname && \
-		echo $$_gitname ; \
 		autoreconf -f > /dev/null 2>&1 && \
 		_oldver=$$(grep -R '^_realver' $(PWD)/$*/PKGBUILD | sed -e 's/_realver=//' -e "s/'//g" -e 's/"//g') && \
 		_realver=$$(grep 'PACKAGE_VERSION=' configure | head -n1 | sed -e 's/PACKAGE_VERSION=//' -e "s/'//g") ; \
