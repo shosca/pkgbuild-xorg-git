@@ -8,7 +8,7 @@ _gitname=xf86-input-evdev
 
 pkgname=xf86-input-evdev-git
 pkgver=20130412
-pkgrel=1652
+pkgrel=2143
 pkgdesc="X.Org evdev Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-evdev/"
