@@ -6,7 +6,7 @@ PWD=$(shell pwd)
 DIRS=$(shell ls | grep 'git')
 DATE=$(shell date +"%Y%m%d")
 TIME=$(shell date +"%H%M")
-PACMAN=sudo pacman
+PACMAN=yaourt
 MAKEPKG=makepkg -sfL
 PKGEXT=pkg.tar.xz
 GITFETCH=git fetch --all -p
@@ -182,7 +182,7 @@ cairo-git: libxrender-git pixman-git xcb-util-git
 
 mesa-git: $(PROTOS) libdrm-git llvm-git libxfixes-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git
 
-lib32-mesa-git: $(PROTOS) lib32-libdrm-git lib32-llvm-git
+lib32-mesa-git: $(PROTOS) lib32-libdrm-git lib32-llvm-git lib32-libvdpau-git
 
 lib32-llvm-git: llvm-git
 
