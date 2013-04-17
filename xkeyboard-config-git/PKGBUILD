@@ -4,8 +4,8 @@
 
 _realver=2.8
 pkgname=xkeyboard-config-git
-pkgver=20130410
-pkgrel=2104
+pkgver=20130417
+pkgrel=1620
 pkgdesc="X keyboard configuration files"
 arch=(any)
 license=('custom')
