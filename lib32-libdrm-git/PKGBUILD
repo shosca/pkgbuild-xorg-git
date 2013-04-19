@@ -2,7 +2,7 @@
 #Jan de Groot
 #Andreas Radke
 
-_realver=2.4.43
+_realver=2.4.44
 _gitroot='git://git.freedesktop.org/git/mesa/drm'
 _gitname='drm'
 

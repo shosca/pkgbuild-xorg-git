@@ -1,6 +1,6 @@
 # Maintainer: Joel Teichroeb <joel@teichroeb.net>
 
-_realver=1.0.90
+_realver=1.1.0
 _gitroot="git://anongit.freedesktop.org/wayland/wayland"
 _gitname="wayland"
 

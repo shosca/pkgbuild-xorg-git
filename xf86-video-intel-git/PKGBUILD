@@ -10,13 +10,13 @@ _gitname='xf86-video-intel'
 
 pkgname=xf86-video-intel-git
 pkgver=20130419
-pkgrel=0734
+pkgrel=1837
 pkgdesc='X.org Intel i810/i830/i915/945G/G965+ video drivers'
 arch=('i686' 'x86_64')
 url='http://intellinuxgraphics.org/'
 license=('custom')
-depends=('intel-dri>=9.2.0' 'libxvmc>=1.0.7' 'libpciaccess>=0.13.1' 'libdrm>=2.4.43' 'dri2proto>=2.8' 'xcb-util' 'libxfixes>=5.0' 'udev')
-makedepends=('git' 'xorg-server-devel-git' 'libx11>=1.5.99.901' 'xf86driproto>=2.1.1' 'glproto>=1.4.16' 'resourceproto>=1.2.0')
+depends=('intel-dri' 'libxvmc' 'libpciaccess' 'libdrm' 'dri2proto' 'xcb-util' 'libxfixes' 'udev')
+makedepends=('git' 'xorg-server-devel-git' 'libx11' 'xf86driproto' 'glproto' 'resourceproto')
 provides=('xf86-video-intel=${_realver}')
 conflicts=('xf86-video-intel')
 options=('!libtool')
