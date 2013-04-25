@@ -8,8 +8,8 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 pkgname=lib32-llvm-git
-pkgver=20130424
-pkgrel=1936
+pkgver=20130425
+pkgrel=0812
 pkgdesc='Low Level Virtual Machine - Compiler infrastructure with experimental AMDGPU enabled (git version)'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
