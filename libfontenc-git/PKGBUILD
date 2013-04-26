@@ -1,7 +1,7 @@
 # $Id: PKGBUILD 151844 2012-03-03 13:37:37Z andyrtr $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.1.1
+_realver=1.1.2
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libfontenc"
 _gitname="libfontenc"
 
