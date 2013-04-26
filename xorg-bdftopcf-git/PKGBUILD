@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/bdftopcf"
 _gitname="bdftopcf"
 
 pkgname=xorg-bdftopcf-git
-pkgver=20130404
-pkgrel=2026
+pkgver=20130426
+pkgrel=0852
 pkgdesc="Convert X font from Bitmap Distribution Format to Portable Compiled Format"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
