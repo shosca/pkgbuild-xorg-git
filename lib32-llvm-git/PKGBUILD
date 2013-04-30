@@ -9,7 +9,7 @@ _gitname="llvm"
 
 pkgname=lib32-llvm-git
 pkgver=20130430
-pkgrel=1318
+pkgrel=1542
 pkgdesc='Low Level Virtual Machine - Compiler infrastructure with experimental AMDGPU enabled (git version)'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
