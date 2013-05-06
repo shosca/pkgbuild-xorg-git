@@ -8,7 +8,7 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=20130506
-pkgrel=0728
+pkgrel=1341
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -75,7 +75,6 @@ package_ati-dri-git() {
   mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_{r300,r600,radeonsi}.* ${pkgdir}/usr/lib/vdpau/
   mv -v ${srcdir}/fakeinstall/usr/lib/dri/{r200,r300,r600,radeon,radeonsi}_dri.so ${pkgdir}/usr/lib/dri/
   #mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_{r300,r600,radeonsi}* ${pkgdir}/usr/lib/gallium-pipe/
-  mv -v ${srcdir}/fakeinstall/usr/lib/libllvmradeon* ${pkgdir}/usr/lib/
   mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCr600.* ${pkgdir}/usr/lib/
   mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCr300.* ${pkgdir}/usr/lib/
 
