@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXdmcp"
 _gitname="libXdmcp"
 
 pkgname=libxdmcp-git
-pkgver=20130404
-pkgrel=2002
+pkgver=20130510
+pkgrel=0651
 pkgdesc="X11 Display Manager Control Protocol library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
