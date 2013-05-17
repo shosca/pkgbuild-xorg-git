@@ -8,14 +8,14 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=20130517
-pkgrel=0727
+pkgrel=1539
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
 depends=('gcc-libs' 'glibc' 'libdrm' 'expat' 'libxt' 'libxxf86vm'
           'libxdamage' 'libx11' 'libxcb' 'libxfixes' 'libxext'
           'libxvmc' 'wayland')
-makedepends=('glproto' 'expat' 'gcc-libs' 'dri2proto'
+makedepends=('glproto' 'expat' 'gcc-libs' 'dri2proto' 'libtool'
               'python2' 'libxml2' 'llvm-git' 'systemd'
               'libvdpau')
 optdepends=('opengl-man-pages: for the OpenGL API man pages')

@@ -9,7 +9,7 @@ _gitname='mesa'
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
 pkgver=20130517
-pkgrel=0739
+pkgrel=1610
 arch=('x86_64')
 makedepends=('glproto' 'lib32-libdrm' 'lib32-libxvmc' 'lib32-libvdpau' 'lib32-libxxf86vm' 'lib32-libxdamage' 'lib32-expat' 'lib32-libx11' 'lib32-libxt'
              'gcc-multilib' 'dri2proto-git' 'python2' 'libxml2' 'lib32-llvm-git' 'lib32-systemd')
