@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xprop"
 _gitname="xprop"
 
 pkgname=xorg-xprop-git
-pkgver=20130510
-pkgrel=0725
+pkgver=20130517
+pkgrel=0748
 pkgdesc="Property displayer for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
