@@ -9,7 +9,7 @@ _gitname="util"
 
 pkgname=xcb-util-git
 pkgver=20130524
-pkgrel=0108
+pkgrel=2202
 pkgdesc="Utility libraries for XC Binding"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
