@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 152803 2012-03-09 17:01:00Z andyrtr $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.1.2
+_realver=1.1.3
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libdmx"
 _gitname="libdmx"
 
 pkgname=libdmx-git
-pkgver=20130528
-pkgrel=0620
+pkgver=20130529
+pkgrel=0735
 pkgdesc="X11 Distributed Multihead extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
