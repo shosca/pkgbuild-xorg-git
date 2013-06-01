@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 152795 2012-03-09 16:32:25Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.0.7
+_realver=1.0.8
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXv"
 _gitname="libXv"
 
 pkgname=libxv-git
-pkgver=20130530
-pkgrel=1307
+pkgver=20130601
+pkgrel=1145
 pkgdesc="X11 Video extension library"
 arch=('i686' 'x86_64')
 license=('custom')
