@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 160633 2012-06-02 21:43:25Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.5.99.902
+_realver=1.6.0
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libX11"
 _gitname="libX11"
 
 pkgname=libx11-git
-pkgver=20130603
-pkgrel=0728
+pkgver=20130604
+pkgrel=0936
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
