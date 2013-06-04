@@ -7,7 +7,7 @@ _gitname="libXfixes"
 
 pkgname=libxfixes-git
 pkgver=20130604
-pkgrel=0941
+pkgrel=1314
 pkgdesc="X11 miscellaneous 'fixes' extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

@@ -5,8 +5,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libxkbcommon"
 _gitname="libxkbcommon"
 
 pkgname=libxkbcommon-git
-pkgver=20130404
-pkgrel=2024
+pkgver=20130604
+pkgrel=1341
 pkgdesc="A library to handle keyboard descriptions."
 url="http://xkbcommon.org/"
 arch=(i686 x86_64)
