@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXdamage"
 _gitname="libXdamage"
 
 pkgname=libxdamage-git
-pkgver=20130604
-pkgrel=1326
+pkgver=20130607
+pkgrel=0735
 pkgdesc="X11 damaged region extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
