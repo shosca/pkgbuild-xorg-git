@@ -1,12 +1,12 @@
 # Maintainer: Joel Teichroeb <joel@teichroeb.net>
 
-_realver=0.3.0
-_gitroot="git://anongit.freedesktop.org/xorg/lib/libxkbcommon"
+_realver=0.3.1
+_gitroot="git://github.com/xkbcommon/libxkbcommon.git"
 _gitname="libxkbcommon"
 
 pkgname=libxkbcommon-git
-pkgver=20130604
-pkgrel=1341
+pkgver=20130612
+pkgrel=0734
 pkgdesc="A library to handle keyboard descriptions."
 url="http://xkbcommon.org/"
 arch=(i686 x86_64)
