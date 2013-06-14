@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 152797 2012-03-09 16:34:16Z andyrtr $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.0.7
+_realver=1.0.8
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXvMC"
 _gitname="libXvMC"
 
 pkgname=libxvmc-git
-pkgver=20130612
-pkgrel=0707
+pkgver=20130614
+pkgrel=0715
 pkgdesc="X11 Video Motion Compensation extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
