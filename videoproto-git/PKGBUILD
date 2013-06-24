@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/videoproto'
 _gitname='videoproto'
 
 pkgname=videoproto-git
-pkgver=20130604
-pkgrel=1302
+pkgver=20130624
+pkgrel=0716
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
