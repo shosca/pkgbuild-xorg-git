@@ -238,6 +238,8 @@ xf86-input-synaptics-git: xorg-server-git
 
 xf86-video-ati-git: xorg-server-git mesa-git glamor-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
 
+radeontop-git: xf86-video-ati-git
+
 xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git
 
 xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git

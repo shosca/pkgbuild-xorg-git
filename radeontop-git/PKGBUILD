@@ -1,0 +1,36 @@
+# Maintainer: Antoine Lubineau <antoine@lubignon.info>
+
+_realver=0.6.4
+_gitroot='git://github.com/clbr/radeontop.git'
+_gitname='radeontop'
+
+pkgname=radeontop-git
+pkgver=20130625
+pkgrel=0757
+pkgdesc='Radeon cards monitoring utility'
+arch=('i686' 'x86_64')
+url='https://github.com/clbr/radeontop'
+license=('GPL3')
+depends=('ncurses' 'xf86-video-ati')
+makedepends=('git')
+provides=('radeontop')
+conflicts=('radeontop')
+source=($_gitroot)
+sha256sums=('SKIP')
+
+prepare() {
+  cd "$srcdir/${pkgname%-git}"
+  sed -i "s/sbin/bin/" Makefile
+}
+
+build() {
+  cd "$srcdir/${pkgname%-git}"
+  make
+}
+
+package() {
+  cd "$srcdir/${pkgname%-git}"
+  make DESTDIR="$pkgdir/" install
+}
+
+# vim: ft=sh syn=sh et
