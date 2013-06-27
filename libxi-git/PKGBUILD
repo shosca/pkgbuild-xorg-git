@@ -1,12 +1,12 @@
 # $Id: PKGBUILD 158868 2012-05-12 16:25:29Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.7.1
+_realver=1.7.1.901
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXi"
 _gitname="libXi"
 pkgname=libxi-git
-pkgver=20130625
-pkgrel=0732
+pkgver=20130626
+pkgrel=2131
 pkgdesc="X11 Input extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"
