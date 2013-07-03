@@ -2,13 +2,13 @@
 #Jan de Groot
 #Andreas Radke
 
-_realver=2.4.45
+_realver=2.4.46
 _gitroot='git://git.freedesktop.org/git/mesa/drm'
 _gitname='drm'
 
 pkgname=lib32-libdrm-git
-pkgver=20130628
-pkgrel=1502
+pkgver=20130703
+pkgrel=0959
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
