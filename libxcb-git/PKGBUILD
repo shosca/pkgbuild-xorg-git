@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xcb/libxcb"
 _gitname="libxcb"
 
 pkgname=libxcb-git
-pkgver=20130607
-pkgrel=0727
+pkgver=20130705
+pkgrel=1114
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xcb.freedesktop.org/"
@@ -35,6 +35,7 @@ build() {
 
 package() {
   cd "${srcdir}/${_gitname}"
+  install -m755 -d "$pkgdir/usr/share/doc/libxcb"
   make DESTDIR="$pkgdir" install
   install -m755 -d "$pkgdir/usr/share/licenses/$pkgname"
   install -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname"
