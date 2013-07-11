@@ -10,7 +10,7 @@ _realver="3.4svn"
 
 pkgname=(llvm-git llvm-libs-git llvm-ocaml-git clang-git clang-analyzer-git)
 pkgver=20130711
-pkgrel=1054
+pkgrel=1356
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -87,6 +87,9 @@ package_llvm-git() {
   # Get rid of example Hello transformation
   rm "$pkgdir"/usr/lib/*LLVMHello.*
 
+  install -m755 -d "$pkgdir/usr/share/"
+  mv "$pkgdir/usr/docs" "$pkgdir/usr/share/doc"
+
   install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
 
@@ -129,6 +132,7 @@ package_clang-git() {
 
   cd "${srcdir}/${_gitname}/tools/clang"
   make DESTDIR="$pkgdir" install
+  rm -rf "$pkgdir/usr/docs"
 
   install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

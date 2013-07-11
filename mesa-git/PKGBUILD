@@ -8,8 +8,8 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=20130711
-pkgrel=1058
-pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'mesa-git' 'mesa-libgl-git')
+pkgrel=1359
+pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
 depends=('gcc-libs' 'glibc' 'libdrm' 'expat' 'libxt' 'libxxf86vm'
@@ -51,7 +51,8 @@ build() {
     --enable-xvmc \
     --enable-vdpau \
     --with-llvm-shared-libs \
-    --enable-r600-llvm-compiler
+    --enable-r600-llvm-compiler \
+    --enable-opencl
 
   make
 
@@ -130,6 +131,23 @@ package_svga-dri-git() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+
+package_opencl-mesa-git() {
+  pkgdesc="Mesa OpenCL library"
+  depends=("mesa-git" "llvm-git")
+  provides=("opencl-mesa=${_realver}")
+  replaces=('opencl-mesa')
+
+  install -m755 -d "${pkgdir}/usr/lib/"
+  install -m755 -d "${pkgdir}/usr/include/CL/"
+
+  mv -v ${srcdir}/fakeinstall/usr/lib/libOpenCL* ${pkgdir}/usr/lib/
+  mv -v ${srcdir}/fakeinstall/usr/include/CL/*.h ${pkgdir}/usr/include/CL/
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
 
 package_mesa-git() {
   pkgdesc="an open-source implementation of the OpenGL specification"

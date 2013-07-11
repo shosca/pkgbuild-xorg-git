@@ -180,7 +180,9 @@ libdrm-git: libpciaccess-git
 
 cairo-git: libxrender-git pixman-git xcb-util-git
 
-mesa-git: $(PROTOS) libdrm-git llvm-git libxfixes-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git
+libclc-git: llvm-git
+
+mesa-git: $(PROTOS) libdrm-git llvm-git libclc-git libxfixes-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git
 
 lib32-mesa-git: $(PROTOS) lib32-libdrm-git lib32-llvm-git lib32-libvdpau-git
 
