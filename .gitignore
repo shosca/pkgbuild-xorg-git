@@ -60,6 +60,8 @@
 */libXvMC
 */libXxf86vm
 */llvm
+*/clang
+*/compiler-rt
 */macros
 */mesa
 */mkfontscale
