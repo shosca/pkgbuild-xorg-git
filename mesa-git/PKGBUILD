@@ -8,7 +8,7 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=20130711
-pkgrel=1541
+pkgrel=1553
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -135,8 +135,9 @@ package_svga-dri-git() {
 package_opencl-mesa-git() {
   pkgdesc="Mesa OpenCL library"
   depends=("mesa-git" "llvm-git")
-  provides=("opencl-mesa=${_realver}")
-  replaces=('opencl-mesa')
+  provides=("opencl-mesa=${_realver}" "libcl")
+  replaces=('opencl-mesa' 'libcl')
+  conflicts=('libcl')
 
   install -m755 -d "${pkgdir}/usr/lib/"
   install -m755 -d "${pkgdir}/usr/include/CL/"
