@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXxf86vm"
 _gitname="libXxf86vm"
 
 pkgname=libxxf86vm-git
-pkgver=20130709
-pkgrel=0801
+pkgver=20130711
+pkgrel=0723
 pkgdesc="X11 XFree86 video mode extension library"
 arch=('x86_64' 'i686')
 license=('custom')
