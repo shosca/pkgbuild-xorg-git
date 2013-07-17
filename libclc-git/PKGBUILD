@@ -4,8 +4,8 @@ _gitroot='git://people.freedesktop.org/~tstellar/libclc'
 _gitname=libclc
 
 pkgname=libclc-git
-pkgver=20130716
-pkgrel=1215
+pkgver=20130717
+pkgrel=1309
 pkgdesc="Library requirements of the OpenCL C programming language"
 arch=('i686' 'x86_64')
 url="http://libclc.llvm.org/"
