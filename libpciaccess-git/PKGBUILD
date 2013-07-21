@@ -2,13 +2,13 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
-_realver=0.13.1
+_realver=0.13.2
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libpciaccess"
 _gitname="libpciaccess"
 
 pkgname=libpciaccess-git
-pkgver=20130707
-pkgrel=1037
+pkgver=20130721
+pkgrel=1044
 pkgdesc="X11 PCI access library"
 arch=(i686 x86_64)
 license=('custom')
