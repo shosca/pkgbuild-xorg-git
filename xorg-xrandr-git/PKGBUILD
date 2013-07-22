@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 130753 2011-07-07 22:30:11Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.4.0
+_realver=1.4.1
 _gitroot="git://anongit.freedesktop.org/xorg/app/xrandr"
 _gitname="xrandr"
 
 pkgname=xorg-xrandr-git
-pkgver=20130717
-pkgrel=0837
+pkgver=20130722
+pkgrel=0756
 pkgdesc="Primitive command line interface to RandR extension"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

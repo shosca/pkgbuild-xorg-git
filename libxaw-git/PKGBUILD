@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXaw"
 _gitname="libXaw"
 
 pkgname=libxaw-git
-pkgver=20130713
-pkgrel=0856
+pkgver=20130722
+pkgrel=0720
 pkgdesc="X11 Athena Widget library"
 arch=('i686' 'x86_64')
 license=('custom')

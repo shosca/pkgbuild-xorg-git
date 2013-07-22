@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 151781 2012-03-02 18:55:43Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.4.5
+_realver=1.4.6
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXfont"
 _gitname="libXfont"
 
 pkgname=libxfont-git
-pkgver=20130711
-pkgrel=0720
+pkgver=20130722
+pkgrel=0754
 pkgdesc="X11 font rasterisation library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
