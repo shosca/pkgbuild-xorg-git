@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/wayland/weston"
 _gitname="weston"
 
 pkgname=weston-git
-pkgver=20130729
-pkgrel=1442
+pkgver=20130730
+pkgrel=0834
 pkgdesc="Reference implementation of a Wayland compositor"
 arch=(i686 x86_64)
 url="http://wayland.freedesktop.org"
@@ -34,10 +34,6 @@ package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
-
-  for _c in clickdot cliptest dnd editor eventdemo flower gears image resizor simple-egl simple-shm simple-touch smoke view; do
-    install -Dm755 "clients/$_c" "${pkgdir}/usr/bin/weston-$_c"
-  done
 }
 
 # vim: ft=sh syn=sh et
