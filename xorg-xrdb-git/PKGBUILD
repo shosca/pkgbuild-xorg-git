@@ -1,0 +1,38 @@
+# $Id: PKGBUILD 154150 2012-03-23 19:14:18Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_realver=1.0.9
+_gitroot="git://anongit.freedesktop.org/xorg/app/xrdb"
+_gitname="xrdb"
+
+pkgname=xorg-xrdb-git
+pkgver=20130731
+pkgrel=0912
+pkgdesc="X.Org authorization settings program"
+arch=(i686 x86_64)
+license=('custom')
+url="http://xorg.freedesktop.org/"
+depends=('libxmu' 'mcpp')
+makedepends=('xorg-util-macros-git')
+groups=('xorg-apps' 'xorg')
+provides=('xorg-xrdb=${_realver}')
+conflicts=('xorg-xrdb')
+source=($_gitroot)
+md5sums=(SKIP)
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+# vim: ft=sh syn=sh et
+

@@ -216,6 +216,10 @@ xorg-server-git: $(PROTOS) libdmx-git libdrm-git libpciaccess-git libx11-git lib
 
 xorg-xauth-git: libxmu-git
 
+xorg-xhost-git: libxmu-git
+
+xorg-xrdb-git: libxmu-git
+
 xorg-xrandr-git: libxrandr-git libx11-git
 
 xorg-xprop-git: libx11-git

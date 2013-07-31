@@ -79,6 +79,8 @@
 */wayland
 */weston
 */xauth
+*/xhost
+*/xrdb
 */xcb-util
 */xcmiscproto
 */xev
