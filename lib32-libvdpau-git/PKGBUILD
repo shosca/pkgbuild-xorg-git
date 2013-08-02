@@ -2,13 +2,13 @@
 # Contributor: TryA <tryagainprod {at} gmail.com>
 # Contributor: Ionut Biru <ibiru@archlinux.org>
 
-_realver=0.6
+_realver=0.7
 _gitroot="git://people.freedesktop.org/~aplattner/libvdpau"
 _gitname="libvdpau"
 
 pkgname=lib32-libvdpau-git
 pkgver=20130802
-pkgrel=0809
+pkgrel=1512
 pkgdesc="Nvidia VDPAU library (32-bit)"
 arch=('x86_64')
 url=http://cgit.freedesktop.org/~aplattner/libvdpau

@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 166179 2012-09-05 07:50:49Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=0.6
+_realver=0.7
 _gitroot="git://people.freedesktop.org/~aplattner/libvdpau"
 _gitname="libvdpau"
 
 pkgname=libvdpau-git
 pkgver=20130802
-pkgrel=0836
+pkgrel=1514
 pkgdesc="Nvidia VDPAU library"
 arch=(i686 x86_64)
 url='http://cgit.freedesktop.org/~aplattner/libvdpau'
