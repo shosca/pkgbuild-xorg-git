@@ -8,16 +8,18 @@ _gitname='mesa'
 
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
-pkgver=20130805
-pkgrel=1300
+pkgver=20130806
+pkgrel=0857
 arch=('x86_64')
 makedepends=('glproto' 'lib32-libdrm' 'lib32-libxvmc' 'lib32-libvdpau' 'lib32-libxxf86vm' 'lib32-libxdamage' 'lib32-expat' 'lib32-libx11' 'lib32-libxt'
              'gcc-multilib' 'dri2proto-git' 'python2' 'libxml2' 'lib32-llvm-git' 'lib32-systemd')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
-source=($_gitroot LICENSE)
-md5sums=('SKIP' '5c65a0fe315dd347e09b1f2826a1df5a')
+source=($_gitroot LICENSE buildfix.patch)
+md5sums=(SKIP
+        '5c65a0fe315dd347e09b1f2826a1df5a'
+        '5a44160b029d8c498cf5f1bd0b64a346')
 
 build() {
   cd "${srcdir}/${_gitname}"
@@ -28,12 +30,12 @@ build() {
   # for our llvm-config for 32 bit
   export LLVM_CONFIG=/usr/bin/llvm-config32
 
-  autoreconf -vfi
+  patch -Np1 -i ../buildfix.patch
 
     #--host=i686-pc-linux-gnu \
     #--target=i686-pc-linux-gnu \
     #--build=x86_64-pc-linux-gnu \
-  ./configure \
+  ./autogen.sh \
     --prefix=/usr \
     --sysconfdir=/etc \
     --with-gallium-drivers=r300,r600,radeonsi,nouveau,swrast \

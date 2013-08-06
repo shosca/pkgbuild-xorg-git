@@ -6,21 +6,46 @@
 
 _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
+_realver="3.4svn"
 
-pkgname=lib32-llvm-git
-pkgver=20130805
-pkgrel=1254
-pkgdesc='Low Level Virtual Machine - Compiler infrastructure with experimental AMDGPU enabled (git version)'
-arch=('i686' 'x86_64')
+pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git')
+pkgver=20130806
+pkgrel=0856
+arch=('x86_64')
 url="http://llvm.org"
 license=('custom:University of Illinois/NCSA Open Source License')
 depends=('lib32-libffi' 'llvm-git' 'python2' 'ocaml')
 makedepends=('git' 'gcc-multilib')
 provides=('lib32-llvm')
 conflicts=('lib32-llvm')
-source=("git+${_gitroot}")
-md5sums=(SKIP)
+source=(git+$_gitroot
+        git+http://llvm.org/git/compiler-rt.git
+)
+md5sums=(SKIP SKIP)
 options=('!strip')
+
+prepare() {
+  cd "${srcdir}/${_gitname}"
+
+  rm -rf tools/clang
+  rm -rf projects/compiler-rt
+
+  git clone ${srcdir}/compiler-rt projects/compiler-rt
+
+  # Fix installation directories, ./configure doesn't seem to set them right
+  sed -i -e 's:\$(PROJ_prefix)/lib:$(PROJ_prefix)/lib32:' \
+         -e 's:\$(PROJ_prefix)/docs/llvm:$(PROJ_prefix)/share/doc/llvm:' \
+    Makefile.config.in
+  sed -i '/ActiveLibDir = ActivePrefix/s:lib:lib32:' \
+    tools/llvm-config/llvm-config.cpp
+  sed -i 's:LLVM_LIBDIR="${prefix}/lib":LLVM_LIBDIR="${prefix}/lib32":' \
+    autoconf/configure.ac \
+    configure
+
+  # Fix insecure rpath (http://bugs.archlinux.org/task/14017)
+  sed -i 's:$(RPATH) -Wl,$(\(ToolDir\|LibDir\|ExmplDir\))::g' Makefile.rules
+}
+
 
 build() {
   cd "${srcdir}/${_gitname}"
@@ -29,33 +54,14 @@ build() {
   export CXX="g++ -m32"
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
-  rm -rf tools/clang
-  rm -rf projects/compiler-rt
-
-  sed -i 's/python$/python2/' utils/llvm-build/llvm-build
-
   # Include location of libffi headers in CPPFLAGS
-  export CPPFLAGS="$CPPFLAGS $(pkg-config --cflags libffi)"
+  CPPFLAGS+=" $(pkg-config --cflags libffi)"
 
-  # Fix installation directories, ./configure doesn't seem to set them right
-  sed -i -e 's:\$(PROJ_prefix)/etc/llvm:/etc/llvm:' \
-         -e 's:\$(PROJ_prefix)/lib:$(PROJ_prefix)/lib32/llvm:' \
-         -e 's:\$(PROJ_prefix)/docs/llvm:$(PROJ_prefix)/share/doc/llvm:' \
-    Makefile.config.in
-  sed -i '/ActiveLibDir = ActivePrefix/s:lib:lib32/llvm:' \
-    tools/llvm-config/llvm-config.cpp
-  sed -i 's:LLVM_LIBDIR="${prefix}/lib":LLVM_LIBDIR="${prefix}/lib32/llvm":' \
-    autoconf/configure.ac \
-    configure
-
-  # Fix insecure rpath (http://bugs.archlinux.org/task/14017)
-  sed -i 's:$(RPATH) -Wl,$(\(ToolDir\|LibDir\|ExmplDir\))::g' Makefile.rules
-
-  PYTHON=python2 ./configure \
+  ./configure \
     --host=i386-pc-linux-gnu \
     --target=i386-pc-linux-gnu \
     --prefix=/usr \
-    --libdir=/usr/lib32/llvm \
+    --libdir=/usr/lib32 \
     --sysconfdir=/etc \
     --enable-shared \
     --enable-libffi \
@@ -65,40 +71,61 @@ build() {
     --disable-debug-runtime \
     --disable-assertions \
     --with-binutils-include=/usr/include \
+    --with-python=/usr/bin/python2 \
     --enable-optimized
 
   make REQUIRES_RTTI=1 ENABLE_OPTIMIZED=1
 }
 
-package() {
+package_lib32-llvm-git() {
+  pkgdesc="Low Level Virtual Machine (32-bit)"
+  depends=('lib32-llvm-libs-git' 'llvm')
+  provides=('lib32-llvm')
+  conflicts=('lib32-llvm')
+
   cd "${srcdir}/${_gitname}"
-  make DESTDIR="$pkgdir" install
+  make -j1 DESTDIR="$pkgdir" install
+
+  # The runtime library goes into lib32-llvm-libs
+  mv "$pkgdir/usr/lib32/libLLVM-$_realver.so" "$srcdir"
 
   # Fix permissions of static libs
-  chmod -x "$pkgdir"/usr/lib32/llvm/*.a
+  chmod -x "$pkgdir"/usr/lib32/*.a
 
   mv "$pkgdir/usr/bin/i386-pc-linux-gnu-llvm-config" "$pkgdir/usr/lib32/llvm-config"
 
   # Get rid of example Hello transformation
-  rm "$pkgdir"/usr/lib32/llvm/*LLVMHello.*
+  rm "$pkgdir"/usr/lib32/*LLVMHello.*
 
-  # Symlink the gold plugin where clang expects it
-  ln -s llvm/LLVMgold.so "$pkgdir/usr/lib32/LLVMgold.so"
-
-  # Add ld.so.conf.d entry
-  install -d "$pkgdir/etc/ld.so.conf.d"
-  echo /usr/lib32/llvm >"$pkgdir/etc/ld.so.conf.d/llvm32.conf"
-
-  install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  # Symlink LLVMgold.so into /usr/lib/bfd-plugins
+  # (https://bugs.archlinux.org/task/28479)
+  install -d "$pkgdir/usr/lib32/bfd-plugins"
+  ln -s ../LLVMgold.so "$pkgdir/usr/lib32/bfd-plugins/LLVMgold.so"
 
   mv "$pkgdir"/usr/include/llvm/Config/*config.h "$pkgdir/"
-  rm -r "$pkgdir"/usr/{bin,include,lib,share/doc}
+  rm -rf "$pkgdir"/usr/{bin,include,lib,share/{doc,man}}
+
   install -d "$pkgdir/usr/include/llvm/Config"
   mv "$pkgdir/config.h" "$pkgdir/usr/include/llvm/Config/config-32.h"
   mv "$pkgdir/llvm-config.h" "$pkgdir/usr/include/llvm/Config/llvm-config-32.h"
 
   install -d "$pkgdir"/usr/bin
   mv "$pkgdir/usr/lib32/llvm-config" "$pkgdir/usr/bin/llvm-config32"
+
+  install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+package_lib32-llvm-libs-git() {
+  pkgdesc="Low Level Virtual Machine (runtime library)(32-bit)"
+  depends=('lib32-libffi' 'lib32-zlib' 'lib32-gcc-libs')
+  provides=('lib32-llvm-libs')
+  conflicts=('lib32-llvm-libs')
+
+  cd "${srcdir}"
+
+  install -D libLLVM-$_realver.so "$pkgdir/usr/lib32/libLLVM-$_realver.so"
+
+  install -Dm644 ${_gitname}/LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
 # vim: ft=sh syn=sh et
 
