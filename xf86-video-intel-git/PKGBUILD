@@ -4,13 +4,13 @@
 # Contributor: fs4000 <matthias_dienstbier[at]yahoo[dot]de>
 # Contributor: William Heinbockel <wheinbockel[at]gmail[dot]com>
 
-_realver=2.21.13
+_realver=2.21.14
 _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-intel'
 _gitname='xf86-video-intel'
 
 pkgname=xf86-video-intel-git
-pkgver=20130803
-pkgrel=1000
+pkgver=20130805
+pkgrel=1309
 pkgdesc='X.org Intel i810/i830/i915/945G/G965+ video drivers'
 arch=('i686' 'x86_64')
 url='http://intellinuxgraphics.org/'
