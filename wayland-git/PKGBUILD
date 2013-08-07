@@ -6,7 +6,7 @@ _gitname="wayland"
 
 pkgname=wayland-git
 pkgver=20130807
-pkgrel=0801
+pkgrel=1342
 pkgdesc="A modern display server."
 arch=(i686 x86_64)
 url="http://wayland.freedesktop.org"
@@ -23,14 +23,14 @@ md5sums=(SKIP)
 build() {
   cd "${srcdir}/${_gitname}"
 
-  ./autogen.sh --prefix=/usr
+  ./autogen.sh --prefix=/usr --disable-static
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
- make DESTDIR="${pkgdir}" install
- install -Dm 644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  make DESTDIR="${pkgdir}" install
+  install -Dm 644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 # vim: ft=sh syn=sh et

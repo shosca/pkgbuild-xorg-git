@@ -9,7 +9,7 @@ _gitname='mesa'
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
 pkgver=20130807
-pkgrel=1127
+pkgrel=1409
 arch=('x86_64')
 makedepends=('glproto' 'lib32-libdrm' 'lib32-libxvmc' 'lib32-libvdpau' 'lib32-libxxf86vm' 'lib32-libxdamage' 'lib32-expat' 'lib32-libx11' 'lib32-libxt'
              'gcc-multilib' 'dri2proto-git' 'python2' 'libxml2' 'lib32-llvm-git' 'lib32-systemd')
@@ -43,7 +43,7 @@ build() {
     --enable-egl \
     --enable-gallium-egl \
     --enable-gallium-llvm \
-    --with-egl-platforms=drm,x11 \
+    --with-egl-platforms=drm,x11,wayland \
     --enable-shared-glapi \
     --enable-gbm \
     --enable-glx-tls \
@@ -111,7 +111,7 @@ package_lib32-nouveau-dri-git() {
 
 package_lib32-mesa-git() {
   pkgdesc="an open-source implementation of the OpenGL specification"
-  depends=('lib32-libdrm' 'lib32-libxxf86vm' 'lib32-libxdamage' 'lib32-systemd')
+  depends=('lib32-libdrm' 'lib32-libxxf86vm' 'lib32-libxdamage' 'lib32-systemd' 'lib32-wayland')
   optdepends=('opengl-man-pages: for the OpenGL API man pages')
   provides=('lib32-mesa=${_realver}' 'lib32-libglapi=${_realver}' 'lib32-osmesa=${_realver}' 'lib32-libgbm=${_realver}' 'lib32-libgles=${_realver}' 'lib32-libegl=${_realver}')
   conflicts=('lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')
