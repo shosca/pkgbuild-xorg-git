@@ -7,7 +7,7 @@ _gitname="xmessage"
 
 pkgname=xorg-xmessage-git
 pkgver=20130807
-pkgrel=0821
+pkgrel=1133
 pkgdesc="Display a message or query in a window"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
