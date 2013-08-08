@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXcursor"
 _gitname="libXcursor"
 
 pkgname=libxcursor-git
-pkgver=20130807
-pkgrel=1130
+pkgver=20130808
+pkgrel=0814
 pkgdesc="X cursor management library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
