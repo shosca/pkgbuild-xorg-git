@@ -6,7 +6,7 @@ _gitname="demos"
 
 pkgname=mesa-demos-git
 pkgver=20130808
-pkgrel=0814
+pkgrel=1249
 pkgdesc="The mesa demos (glxinfo, glxgears, ...), built from the git master branch."
 arch=(i686 x86_64)
 url="http://mesa3d.org/"
