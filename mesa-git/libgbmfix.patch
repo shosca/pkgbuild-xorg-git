@@ -1,0 +1,48 @@
+diff --git a/src/egl/drivers/dri2/Makefile.am b/src/egl/drivers/dri2/Makefile.am
+index 823ef5e..45f7dfa 100644
+--- a/src/egl/drivers/dri2/Makefile.am
++++ b/src/egl/drivers/dri2/Makefile.am
+@@ -28,7 +28,6 @@ AM_CFLAGS = \
+ 	-I$(top_srcdir)/src/egl/wayland/wayland-drm \
+ 	-I$(top_builddir)/src/egl/wayland/wayland-drm \
+ 	$(DEFINES) \
+-	$(VISIBILITY_CFLAGS) \
+ 	$(LIBDRM_CFLAGS) \
+ 	$(LIBUDEV_CFLAGS) \
+ 	$(LIBKMS_CFLAGS) \
+diff --git a/src/egl/main/Makefile.am b/src/egl/main/Makefile.am
+index 2e43860..1cfdce2 100644
+--- a/src/egl/main/Makefile.am
++++ b/src/egl/main/Makefile.am
+@@ -27,7 +27,6 @@ AM_CFLAGS = \
+ 	-I$(top_srcdir)/include \
+ 	-I$(top_srcdir)/src/gbm/main \
+ 	$(DEFINES) \
+-	$(VISIBILITY_CFLAGS) \
+ 	$(EGL_CFLAGS) \
+ 	-D_EGL_NATIVE_PLATFORM=$(EGL_NATIVE_PLATFORM) \
+ 	-D_EGL_DRIVER_SEARCH_DIR=\"$(EGL_DRIVER_INSTALL_DIR)\" \
+diff --git a/src/egl/wayland/wayland-drm/Makefile.am b/src/egl/wayland/wayland-drm/Makefile.am
+index 08ee497..4b2aeb3 100644
+--- a/src/egl/wayland/wayland-drm/Makefile.am
++++ b/src/egl/wayland/wayland-drm/Makefile.am
+@@ -1,7 +1,6 @@
+ AM_CFLAGS = -I$(top_srcdir)/src/egl/main \
+ 	    -I$(top_srcdir)/include \
+ 	    $(DEFINES) \
+-	    $(VISIBILITY_CFLAGS) \
+ 	    $(WAYLAND_CFLAGS) 
+ 
+ noinst_LTLIBRARIES = libwayland-drm.la
+diff --git a/src/egl/wayland/wayland-egl/Makefile.am b/src/egl/wayland/wayland-egl/Makefile.am
+index 138c170..7d20a1a 100644
+--- a/src/egl/wayland/wayland-egl/Makefile.am
++++ b/src/egl/wayland/wayland-egl/Makefile.am
+@@ -2,7 +2,6 @@ pkgconfigdir = $(libdir)/pkgconfig
+ pkgconfig_DATA = wayland-egl.pc
+ 
+ AM_CFLAGS = $(DEFINES) \
+-	    $(VISIBILITY_CFLAGS) \
+ 	    $(WAYLAND_CFLAGS)
+ 
+ lib_LTLIBRARIES = libwayland-egl.la

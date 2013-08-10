@@ -7,8 +7,8 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=mesa-git
-pkgver=20130809
-pkgrel=0710
+pkgver=20130810
+pkgrel=0946
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -22,19 +22,23 @@ optdepends=('opengl-man-pages: for the OpenGL API man pages')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
-source=($_gitroot LICENSE)
-md5sums=('SKIP' '5c65a0fe315dd347e09b1f2826a1df5a')
+source=($_gitroot LICENSE libgbmfix.patch)
+md5sums=('SKIP'
+         '5c65a0fe315dd347e09b1f2826a1df5a'
+         'dd58c3713d1c6f88703c502cab47b872')
 
 build() {
   cd "${srcdir}/${_gitname}"
 
-    #--enable-gallium-egl \
+  patch -Np1 -i ../libgbmfix.patch
+
   ./autogen.sh \
     --prefix=/usr \
     --sysconfdir=/etc \
     --disable-static \
     --with-gallium-drivers=r300,r600,radeonsi,nouveau,svga,swrast \
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
+    --enable-gallium-egl \
     --enable-gallium-llvm \
     --enable-egl \
     --with-egl-platforms=drm,x11,wayland \
