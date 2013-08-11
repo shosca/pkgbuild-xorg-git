@@ -8,7 +8,7 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=20130811
-pkgrel=0922
+pkgrel=1229
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -25,7 +25,7 @@ options=('!libtool')
 source=($_gitroot LICENSE libgbmfix.patch)
 md5sums=('SKIP'
          '5c65a0fe315dd347e09b1f2826a1df5a'
-         'dd58c3713d1c6f88703c502cab47b872')
+         '27c3f82f7862acb985f881c7c984bfe4')
 
 build() {
   cd "${srcdir}/${_gitname}"
