@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 134284 2011-08-02 18:56:04Z jgc $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.2.2
+_realver=1.2.3
 _gitroot="git://anongit.freedesktop.org/xorg/app/xset"
 _gitname="xset"
 
 pkgname=xorg-xset-git
-pkgver=20130809
-pkgrel=0723
+pkgver=20130811
+pkgrel=0942
 pkgdesc="User preference utility for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

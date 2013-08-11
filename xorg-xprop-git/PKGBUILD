@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 130748 2011-07-07 22:27:50Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.2.1
+_realver=1.2.2
 _gitroot="git://anongit.freedesktop.org/xorg/app/xprop"
 _gitname="xprop"
 
 pkgname=xorg-xprop-git
-pkgver=20130809
-pkgrel=0723
+pkgver=20130811
+pkgrel=0942
 pkgdesc="Property displayer for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
