@@ -10,7 +10,7 @@ _gitname='xf86-video-intel'
 
 pkgname=xf86-video-intel-git
 pkgver=20130815
-pkgrel=0843
+pkgrel=1222
 pkgdesc='X.org Intel i810/i830/i915/945G/G965+ video drivers'
 arch=('i686' 'x86_64')
 url='http://intellinuxgraphics.org/'
