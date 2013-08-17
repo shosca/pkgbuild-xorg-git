@@ -4,8 +4,8 @@ _gitroot='git://github.com/llvm-mirror/libclc'
 _gitname=libclc
 
 pkgname=libclc-git
-pkgver=20130816
-pkgrel=1220
+pkgver=20130817
+pkgrel=0819
 pkgdesc="Library requirements of the OpenCL C programming language"
 arch=('i686' 'x86_64')
 url="http://libclc.llvm.org/"
