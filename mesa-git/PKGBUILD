@@ -8,7 +8,7 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=20130821
-pkgrel=1325
+pkgrel=1406
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -36,14 +36,16 @@ build() {
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
     --enable-gallium-egl \
     --enable-gallium-llvm \
+    --enable-gallium-osmesa \
+    --enable-gallium-gbm \
     --enable-egl \
     --with-egl-platforms=drm,x11,wayland \
     --enable-shared-glapi \
+    --enable-osmesa \
     --enable-gbm \
     --enable-glx-tls \
     --enable-dri \
     --enable-glx \
-    --enable-osmesa \
     --enable-gles1 \
     --enable-gles2 \
     --enable-texture-float \
