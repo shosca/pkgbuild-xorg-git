@@ -8,7 +8,7 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=20130823
-pkgrel=0730
+pkgrel=0821
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -153,7 +153,7 @@ package_opencl-mesa-git() {
 
 package_mesa-git() {
   pkgdesc="an open-source implementation of the OpenGL specification"
-  depends=('libdrm' 'libvdpau' 'wayland' 'libxxf86vm' 'libxdamage' 'systemd')
+  depends=('libdrm' 'libvdpau' 'wayland' 'libxxf86vm' 'libxdamage' 'systemd' 'llvm-libs-git')
   optdepends=('opengl-man-pages: for the OpenGL API man pages')
   provides=('mesa=${_realver}' 'libglapi=${_realver}' 'osmesa=${_realver}' 'libgbm=${_realver}' 'libgles=${_realver}' 'libegl=${_realver}' 'khrplatform-devel=${_realver}')
   conflicts=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
