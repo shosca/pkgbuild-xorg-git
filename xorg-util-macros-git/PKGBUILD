@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/util/macros"
 _gitname="macros"
 
 pkgname=xorg-util-macros-git
-pkgver=20130604
-pkgrel=1243
+pkgver=20130826
+pkgrel=0713
 pkgdesc="X.Org Autotools macros"
 arch=(any)
 license=('custom')
