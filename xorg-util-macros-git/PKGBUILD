@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 153461 2012-03-14 17:38:45Z andyrtr $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.17
+_realver=1.17.1
 _gitroot="git://anongit.freedesktop.org/xorg/util/macros"
 _gitname="macros"
 
 pkgname=xorg-util-macros-git
-pkgver=20130826
-pkgrel=0713
+pkgver=20130907
+pkgrel=1143
 pkgdesc="X.Org Autotools macros"
 arch=(any)
 license=('custom')
