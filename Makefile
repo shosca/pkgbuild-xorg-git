@@ -125,6 +125,7 @@ vers: $(VER_TARGETS)
 		if [ ! -z $$_realver ] && [ $$_oldver != $$_realver ]; then \
 			echo "$(subst -git,,$*) : $$_oldver $$_realver" ; \
 			sed -i "s/^_realver=[^ ]*/_realver=$$_realver/" "$(PWD)/$*/PKGBUILD" ; \
+			rm -f "$(PWD)/$*/built" ; \
 		fi ; \
 	fi
 

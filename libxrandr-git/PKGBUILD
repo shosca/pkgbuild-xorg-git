@@ -3,13 +3,13 @@
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
-_realver=1.4.1
+_realver=1.4.2
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXrandr"
 _gitname="libXrandr"
 
 pkgname=libxrandr-git
-pkgver=20130901
-pkgrel=2333
+pkgver=20130909
+pkgrel=0725
 pkgdesc="X11 RandR extension library"
 arch=('i686' 'x86_64')
 license=('custom')

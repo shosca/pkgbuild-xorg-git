@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 151850 2012-03-03 13:43:52Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.2.1
+_realver=1.2.2
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libSM"
 _gitname="libSM"
 
 pkgname=libsm-git
-pkgver=20130907
-pkgrel=1212
+pkgver=20130909
+pkgrel=0725
 pkgdesc="X11 Session Management library"
 arch=('i686' 'x86_64')
 license=('custom')

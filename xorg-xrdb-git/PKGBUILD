@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 154150 2012-03-23 19:14:18Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.0.9
+_realver=1.1.0
 _gitroot="git://anongit.freedesktop.org/xorg/app/xrdb"
 _gitname="xrdb"
 
 pkgname=xorg-xrdb-git
-pkgver=20130901
-pkgrel=2335
+pkgver=20130909
+pkgrel=0727
 pkgdesc="X.Org authorization settings program"
 arch=(i686 x86_64)
 license=('custom')

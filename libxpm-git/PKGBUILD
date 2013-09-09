@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 152783 2012-03-09 16:22:06Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=3.5.10
+_realver=3.5.11
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXpm"
 _gitname="libXpm"
 
 pkgname=libxpm-git
-pkgver=20130901
-pkgrel=2302
+pkgver=20130909
+pkgrel=0714
 pkgdesc="X11 pixmap library"
 arch=('i686' 'x86_64')
 license=('custom')
