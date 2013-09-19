@@ -5,8 +5,8 @@ _gitroot="git://anongit.freedesktop.org/mesa/demos"
 _gitname="demos"
 
 pkgname=mesa-demos-git
-pkgver=20130918
-pkgrel=1142
+pkgver=20130919
+pkgrel=0624
 pkgdesc="The mesa demos (glxinfo, glxgears, ...), built from the git master branch."
 arch=(i686 x86_64)
 url="http://mesa3d.org/"
