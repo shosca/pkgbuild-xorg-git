@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xauth"
 _gitname="xauth"
 
 pkgname=xorg-xauth-git
-pkgver=20130924
-pkgrel=0741
+pkgver=20130925
+pkgrel=0636
 pkgdesc="X.Org authorization settings program"
 arch=(i686 x86_64)
 license=('custom')
