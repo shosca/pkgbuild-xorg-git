@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXv"
 _gitname="libXv"
 
 pkgname=libxv-git
-pkgver=20130920
-pkgrel=0642
+pkgver=20130930
+pkgrel=0717
 pkgdesc="X11 Video extension library"
 arch=('i686' 'x86_64')
 license=('custom')
