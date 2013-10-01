@@ -10,7 +10,7 @@ _realver="3.4svn"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git')
 pkgver=20131001
-pkgrel=1126
+pkgrel=1205
 arch=('x86_64')
 url="http://llvm.org"
 license=('custom:University of Illinois/NCSA Open Source License')
