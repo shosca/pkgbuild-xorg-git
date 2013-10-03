@@ -153,13 +153,13 @@ libxrandr-git: libxext-git libxrender-git randrproto-git
 
 libxi-git: libxext-git inputproto-git
 
-libxtst-git: $(PROTOS) libxext-git libxi-git
+libxtst-git: recordproto-git inputproto-git libxext-git libxi-git
 
 libxt: libsm-git libx11-git
 
 libsm-git: libice-git xtrans-git xorg-util-macros-git
 
-libxres-git: $(PROTOS) libxext-git
+libxres-git: resourceproto-git damageproto-git compositeproto-git scrnsaverproto-git libxext-git
 
 libdmx-git: dmxproto-git libxext-git
 
@@ -169,7 +169,7 @@ libxdamage-git: libxfixes-git damageproto-git
 
 libxcomposite-git: libxfixes-git compositeproto-git
 
-libxxf86vm-git: $(PROTOS) libxext-git
+libxxf86vm-git: xf86vidmodeproto-git libxext-git
 
 libice: xproto-git xtrans-git
 
@@ -183,9 +183,9 @@ cairo-git: libxrender-git pixman-git xcb-util-git
 
 libclc-git: llvm-git
 
-mesa-git: $(PROTOS) libdrm-git llvm-git libclc-git libxfixes-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git
+mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git
 
-lib32-mesa-git: $(PROTOS) lib32-libdrm-git lib32-llvm-git lib32-libvdpau-git lib32-wayland-git
+lib32-mesa-git: glproto-git lib32-libdrm-git lib32-llvm-git lib32-libvdpau-git lib32-wayland-git
 
 lib32-llvm-git: llvm-git
 
@@ -213,7 +213,7 @@ xorg-font-util-git: xorg-util-macros-git
 
 xorg-setxkbmap-git: libxkbfile-git xorg-util-macros-git
 
-xorg-server-git: $(PROTOS) libdmx-git libdrm-git libpciaccess-git libx11-git libxau-git libxaw-git libxdmcp-git libxext-git libxfixes-git libxfont-git libxi-git libxkbfile-git libxmu-git libxrender-git libxres-git libxtst-git libxv-git mesa-git pixman-git xkeyboard-config-git xorg-font-util-git xorg-setxkbmap-git xorg-util-macros-git xorg-xkbcomp-git xtrans-git
+xorg-server-git: bigreqsproto-git compositeproto-git dmxproto-git dri2proto-git fontsproto-git glproto-git inputproto-git randrproto-git recordproto-git renderproto-git resourceproto-git scrnsaverproto-git videoproto-git xcmiscproto-git xextproto-git xf86dgaproto-git xf86driproto-git xineramaproto-git libdmx-git libdrm-git libpciaccess-git libx11-git libxau-git libxaw-git libxdmcp-git libxext-git libxfixes-git libxfont-git libxi-git libxkbfile-git libxmu-git libxrender-git libxres-git libxtst-git libxv-git mesa-git pixman-git xkeyboard-config-git xorg-font-util-git xorg-setxkbmap-git xorg-util-macros-git xorg-xkbcomp-git xtrans-git
 
 xorg-xauth-git: libxmu-git
 
