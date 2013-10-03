@@ -8,7 +8,7 @@ _gitname="glamor"
 
 pkgname=glamor-git
 pkgver=20131003
-pkgrel=0959
+pkgrel=1411
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
