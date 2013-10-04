@@ -5,7 +5,7 @@ _gitname=libclc
 
 pkgname=libclc-git
 pkgver=20131004
-pkgrel=1105
+pkgrel=1351
 pkgdesc="Library requirements of the OpenCL C programming language"
 arch=('i686' 'x86_64')
 url="http://libclc.llvm.org/"
