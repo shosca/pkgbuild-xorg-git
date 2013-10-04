@@ -1,0 +1,29 @@
+diff --git a/src/gallium/state_trackers/clover/llvm/invocation.cpp b/src/gallium/state_trackers/clover/llvm/invocation.cpp
+index e6cd415..56409f4 100644
+--- a/src/gallium/state_trackers/clover/llvm/invocation.cpp
++++ b/src/gallium/state_trackers/clover/llvm/invocation.cpp
+@@ -207,7 +207,7 @@ namespace {
+          throw build_error(log);
+ 
+       // Get address spaces map to be able to find kernel argument address space
+-      memcpy(address_spaces, c.getTarget().getAddressSpaceMap(), 
++      memcpy(address_spaces, c.getTarget().getAddressSpaceMap(),
+                                                         sizeof(address_spaces));
+ 
+       return act.takeModule();
+@@ -272,13 +272,14 @@ namespace {
+       // treat the functions in the list as "main" functions and internalize
+       // all of the other functions.
+       std::vector<const char*> export_list;
++      std::vector<const char*> dso_list;
+       for (std::vector<llvm::Function *>::const_iterator I = kernels.begin(),
+                                                          E = kernels.end();
+                                                          I != E; ++I) {
+          llvm::Function *kernel = *I;
+          export_list.push_back(kernel->getName().data());
+       }
+-      PM.add(llvm::createInternalizePass(export_list));
++      PM.add(llvm::createInternalizePass(export_list, dso_list));
+ 
+       // Run link time optimizations
+       Builder.OptLevel = 2;

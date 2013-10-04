@@ -9,8 +9,8 @@ _gitname="xserver"
 
 pkgbase=xorg-server
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=20131003
-pkgrel=1410
+pkgver=20131004
+pkgrel=0745
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -104,7 +104,7 @@ package_xorg-server-devel-git() {
 
 package_xorg-server-xdmx-git() {
   pkgdesc="Distributed Multihead X Server and utilities - Git ones"
-  depends=('libdmx>=1.1.2' 'libgcrypt' 'libxaw' 'libxfixes>=5.0' 'libxfont' 'libxi' 'libxrender>=0.9.7' 'pixman' 'xorg-server-common')
+  depends=('libdmx>=1.1.2' 'libgcrypt' 'libxaw' 'libxfixes>=5.0' 'libxfont' 'libxi' 'libxrender>=0.9.7' 'pixman' 'xorg-server-common-git')
   provides=("xorg-server-xdmx=${_realver}")
   conflicts=('xorg-server-xdmx')
 
@@ -117,7 +117,7 @@ package_xorg-server-xdmx-git() {
 
 package_xorg-server-xephyr-git() {
   pkgdesc="A nested X server that runs as an X application - Git version"
-  depends=('libgcrypt' 'libgl' 'libxfont' 'libxv' 'pixman' 'xorg-server-common')
+  depends=('libgcrypt' 'libgl' 'libxfont' 'libxv' 'pixman' 'xorg-server-common-git')
   provides=("xorg-server-xephyr=${_realver}")
   conflicts=('xorg-server-xephyr')
 
@@ -130,7 +130,7 @@ package_xorg-server-xephyr-git() {
 
 package_xorg-server-xnest-git() {
   pkgdesc="A nested X server that runs as an X application - Git version"
-  depends=('libgcrypt' 'libxext>=1.3.1' 'libxfont' 'pixman' 'xorg-server-common')
+  depends=('libgcrypt' 'libxext>=1.3.1' 'libxfont' 'pixman' 'xorg-server-common-git')
   provides=("xorg-server-xnest=${_realver}")
   conflicts=('xorg-server-xnest')
 
@@ -143,7 +143,7 @@ package_xorg-server-xnest-git() {
 
 package_xorg-server-xvfb-git() {
   pkgdesc="Virtual framebuffer X server - Git version"
-  depends=('libgcrypt' 'libxau' 'libxdmcp' 'libxfont' 'pixman' 'xorg-server-common')
+  depends=('libgcrypt' 'libxau' 'libxdmcp' 'libxfont' 'pixman' 'xorg-server-common-git')
   provides=("xorg-server-xvfb=${_realver}")
   conflicts=('xorg-server-xvfb')
 
@@ -159,7 +159,7 @@ package_xorg-server-xvfb-git() {
 
 package_xorg-server-git() {
   pkgdesc="Xorg X server - Git version"
-  depends=('libdrm' 'libgcrypt' 'libpciaccess>=0.13.1' 'libxau' 'libxdmcp' 'libxfont' 'pixman' 'udev' 'xf86-input-evdev' 'xorg-server-common', 'wayland')
+  depends=('libdrm' 'libgcrypt' 'libpciaccess>=0.13.1' 'libxau' 'libxdmcp' 'libxfont' 'pixman' 'udev' 'xf86-input-evdev' 'xorg-server-common-git' 'wayland')
   backup=('etc/X11/xorg.conf.d/10-evdev.conf' 'etc/X11/xorg.conf.d/10-quirks.conf')
   provides=('x-server' "xorg-server=${_realver}")
   conflicts=('xorg-server' 'nvidia-utils<=290.10')
