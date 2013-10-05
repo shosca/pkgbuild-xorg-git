@@ -3,14 +3,14 @@
 # Contributor: SpeedVin <speedvin at archlinux dot us>
 # Based on xorg-server-dev
 
-_realver=1.14.99.1
+_realver=1.14.99.2
 _gitroot="git://anongit.freedesktop.org/xorg/xserver"
 _gitname="xserver"
 
 pkgbase=xorg-server
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=20131004
-pkgrel=1504
+pkgver=20131005
+pkgrel=1658
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -27,7 +27,7 @@ sha1sums=(SKIP
 
 prepare() {
   cd "${srcdir}/${_gitname}"
-  git merge origin/xwayland -m "xwayland"
+  #git merge origin/xwayland -m "xwayland"
 }
 
 build() {
