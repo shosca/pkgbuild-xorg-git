@@ -143,7 +143,11 @@ libx11-git: libxcb-git xproto-git kbproto-git xextproto-git xtrans-git inputprot
 
 xcb-util-git: libxcb-git xproto-git
 
-xcb-util-keysyms-git: libxcb-git
+xcb-util-image-git: libxcb-git xcb-util-git
+
+xcb-util-keysyms-git: libxcb-git xcb-util-git
+
+xcb-util-wm-git: libxcb-git xcb-util-git
 
 libxext-git: libx11-git xextproto-git
 
@@ -170,6 +174,8 @@ libxdamage-git: libxfixes-git damageproto-git
 libxcomposite-git: libxfixes-git compositeproto-git
 
 libxxf86vm-git: xf86vidmodeproto-git libxext-git
+
+libxxf86dga-git: libxext-git xf86dgaproto-git
 
 libice: xproto-git xtrans-git
 
@@ -213,7 +219,7 @@ xorg-font-util-git: xorg-util-macros-git
 
 xorg-setxkbmap-git: libxkbfile-git xorg-util-macros-git
 
-xorg-server-git: bigreqsproto-git compositeproto-git dmxproto-git dri2proto-git fontsproto-git glproto-git inputproto-git randrproto-git recordproto-git renderproto-git resourceproto-git scrnsaverproto-git videoproto-git xcmiscproto-git xextproto-git xf86dgaproto-git xf86driproto-git xineramaproto-git libdmx-git libdrm-git libpciaccess-git libx11-git libxau-git libxaw-git libxdmcp-git libxext-git libxfixes-git libxfont-git libxi-git libxkbfile-git libxmu-git libxrender-git libxres-git libxtst-git libxv-git mesa-git pixman-git xkeyboard-config-git xorg-font-util-git xorg-setxkbmap-git xorg-util-macros-git xorg-xkbcomp-git xtrans-git wayland-git
+xorg-server-git: bigreqsproto-git compositeproto-git dmxproto-git dri2proto-git fontsproto-git glproto-git inputproto-git randrproto-git recordproto-git renderproto-git resourceproto-git scrnsaverproto-git videoproto-git xcmiscproto-git xextproto-git xf86dgaproto-git xf86driproto-git xineramaproto-git libdmx-git libdrm-git libpciaccess-git libx11-git libxau-git libxaw-git libxdmcp-git libxext-git libxfixes-git libxfont-git libxi-git libxkbfile-git libxmu-git libxrender-git libxres-git libxtst-git libxv-git mesa-git pixman-git xkeyboard-config-git xorg-font-util-git xorg-setxkbmap-git xorg-util-macros-git xorg-xkbcomp-git xtrans-git wayland-git xcb-util-image-git xcb-util-wm-git
 
 xorg-xauth-git: libxmu-git
 

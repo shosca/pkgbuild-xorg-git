@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xrdb"
 _gitname="xrdb"
 
 pkgname=xorg-xrdb-git
-pkgver=20131001
-pkgrel=0621
+pkgver=20131006
+pkgrel=1203
 pkgdesc="X.Org authorization settings program"
 arch=(i686 x86_64)
 license=('custom')
