@@ -8,7 +8,7 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=20131007
-pkgrel=1122
+pkgrel=1255
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -22,15 +22,12 @@ optdepends=('opengl-man-pages: for the OpenGL API man pages')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
-source=($_gitroot LICENSE buildfix.patch)
+source=($_gitroot LICENSE)
 md5sums=('SKIP'
-         '5c65a0fe315dd347e09b1f2826a1df5a'
-         '02369047e69c349be596f714ddeb0230')
+         '5c65a0fe315dd347e09b1f2826a1df5a')
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  patch -Np1 -i ../buildfix.patch
 
   ./autogen.sh \
     --prefix=/usr \
