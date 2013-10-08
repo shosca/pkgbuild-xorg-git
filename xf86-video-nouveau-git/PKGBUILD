@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/nouveau/xf86-video-nouveau"
 _gitname="xf86-video-nouveau"
 
 pkgname=xf86-video-nouveau-git
-pkgver=20131007
-pkgrel=1302
+pkgver=20131008
+pkgrel=0709
 pkgdesc="Open Source 2D acceleration driver for nVidia cards"
 arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
