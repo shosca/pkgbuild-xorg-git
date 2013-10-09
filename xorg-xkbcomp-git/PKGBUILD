@@ -6,8 +6,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/app/xkbcomp'
 _gitname='xkbcomp'
 
 pkgname=xorg-xkbcomp-git
-pkgver=20130829
-pkgrel=0823
+pkgver=20131009
+pkgrel=0849
 pkgdesc="X Keyboard description compiler"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
