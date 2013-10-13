@@ -129,9 +129,53 @@ vers: $(VER_TARGETS)
 		fi ; \
 	fi
 
-PROTOS=$(shell ls | grep 'proto-git')
+bigreqsproto-git: xorg-util-macros-git
 
-$(PROTOS): xorg-util-macros-git
+compositeproto-git: xorg-util-macros-git
+
+damageproto-git: xorg-util-macros-git
+
+dmxproto-git: xorg-util-macros-git
+
+dri2proto-git: xorg-util-macros-git
+
+fixesproto-git: xorg-util-macros-git
+
+fontsproto-git: xorg-util-macros-git
+
+glproto-git: xorg-util-macros-git
+
+inputproto-git: xorg-util-macros-git
+
+kbproto-git: xorg-util-macros-git
+
+randrproto-git: xorg-util-macros-git
+
+recordproto-git: xorg-util-macros-git
+
+renderproto-git: xorg-util-macros-git
+
+resourceproto-git: xorg-util-macros-git
+
+scrnsaverproto-git: xorg-util-macros-git
+
+videoproto-git: xorg-util-macros-git
+
+xcb-proto-git: xorg-util-macros-git
+
+xcmiscproto-git: xorg-util-macros-git
+
+xextproto-git: xorg-util-macros-git
+
+xf86dgaproto-git: xorg-util-macros-git
+
+xf86driproto-git: xorg-util-macros-git
+
+xf86vidmodeproto-git: xorg-util-macros-git
+
+xineramaproto-git: xorg-util-macros-git
+
+xproto-git: xorg-util-macros-git
 
 libxdmcp-git: xproto-git
 
