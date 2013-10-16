@@ -225,9 +225,9 @@ libice: xproto-git xtrans-git
 
 libpciaccess-git: xorg-util-macros-git
 
-libvdpau-git: libx11-git mesa-git
+libvdpau-git: libx11-git
 
-lib32-libvdpau-git: lib32-mesa-git
+lib32-libvdpau-git: libvdpau-git
 
 libdrm-git: libpciaccess-git
 
@@ -237,7 +237,7 @@ cairo-git: libxrender-git pixman-git xcb-util-git
 
 libclc-git: llvm-git
 
-mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git
+mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libvdpau-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git
 
 lib32-mesa-git: glproto-git lib32-libdrm-git lib32-llvm-git lib32-libvdpau-git lib32-wayland-git
 
