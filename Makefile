@@ -225,9 +225,13 @@ libice: xproto-git xtrans-git
 
 libpciaccess-git: xorg-util-macros-git
 
-libvdpau-git: libx11-git
+libvdpau-git: libx11-git mesa-git
+
+lib32-libvdpau-git: lib32-mesa-git
 
 libdrm-git: libpciaccess-git
+
+lib32-libdrm-git: libdrm-git
 
 cairo-git: libxrender-git pixman-git xcb-util-git
 
@@ -258,6 +262,8 @@ libxmu-git: libxext-git libxt-git
 libxpm-git: libxt-git libxext-git
 
 libxaw-git: libxmu-git libxpm-git
+
+libxkbfile-git: libx11-git
 
 xorg-font-util-git: xorg-util-macros-git
 
@@ -295,12 +301,12 @@ xf86-input-synaptics-git: xorg-server-git
 
 xf86-video-ati-git: xorg-server-git mesa-git glamor-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
 
-radeontop-git: xf86-video-ati-git
+radeontop-git:
 
-xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git
+xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git glamor-git
 
-xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git
+xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git glamor-git
 
-glamor-git: xorg-server-git mesa-git
+glamor-git: libx11-git xorg-server-git mesa-git
 
 weston-git: libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git
