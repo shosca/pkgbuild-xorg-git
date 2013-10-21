@@ -2,10 +2,10 @@
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=2.10
+_realver=2.10.1
 pkgname=xkeyboard-config-git
-pkgver=20131004
-pkgrel=0745
+pkgver=20131021
+pkgrel=0723
 pkgdesc="X keyboard configuration files"
 arch=(any)
 license=('custom')
