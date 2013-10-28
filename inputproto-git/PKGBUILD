@@ -6,8 +6,8 @@ _gitroot="git://git.freedesktop.org/git/xorg/proto/inputproto"
 _gitname="inputproto"
 
 pkgname=inputproto-git
-pkgver=20131013
-pkgrel=1413
+pkgver=20131028
+pkgrel=0749
 pkgdesc="X11 input extension wire protocol"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

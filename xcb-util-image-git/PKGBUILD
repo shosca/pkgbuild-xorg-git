@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xcb/util-image"
 _gitname="util-image"
 
 pkgname=xcb-util-image-git
-pkgver=20131013
-pkgrel=1431
+pkgver=20131028
+pkgrel=0809
 pkgdesc="Utility libraries for XC Binding - Port of Xlib's XImage and XShmImage functions"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"

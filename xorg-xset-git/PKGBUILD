@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xset"
 _gitname="xset"
 
 pkgname=xorg-xset-git
-pkgver=20131025
-pkgrel=1308
+pkgver=20131028
+pkgrel=0822
 pkgdesc="User preference utility for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
