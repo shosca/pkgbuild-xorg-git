@@ -5,8 +5,8 @@ _gitroot="git://cgit.freedesktop.org/mesa/glu/"
 _gitname="glu"
 
 pkgname=glu-git
-pkgver=20131029
-pkgrel=1341
+pkgver=20131030
+pkgrel=0621
 pkgdesc="GL utility library for mesa builds from git after 2012-08-31"
 arch=('i686' 'x86_64')
 url="http://mesa.freedesktop.org/"
