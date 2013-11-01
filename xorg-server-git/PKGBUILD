@@ -10,7 +10,7 @@ _gitname="xserver"
 pkgbase=xorg-server
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
 pkgver=20131101
-pkgrel=1044
+pkgrel=1109
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -161,7 +161,7 @@ package_xorg-server-xvfb-git() {
 
 package_xorg-server-git() {
   pkgdesc="Xorg X server - Git version"
-  depends=('libdrm' 'libgcrypt' 'libpciaccess>=0.13.1' 'libxshfence' 'libxau' 'libxdmcp' 'libxfont' 'pixman' 'udev' 'xf86-input-evdev' 'xorg-server-common-git' 'wayland')
+  depends=('libdrm' 'libgcrypt' 'libpciaccess>=0.13.1' 'libxshmfence' 'libxau' 'libxdmcp' 'libxfont' 'pixman' 'udev' 'xf86-input-evdev' 'xorg-server-common-git' 'wayland')
   backup=('etc/X11/xorg.conf.d/10-evdev.conf' 'etc/X11/xorg.conf.d/10-quirks.conf')
   provides=('x-server' "xorg-server=${_realver}")
   conflicts=('xorg-server' 'nvidia-utils<=290.10')
