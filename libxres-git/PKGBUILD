@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXRes"
 _gitname="libXRes"
 
 pkgname=libxres-git
-pkgver=20131028
-pkgrel=0754
+pkgver=20131101
+pkgrel=1041
 pkgdesc="X11 Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"

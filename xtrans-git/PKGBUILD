@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 154130 2012-03-23 17:11:54Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.2.7
+_realver=1.3.0
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libxtrans"
 _gitname="libxtrans"
 
 pkgname=xtrans-git
-pkgver=20130711
-pkgrel=0717
+pkgver=20131101
+pkgrel=1003
 pkgdesc="X transport library"
 arch=('any')
 license=('custom')

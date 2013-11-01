@@ -2,13 +2,13 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
-_realver=7.2.1
+_realver=7.2.2
 _gitroot='git://git.freedesktop.org/git/xorg/proto/xextproto'
 _gitname='xextproto'
 
 pkgname=xextproto-git
-pkgver=20131028
-pkgrel=0749
+pkgver=20131101
+pkgrel=1039
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
@@ -16,11 +16,14 @@ license=('custom')
 makedepends=('xorg-util-macros' 'git')
 provides=('xextproto=${_realver}')
 conflicts=('xextproto')
-source=($_gitroot)
-md5sums=(SKIP)
+source=($_gitroot fd-passing.patch)
+md5sums=('SKIP'
+         'f55cb4118f0fad1872cecb5ec7d5ebeb')
 
 build() {
   cd "${srcdir}/${_gitname}"
+
+  patch -Np1 -i ../fd-passing.patch
 
   ./autogen.sh --prefix=/usr
   make

@@ -135,9 +135,13 @@ compositeproto-git: xorg-util-macros-git
 
 damageproto-git: xorg-util-macros-git
 
+presentproto-git: xorg-util-macros-git
+
 dmxproto-git: xorg-util-macros-git
 
 dri2proto-git: xorg-util-macros-git
+
+dri3proto-git: xorg-util-macros-git
 
 fixesproto-git: xorg-util-macros-git
 
@@ -207,6 +211,8 @@ libxt: libsm-git libx11-git
 
 libsm-git: libice-git xtrans-git xorg-util-macros-git
 
+libshmfence-git: xorg-util-macros-git
+
 libxres-git: resourceproto-git damageproto-git compositeproto-git scrnsaverproto-git libxext-git
 
 libdmx-git: dmxproto-git libxext-git
@@ -269,7 +275,7 @@ xorg-font-util-git: xorg-util-macros-git
 
 xorg-setxkbmap-git: libxkbfile-git xorg-util-macros-git
 
-xorg-server-git: bigreqsproto-git compositeproto-git dmxproto-git dri2proto-git fontsproto-git glproto-git inputproto-git randrproto-git recordproto-git renderproto-git resourceproto-git scrnsaverproto-git videoproto-git xcmiscproto-git xextproto-git xf86dgaproto-git xf86driproto-git xineramaproto-git libdmx-git libdrm-git libpciaccess-git libx11-git libxau-git libxaw-git libxdmcp-git libxext-git libxfixes-git libxfont-git libxi-git libxkbfile-git libxmu-git libxrender-git libxres-git libxtst-git libxv-git mesa-git pixman-git xkeyboard-config-git xorg-font-util-git xorg-setxkbmap-git xorg-util-macros-git xorg-xkbcomp-git xtrans-git wayland-git xcb-util-image-git xcb-util-wm-git
+xorg-server-git: bigreqsproto-git presentproto-git compositeproto-git dmxproto-git dri2proto-git dri3proto-git fontsproto-git glproto-git inputproto-git randrproto-git recordproto-git renderproto-git resourceproto-git scrnsaverproto-git videoproto-git xcmiscproto-git xextproto-git xf86dgaproto-git xf86driproto-git xineramaproto-git libdmx-git libdrm-git libpciaccess-git libx11-git libxau-git libxaw-git libxdmcp-git libxext-git libxfixes-git libxfont-git libxi-git libxkbfile-git libxmu-git libxrender-git libxres-git libxtst-git libxv-git mesa-git pixman-git xkeyboard-config-git xorg-font-util-git xorg-setxkbmap-git xorg-util-macros-git xorg-xkbcomp-git xtrans-git wayland-git xcb-util-image-git xcb-util-wm-git libxshmfence-git
 
 xorg-xauth-git: libxmu-git
 
@@ -303,7 +309,7 @@ xf86-video-ati-git: xorg-server-git mesa-git glamor-git libdrm-git libpciaccess-
 
 radeontop-git:
 
-xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git glamor-git
+xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git dri3proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git glamor-git
 
 xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git glamor-git
 

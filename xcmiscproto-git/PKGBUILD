@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/xcmiscproto'
 _gitname='xcmiscproto'
 
 pkgname=xcmiscproto-git
-pkgver=20131028
-pkgrel=0752
+pkgver=20131101
+pkgrel=0934
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

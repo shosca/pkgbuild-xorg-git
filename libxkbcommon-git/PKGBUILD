@@ -5,8 +5,8 @@ _gitroot="git://github.com/xkbcommon/libxkbcommon.git"
 _gitname="libxkbcommon"
 
 pkgname=libxkbcommon-git
-pkgver=20131028
-pkgrel=0819
+pkgver=20131101
+pkgrel=0931
 pkgdesc="A library to handle keyboard descriptions."
 url="http://xkbcommon.org/"
 arch=(i686 x86_64)

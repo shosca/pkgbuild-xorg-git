@@ -15,6 +15,7 @@
 */demos
 */dmxproto
 */dri2proto
+*/dri3proto
 */drm
 */encodings
 */fixesproto
@@ -110,3 +111,5 @@
 */util-image
 */util-wm
 */libXxf86dga
+*/libxshmfence
+*/presentproto

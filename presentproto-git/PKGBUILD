@@ -1,0 +1,35 @@
+# Contributor: Thomas Dziedzic <gostrc@@@gmail>
+# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
+# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+
+_realver=1.0
+_gitroot='git://git.freedesktop.org/git/xorg/proto/presentproto'
+_gitname='presentproto'
+
+pkgname=presentproto-git
+pkgver=20131101
+pkgrel=0933
+pkgdesc='X11 present extention protocol specification and header files'
+url='http://xorg.freedesktop.org/'
+arch=('any')
+license=('custom')
+makedepends=('xorg-util-macros-git' 'git')
+provides=('presentproto=${_realver}')
+conflicts=('presentproto')
+source=($_gitroot)
+md5sums=(SKIP)
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="$pkgdir" install
+}
+
+# vim: ft=sh syn=sh et
+

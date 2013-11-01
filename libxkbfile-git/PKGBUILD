@@ -6,8 +6,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/lib/libxkbfile'
 _gitname='libxkbfile'
 
 pkgname=libxkbfile-git
-pkgver=20131029
-pkgrel=0545
+pkgver=20131101
+pkgrel=1041
 pkgdesc="X11 keyboard file manipulation library"
 arch=('i686' 'x86_64')
 license=('custom')

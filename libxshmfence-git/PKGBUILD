@@ -1,0 +1,37 @@
+# $Id: PKGBUILD 158868 2012-05-12 16:25:29Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_realver=1.0
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libxshmfence"
+_gitname="libxshmfence"
+
+pkgname=libxshmfence-git
+pkgver=20131101
+pkgrel=0931
+pkgdesc="X11 shared memory fences using futexes"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org"
+depends=('')
+makedepends=('pkgconfig' 'xorg-util-macros-git')
+options=(!libtool)
+license=('custom')
+provides=('libxshmfence=${_realver}')
+conflicts=('libxshmfence')
+source=($_gitroot)
+md5sums=(SKIP)
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+}
+# vim: ft=sh syn=sh et
+

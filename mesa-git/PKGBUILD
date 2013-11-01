@@ -7,8 +7,8 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=mesa-git
-pkgver=20131031
-pkgrel=0819
+pkgver=20131101
+pkgrel=1042
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -22,12 +22,15 @@ optdepends=('opengl-man-pages: for the OpenGL API man pages')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
-source=($_gitroot LICENSE)
+source=($_gitroot LICENSE llvm-build-fix.patch)
 md5sums=('SKIP'
-         '5c65a0fe315dd347e09b1f2826a1df5a')
+         '5c65a0fe315dd347e09b1f2826a1df5a'
+         '1e6dcac650ba20b4d535971a2722b5bf')
 
 build() {
   cd "${srcdir}/${_gitname}"
+
+  patch -Np1 -i ../llvm-build-fix.patch
 
   ./autogen.sh \
     --prefix=/usr \

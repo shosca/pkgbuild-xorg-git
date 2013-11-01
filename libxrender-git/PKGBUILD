@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXrender"
 _gitname="libXrender"
 
 pkgname=libxrender-git
-pkgver=20131028
-pkgrel=0750
+pkgver=20131101
+pkgrel=1040
 pkgdesc="X Rendering Extension client library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
