@@ -17,29 +17,3 @@ index e8d2db2..65c02d8 100644
  
     // If we have a native target, initialize it to ensure it is linked in and
     // usable by the JIT.
-diff --git a/src/gallium/state_trackers/clover/llvm/invocation.cpp b/src/gallium/state_trackers/clover/llvm/invocation.cpp
-index 4ae496f..4460d2b 100644
---- a/src/gallium/state_trackers/clover/llvm/invocation.cpp
-+++ b/src/gallium/state_trackers/clover/llvm/invocation.cpp
-@@ -218,7 +218,7 @@ namespace {
-          throw build_error(log);
- 
-       // Get address spaces map to be able to find kernel argument address space
--      memcpy(address_spaces, c.getTarget().getAddressSpaceMap(), 
-+      memcpy(address_spaces, c.getTarget().getAddressSpaceMap(),
-                                                         sizeof(address_spaces));
- 
-       return act.takeModule();
-@@ -267,12 +267,7 @@ namespace {
-          llvm::Function *kernel = *I;
-          export_list.push_back(kernel->getName().data());
-       }
--#if HAVE_LLVM < 0x0304
-       PM.add(llvm::createInternalizePass(export_list));
--#else
--      std::vector<const char*> dso_list;
--      PM.add(llvm::createInternalizePass(export_list, dso_list));
--#endif
-       PM.run(*mod);
-    }
- 
