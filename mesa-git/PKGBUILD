@@ -7,8 +7,8 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=mesa-git
-pkgver=20131102
-pkgrel=0808
+pkgver=20131104
+pkgrel=0936
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -25,7 +25,7 @@ options=('!libtool')
 source=($_gitroot LICENSE llvm-build-fix.patch)
 md5sums=('SKIP'
          '5c65a0fe315dd347e09b1f2826a1df5a'
-         '1e6dcac650ba20b4d535971a2722b5bf')
+         'e10a896cc5109778b4f6bdf171b43490')
 
 build() {
   cd "${srcdir}/${_gitname}"
@@ -76,13 +76,12 @@ package_ati-dri-git() {
   install -m755 -d ${pkgdir}/usr/lib/
   install -m755 -d ${pkgdir}/usr/lib/vdpau/
   install -m755 -d ${pkgdir}/usr/lib/dri/
-  #install -m755 -d ${pkgdir}/usr/lib/gallium-pipe/
+  install -m755 -d ${pkgdir}/usr/lib/gallium-pipe/
 
-  mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_{r300,r600,radeonsi}.* ${pkgdir}/usr/lib/vdpau/
+  mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_{r600,radeonsi}.* ${pkgdir}/usr/lib/vdpau/
   mv -v ${srcdir}/fakeinstall/usr/lib/dri/{r200,r300,r600,radeon,radeonsi}_dri.so ${pkgdir}/usr/lib/dri/
-  #mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_{r300,r600,radeonsi}* ${pkgdir}/usr/lib/gallium-pipe/
+  mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_{r300,r600,radeonsi}* ${pkgdir}/usr/lib/gallium-pipe/
   mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCr600.* ${pkgdir}/usr/lib/
-  mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCr300.* ${pkgdir}/usr/lib/
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
@@ -111,13 +110,13 @@ package_nouveau-dri-git() {
 
   install -m755 -d ${pkgdir}/usr/lib/vdpau/
   install -m755 -d ${pkgdir}/usr/lib/dri
-  #install -m755 -d ${pkgdir}/usr/lib/gallium-pipe
+  install -m755 -d ${pkgdir}/usr/lib/gallium-pipe
 
   mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_nouveau.* ${pkgdir}/usr/lib/vdpau/
   mv -v ${srcdir}/fakeinstall/usr/lib/dri/nouveau_{dri,vieux_dri}.so ${pkgdir}/usr/lib/dri/
 
-  #mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCnouveau* ${pkgdir}/usr/lib/gallium-pipe/
-  #mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_nouveau* ${pkgdir}/usr/lib/gallium-pipe/
+  mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCnouveau* ${pkgdir}/usr/lib/gallium-pipe/
+  mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_nouveau* ${pkgdir}/usr/lib/gallium-pipe/
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
@@ -130,8 +129,8 @@ package_svga-dri-git() {
   install -m755 -d ${pkgdir}/usr/lib/dri
   mv -v ${srcdir}/fakeinstall/usr/lib/dri/vmwgfx_dri.so ${pkgdir}/usr/lib/dri/
 
-  #install -m755 -d ${pkgdir}/usr/lib/gallium-pipe
-  #mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_vmwgfx* ${pkgdir}/usr/lib/gallium-pipe/
+  install -m755 -d ${pkgdir}/usr/lib/gallium-pipe
+  mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_vmwgfx* ${pkgdir}/usr/lib/gallium-pipe/
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
