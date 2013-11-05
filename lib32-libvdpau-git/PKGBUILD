@@ -7,8 +7,8 @@ _gitroot="git://people.freedesktop.org/~aplattner/libvdpau"
 _gitname="libvdpau"
 
 pkgname=lib32-libvdpau-git
-pkgver=20131104
-pkgrel=1357
+pkgver=20131105
+pkgrel=0747
 pkgdesc="Nvidia VDPAU library (32-bit)"
 arch=('x86_64')
 url=http://cgit.freedesktop.org/~aplattner/libvdpau
