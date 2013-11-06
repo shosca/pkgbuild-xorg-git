@@ -7,6 +7,7 @@ DIRS=$(shell ls | grep 'git')
 DATE=$(shell date +"%Y%m%d")
 TIME=$(shell date +"%H%M")
 PACMAN=yaourt
+LOCKFILE=/var/cache/pacman/pkg/db.lck
 MAKEPKG=makepkg -sfL
 PKGEXT=pkg.tar.xz
 GITFETCH=git fetch --all -p
@@ -21,12 +22,12 @@ all:
 	$(MAKE) build
 	$(MAKE) push
 
-push:
+push: rebuildrepo
 	rsync -v --recursive --links --times -D --delete \
 		$(LOCAL)/ \
 		$(REMOTE)/
 
-pull:
+pull: gitpull
 	rsync -v --recursive --links --times -D --delete \
 		$(REMOTE)/ \
 		$(LOCAL)/
@@ -35,7 +36,7 @@ clean:
 	sudo rm -rf */*.log */pkg */src */logpipe* */*$(PKGEXT)
 
 reset: clean
-	sudo rm -f */built
+	sudo rm -f */built $(LOCAL)/*
 
 show:
 	@echo $(DATE)
@@ -63,14 +64,12 @@ test:
 	cd $(PWD) && \
 	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
 	rm -f $(addsuffix /built, $(shell grep ' $*' Makefile | cut -d':' -f1)) && \
-	repo-remove $(LOCAL)/$(REPO).db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') ; \
-	mv $*/*$(PKGEXT) $(LOCAL) && \
-	repo-add $(LOCAL)/$(REPO).db.tar.gz $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
 	touch $(PWD)/$*/built
 
 rebuildrepo:
-	cd $(LOCAL)
-	rm -rf $(LOCAL)/$(REPO).db*
+	mv */*$(PKGEXT) $(LOCAL) ; \
+	cd $(LOCAL) ; \
+	rm -rf $(LOCAL)/$(REPO).db* ; \
 	repo-add $(LOCAL)/$(REPO).db.tar.gz $(LOCAL)/*$(PKGEXT)
 
 $(DIRS):
@@ -88,6 +87,7 @@ gitpull: $(PULL_TARGETS)
 		cd $(PWD)/$*/$$_gitname && \
 		$(GITFETCH) && \
 		if [ -f $(PWD)/$*/built ] && [ "$$(cat $(PWD)/$*/built)" != "$$(git log -1 | head -n1)" ]; then \
+			echo "Will rebuild $*" ; \
 			rm -f $(PWD)/$*/built ; \
 		fi ; \
 		cd $(PWD) ; \

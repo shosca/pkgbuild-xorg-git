@@ -7,7 +7,7 @@ _gitname="libxtrans"
 
 pkgname=xtrans-git
 pkgver=20131106
-pkgrel=0850
+pkgrel=1036
 pkgdesc="X transport library"
 arch=('any')
 license=('custom')
