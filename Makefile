@@ -7,7 +7,6 @@ DIRS=$(shell ls | grep 'git')
 DATE=$(shell date +"%Y%m%d")
 TIME=$(shell date +"%H%M")
 PACMAN=yaourt
-LOCKFILE=/var/cache/pacman/pkg/db.lck
 MAKEPKG=makepkg -sfL
 PKGEXT=pkg.tar.xz
 GITFETCH=git fetch --all -p
@@ -22,7 +21,9 @@ all:
 	$(MAKE) build
 	$(MAKE) push
 
-push: rebuildrepo
+push: pkgpush rebuildrepo
+
+pkgpush:
 	rsync -v --recursive --links --times -D --delete \
 		$(LOCAL)/ \
 		$(REMOTE)/
@@ -69,7 +70,7 @@ test:
 rebuildrepo:
 	mv */*$(PKGEXT) $(LOCAL) ; \
 	cd $(LOCAL) ; \
-	rm -rf $(LOCAL)/$(REPO).db* ; \
+	rm -f $(LOCAL)/$(REPO).db* ; \
 	repo-add $(LOCAL)/$(REPO).db.tar.gz $(LOCAL)/*$(PKGEXT)
 
 $(DIRS):
@@ -87,7 +88,6 @@ gitpull: $(PULL_TARGETS)
 		cd $(PWD)/$*/$$_gitname && \
 		$(GITFETCH) && \
 		if [ -f $(PWD)/$*/built ] && [ "$$(cat $(PWD)/$*/built)" != "$$(git log -1 | head -n1)" ]; then \
-			echo "Will rebuild $*" ; \
 			rm -f $(PWD)/$*/built ; \
 		fi ; \
 		cd $(PWD) ; \

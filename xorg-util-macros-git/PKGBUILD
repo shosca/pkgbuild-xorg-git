@@ -7,7 +7,7 @@ _gitname="macros"
 
 pkgname=xorg-util-macros-git
 pkgver=20131106
-pkgrel=1036
+pkgrel=1100
 pkgdesc="X.Org Autotools macros"
 arch=(any)
 license=('custom')

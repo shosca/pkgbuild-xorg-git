@@ -8,7 +8,7 @@ _gitname='bigreqsproto'
 
 pkgname=bigreqsproto-git
 pkgver=20131106
-pkgrel=1037
+pkgrel=1100
 pkgdesc='X11 DRI extension wire protocol.'
 url='http://xorg.freedesktop.org/'
 arch=('any')
