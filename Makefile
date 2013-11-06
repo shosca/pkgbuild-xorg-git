@@ -28,7 +28,7 @@ pkgpush:
 		$(LOCAL)/ \
 		$(REMOTE)/
 
-pull: gitpull
+pull:
 	rsync -v --recursive --links --times -D --delete \
 		$(REMOTE)/ \
 		$(LOCAL)/
@@ -61,15 +61,14 @@ test:
 	fi ; \
 	rm -f $(PWD)/$*/*$(PKGEXT) $(PWD)/$*/*.log ; \
 	cd $* ; yes y$$'\n' | $(MAKEPKG) || exit 1 && \
-	yes y$$'\n' | $(PACMAN) -U --force *$(PKGEXT) && \
-	cd $(PWD) && \
-	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
-	rm -f $(addsuffix /built, $(shell grep ' $*' Makefile | cut -d':' -f1)) && \
-	touch $(PWD)/$*/built
+	yes y$$'\n' | $(PACMAN) -U --force *$(PKGEXT) && mv *$(PKGEXT) $(LOCAL) && touch $(PWD)/$*/built && \
+	cd $(PWD) ; \
+	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
+	rm -f $(addsuffix /built, $(shell grep ' $*' Makefile | cut -d':' -f1)) ; \
+	touch $(PWD)/$*/built \
 
 rebuildrepo:
-	mv */*$(PKGEXT) $(LOCAL) ; \
-	cd $(LOCAL) ; \
+	@cd $(LOCAL) ; \
 	rm -f $(LOCAL)/$(REPO).db* ; \
 	repo-add $(LOCAL)/$(REPO).db.tar.gz $(LOCAL)/*$(PKGEXT)
 

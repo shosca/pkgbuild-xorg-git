@@ -7,7 +7,7 @@ _gitname='encodings'
 
 pkgname=xorg-fonts-encodings-git
 pkgver=20131106
-pkgrel=1103
+pkgrel=1201
 pkgdesc="X.org font encoding files"
 arch=(any)
 url="http://xorg.freedesktop.org/"
