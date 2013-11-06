@@ -8,7 +8,7 @@ _gitname="util"
 
 pkgname=xorg-font-util-git
 pkgver=20131106
-pkgrel=1347
+pkgrel=1730
 pkgdesc='X.Org font utilities'
 url='http://xorg.freedesktop.org/'
 arch=('i686' 'x86_64')

@@ -8,7 +8,7 @@ _gitname="libXau"
 
 pkgname=libxau-git
 pkgver=20131106
-pkgrel=1348
+pkgrel=1733
 pkgdesc="X11 authorisation library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
