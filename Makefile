@@ -32,9 +32,10 @@ pull:
 		$(LOCAL)/
 
 clean:
-	find -name '*$(PKGEXT)' -exec rm {} \;
-	find -name 'built' -exec rm {} \;
-	rm -f */*.log $(LOCAL)/*$(PKGEXT)
+	sudo rm -rf */*.log */pkg */src */logpipe* */*$(PKGEXT)
+
+reset: clean
+	sudo rm -f */built
 
 show:
 	@echo $(DATE)
@@ -78,24 +79,7 @@ rebuildrepo:
 	repo-add $(LOCAL)/$(REPO).db.tar.gz $(LOCAL)/*$(PKGEXT)
 
 $(DIRS):
-	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$@/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
-	_gitname=$$(grep -R '^_gitname' $(PWD)/$@/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
-	if [ -z $$_gitroot ]; then \
-		$(MAKE) $@/built ; \
-	else \
-		if [ -f $(PWD)/$@/$$_gitname/HEAD ]; then \
-			echo "Updating $$_gitname" ; \
-			cd $(PWD)/$@/$$_gitname && $(GITFETCH) && \
-			if [ -f $(PWD)/$@/built ] && [ "$$(cat $(PWD)/$@/built)" != "$$(git log -1 | head -n1)" ]; then \
-				rm -f $(PWD)/$@/built ; \
-			fi ; \
-			cd $(PWD) ; \
-		else \
-			echo "Cloning $$_gitroot to $@/$$_gitname" ; \
-			$(GITCLONE) $$_gitroot $(PWD)/$@/$$_gitname ; \
-		fi ; \
-		$(MAKE) $@/built ; \
-	fi ; \
+	@$(MAKE) $@/built
 
 PULL_TARGETS=$(addsuffix -pull, $(DIRS))
 
@@ -108,6 +92,9 @@ gitpull: $(PULL_TARGETS)
 		echo "Updating $$_gitname" ; \
 		cd $(PWD)/$*/$$_gitname && \
 		$(GITFETCH) && \
+		if [ -f $(PWD)/$*/built ] && [ "$$(cat $(PWD)/$*/built)" != "$$(git log -1 | head -n1)" ]; then \
+			rm -f $(PWD)/$*/built ; \
+		fi ; \
 		cd $(PWD) ; \
 	fi
 
@@ -181,87 +168,49 @@ xineramaproto-git: xorg-util-macros-git
 
 xproto-git: xorg-util-macros-git
 
+pixman-git: xorg-util-macros-git
+
+wayland-git: xorg-util-macros-git
+
+libpciaccess-git: xorg-util-macros-git
+
+libshmfence-git: xorg-util-macros-git
+
+libdrm-git: libpciaccess-git
+
+libfontenc-git: xproto-git
+
 libxdmcp-git: xproto-git
 
 libxau-git: xproto-git
 
 libxcb-git: xcb-proto-git libxdmcp-git libxau-git
 
-libx11-git: libxcb-git xproto-git kbproto-git xextproto-git xtrans-git inputproto-git
+libx11-git: xproto-git kbproto-git xextproto-git xtrans-git inputproto-git libxcb-git
 
-xcb-util-git: libxcb-git xproto-git
+xcb-util-git: xproto-git libxcb-git 
 
-xcb-util-image-git: libxcb-git xcb-util-git
+xcb-util-image-git: xcb-util-git
 
-xcb-util-keysyms-git: libxcb-git xcb-util-git
+xcb-util-keysyms-git: xcb-util-git
 
-xcb-util-wm-git: libxcb-git xcb-util-git
+xcb-util-wm-git: xcb-util-git
 
-libxext-git: libx11-git xextproto-git
+libxext-git: xextproto-git libx11-git
 
-libxrender-git: libx11-git renderproto-git
+libxrender-git: renderproto-git libx11-git
 
-libxrandr-git: libxext-git libxrender-git randrproto-git
+libxrandr-git: randrproto-git libxext-git libxrender-git
 
-libxi-git: libxext-git inputproto-git
+libxi-git: inputproto-git libxext-git
 
-libxtst-git: recordproto-git inputproto-git libxext-git libxi-git
+libxtst-git: recordproto-git inputproto-git libxi-git
 
-libxt: libsm-git libx11-git
+libice-git: xproto-git xtrans-git
 
 libsm-git: libice-git xtrans-git xorg-util-macros-git
 
-libshmfence-git: xorg-util-macros-git
-
-libxres-git: resourceproto-git damageproto-git compositeproto-git scrnsaverproto-git libxext-git
-
-libdmx-git: dmxproto-git libxext-git
-
-libxfixes-git: libx11-git fixesproto-git
-
-libxdamage-git: libxfixes-git damageproto-git
-
-libxcomposite-git: libxfixes-git compositeproto-git
-
-libxxf86vm-git: xf86vidmodeproto-git libxext-git
-
-libxxf86dga-git: libxext-git xf86dgaproto-git
-
-libice: xproto-git xtrans-git
-
-libpciaccess-git: xorg-util-macros-git
-
-libvdpau-git: libx11-git
-
-lib32-libvdpau-git: libvdpau-git
-
-libdrm-git: libpciaccess-git
-
-lib32-libdrm-git: libdrm-git
-
-cairo-git: libxrender-git pixman-git xcb-util-git
-
-libclc-git: llvm-git
-
-mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libvdpau-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git
-
-lib32-mesa-git: glproto-git lib32-libdrm-git lib32-llvm-git lib32-libvdpau-git lib32-wayland-git
-
-lib32-llvm-git: llvm-git
-
-glu-git: mesa-git
-
-mesa-demos-git: mesa-git
-
-libxv-git: libxext-git videoproto-git
-
-libxvmc-git: libxv-git
-
-libfontenc-git: xproto-git
-
-libxcursor-git: libxfixes-git libxrender-git xorg-util-macros-git
-
-libxfont-git: libfontenc-git xproto-git fontsproto-git xtrans-git
+libxt: libx11-git libsm-git
 
 libxmu-git: libxext-git libxt-git
 
@@ -269,7 +218,41 @@ libxpm-git: libxt-git libxext-git
 
 libxaw-git: libxmu-git libxpm-git
 
+libxres-git: resourceproto-git damageproto-git compositeproto-git scrnsaverproto-git libxext-git
+
+libdmx-git: dmxproto-git libxext-git
+
+libxfixes-git: fixesproto-git libx11-git
+
+libxdamage-git: damageproto-git libxfixes-git
+
+libxcomposite-git: compositeproto-git libxfixes-git
+
+libxxf86vm-git: xf86vidmodeproto-git libxext-git
+
+libxxf86dga-git: xf86dgaproto-git libxext-git
+
+libxv-git: videoproto-git libxext-git
+
+libxvmc-git: libxv-git
+
+libvdpau-git: libx11-git
+
+libxcursor-git: libxfixes-git libxrender-git
+
+libxfont-git: xproto-git fontsproto-git libfontenc-git xtrans-git
+
 libxkbfile-git: libx11-git
+
+cairo-git: libxrender-git pixman-git xcb-util-git
+
+libclc-git: llvm-git
+
+mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libvdpau-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git
+
+glu-git: mesa-git
+
+mesa-demos-git: mesa-git
 
 xorg-font-util-git: xorg-util-macros-git
 
@@ -313,6 +296,15 @@ xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libd
 
 xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git glamor-git
 
-glamor-git: libx11-git xorg-server-git mesa-git
+glamor-git: glproto-git xf86driproto-git libx11-git libdrm-git xorg-server-git mesa-git
 
 weston-git: libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git
+
+lib32-mesa-git: glproto-git lib32-libdrm-git lib32-llvm-git lib32-libvdpau-git lib32-wayland-git
+
+lib32-llvm-git: llvm-git
+
+lib32-libvdpau-git: libvdpau-git
+
+lib32-libdrm-git: libdrm-git
+

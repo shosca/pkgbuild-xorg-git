@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/xextproto'
 _gitname='xextproto'
 
 pkgname=xextproto-git
-pkgver=20131104
-pkgrel=1353
+pkgver=20131106
+pkgrel=0851
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
