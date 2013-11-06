@@ -7,7 +7,7 @@ _gitname="libXRes"
 
 pkgname=libxres-git
 pkgver=20131106
-pkgrel=1204
+pkgrel=1353
 pkgdesc="X11 Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"

@@ -8,7 +8,7 @@ _gitname='resourceproto'
 
 pkgname=resourceproto-git
 pkgver=20131106
-pkgrel=1200
+pkgrel=1349
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

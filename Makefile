@@ -50,8 +50,13 @@ updateversions:
 build: $(DIRS)
 
 test:
-	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
-	echo $$_gitname
+	@echo "REPO    : $(REPO)" ; \
+	echo "LOCAL   : $(LOCAL)" ; \
+	echo "REMOTE  : $(REMOTE)" ; \
+	echo "PACMAN  : $(PACMAN)" ; \
+	echo "PKGEXT  : $(PKGEXT)" ; \
+	echo "GITFETCH: $(GITFETCH)" ; \
+	echo "GITCLONE: $(GITCLONE)"
 
 %/built:
 	@_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
@@ -59,16 +64,19 @@ test:
 		sed -i "s/^pkgver=[^ ]*/pkgver=$(DATE)/" "$(PWD)/$*/PKGBUILD" ; \
 		sed -i "s/^pkgrel=[^ ]*/pkgrel=$(TIME)/" "$(PWD)/$*/PKGBUILD" ; \
 	fi ; \
-	rm -f $(PWD)/$*/*$(PKGEXT) $(PWD)/$*/*.log ; \
-	cd $* ; yes y$$'\n' | $(MAKEPKG) || exit 1 && \
-	yes y$$'\n' | $(PACMAN) -U --force *$(PKGEXT) && mv *$(PKGEXT) $(LOCAL) && touch $(PWD)/$*/built && \
+	cd $* ; \
+	rm -f *$(PKGEXT) *.log ; \
+	yes y$$'\n' | $(MAKEPKG) || exit 1 && \
+	yes y$$'\n' | $(PACMAN) -U --force *.$(PKGEXT) ; \
+	touch $(PWD)/$*/built ; \
 	cd $(PWD) ; \
-	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
 	rm -f $(addsuffix /built, $(shell grep ' $*' Makefile | cut -d':' -f1)) ; \
-	touch $(PWD)/$*/built \
+
+#	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
 
 rebuildrepo:
 	@cd $(LOCAL) ; \
+	mv $(PWD)/*/*.$(PKGEXT) . ; \
 	rm -f $(LOCAL)/$(REPO).db* ; \
 	repo-add $(LOCAL)/$(REPO).db.tar.gz $(LOCAL)/*$(PKGEXT)
 
