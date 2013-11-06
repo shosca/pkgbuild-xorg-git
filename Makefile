@@ -66,12 +66,7 @@ test:
 	repo-remove $(LOCAL)/$(REPO).db.tar.gz $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g') ; \
 	mv $*/*$(PKGEXT) $(LOCAL) && \
 	repo-add $(LOCAL)/$(REPO).db.tar.gz $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) && \
-	if [ -f $(PWD)/$*/$$_gitname/HEAD ]; then \
-		cd $(PWD)/$*/$$_gitname && \
-		git log -1 | head -n1 > $(PWD)/$*/built ; \
-	else \
-		touch $(PWD)/$*/built ; \
-	fi
+	touch $(PWD)/$*/built
 
 rebuildrepo:
 	cd $(LOCAL)
