@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libICE"
 _gitname="libICE"
 
 pkgname=libice-git
-pkgver=20131106
-pkgrel=1738
+pkgver=20131110
+pkgrel=1458
 pkgdesc="X11 Inter-Client Exchange library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

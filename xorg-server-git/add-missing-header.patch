@@ -1,0 +1,20 @@
+diff --git a/include/Makefile.am b/include/Makefile.am
+index 13d91e2..55e6fd5 100644
+--- a/include/Makefile.am
++++ b/include/Makefile.am
+@@ -13,6 +13,7 @@ sdk_HEADERS =		\
+ 	cursor.h	\
+ 	cursorstr.h	\
+ 	dix.h		\
++	dix-config.h	\
+ 	dixaccess.h	\
+ 	dixevents.h	\
+ 	dixfont.h	\
+@@ -41,6 +42,7 @@ sdk_HEADERS =		\
+ 	privates.h	\
+ 	property.h	\
+ 	propertyst.h	\
++	protocol-versions.h	\
+ 	ptrveloc.h  \
+ 	region.h	\
+ 	regionstr.h	\

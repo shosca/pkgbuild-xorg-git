@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/mesa/drm'
 _gitname='drm'
 
 pkgname=libdrm-git
-pkgver=20131106
-pkgrel=1738
+pkgver=20131108
+pkgrel=1032
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
@@ -23,6 +23,8 @@ md5sums=(SKIP)
 
 build() {
   cd "${srcdir}/${_gitname}"
+
+  git cherry-pick 6335e1d28c422050024bcf4100c4fb3a5bac2afb
 
   sed -i 's/PKG_CHECK_MODULES(PTHREADSTUBS, pthread-stubs)//' configure.ac
 

@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xcb/libxcb"
 _gitname="libxcb"
 
 pkgname=libxcb-git
-pkgver=20131106
-pkgrel=1738
+pkgver=20131109
+pkgrel=0847
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xcb.freedesktop.org/"
@@ -19,12 +19,13 @@ conflicts=('libxcb')
 options=('!libtool')
 license=('custom')
 source=($_gitroot libxcb-1.1-no-pthread-stubs.patch)
-sha1sums=(SKIP 'd2df03ddf3e949c10c2c185256b0eb7fa02837ab')
+sha1sums=('SKIP' 'b5901bf399f777236a24e73f853081c1b0658db3')
 
 build() {
   cd "${srcdir}/${_gitname}"
 
-  patch -Np1 -i "$srcdir/libxcb-1.1-no-pthread-stubs.patch"
+  patch -Np1 -i ../libxcb-1.1-no-pthread-stubs.patch
+
   PYTHON=/usr/bin/python2 
   ./autogen.sh --prefix=/usr \
     --enable-xinput \

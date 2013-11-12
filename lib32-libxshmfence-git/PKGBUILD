@@ -5,7 +5,7 @@ _realver=1.0
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libxshmfence"
 _gitname="libxshmfence"
 
-pkgname=libxshmfence-git
+pkgname=lib32-libxshmfence-git
 pkgver=20131108
 pkgrel=1052
 pkgdesc="X11 shared memory fences using futexes"
@@ -15,23 +15,26 @@ depends=('')
 makedepends=('pkgconfig' 'xorg-util-macros-git')
 options=(!libtool)
 license=('custom')
-provides=('libxshmfence=${_realver}')
-conflicts=('libxshmfence')
+provides=('lib32-libxshmfence=${_realver}')
+conflicts=('lib32-libxshmfence')
 source=($_gitroot)
 md5sums=(SKIP)
 
 build() {
   cd "${srcdir}/${_gitname}"
 
-  ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  ./autogen.sh --prefix=/usr --libdir=/usr/lib32 --sysconfdir=/etc --disable-static
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-
-  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  rm -rf "${pkgdir}/usr/include" "${pkgdir}/usr/share"
 }
 # vim: ft=sh syn=sh et
 

@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/dmxproto'
 _gitname='dmxproto'
 
 pkgname=dmxproto-git
-pkgver=20131106
-pkgrel=1734
+pkgver=20131108
+pkgrel=1031
 pkgdesc='Xorg DMXProto protocol headers'
 url='http://xorg.freedesktop.org/'
 arch=('any')

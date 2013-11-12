@@ -1,9 +1,11 @@
---- libxcb-1.8.1/configure.ac	2012-03-09 15:38:38.000000000 +0100
-+++ libxcb-1.8.1/configure.ac.new	2012-03-09 16:50:40.107109896 +0100
-@@ -35,7 +35,7 @@
+diff --git a/configure.ac b/configure.ac
+index 87804ba..7f1421d 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -42,7 +42,7 @@ AC_SUBST(HTML_CHECK_RESULT)
  
  # Checks for pkg-config packages
- PKG_CHECK_MODULES(XCBPROTO, xcb-proto >= 1.7)
+ PKG_CHECK_MODULES(XCBPROTO, xcb-proto >= 1.9)
 -NEEDED="pthread-stubs xau >= 0.99.2"
 +NEEDED="xau >= 0.99.2"
  PKG_CHECK_MODULES(NEEDED, $NEEDED)
