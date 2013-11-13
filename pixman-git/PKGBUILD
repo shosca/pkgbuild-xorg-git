@@ -7,7 +7,7 @@ _gitname="pixman"
 
 pkgname=pixman-git
 pkgver=20131112
-pkgrel=0410
+pkgrel=1133
 pkgdesc="The pixel-manipulation library for X and cairo"
 arch=(i686 x86_64)
 url="http://pixman.org/"

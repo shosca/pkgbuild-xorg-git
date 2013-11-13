@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xcb/util-wm"
 _gitname="util-wm"
 
 pkgname=xcb-util-wm-git
-pkgver=20131109
-pkgrel=0856
+pkgver=20131112
+pkgrel=1136
 pkgdesc="Utility libraries for XC Binding - client and window-manager helpers for ICCCM"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
