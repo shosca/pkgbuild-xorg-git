@@ -1,13 +1,13 @@
 # Maintainer: aboe76 AT gmail DOT com>
 # contribution: EdwardXXIV
 
-_realver=0.31.3
+_realver=0.33.1
 _gitroot="git://anongit.freedesktop.org/git/pixman"
 _gitname="pixman"
 
 pkgname=pixman-git
-pkgver=20131112
-pkgrel=1133
+pkgver=20131113
+pkgrel=1743
 pkgdesc="The pixel-manipulation library for X and cairo"
 arch=(i686 x86_64)
 url="http://pixman.org/"
