@@ -8,7 +8,7 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=20131113
-pkgrel=1727
+pkgrel=2158
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')

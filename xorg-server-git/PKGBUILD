@@ -3,14 +3,14 @@
 # Contributor: SpeedVin <speedvin at archlinux dot us>
 # Based on xorg-server-dev
 
-_realver=1.14.99.901
+_realver=1.14.99.902
 _gitroot="git://anongit.freedesktop.org/xorg/xserver"
 _gitname="xserver"
 
 pkgbase=xorg-server
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
 pkgver=20131113
-pkgrel=1744
+pkgrel=2206
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -19,14 +19,11 @@ options=('!libtool')
 source=($_gitroot
         xvfb-run
         xvfb-run.1
-        10-quirks.conf
-        add-missing-header.patch
-        )
+        10-quirks.conf)
 sha1sums=('SKIP'
           'c94f742d3f9cabf958ae58e4015d9dd185aabedc'
           '6838fc00ef4618c924a77e0fb03c05346080908a'
-          '993798f3d22ad672d769dae5f48d1fa068d5578f'
-          'c0ea8b228e792c7c0586ecdddaa0a2873f54b99d')
+          '993798f3d22ad672d769dae5f48d1fa068d5578f')
 
 prepare() {
   cd "${srcdir}/${_gitname}"
@@ -35,8 +32,6 @@ prepare() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  patch -Np1 -i ../add-missing-header.patch
 
   ./autogen.sh --prefix=/usr \
       --enable-ipv6 \
