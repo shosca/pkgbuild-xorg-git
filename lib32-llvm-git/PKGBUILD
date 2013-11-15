@@ -9,8 +9,8 @@ _gitname="llvm"
 _realver="3.4svn"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git')
-pkgver=20131114
-pkgrel=1638
+pkgver=20131115
+pkgrel=1442
 arch=('x86_64')
 url="http://llvm.org"
 license=('custom:University of Illinois/NCSA Open Source License')
@@ -20,8 +20,11 @@ provides=('lib32-llvm')
 conflicts=('lib32-llvm')
 source=(git+$_gitroot
         git+http://llvm.org/git/compiler-rt.git
+        installfix.patch
 )
-md5sums=(SKIP SKIP)
+md5sums=('SKIP'
+         'SKIP'
+         '6040dbb75d701294f302dc12c8cc0c97')
 options=('!strip')
 
 prepare() {
@@ -44,6 +47,8 @@ prepare() {
 
   # Fix insecure rpath (http://bugs.archlinux.org/task/14017)
   sed -i 's:$(RPATH) -Wl,$(\(ToolDir\|LibDir\|ExmplDir\))::g' Makefile.rules
+
+  patch -Np1 -i ../installfix.patch
 }
 
 

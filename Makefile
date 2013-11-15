@@ -310,7 +310,7 @@ glamor-git: glproto-git xf86driproto-git libx11-git libdrm-git xorg-server-git m
 
 weston-git: libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git
 
-lib32-mesa-git: glproto-git lib32-libxshmfence-git lib32-libdrm-git lib32-llvm-git lib32-libvdpau-git lib32-wayland-git
+lib32-mesa-git: glproto-git lib32-libxshmfence-git lib32-libdrm-git lib32-llvm-git lib32-libvdpau-git lib32-wayland-git mesa-git
 
 lib32-llvm-git: llvm-git
 
