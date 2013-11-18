@@ -7,7 +7,7 @@ _gitname="libXcomposite"
 
 pkgname=libxcomposite-git
 pkgver=20131118
-pkgrel=0817
+pkgrel=1254
 pkgdesc="X11 Composite extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

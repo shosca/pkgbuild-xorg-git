@@ -9,7 +9,7 @@ _gitname="libXxf86dga"
 
 pkgname=libxxf86dga-git
 pkgver=20131118
-pkgrel=0818
+pkgrel=1255
 pkgdesc="X11 Direct Graphics Access extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

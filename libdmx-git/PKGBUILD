@@ -7,7 +7,7 @@ _gitname="libdmx"
 
 pkgname=libdmx-git
 pkgver=20131118
-pkgrel=0818
+pkgrel=1255
 pkgdesc="X11 Distributed Multihead extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
