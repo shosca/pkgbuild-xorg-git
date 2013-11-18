@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/setxkbmap"
 _gitname="setxkbmap"
 
 pkgname=xorg-setxkbmap-git
-pkgver=20131114
-pkgrel=0743
+pkgver=20131118
+pkgrel=0820
 pkgdesc='Set the keyboard using the X Keyboard Extension'
 url='http://xorg.freedesktop.org/'
 license=('custom')
