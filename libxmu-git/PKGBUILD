@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXmu"
 _gitname="libXmu"
 
 pkgname=libxmu-git
-pkgver=20131118
-pkgrel=1255
+pkgver=20131119
+pkgrel=0718
 pkgdesc="X11 miscellaneous micro-utility library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
