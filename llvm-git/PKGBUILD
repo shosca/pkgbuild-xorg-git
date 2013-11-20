@@ -6,11 +6,11 @@
 
 _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
-_realver="3.4svn"
+_realver="3.5svn"
 
 pkgname=(llvm-git llvm-libs-git llvm-ocaml-git clang-git clang-analyzer-git)
-pkgver=20131119
-pkgrel=2313
+pkgver=20131120
+pkgrel=0717
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
