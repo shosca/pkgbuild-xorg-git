@@ -7,10 +7,10 @@ _gitroot='git://git.freedesktop.org/git/mesa/drm'
 _gitname='drm'
 
 pkgname=lib32-libdrm-git
-pkgver=20131117
-pkgrel=0020
+pkgver=20131119
+pkgrel=2313
 pkgdesc="Userspace interface to kernel DRM services"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 license=('MIT')
 groups=('lib32')
 depends=('lib32-libpciaccess')
