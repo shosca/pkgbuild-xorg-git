@@ -27,14 +27,20 @@ build() {
   export CXX="g++ -m32"
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
-  ./autogen.sh --prefix=/usr --libdir=/usr/lib32 --sysconfdir=/etc --disable-static
+  ./autogen.sh \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --sysconfdir=/etc \
+    --disable-static
+
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  rm -rf "${pkgdir}/usr/include" "${pkgdir}/usr/share"
+
+  rm -rf "${pkgdir}"/usr/{include,share}
 }
 # vim: ft=sh syn=sh et
 

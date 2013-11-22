@@ -1,0 +1,48 @@
+# $Id: PKGBUILD 152797 2012-03-09 16:34:16Z andyrtr $
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_realver=1.0.8
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXvMC"
+_gitname="libXvMC"
+
+pkgname=lib32-libxvmc-git
+pkgver=20131122
+pkgrel=0937
+pkgdesc="X11 Video Motion Compensation extension library"
+arch=('x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('lib32-libxv>=1.0.7')
+makedepends=('pkgconfig')
+options=('!libtool')
+provides=('lib32-libxvmc=${_realver}')
+conflicts=('lib32-libxvmc')
+replaces=('lib32-libxvmc')
+source=($_gitroot)
+md5sums=(SKIP)
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --sysconfdir=/etc \
+    --disable-static
+
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR=${pkgdir} install
+
+  rm -rf "${pkgdir}"/usr/{include,share}
+}
+
+# vim: ft=sh syn=sh et
+

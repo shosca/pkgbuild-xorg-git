@@ -1,0 +1,46 @@
+# $Id: PKGBUILD 152771 2012-03-09 16:07:19Z andyrtr $
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_realver=1.1.1
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXdmcp"
+_gitname="libXdmcp"
+
+pkgname=lib32-libxdmcp-git
+pkgver=20131122
+pkgrel=0933
+pkgdesc="X11 Display Manager Control Protocol library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('xproto>=7.0.23' 'glibc')
+makedepends=('xorg-util-macros-git')
+provides=('lib32-libxdmcp=${_realver}')
+conflicts=('lib32-libxdmcp')
+options=('!libtool')
+source=($_gitroot)
+md5sums=(SKIP)
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --sysconfdir=/etc \
+    --disable-static
+
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  rm -rf "${pkgdir}"/usr/{include,share}
+}
+# vim: ft=sh syn=sh et
+

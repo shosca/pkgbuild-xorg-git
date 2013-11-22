@@ -1,0 +1,47 @@
+# $Id: PKGBUILD 151848 2012-03-03 13:42:06Z andyrtr $
+# Contributor: Alexander Baldeck <alexander@archlinux.org>
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_realver=1.0.8
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libICE"
+_gitname="libICE"
+
+pkgname=lib32-libice-git
+pkgver=20131122
+pkgrel=0933
+pkgdesc="X11 Inter-Client Exchange library"
+arch=('x86_64')
+url="http://xorg.freedesktop.org/"
+depends=('glibc' 'xproto>=7.0.23')
+makedepends=('pkgconfig' 'xtrans>=1.2.7')
+options=('!libtool')
+license=('custom')
+provides=('lib32-libice=${_realver}')
+conflicts=('lib32-libice')
+source=($_gitroot)
+md5sums=(SKIP)
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --sysconfdir=/etc \
+    --disable-static
+
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  rm -rf "${pkgdir}"/usr/{include,share}
+}
+# vim: ft=sh syn=sh et
+

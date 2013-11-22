@@ -1,0 +1,48 @@
+# $Id: PKGBUILD 160633 2012-06-02 21:43:25Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_realver=1.6.2
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libX11"
+_gitname="libX11"
+
+pkgname=lib32-libx11-git
+pkgver=20131122
+pkgrel=0935
+pkgdesc="X11 client-side library"
+arch=(i686 x86_64)
+url="http://xorg.freedesktop.org/"
+depends=('lib32-libxcb>=1.9' 'xproto>=7.0.23' 'kbproto>=1.0.6')
+makedepends=('xorg-util-macros-git' 'xextproto>=7.2.1' 'xtrans>=1.2.7'
+             'inputproto>=2.3')
+provides=('lib32-libx11=${_realver}')
+conflicts=('lib32-libx11')
+options=('!libtool')
+license=('custom')
+source=($_gitroot)
+sha256sums=(SKIP)
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --sysconfdir=/etc \
+    --disable-static \
+    --disable-xf86bigfont
+
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  rm -rf "${pkgdir}"/usr/{include,share}
+}
+# vim: ft=sh syn=sh et
+

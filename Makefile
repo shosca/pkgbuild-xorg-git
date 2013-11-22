@@ -310,13 +310,39 @@ glamor-git: glproto-git xf86driproto-git libx11-git libdrm-git xorg-server-git m
 
 weston-git: libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git
 
+lib32-libxdmcp-git: libxdmcp-git
+
+lib32-libice-git: libice-git
+
+lib32-libxau-git: libxau-git
+
+lib32-libxcb-git: libxcb-git lib32-libxdmcp-git  lib32-libxau-git
+
+lib32-libx11-git: libx11-git lib32-libxcb-git
+
+lib32-libxext-git: libxext-git lib32-libx11-git
+
+lib32-libxv-git: libxv-git lib32-libxext-git
+
+lib32-libxvmc-git: libxvmc-git lib32-libxv-git
+
+lib32-libvdpau-git: libvdpau-git lib32-libx11-git
+
+lib32-libxxf86vm-git: libxxf86vm-git lib32-libxext-git
+
+lib32-libxfixes-git: libxfixes-git lib32-libx11-git
+
+lib32-libxdamage-git: libxdamage-git lib32-libxfixes-git
+
+lib32-libsm-git: libsm-git lib32-libice-git
+
+lib32-libxt-git: libxt-git lib32-libsm-git lib32-libx11-git
+
 lib32-wayland-git: wayland-git
 
-lib32-mesa-git: glproto-git lib32-libxshmfence-git lib32-libdrm-git lib32-llvm-git lib32-libvdpau-git lib32-wayland-git mesa-git
+lib32-mesa-git: glproto-git lib32-libxshmfence-git lib32-libdrm-git lib32-llvm-git lib32-libxvmc-git lib32-libvdpau-git lib32-libxxf86vm-git lib32-libxdamage-git lib32-libx11-git lib32-libxt-git lib32-wayland-git mesa-git
 
 lib32-llvm-git: llvm-git
-
-lib32-libvdpau-git: libvdpau-git
 
 lib32-libdrm-git: libdrm-git
 
