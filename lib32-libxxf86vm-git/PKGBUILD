@@ -9,10 +9,10 @@ pkgname=lib32-libxxf86vm-git
 pkgver=20131122
 pkgrel=0937
 pkgdesc="X11 XFree86 video mode extension library"
-arch=('x86_64' 'i686')
+arch=('x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libxext>=1.3.1' 'xf86vidmodeproto>=2.3.1')
+depends=('lib32-libxext' 'xf86vidmodeproto>=2.3.1')
 makedepends=('xorg-util-macros-git')
 options=('!libtool')
 provides=('lib32-libxxf86vm=${_realver}')

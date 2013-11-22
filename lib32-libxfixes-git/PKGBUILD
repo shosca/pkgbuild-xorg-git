@@ -9,7 +9,7 @@ pkgname=lib32-libxfixes-git
 pkgver=20131122
 pkgrel=0936
 pkgdesc="X11 miscellaneous 'fixes' extension library"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('lib32-libx11' 'fixesproto>=5.0')

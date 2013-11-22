@@ -9,7 +9,7 @@ pkgname=lib32-libxdmcp-git
 pkgver=20131122
 pkgrel=0933
 pkgdesc="X11 Display Manager Control Protocol library"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('xproto>=7.0.23' 'glibc')
