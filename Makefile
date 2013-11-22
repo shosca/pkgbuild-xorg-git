@@ -310,6 +310,8 @@ glamor-git: glproto-git xf86driproto-git libx11-git libdrm-git xorg-server-git m
 
 weston-git: libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git
 
+lib32-pixman-git: pixman-git
+
 lib32-libxdmcp-git: libxdmcp-git
 
 lib32-libice-git: libice-git
@@ -319,6 +321,8 @@ lib32-libxau-git: libxau-git
 lib32-libxcb-git: libxcb-git lib32-libxdmcp-git  lib32-libxau-git
 
 lib32-libx11-git: libx11-git lib32-libxcb-git
+
+lib32-libxrender-git: libxrender-git lib32-libx11-git
 
 lib32-libxext-git: libxext-git lib32-libx11-git
 

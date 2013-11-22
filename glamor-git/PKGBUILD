@@ -12,8 +12,8 @@ pkgrel=1104
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
-depends=('glibc' 'mesa-libgl-git' 'libdrm-git' 'libx11')
-makedepends=('glibc' 'xorg-server-devel-git' 'xf86driproto' 'glproto')
+depends=('glibc' 'mesa-libgl-git' 'libdrm-git' 'libx11-git')
+makedepends=('glibc' 'xorg-server-devel-git' 'xf86driproto-git' 'glproto-git')
 provides=('glamor=${_realver}')
 conflicts=('glamor')
 options=('!libtool')

@@ -12,7 +12,7 @@ arch=('i686' 'x86_64')
 url="http://mesa.freedesktop.org/"
 license=('LGPL')
 provides=('glu=${_realver}')
-depends=('mesa>=9.2.0' 'gcc-libs')
+depends=('mesa-git' 'gcc-libs')
 conflicts=('glu')
 options=(!libtool)
 source=($_gitroot)

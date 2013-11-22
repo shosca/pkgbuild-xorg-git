@@ -5,18 +5,18 @@ _realver=0.33.1
 _gitroot="git://anongit.freedesktop.org/git/pixman"
 _gitname="pixman"
 
-pkgname=pixman-git
-pkgver=20131118
-pkgrel=0811
+pkgname=lib32-pixman-git
+pkgver=20131122
+pkgrel=1206
 pkgdesc="The pixel-manipulation library for X and cairo"
-arch=(i686 x86_64)
+arch=('x86_64')
 url="http://pixman.org/"
 license=('GPL')
-depends=(glibc)
+depends=('lib32-pango' 'glibc')
 makedepends=(git autoconf automake libtool pkgconfig)
-provides=('pixman=${_realver}')
-conflicts=('pixman')
-replaces=('pixman')
+provides=('lib32-pixman=${_realver}')
+conflicts=('lib32-pixman')
+replaces=('lib32-pixman')
 options=('!libtool')
 source=($_gitroot)
 md5sums=(SKIP)
@@ -24,18 +24,24 @@ md5sums=(SKIP)
 build() {
   cd "${srcdir}/${_gitname}"
 
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
   ./autogen.sh \
     --prefix=/usr \
+    --libdir=/usr/lib32 \
     --disable-gtk \
     --disable-static
+
   make
 }
 
 package() {
   cd "$srcdir/$_gitname"
   make DESTDIR="$pkgdir/" install
-  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+
+  rm -rf "${pkgdir}"/usr/{include,share}
 }
 
 # vim: ft=sh syn=sh et

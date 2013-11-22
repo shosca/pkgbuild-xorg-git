@@ -14,7 +14,7 @@ arch=('x86_64')
 license=('MIT')
 groups=('lib32')
 depends=('lib32-libpciaccess')
-makedepends=('gcc-multilib' 'git' 'cairo' 'udev')
+makedepends=('gcc-multilib' 'git' 'udev')
 options=('!libtool')
 url="http://dri.freedesktop.org/"
 provides=('lib32-libdrm=${_realver}')
