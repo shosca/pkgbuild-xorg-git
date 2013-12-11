@@ -1,10 +1,10 @@
 # Maintainer: kfgz <kfgz at interia pl>
 # Contributor: Cilyan Olowen <gaknar at gmail dot com>
 
-_realver=1.4.16
+_realver=1.4.17
 pkgname=glproto-git
-pkgver=20131209
-pkgrel=0721
+pkgver=20131211
+pkgrel=0725
 pkgdesc="X11 OpenGL extension wire protocol"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
