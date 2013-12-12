@@ -8,8 +8,8 @@ _gitroot="git://anongit.freedesktop.org/xcb/util"
 _gitname="util"
 
 pkgname=xcb-util-git
-pkgver=20131209
-pkgrel=0728
+pkgver=20131212
+pkgrel=0733
 pkgdesc="Utility libraries for XC Binding"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
