@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xmessage"
 _gitname="xmessage"
 
 pkgname=xorg-xmessage-git
-pkgver=20131211
-pkgrel=0725
+pkgver=20131216
+pkgrel=0741
 pkgdesc="Display a message or query in a window"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
