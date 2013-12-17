@@ -7,7 +7,7 @@ _gitname="libXtst"
 
 pkgname=libxtst-git
 pkgver=20131216
-pkgrel=0740
+pkgrel=2254
 pkgdesc="X11 Testing -- Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

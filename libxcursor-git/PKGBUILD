@@ -8,7 +8,7 @@ _gitname="libXcursor"
 
 pkgname=libxcursor-git
 pkgver=20131216
-pkgrel=0732
+pkgrel=2254
 pkgdesc="X cursor management library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
