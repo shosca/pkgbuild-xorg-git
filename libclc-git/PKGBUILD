@@ -1,18 +1,18 @@
 # Maintainer: Armin K. <krejzi at email dot com>
 
-_gitroot='git://github.com/llvm-mirror/libclc'
+_gitroot='http://llvm.org/git/libclc.git'
 _gitname=libclc
 
 pkgname=libclc-git
-pkgver=20131218
-pkgrel=0757
+pkgver=20131219
+pkgrel=0810
 pkgdesc="Library requirements of the OpenCL C programming language"
 arch=('i686' 'x86_64')
 url="http://libclc.llvm.org/"
 license=('MIT')
 depends=('clang')
 makedepends=('git' 'python2')
-source=($_gitroot)
+source=(git+$_gitroot)
 md5sums=(SKIP)
 provides=('libclc')
 replaces=('libclc')
