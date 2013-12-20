@@ -1,0 +1,34 @@
+diff --git a/configure.py b/configure.py
+index 1c6929f..f5feb23 100755
+--- a/configure.py
++++ b/configure.py
+@@ -64,7 +64,7 @@ def llvm_config(args):
+ 
+ llvm_bindir = llvm_config(['--bindir'])
+ llvm_core_libs = llvm_config(['--libs', 'core', 'bitreader', 'bitwriter']) + ' ' + \
+-                 llvm_config(['--ldflags'])
++                 llvm_config(['--ldflags']) + llvm_config(['--system-libs'])
+ llvm_cxxflags = llvm_config(['--cxxflags']) + ' -fno-exceptions -fno-rtti'
+ 
+ llvm_clang = os.path.join(llvm_bindir, 'clang')
+@@ -213,7 +213,7 @@ for target in targets:
+     b.default(builtins_bc)
+ 
+ 
+-install_cmd = ' && '.join(['mkdir -p $(DESTDIR)/%(dst)s && cp -r %(src)s $(DESTDIR)/%(dst)s' % 
++install_cmd = ' && '.join(['mkdir -p $(DESTDIR)/%(dst)s && cp -r %(src)s $(DESTDIR)/%(dst)s' %
+                            {'src': file,
+                             'dst': libexecdir}
+                            for (file, dest) in install_files_bc])
+@@ -222,9 +222,9 @@ install_cmd = ' && '.join(['%(old)s && mkdir -p $(DESTDIR)/%(dst)s && cp -r %(sr
+                             'dst': includedir,
+                             'srcdir': srcdir}])
+ install_cmd = ' && '.join(['%(old)s && mkdir -p $(DESTDIR)/%(dst)s && cp -r libclc.pc $(DESTDIR)/%(dst)s' %
+-                           {'old': install_cmd, 
++                           {'old': install_cmd,
+                             'dst': pkgconfigdir}])
+-  
++
+ b.rule('install', command = install_cmd, description = 'INSTALL')
+ b.build('install', 'install', install_deps)
+ 
