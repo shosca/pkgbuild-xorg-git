@@ -2,13 +2,13 @@
 # Maintainer: Alexander Baldeck <alexander@archlinux.org>
 # Contributor: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.9
+_realver=1.10
 _gitroot="git://anongit.freedesktop.org/xcb/proto"
 _gitname="proto"
 
 pkgname=xcb-proto-git
-pkgver=20131209
-pkgrel=0719
+pkgver=20131223
+pkgrel=1025
 pkgdesc="XML-XCB protocol descriptions"
 arch=(any)
 url="http://xcb.freedesktop.org/"

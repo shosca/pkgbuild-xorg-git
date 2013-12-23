@@ -2,13 +2,13 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
-_realver=1.9
+_realver=1.10
 _gitroot="git://anongit.freedesktop.org/xcb/libxcb"
 _gitname="libxcb"
 
 pkgname=libxcb-git
-pkgver=20131209
-pkgrel=0724
+pkgver=20131223
+pkgrel=1025
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xcb.freedesktop.org/"
@@ -19,7 +19,8 @@ conflicts=('libxcb')
 options=('!libtool')
 license=('custom')
 source=($_gitroot libxcb-1.1-no-pthread-stubs.patch)
-sha1sums=('SKIP' 'b5901bf399f777236a24e73f853081c1b0658db3')
+sha1sums=('SKIP'
+          '3ba323c1a8aad56d1e52f750e2a61cacf76abfe7')
 
 build() {
   cd "${srcdir}/${_gitname}"

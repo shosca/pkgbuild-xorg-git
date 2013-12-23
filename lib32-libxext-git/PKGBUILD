@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXext"
 _gitname="libXext"
 
 pkgname=lib32-libxext-git
-pkgver=20131216
-pkgrel=2254
+pkgver=20131223
+pkgrel=1041
 pkgdesc="X11 miscellaneous extensions library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
