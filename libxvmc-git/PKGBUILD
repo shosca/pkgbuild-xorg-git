@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXvMC"
 _gitname="libXvMC"
 
 pkgname=libxvmc-git
-pkgver=20131223
-pkgrel=1035
+pkgver=20131224
+pkgrel=0806
 pkgdesc="X11 Video Motion Compensation extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
