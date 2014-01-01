@@ -6,9 +6,9 @@ _realver=0.5.1
 _gitroot='git://anongit.freedesktop.org/xorg/driver/glamor'
 _gitname="glamor"
 
-pkgname=glamor-git
+pkgname=glamor-egl-git
 pkgver=20140101
-pkgrel=1152
+pkgrel=1231
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -16,6 +16,7 @@ depends=('glibc' 'mesa-libgl-git' 'libdrm-git' 'libx11-git')
 makedepends=('glibc' 'xorg-server-devel-git' 'xf86driproto-git' 'glproto-git')
 provides=('glamor=${_realver}')
 conflicts=('glamor')
+replaces=('glamor' 'glamor-git')
 options=('!libtool')
 license=('custom')
 source=($_gitroot)
@@ -24,7 +25,11 @@ md5sums=(SKIP)
 build() {
   cd "${srcdir}/${_gitname}"
 
-  ./autogen.sh --prefix=/usr
+  ./autogen.sh \
+    --prefix=/usr \
+    --disable-static \
+    --enable-glx-tls \
+    --enable-glamor-gles2
   make
 }
 

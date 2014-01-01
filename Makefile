@@ -298,15 +298,15 @@ xf86-input-evdev-git: xorg-server-git
 
 xf86-input-synaptics-git: xorg-server-git
 
-xf86-video-ati-git: xorg-server-git mesa-git glamor-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
+xf86-video-ati-git: xorg-server-git mesa-git glamor-egl-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
 
 radeontop-git:
 
-xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git dri3proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git glamor-git
+xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git dri3proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git glamor-egl-git
 
-xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git glamor-git
+xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git glamor-egl-git
 
-glamor-git: glproto-git xf86driproto-git libx11-git libdrm-git xorg-server-git mesa-git
+glamor-egl-git: glproto-git xf86driproto-git libx11-git libdrm-git xorg-server-git mesa-git
 
 weston-git: libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git
 

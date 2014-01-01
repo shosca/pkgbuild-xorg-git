@@ -8,13 +8,13 @@ _gitname="xf86-video-ati"
 
 pkgname=xf86-video-ati-git
 pkgver=20140101
-pkgrel=1152
+pkgrel=1231
 pkgdesc="X.org ati video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 provides=('xf86-video-ati=${_realver}')
-depends=('libpciaccess' 'libdrm' 'udev' 'pixman' 'ati-dri' 'glamor')
-makedepends=('xorg-server-devel-git' 'xf86driproto' 'git' 'glproto')
+depends=('libpciaccess-git' 'libdrm-git' 'udev' 'pixman-git' 'ati-dri-git' 'glamor-egl-git')
+makedepends=('xorg-server-devel-git' 'xf86driproto-git' 'git' 'glproto-git')
 conflicts=('xorg-server<1.11.0' 'xf86-video-ati')
 options=('!libtool')
 license=('custom')
