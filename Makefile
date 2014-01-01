@@ -248,6 +248,10 @@ libxvmc-git: libxv-git
 
 libvdpau-git: libx11-git
 
+libva-git: libdrm-git libxfixes-git
+
+libva-intel-driver-git: libva-git
+
 libxcursor-git: libxfixes-git libxrender-git
 
 libxfont-git: xproto-git fontsproto-git libfontenc-git xtrans-git

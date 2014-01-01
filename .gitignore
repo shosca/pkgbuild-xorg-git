@@ -32,6 +32,8 @@
 */libpciaccess
 */libSM
 */libvdpau
+*/libva
+*/intel-driver
 */libX11
 */libXau
 */libxaw
