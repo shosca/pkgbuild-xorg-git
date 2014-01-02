@@ -1,13 +1,13 @@
 # $Id: PKGBUILD 198256 2013-10-30 13:45:51Z allan $
 # Maintainer : Ionut Biru <ibiru@archlinux.org>
 
-_realver=1.2.1
+_realver=1.2.2.pre1
 _gitroot="git://anongit.freedesktop.org/vaapi/libva"
 _gitname="libva"
 
 pkgname=libva-git
-pkgver=20140101
-pkgrel=1246
+pkgver=20140102
+pkgrel=1123
 pkgdesc="Video Acceleration (VA) API for Linux"
 arch=('i686' 'x86_64')
 url="http://freedesktop.org/wiki/Software/vaapi"

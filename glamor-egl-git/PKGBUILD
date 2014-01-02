@@ -7,8 +7,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/glamor'
 _gitname="glamor"
 
 pkgname=glamor-egl-git
-pkgver=20140101
-pkgrel=1231
+pkgver=20140102
+pkgrel=1114
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -28,8 +28,7 @@ build() {
   ./autogen.sh \
     --prefix=/usr \
     --disable-static \
-    --enable-glx-tls \
-    --enable-glamor-gles2
+    --enable-glx-tls
   make
 }
 

@@ -1,1 +1,1 @@
-# Xorg packages fresh from git for Archlinux #
+# Xorg packages from git for Archlinux #
