@@ -9,8 +9,8 @@ _gitname="xserver"
 
 pkgbase=xorg-server
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=20140102
-pkgrel=1057
+pkgver=20140103
+pkgrel=1027
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -37,7 +37,7 @@ sha1sums=('SKIP'
 
 prepare() {
   cd "${srcdir}/${_gitname}"
-  #git merge origin/xwayland -m "xwayland"
+  git merge origin/xwayland -m "xwayland"
 }
 
 build() {
