@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libdmx"
 _gitname="libdmx"
 
 pkgname=libdmx-git
-pkgver=20140104
-pkgrel=1120
+pkgver=20140106
+pkgrel=0654
 pkgdesc="X11 Distributed Multihead extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
