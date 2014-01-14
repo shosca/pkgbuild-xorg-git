@@ -9,8 +9,8 @@ _gitname="xserver"
 
 pkgbase=xorg-server
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=20140110
-pkgrel=1353
+pkgver=20140114
+pkgrel=0828
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -37,19 +37,19 @@ sha1sums=('SKIP'
 
 prepare() {
   cd "${srcdir}/${_gitname}"
-  git merge origin/xwayland -m "xwayland"
+  #git merge origin/xwayland -m "xwayland"
 }
 
 build() {
   cd "${srcdir}/${_gitname}"
 
+  # --enable-dmx \
   ./autogen.sh \
       --prefix=/usr \
       --enable-ipv6 \
       --enable-dri \
       --enable-dri2 \
       --enable-dri3 \
-      --enable-dmx \
       --enable-xvfb \
       --enable-xnest \
       --enable-composite \
