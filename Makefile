@@ -36,7 +36,7 @@ pull:
 		$(LOCAL)/
 
 clean:
-	sudo rm -rf */*.log */pkg */src */logpipe*
+	sudo rm -rf *.log */pkg */src */logpipe*
 
 reset: clean
 	sudo rm -f */built $(LOCAL)/*

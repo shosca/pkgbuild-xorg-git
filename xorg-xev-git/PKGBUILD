@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xev"
 _gitname="xev"
 
 pkgname=xorg-xev-git
-pkgver=20140106
-pkgrel=1424
+pkgver=20140116
+pkgrel=0604
 pkgdesc='Print contents of X events'
 url='http://xorg.freedesktop.org/'
 arch=('i686' 'x86_64')
