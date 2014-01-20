@@ -1,7 +1,4 @@
 REPO=xorg-git
-LOCAL=~/public_html/arch/$(REPO)
-REMOTE=buttercup.local:~/public_html/arch/$(REPO)
-
 PWD=$(shell pwd)
 DIRS=$(shell ls | grep 'git')
 DATE=$(shell date +"%Y%m%d")
@@ -19,27 +16,12 @@ TARGETS=$(addsuffix /built, $(DIRS))
 all:
 	$(MAKE) gitpull
 	$(MAKE) build
-	$(MAKE) push
-
-push:
-	$(MAKE) rebuildrepo
-	$(MAKE) pkgpush
-
-pkgpush:
-	rsync -v --recursive --links --times -D --delete \
-		$(LOCAL)/ \
-		$(REMOTE)/
-
-pull:
-	rsync -v --recursive --links --times -D --delete \
-		$(REMOTE)/ \
-		$(LOCAL)/
 
 clean:
 	sudo rm -rf *.log */pkg */src */logpipe*
 
 reset: clean
-	sudo rm -f */built $(LOCAL)/*
+	sudo rm -f */built
 
 show:
 	@echo $(DATE)
@@ -53,8 +35,6 @@ build: $(DIRS)
 
 test:
 	@echo "REPO    : $(REPO)" ; \
-	echo "LOCAL   : $(LOCAL)" ; \
-	echo "REMOTE  : $(REMOTE)" ; \
 	echo "PACMAN  : $(PACMAN)" ; \
 	echo "PKGEXT  : $(PKGEXT)" ; \
 	echo "GITFETCH: $(GITFETCH)" ; \
@@ -77,14 +57,6 @@ test:
 	fi ; \
 	cd $(PWD) ; \
 	rm -f $(addsuffix /built, $(shell grep ' $*' Makefile | cut -d':' -f1)) ; \
-
-#	rm -f $(addsuffix *, $(addprefix $(LOCAL)/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
-
-rebuildrepo:
-	@cd $(LOCAL) ; \
-	rm -f $(LOCAL)/* ; \
-	cp $(PWD)/*/*.$(PKGEXT) . ; \
-	repo-add -q $(LOCAL)/$(REPO).db.tar.gz $(LOCAL)/*$(PKGEXT)
 
 $(DIRS):
 	@if [ ! -f $(PWD)/$@/built ]; then \
@@ -125,6 +97,8 @@ vers: $(VER_TARGETS)
 			rm -f "$(PWD)/$*/built" ; \
 		fi ; \
 	fi
+
+-include Makefile.mk
 
 bigreqsproto-git: xorg-util-macros-git
 
