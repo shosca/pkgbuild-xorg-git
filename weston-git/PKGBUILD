@@ -1,13 +1,13 @@
 # Maintainer: Joel Teichroeb <joel@teichroeb.net>
 # Contributor: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 
-_realver=1.3.91
+_realver=1.3.93
 _gitroot="git://anongit.freedesktop.org/wayland/weston"
 _gitname="weston"
 
 pkgname=weston-git
 pkgver=20140120
-pkgrel=0548
+pkgrel=0553
 pkgdesc="Reference implementation of a Wayland compositor"
 arch=(i686 x86_64)
 url="http://wayland.freedesktop.org"
