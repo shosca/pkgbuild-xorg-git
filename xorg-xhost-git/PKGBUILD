@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xhost"
 _gitname="xhost"
 
 pkgname=xorg-xhost-git
-pkgver=20140116
-pkgrel=0604
+pkgver=20140120
+pkgrel=0207
 pkgdesc="Server access control program for X"
 arch=(i686 x86_64)
 license=('custom')
