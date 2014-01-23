@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/fontsproto'
 _gitname='fontsproto'
 
 pkgname=fontsproto-git
-pkgver=20140120
-pkgrel=0127
+pkgver=20140123
+pkgrel=0726
 pkgdesc='Xorg FontsProto protocol headers'
 url='http://xorg.freedesktop.org/'
 arch=('any')
@@ -16,14 +16,11 @@ license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
 provides=('fontsproto=${_realver}')
 conflicts=('fontsproto')
-source=($_gitroot replace_pointer.patch)
-md5sums=('SKIP'
-         '1f6dfe28292c2184a18759e66008c707')
+source=($_gitroot)
+md5sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  patch -Np1 -i ../replace_pointer.patch
 
   ./autogen.sh --prefix=/usr
   make
