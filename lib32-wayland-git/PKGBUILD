@@ -1,12 +1,12 @@
 # Maintainer: josephgbr <rafael.f.f1@gmail.com>
 
-_realver=1.3.93
+_realver=1.4.0
 _gitroot="git://anongit.freedesktop.org/wayland/wayland"
 _gitname="wayland"
 
 pkgname=lib32-wayland-git
-pkgver=20140121
-pkgrel=0455
+pkgver=20140124
+pkgrel=1425
 pkgdesc='A computer display server protocol (32 bit)'
 arch=('x86_64')
 url='http://wayland.freedesktop.org'

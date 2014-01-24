@@ -2,13 +2,13 @@
 # Previous Contributor: vbmithr
 # Contributor: Flamelab <panosfilip at gmail dot com>
 
-_realver=0.5.1
+_realver=0.6.0
 _gitroot='git://anongit.freedesktop.org/xorg/driver/glamor'
 _gitname="glamor"
 
 pkgname=glamor-egl-git
-pkgver=20140123
-pkgrel=1353
+pkgver=20140124
+pkgrel=1428
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

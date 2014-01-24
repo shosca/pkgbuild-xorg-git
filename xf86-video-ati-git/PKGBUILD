@@ -2,13 +2,13 @@
 # Previous Contributor: vbmithr
 # Contributor: Flamelab <panosfilip at gmail dot com>
 
-_realver=7.2.99
+_realver=7.3.99
 _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-ati'
 _gitname="xf86-video-ati"
 
 pkgname=xf86-video-ati-git
-pkgver=20140123
-pkgrel=1353
+pkgver=20140124
+pkgrel=1428
 pkgdesc="X.org ati video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
