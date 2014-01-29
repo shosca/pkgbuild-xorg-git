@@ -286,7 +286,7 @@ xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git glamor-egl-git
 
 glamor-egl-git: glproto-git xf86driproto-git libx11-git libdrm-git xorg-server-git mesa-git
 
-weston-git: libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git
+weston-git: libinput-git libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git
 
 lib32-pixman-git: pixman-git
 
