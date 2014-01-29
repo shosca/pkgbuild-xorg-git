@@ -8,7 +8,7 @@ _gitname="xev"
 
 pkgname=xorg-xev-git
 pkgver=20140129
-pkgrel=0556
+pkgrel=1423
 pkgdesc='Print contents of X events'
 url='http://xorg.freedesktop.org/'
 arch=('i686' 'x86_64')
