@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXcomposite"
 _gitname="libXcomposite"
 
 pkgname=libxcomposite-git
-pkgver=20140129
-pkgrel=1421
+pkgver=20140130
+pkgrel=0604
 pkgdesc="X11 Composite extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
