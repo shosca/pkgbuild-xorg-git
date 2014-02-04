@@ -7,8 +7,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/glamor'
 _gitname="glamor"
 
 pkgname=glamor-egl-git
-pkgver=20140203
-pkgrel=1236
+pkgver=20140204
+pkgrel=0629
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
