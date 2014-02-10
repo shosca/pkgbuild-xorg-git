@@ -6,7 +6,7 @@ _gitname="libxkbcommon"
 
 pkgname=libxkbcommon-git
 pkgver=20140210
-pkgrel=0546
+pkgrel=1110
 pkgdesc="A library to handle keyboard descriptions."
 url="http://xkbcommon.org/"
 arch=(i686 x86_64)
