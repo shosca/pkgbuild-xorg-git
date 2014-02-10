@@ -9,8 +9,8 @@ _gitname="llvm"
 _realver="3.5svn"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git')
-pkgver=20140207
-pkgrel=1341
+pkgver=20140210
+pkgrel=0805
 arch=('x86_64')
 url="http://llvm.org"
 license=('custom:University of Illinois/NCSA Open Source License')
@@ -108,7 +108,7 @@ package_lib32-llvm-git() {
   ln -s ../LLVMgold.so "$pkgdir/usr/lib32/bfd-plugins/LLVMgold.so"
 
   mv "$pkgdir"/usr/include/llvm/Config/*config.h "$pkgdir/"
-  rm -rf "$pkgdir"/usr/{bin,include,lib,share/{doc,man}}
+  rm -rf "$pkgdir"/usr/{bin,include,lib,share/{llvm,doc,man}}
 
   install -d "$pkgdir/usr/include/llvm/Config"
   mv "$pkgdir/config.h" "$pkgdir/usr/include/llvm/Config/config-32.h"
