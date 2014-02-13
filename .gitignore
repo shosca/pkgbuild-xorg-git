@@ -117,4 +117,5 @@
 */libXxf86dga
 */libxshmfence
 */presentproto
+*/omxil
 Makefile.mk

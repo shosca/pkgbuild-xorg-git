@@ -1,0 +1,34 @@
+# Maintainer: Joni Lapilainen <joni.lapilainen@gmail.com>
+
+_realver=0.9.3
+_gitroot="git://omxil.git.sourceforge.net/gitroot/omxil/omxil"
+_gitname="omxil"
+
+pkgname=libomxil-bellagio-git
+pkgver=20140213
+pkgrel=1023
+pkgdesc="An opensource implementation of the OpenMAX Integration Layer API"
+arch=('arm' 'armv7h' 'i686' 'x86_64')
+url="http://omxil.sourceforge.net"
+license="LGPL"
+makedepends=('doxygen')
+provides=('libomxil-bellagio=${_realver}')
+source=($_gitroot)
+md5sums=(SKIP)
+
+build() {
+  cd "$srcdir/$_gitname"
+
+  autoreconf -i -f
+  sed -i 's/ -Werror//g' configure
+  ./configure --prefix=/usr
+
+  make -j1
+}
+
+package() {
+  cd "$srcdir/$_gitname"
+
+  make DESTDIR="$pkgdir" install
+}
+

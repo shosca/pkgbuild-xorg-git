@@ -100,6 +100,8 @@ vers: $(VER_TARGETS)
 
 -include Makefile.mk
 
+libomxil-bellagio-git:
+
 bigreqsproto-git: xorg-util-macros-git
 
 compositeproto-git: xorg-util-macros-git
@@ -236,7 +238,7 @@ cairo-git: libxrender-git pixman-git xcb-util-git
 
 libclc-git: llvm-git
 
-mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libvdpau-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git
+mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libvdpau-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git libomxil-bellagio-git
 
 glu-git: mesa-git
 

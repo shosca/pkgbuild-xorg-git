@@ -8,13 +8,13 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=20140213
-pkgrel=0624
+pkgrel=1052
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
 depends=('gcc-libs' 'glibc' 'libdrm-git' 'expat' 'libxt-git' 'libxxf86vm-git'
           'libxdamage-git' 'libx11-git' 'libxcb-git' 'libxfixes-git' 'libxext-git'
-          'wayland-git' 'libxshmfence-git')
+          'wayland-git' 'libxshmfence-git' 'libomxil-bellagio-git')
 makedepends=('glproto-git' 'expat' 'gcc-libs' 'dri2proto-git' 'dri3proto-git' 'libtool'
               'python2' 'libxml2' 'llvm-git' 'systemd'
               'libvdpau-git')
@@ -55,8 +55,7 @@ build() {
     --with-llvm-shared-libs \
     --enable-r600-llvm-compiler \
     --enable-opencl \
-
-    #--enable-omx
+    --enable-omx
 
   make
 
@@ -76,10 +75,12 @@ package_ati-dri-git() {
   install -m755 -d ${pkgdir}/usr/lib/vdpau/
   install -m755 -d ${pkgdir}/usr/lib/dri/
   install -m755 -d ${pkgdir}/usr/lib/gallium-pipe/
+  install -m755 -d ${pkgdir}/usr/lib/bellagio/
 
   mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_{r600,radeonsi}.* ${pkgdir}/usr/lib/vdpau/
   mv -v ${srcdir}/fakeinstall/usr/lib/dri/{r200,r300,r600,radeon,radeonsi}_dri.so ${pkgdir}/usr/lib/dri/
   mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_{r300,r600,radeonsi}* ${pkgdir}/usr/lib/gallium-pipe/
+  mv -v ${srcdir}/fakeinstall/usr/lib/bellagio/libomx_{r600,radeonsi}* ${pkgdir}/usr/lib/bellagio/
   #mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCr600.* ${pkgdir}/usr/lib/
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
