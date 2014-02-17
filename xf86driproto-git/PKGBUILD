@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/xf86driproto'
 _gitname='xf86driproto'
 
 pkgname=xf86driproto-git
-pkgver=20131209
-pkgrel=0721
+pkgver=20140217
+pkgrel=1305
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
