@@ -12,6 +12,7 @@ pkgdesc="X.Org Autotools macros"
 arch=(any)
 license=('custom')
 url="http://xorg.freedesktop.org/"
+makedepends=('git')
 provides=('xorg-util-macros=${_realver}')
 conflicts=('xorg-util-macros')
 source=($_gitroot)
