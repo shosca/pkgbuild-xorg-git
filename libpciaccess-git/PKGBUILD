@@ -14,7 +14,7 @@ arch=(i686 x86_64)
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('glibc')
-makedepends=('pkgconfig' 'xorg-util-macros-git')
+makedepends=('git' 'pkgconfig' 'xorg-util-macros-git')
 provides=('libpciaccess=${_realver}')
 conflicts=('libpciaccess')
 options=('!libtool')

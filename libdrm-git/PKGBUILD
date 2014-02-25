@@ -12,7 +12,7 @@ pkgrel=1523
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')
-depends=('libpciaccess>=0.13.1')
+depends=('libpciaccess-git')
 makedepends=('git' 'cairo>=1.12.15' 'udev' 'valgrind')
 provides=('libdrm=${_realver}')
 options=('!libtool')
