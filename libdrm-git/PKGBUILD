@@ -19,7 +19,7 @@ options=('!libtool')
 url="http://dri.freedesktop.org/"
 conflicts=('libdrm')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

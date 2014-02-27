@@ -20,7 +20,7 @@ replaces=('glamor' 'glamor-git')
 options=('!libtool')
 license=('custom')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

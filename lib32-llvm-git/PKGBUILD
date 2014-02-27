@@ -22,9 +22,9 @@ source=(git+$_gitroot
         git+http://llvm.org/git/compiler-rt.git
         installfix.patch
 )
-md5sums=('SKIP'
-         'SKIP'
-         '6040dbb75d701294f302dc12c8cc0c97')
+sha1sums=('SKIP'
+          'SKIP'
+          '99073637ffc688403158ba9c4fa07fe58d3091ab')
 options=('!strip')
 
 prepare() {

@@ -18,7 +18,7 @@ provides=('libxdamage=${_realver}')
 conflicts=('libxdamage')
 options=('!libtool')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

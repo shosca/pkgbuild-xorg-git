@@ -17,9 +17,10 @@ depends=('glibc')
 makedepends=('git' 'pkgconfig' 'xorg-util-macros-git')
 provides=('libpciaccess=${_realver}')
 conflicts=('libpciaccess')
+replaces=('libpciaccess')
 options=('!libtool')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

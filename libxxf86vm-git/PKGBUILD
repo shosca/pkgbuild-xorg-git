@@ -18,7 +18,7 @@ options=('!libtool')
 provides=('libxxf86vm=${_realver}')
 conflicts=('libxxf86vm')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

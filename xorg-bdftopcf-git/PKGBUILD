@@ -19,7 +19,7 @@ provides=('xorg-bdftopcf=${_realver}')
 replaces=('xorg-bdftopcf')
 conflicts=('xorg-bdftopcf')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

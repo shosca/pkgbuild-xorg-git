@@ -14,7 +14,8 @@ url="http://xorg.freedesktop.org/"
 makedepends=('git' 'xorg-util-macros-git' 'xorg-font-util-git')
 license=('custom')
 source=($_gitroot 'LICENSE')
-md5sums=('SKIP' 'ff91ae6d96d76130482d04653e7a836a')
+sha1sums=('SKIP'
+          'f812d8f93ee25d367cb02280a5b6015161417455')
 provides=('xorg-fonts-alias=${_realver}')
 conflicts=('xorg-fonts-alias')
 provides=('xorg-fonts-alias')

@@ -19,7 +19,7 @@ makedepends=('pkgconfig' 'xorg-util-macros-git' 'git')
 license=('custom')
 options=('!libtool')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

@@ -18,7 +18,7 @@ depends=('libxext-git' 'xf86dgaproto-git')
 makedepends=('xorg-util-macros-git' 'git')
 options=('!libtool')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 provides=('libxxf86dga=${_realver}')
 conflicts=('libxxf86dga')
 

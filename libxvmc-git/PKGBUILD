@@ -19,7 +19,7 @@ provides=('libxvmc=${_realver}')
 conflicts=('libxvmc')
 replaces=('libxvmc')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

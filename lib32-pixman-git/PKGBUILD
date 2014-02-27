@@ -19,7 +19,7 @@ conflicts=('lib32-pixman')
 replaces=('lib32-pixman')
 options=('!libtool')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

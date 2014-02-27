@@ -18,7 +18,7 @@ license=('custom')
 provides=('lib32-libxshmfence=${_realver}')
 conflicts=('lib32-libxshmfence')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

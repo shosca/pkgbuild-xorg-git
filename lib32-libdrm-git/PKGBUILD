@@ -20,7 +20,7 @@ url="http://dri.freedesktop.org/"
 provides=('lib32-libdrm=${_realver}')
 conflicts=('lib32-libdrm')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

@@ -18,7 +18,7 @@ makedepends=('git')
 options=(!libtool)
 provides=('weston=${_realver}')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

@@ -17,7 +17,7 @@ makedepends=('xorg-util-macros-git' 'git')
 provides=('xf86dgaproto=${_realver}')
 conflicts=('xf86dgaproto')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

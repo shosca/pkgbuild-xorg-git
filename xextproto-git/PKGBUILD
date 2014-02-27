@@ -17,7 +17,7 @@ makedepends=('xorg-util-macros' 'git')
 provides=('xextproto=${_realver}')
 conflicts=('xextproto')
 source=($_gitroot)
-md5sums=('SKIP')
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

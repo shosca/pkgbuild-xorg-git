@@ -21,7 +21,8 @@ provides=('xf86-input-synaptics=${_realver}')
 conflicts=('xf86-input-synaptics' 'xorg-server<1.10.99.902')
 backup=('etc/X11/xorg.conf.d/10-synaptics.conf')
 source=($_gitroot 10-synaptics.conf)
-md5sums=(SKIP '3b81a81b958dfe3cac3cdef7ee85f1ce')
+sha1sums=('SKIP'
+          '68e1f4ef5e1038231d210eb422fa4d18c5922f0f')
 
 build() {
   cd "${srcdir}/${_gitname}"

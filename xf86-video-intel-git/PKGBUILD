@@ -21,7 +21,7 @@ provides=('xf86-video-intel=${_realver}')
 conflicts=('xf86-video-intel')
 options=('!libtool')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

@@ -20,7 +20,7 @@ provides=('libva=${_realver}')
 conflicts=('libva')
 replaces=('libva')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

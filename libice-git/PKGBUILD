@@ -19,7 +19,7 @@ license=('custom')
 provides=('libice=${_realver}')
 conflicts=('libice')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

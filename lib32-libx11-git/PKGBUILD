@@ -18,7 +18,7 @@ conflicts=('lib32-libx11')
 options=('!libtool')
 license=('custom')
 source=($_gitroot)
-sha256sums=(SKIP)
+sha256sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

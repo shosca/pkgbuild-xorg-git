@@ -19,7 +19,7 @@ provides=('xorg-xset=${_realver}')
 conflicts=('xorg-xset')
 replaces=('xorg-xset')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

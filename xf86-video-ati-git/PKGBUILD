@@ -19,7 +19,7 @@ conflicts=('xorg-server<1.11.0' 'xf86-video-ati')
 options=('!libtool')
 license=('custom')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

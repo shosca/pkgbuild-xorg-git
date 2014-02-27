@@ -17,7 +17,7 @@ provides=('mesa-demos=${_realver}')
 replaces=('mesa-demos')
 conflicts=('mesa-demos')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

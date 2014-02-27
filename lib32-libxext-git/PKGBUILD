@@ -18,7 +18,7 @@ provides=('lib32-libxext=${_1.3.1}')
 conflicts=('lib32-libxext')
 options=('!libtool')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

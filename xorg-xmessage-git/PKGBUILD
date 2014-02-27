@@ -18,7 +18,7 @@ provides=('xorg-xmessage=${_realver}')
 conflicts=('xorg-xmessage')
 replaces=('xorg-xmessage')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

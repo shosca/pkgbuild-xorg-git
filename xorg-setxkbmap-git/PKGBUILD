@@ -18,7 +18,7 @@ makedepends=('xorg-util-macros-git' 'git')
 provides=('xorg-setxkbmap=${_realver}')
 conflicts=('xorg-setxkbmap')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 groups=('xorg-apps' 'xorg')
 
 build() {

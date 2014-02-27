@@ -18,7 +18,7 @@ provides=('libxkbcommon=${_realver}')
 replaces=('libxkbcommon')
 conflicts=('libxkbcommon')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 prepare() {
   mkdir -p x11/usr/{include/xkbcommon,lib/pkgconfig}

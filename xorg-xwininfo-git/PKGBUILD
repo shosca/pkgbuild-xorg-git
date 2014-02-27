@@ -19,7 +19,7 @@ provides=('xorg-xwininfo=${_realver}')
 conflicts=('xorg-xwininfo')
 replaces=('xorg-xwininfo')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

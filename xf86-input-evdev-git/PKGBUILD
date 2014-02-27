@@ -20,7 +20,7 @@ groups=('xorg-drivers' 'xorg')
 provides=("xf86-input-evdev=${_realver}")
 conflicts=("xf86-input-evdev" 'xorg-server<1.10.99.902')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

@@ -20,7 +20,7 @@ provides=('libvdpau=${_realver}')
 conflicts=('libvdpau')
 replaces=('libvdpau')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

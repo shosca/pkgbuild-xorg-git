@@ -17,7 +17,7 @@ makedepends=('python2' 'libxml2' 'git')
 provides=('xcb-proto=${_realver}')
 conflicts=('xcb-proto')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

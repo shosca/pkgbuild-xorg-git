@@ -18,7 +18,7 @@ groups=('xorg-apps' 'xorg')
 provides=('xorg-mkfontscale')
 conflicts=('xorg-mkfontscale')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

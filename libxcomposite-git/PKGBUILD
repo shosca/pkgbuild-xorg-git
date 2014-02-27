@@ -19,7 +19,7 @@ provides=('libxcomposite=${_realver}')
 conflicts=('libxcomposite')
 replaces=('libxcomposite')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

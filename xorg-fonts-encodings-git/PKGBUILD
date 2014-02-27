@@ -18,7 +18,7 @@ options=(!makeflags)
 provides=('xorg-fonts-encodings=${_realver}')
 conflicts=('xorg-fonts-encodings')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

@@ -19,7 +19,7 @@ groups=('xorg-apps' 'xorg')
 provides=('xorg-xev=${_realver}')
 conflicts=('xorg-xev')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

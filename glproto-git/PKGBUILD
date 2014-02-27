@@ -45,3 +45,4 @@ package() {
 
 # vim: ft=sh syn=sh et
 
+md5sums=()

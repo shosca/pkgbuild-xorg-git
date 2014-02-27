@@ -18,7 +18,7 @@ provides=('libva-intel-driver=${_realver}')
 conflicts=('libva-intel-driver')
 replaces=('libva-intel-driver' 'libva-driver-intel')
 source=($_gitroot)
-md5sums=(SKIP)
+sha1sums=('SKIP')
 
 build() {
   cd "${srcdir}/${_gitname}"

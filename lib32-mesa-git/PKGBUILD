@@ -9,7 +9,7 @@ _gitname='mesa'
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
 pkgver=20140227
-pkgrel=1057
+pkgrel=1254
 arch=('x86_64')
 depends=('lib32-elfutils' 'lib32-libdrm-git' 'lib32-expat' 'lib32-libxt-git'
          'lib32-libxxf86vm-git' 'lib32-libxdamage-git' 'lib32-libx11-git'
@@ -23,7 +23,8 @@ url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
 source=($_gitroot LICENSE)
-md5sums=('SKIP' '5c65a0fe315dd347e09b1f2826a1df5a')
+sha1sums=('SKIP'
+          'bb4c16f4331a31bc19bf87f04a749f3e23d1d3c1')
 
 build() {
   cd "${srcdir}/${_gitname}"
