@@ -7,15 +7,15 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=mesa-git
-pkgver=20140226
-pkgrel=0624
+pkgver=20140227
+pkgrel=1004
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
-depends=('gcc-libs' 'glibc' 'libdrm-git' 'expat' 'libxt-git' 'libxxf86vm-git'
+depends=('gcc-libs' 'glibc' 'elfutils' 'libdrm-git' 'expat' 'libxt-git' 'libxxf86vm-git'
           'libxdamage-git' 'libx11-git' 'libxcb-git' 'libxfixes-git' 'libxext-git'
-          'wayland-git' 'libxshmfence-git' 'libomxil-bellagio-git')
-makedepends=('glproto-git' 'expat' 'gcc-libs' 'dri2proto-git' 'dri3proto-git' 'libtool'
+          'wayland-git' 'libxshmfence-git' 'libomxil-bellagio-git' 'libclc-git')
+makedepends=('git' 'glproto-git' 'presentproto-git' 'expat' 'gcc-libs' 'dri2proto-git' 'dri3proto-git' 'libtool'
               'python2' 'libxml2' 'llvm-git' 'systemd'
               'libvdpau-git')
 optdepends=('opengl-man-pages: for the OpenGL API man pages')
@@ -66,7 +66,7 @@ build() {
 }
 
 package_ati-dri-git() {
-  depends=("mesa-libgl-git" "libomxil-bellagio-git")
+  depends=('elfutils' 'mesa-libgl-git' 'libomxil-bellagio-git')
   pkgdesc="Mesa drivers for AMD/ATI Radeon"
   provides=('ati-dri=${_realver}')
   conflicts=('ati-dri' 'xf86-video-ati<6.9.0-6')
@@ -138,7 +138,7 @@ package_svga-dri-git() {
 
 package_opencl-mesa-git() {
   pkgdesc="Mesa OpenCL library"
-  depends=("mesa-git" "llvm-git")
+  depends=('mesa-git' 'llvm-git' 'libclc-git')
   provides=("opencl-mesa=${_realver}" "libcl")
   replaces=('opencl-mesa' 'libcl')
   conflicts=('libcl')
@@ -156,7 +156,8 @@ package_opencl-mesa-git() {
 
 package_mesa-git() {
   pkgdesc="an open-source implementation of the OpenGL specification"
-  depends=('libdrm' 'libvdpau' 'wayland' 'libxshmfence' 'libxxf86vm' 'libxdamage' 'systemd' 'llvm-libs-git')
+  depends=('libdrm-git' 'libvdpau-git' 'wayland-git' 'libxshmfence-git'
+           'libxxf86vm-git' 'libxdamage-git' 'systemd' 'llvm-libs-git')
   optdepends=('opengl-man-pages: for the OpenGL API man pages')
   provides=('mesa=${_realver}' 'libglapi=${_realver}' 'osmesa=${_realver}' 'libgbm=${_realver}' 'libgles=${_realver}' 'libegl=${_realver}' 'khrplatform-devel=${_realver}')
   conflicts=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')

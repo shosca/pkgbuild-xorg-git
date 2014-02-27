@@ -5,13 +5,13 @@ _gitroot='git://github.com/clbr/radeontop.git'
 _gitname='radeontop'
 
 pkgname=radeontop-git
-pkgver=20131231
-pkgrel=1306
+pkgver=20140227
+pkgrel=1148
 pkgdesc='Radeon cards monitoring utility'
 arch=('i686' 'x86_64')
 url='https://github.com/clbr/radeontop'
 license=('GPL3')
-depends=('ncurses' 'xf86-video-ati')
+depends=('ncurses' 'libpciaccess-git')
 makedepends=('git')
 provides=('radeontop')
 conflicts=('radeontop')

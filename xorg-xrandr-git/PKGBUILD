@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xrandr"
 _gitname="xrandr"
 
 pkgname=xorg-xrandr-git
-pkgver=20140220
-pkgrel=1307
+pkgver=20140227
+pkgrel=1235
 pkgdesc="Primitive command line interface to RandR extension"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxrandr>=1.4.0' 'libx11>=1.5.99.901')
-makedepends=('xorg-util-macros-git')
+depends=('libxrandr-git' 'libx11')
+makedepends=('xorg-util-macros-git' 'git')
 groups=('xorg-apps' 'xorg')
 provides=('xorg-xrandr=${_realver}')
 conflicts=('xorg-xrandr')

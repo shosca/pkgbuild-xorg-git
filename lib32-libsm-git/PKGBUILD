@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libSM"
 _gitname="libSM"
 
 pkgname=lib32-libsm-git
-pkgver=20140217
-pkgrel=1306
+pkgver=20140227
+pkgrel=1013
 pkgdesc="X11 Session Management library"
 arch=('x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('lib32-libice>=1.0.8' 'util-linux-ng')
-makedepends=('xorg-util-macros-git' 'xtrans>=1.2.7')
+depends=('lib32-libice-git' 'libsm-git' 'lib32-util-linux')
+makedepends=('gcc-multilib' 'xorg-util-macros-git' 'xtrans-git' 'git')
 options=('!libtool')
 provides=('lib32-libsm=${_realver}')
 conflicts=('lib32-libsm')

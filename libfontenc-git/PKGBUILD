@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libfontenc"
 _gitname="libfontenc"
 
 pkgname=libfontenc-git
-pkgver=20140217
-pkgrel=1305
+pkgver=20140227
+pkgrel=0937
 pkgdesc="X11 font encoding library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('zlib')
-makedepends=('pkgconfig' 'xproto>=7.0.23')
+depends=('zlib' 'xproto-git' 'xorg-font-util-git')
+makedepends=('pkgconfig' 'xorg-util-macros-git' 'git')
 options=('!libtool')
 provides=('libfontenc=${_realver}')
 conflicts=('libfontenc')

@@ -7,13 +7,13 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/glamor'
 _gitname="glamor"
 
 pkgname=glamor-egl-git
-pkgver=20140226
-pkgrel=0630
+pkgver=20140227
+pkgrel=1123
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 depends=('glibc' 'mesa-libgl-git' 'libdrm-git' 'libx11-git')
-makedepends=('glibc' 'xorg-server-devel-git' 'xf86driproto-git' 'glproto-git')
+makedepends=('glibc' 'libxfixes-git' 'xorg-server-devel-git' 'xf86driproto-git' 'glproto-git' 'git')
 provides=('glamor=${_realver}')
 conflicts=('glamor')
 replaces=('glamor' 'glamor-git')

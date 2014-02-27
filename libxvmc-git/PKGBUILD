@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXvMC"
 _gitname="libXvMC"
 
 pkgname=libxvmc-git
-pkgver=20140220
-pkgrel=0618
+pkgver=20140227
+pkgrel=1004
 pkgdesc="X11 Video Motion Compensation extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxv>=1.0.7')
-makedepends=('pkgconfig')
+depends=('libxv-git')
+makedepends=('pkgconfig' 'xorg-util-macros-git' 'git')
 options=('!libtool')
 provides=('libxvmc=${_realver}')
 conflicts=('libxvmc')

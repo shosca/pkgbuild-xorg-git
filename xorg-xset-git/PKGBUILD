@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xset"
 _gitname="xset"
 
 pkgname=xorg-xset-git
-pkgver=20140220
-pkgrel=0617
+pkgver=20140227
+pkgrel=1235
 pkgdesc="User preference utility for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxmu')
-makedepends=('xorg-util-macros')
+depends=('libxmu-git')
+makedepends=('xorg-util-macros-git' 'git')
 groups=('xorg-apps' 'xorg')
 provides=('xorg-xset=${_realver}')
 conflicts=('xorg-xset')

@@ -8,14 +8,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXrandr"
 _gitname="libXrandr"
 
 pkgname=libxrandr-git
-pkgver=20140220
-pkgrel=0615
+pkgver=20140227
+pkgrel=1123
 pkgdesc="X11 RandR extension library"
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libxext>=1.3.1' 'libxrender>=0.9.7' 'randrproto>=1.4.0')
-makedepends=('xorg-util-macros-git')
+depends=('libxext-git' 'libxrender-git' 'randrproto-git')
+makedepends=('xorg-util-macros-git' 'git')
 options=('!libtool')
 provides=('libxrandr=${_realver}')
 conflicts=('libxrandr')

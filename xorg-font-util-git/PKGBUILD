@@ -7,13 +7,13 @@ _gitroot="git://anongit.freedesktop.org/xorg/font/util"
 _gitname="util"
 
 pkgname=xorg-font-util-git
-pkgver=20140217
-pkgrel=1305
+pkgver=20140227
+pkgrel=0937
 pkgdesc='X.Org font utilities'
 url='http://xorg.freedesktop.org/'
 arch=('i686' 'x86_64')
 license=('custom')
-makedepends=('xorg-util-macros-git')
+makedepends=('xorg-util-macros-git' 'git')
 replaces=('font-util')
 provides=('font-util' 'xorg-font-util=${_realver}')
 conflicts=('font-util' 'xorg-font-util')

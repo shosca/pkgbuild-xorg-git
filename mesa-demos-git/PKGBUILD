@@ -5,13 +5,13 @@ _gitroot="git://anongit.freedesktop.org/mesa/demos"
 _gitname="demos"
 
 pkgname=mesa-demos-git
-pkgver=20140226
-pkgrel=0628
+pkgver=20140227
+pkgrel=1146
 pkgdesc="The mesa demos (glxinfo, glxgears, ...), built from the git master branch."
 arch=(i686 x86_64)
 url="http://mesa3d.org/"
 license=('LGPL')
-depends=('mesa-git' 'glew' 'glut')
+depends=('mesa-libgl-git' 'glew-git')
 makedepends=('git')
 provides=('mesa-demos=${_realver}')
 replaces=('mesa-demos')

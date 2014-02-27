@@ -6,13 +6,13 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libxshmfence"
 _gitname="libxshmfence"
 
 pkgname=lib32-libxshmfence-git
-pkgver=20131204
-pkgrel=0735
+pkgver=20140227
+pkgrel=1018
 pkgdesc="X11 shared memory fences using futexes"
 arch=('x86_64')
 url="http://xorg.freedesktop.org"
-depends=('')
-makedepends=('pkgconfig' 'xorg-util-macros-git')
+depends=('libxshmfence-git')
+makedepends=('pkgconfig' 'xorg-util-macros-git' 'git')
 options=(!libtool)
 license=('custom')
 provides=('lib32-libxshmfence=${_realver}')

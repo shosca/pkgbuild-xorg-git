@@ -8,10 +8,11 @@ MAKEPKG=makepkg -sfL
 PKGEXT=pkg.tar.xz
 GITFETCH=git fetch --all -p
 GITCLONE=git clone --mirror
+CHROOTPATH64=/tmp/chroot64/$(REPO)
 
 TARGETS=$(addsuffix /built, $(DIRS))
 
-.PHONY: $(DIRS)
+.PHONY: $(DIRS) checkchroot
 
 all:
 	$(MAKE) gitpull
@@ -31,7 +32,32 @@ updateversions:
 	sed -i "s/^pkgver=[^ ]*/pkgver=$(DATE)/" */PKGBUILD ; \
 	sed -i "s/^pkgrel=[^ ]*/pkgrel=$(TIME)/" */PKGBUILD
 
-build: $(DIRS)
+checkchroot:
+	@if [ ! -d $(CHROOTPATH64) ]; then \
+		echo "Creating working chroot at $(CHROOTPATH64)/root" ; \
+		sudo mkdir -p $(CHROOTPATH64) ;\
+		[[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]] && sudo mkarchroot $(CHROOTPATH64)/root base-devel ; \
+		sudo sed -i -e '/^#\[multilib\]/ s,#,,' \
+			-i -e '/^\[multilib\]/{$$!N; s,#,,}' $(CHROOTPATH64)/root/etc/pacman.conf ; \
+		sudo arch-nspawn $(CHROOTPATH64)/root pacman \
+			-Syyu --noconfirm ; \
+		sudo arch-nspawn $(CHROOTPATH64)/root \
+			/bin/bash -c 'yes | pacman -S gcc-multilib' ; \
+		sudo mkdir -p $(CHROOTPATH64)/root/repo ;\
+		echo "# Added by $$PKG" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
+		echo "[$(REPO)]" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
+		echo "SigLevel = Never" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
+		echo "Server = file:///repo" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
+		echo "Recreating working repo $(REPO)" ; \
+		sudo cp */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
+		sudo repo-add $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
+	fi
+
+resetchroot:
+	sudo rm -rf $(CHROOTPATH64) && $(MAKE) checkchroot
+
+build:
+	@$(MAKE) $(DIRS);
 
 test:
 	@echo "REPO    : $(REPO)" ; \
@@ -39,6 +65,7 @@ test:
 	echo "PKGEXT  : $(PKGEXT)" ; \
 	echo "GITFETCH: $(GITFETCH)" ; \
 	echo "GITCLONE: $(GITCLONE)"
+
 
 %/built:
 	@_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
@@ -48,8 +75,12 @@ test:
 	fi ; \
 	cd $* ; \
 	rm -f *$(PKGEXT) *.log ; \
-	yes y$$'\n' | $(MAKEPKG) || exit 1 && \
-	yes y$$'\n' | $(PACMAN) -U --force *.$(PKGEXT) ; \
+	sudo makechrootpkg -c -u -r $(CHROOTPATH64) || exit 1 && \
+	sudo rm -f $(addsuffix *, $(addprefix $(CHROOTPATH64)/root/repo/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
+	sudo cp *.$(PKGEXT) $(CHROOTPATH64)/root/repo/ ; \
+	for f in *.$(PKGEXT) ; do \
+		sudo repo-add $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/"$$f" ; \
+	done ; \
 	if [ -f $(PWD)/$*/$$_gitname/HEAD ]; then \
 		cd $(PWD)/$*/$$_gitname ; git log -1 | head -n1 > $(PWD)/$*/built ; \
 	else \
@@ -58,7 +89,7 @@ test:
 	cd $(PWD) ; \
 	rm -f $(addsuffix /built, $(shell grep ' $*' Makefile | cut -d':' -f1)) ; \
 
-$(DIRS):
+$(DIRS): checkchroot
 	@if [ ! -f $(PWD)/$@/built ]; then \
 		$(MAKE) $@/built ; \
 	fi
@@ -102,6 +133,8 @@ vers: $(VER_TARGETS)
 
 libomxil-bellagio-git:
 
+xorg-util-macros-git:
+
 bigreqsproto-git: xorg-util-macros-git
 
 compositeproto-git: xorg-util-macros-git
@@ -116,7 +149,7 @@ dri2proto-git: xorg-util-macros-git
 
 dri3proto-git: xorg-util-macros-git
 
-fixesproto-git: xorg-util-macros-git
+fixesproto-git: xorg-util-macros-git xproto-git xextproto-git
 
 fontsproto-git: xorg-util-macros-git
 
@@ -164,7 +197,7 @@ libshmfence-git: xorg-util-macros-git
 
 libdrm-git: libpciaccess-git
 
-libfontenc-git: xproto-git
+libfontenc-git: xproto-git xorg-font-util-git
 
 libxdmcp-git: xproto-git
 
@@ -196,7 +229,7 @@ libice-git: xproto-git xtrans-git
 
 libsm-git: libice-git xtrans-git xorg-util-macros-git
 
-libxt: libx11-git libsm-git
+libxt-git: libx11-git libsm-git
 
 libxmu-git: libxext-git libxt-git
 
@@ -238,17 +271,19 @@ cairo-git: libxrender-git pixman-git xcb-util-git
 
 libclc-git: llvm-git
 
-mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libvdpau-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git libomxil-bellagio-git
+mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libvdpau-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git libomxil-bellagio-git libxshmfence-git
 
 glu-git: mesa-git
 
-mesa-demos-git: mesa-git
+glew-git: glu-git
+
+mesa-demos-git: mesa-git glew-git
 
 xorg-font-util-git: xorg-util-macros-git
 
 xorg-setxkbmap-git: libxkbfile-git xorg-util-macros-git
 
-xorg-server-git: bigreqsproto-git presentproto-git compositeproto-git dmxproto-git dri2proto-git dri3proto-git fontsproto-git glproto-git inputproto-git randrproto-git recordproto-git renderproto-git resourceproto-git scrnsaverproto-git videoproto-git xcmiscproto-git xextproto-git xf86dgaproto-git xf86driproto-git xineramaproto-git libdmx-git libdrm-git libpciaccess-git libx11-git libxau-git libxaw-git libxdmcp-git libxext-git libxfixes-git libxfont-git libxi-git libxkbfile-git libxmu-git libxrender-git libxres-git libxtst-git libxv-git mesa-git pixman-git xkeyboard-config-git xorg-font-util-git xorg-setxkbmap-git xorg-util-macros-git xorg-xkbcomp-git xtrans-git wayland-git xcb-util-image-git xcb-util-wm-git libxshmfence-git
+xorg-server-git: bigreqsproto-git presentproto-git compositeproto-git dmxproto-git dri2proto-git dri3proto-git fontsproto-git glproto-git inputproto-git randrproto-git recordproto-git renderproto-git resourceproto-git scrnsaverproto-git videoproto-git xcmiscproto-git xextproto-git xf86dgaproto-git xf86driproto-git xineramaproto-git libdmx-git libdrm-git libpciaccess-git libx11-git libxau-git libxaw-git libxdmcp-git libxext-git libxfixes-git libxfont-git libxi-git libxkbfile-git libxmu-git libxrender-git libxres-git libxtst-git libxv-git mesa-git pixman-git xkeyboard-config-git xorg-font-util-git xorg-setxkbmap-git xorg-util-macros-git xorg-xkbcomp-git xtrans-git wayland-git xcb-util-image-git xcb-util-wm-git xcb-util-keysyms-git libxshmfence-git
 
 xorg-xauth-git: libxmu-git
 
@@ -274,9 +309,9 @@ xorg-xmessage-git: libxaw-git
 
 xorg-fonts-encodings-git: xorg-mkfontscale-git xorg-util-macros-git xorg-font-util-git
 
-xf86-input-evdev-git: xorg-server-git
+xf86-input-evdev-git: xorg-server-git libevdev-git libxi-git libxtst-git resourceproto-git scrnsaverproto-git
 
-xf86-input-synaptics-git: xorg-server-git
+xf86-input-synaptics-git: xorg-server-git libevdev-git libxi-git libxtst-git resourceproto-git scrnsaverproto-git
 
 xf86-video-ati-git: xorg-server-git mesa-git glamor-egl-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
 
@@ -289,6 +324,8 @@ xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git glamor-egl-git
 glamor-egl-git: glproto-git xf86driproto-git libx11-git libdrm-git xorg-server-git mesa-git
 
 weston-git: libinput-git libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git
+
+lib32-libpciaccess-git:
 
 lib32-pixman-git: pixman-git
 
@@ -324,11 +361,11 @@ lib32-libxt-git: libxt-git lib32-libsm-git lib32-libx11-git
 
 lib32-wayland-git: wayland-git
 
-lib32-mesa-git: glproto-git lib32-libxshmfence-git lib32-libdrm-git lib32-llvm-git lib32-libxvmc-git lib32-libvdpau-git lib32-libxxf86vm-git lib32-libxdamage-git lib32-libx11-git lib32-libxt-git lib32-wayland-git mesa-git
+lib32-mesa-git: glproto-git lib32-libxshmfence-git lib32-libdrm-git lib32-llvm-git lib32-libxvmc-git lib32-libvdpau-git lib32-libxxf86vm-git lib32-libxdamage-git lib32-libx11-git lib32-libxt-git lib32-wayland-git mesa-git lib32-libxshmfence-git
 
 lib32-llvm-git: llvm-git
 
-lib32-libdrm-git: libdrm-git
+lib32-libdrm-git: libdrm-git lib32-libpciaccess-git
 
 lib32-libxshmfence-git: libxshmfence-git
 

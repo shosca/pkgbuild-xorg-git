@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXxf86vm"
 _gitname="libXxf86vm"
 
 pkgname=libxxf86vm-git
-pkgver=20140220
-pkgrel=0614
+pkgver=20140227
+pkgrel=1004
 pkgdesc="X11 XFree86 video mode extension library"
 arch=('x86_64' 'i686')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libxext>=1.3.1' 'xf86vidmodeproto>=2.3.1')
-makedepends=('xorg-util-macros-git')
+depends=('libxext-git' 'xf86vidmodeproto-git')
+makedepends=('xorg-util-macros-git' 'git')
 options=('!libtool')
 provides=('libxxf86vm=${_realver}')
 conflicts=('libxxf86vm')

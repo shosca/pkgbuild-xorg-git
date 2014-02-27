@@ -7,14 +7,14 @@ _gitroot="git://anongit.freedesktop.org/xcb/util-wm"
 _gitname="util-wm"
 
 pkgname=xcb-util-wm-git
-pkgver=20140220
-pkgrel=0606
+pkgver=20140227
+pkgrel=0956
 pkgdesc="Utility libraries for XC Binding - client and window-manager helpers for ICCCM"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
 license=('custom')
-depends=('libxcb>=1.7')
-makedepends=('xorg-util-macros')
+depends=('libxcb-git')
+makedepends=('git' 'xorg-util-macros-git')
 options=('!libtool')
 source=($_gitroot 'LICENSE')
 sha256sums=('SKIP'

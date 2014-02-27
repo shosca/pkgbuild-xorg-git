@@ -5,13 +5,13 @@ _realver=1.7.2
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXi"
 _gitname="libXi"
 pkgname=libxi-git
-pkgver=20140220
-pkgrel=0613
+pkgver=20140227
+pkgrel=1003
 pkgdesc="X11 Input extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"
-depends=('libxext>=1.3.1' 'inputproto>=2.3')
-makedepends=('pkgconfig' 'xorg-util-macros-git')
+depends=('libxext-git' 'libxfixes-git' 'inputproto-git')
+makedepends=('pkgconfig' 'xorg-util-macros-git' 'git')
 options=(!libtool)
 license=('custom')
 provides=('libxi=${_realver}')

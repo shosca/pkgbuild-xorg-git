@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXpm"
 _gitname="libXpm"
 
 pkgname=libxpm-git
-pkgver=20140220
-pkgrel=0613
+pkgver=20140227
+pkgrel=1003
 pkgdesc="X11 pixmap library"
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libxt' 'libxext')
-makedepends=('xorg-util-macros')
+depends=('libxt-git' 'libxext-git')
+makedepends=('xorg-util-macros-git' 'git')
 options=('!libtool')
 provides=('libxpm=${_realver}')
 conflicts=('libxpm')

@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xrdb"
 _gitname="xrdb"
 
 pkgname=xorg-xrdb-git
-pkgver=20140220
-pkgrel=0616
+pkgver=20140227
+pkgrel=1235
 pkgdesc="X.Org authorization settings program"
 arch=(i686 x86_64)
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libxmu' 'mcpp')
-makedepends=('xorg-util-macros-git')
+depends=('libxmu-git' 'mcpp')
+makedepends=('xorg-util-macros-git' 'git')
 groups=('xorg-apps' 'xorg')
 provides=('xorg-xrdb=${_realver}')
 conflicts=('xorg-xrdb')

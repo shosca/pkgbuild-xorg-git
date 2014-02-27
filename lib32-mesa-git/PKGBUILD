@@ -8,14 +8,17 @@ _gitname='mesa'
 
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
-pkgver=20140226
-pkgrel=0632
+pkgver=20140227
+pkgrel=1057
 arch=('x86_64')
-makedepends=('glproto' 'lib32-libxshmfence' 'lib32-libdrm'
-             'lib32-libvdpau' 'lib32-libxxf86vm' 'lib32-libxdamage'
-             'lib32-expat' 'lib32-libx11' 'lib32-libxt' 'gcc-multilib'
-             'dri2proto-git' 'python2' 'libxml2' 'lib32-llvm-git'
-             'lib32-systemd')
+depends=('lib32-elfutils' 'lib32-libdrm-git' 'lib32-expat' 'lib32-libxt-git'
+         'lib32-libxxf86vm-git' 'lib32-libxdamage-git' 'lib32-libx11-git'
+         'lib32-libxcb-git' 'lib32-libxfixes-git' 'lib32-libxext-git'
+         'lib32-wayland-git' 'lib32-libxshmfence-git')
+makedepends=('gcc-multilib' 'git' 'glproto-git' 'presentproto-git' 'lib32-expat' 
+             'dri2proto-git' 'dri3proto-git' 'libtool' 'python2' 'libxml2'
+             'lib32-llvm-git' 'lib32-systemd' 'lib32-libvdpau-git')
+
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
@@ -110,7 +113,7 @@ package_lib32-nouveau-dri-git() {
 
 package_lib32-mesa-git() {
   pkgdesc="an open-source implementation of the OpenGL specification"
-  depends=('lib32-libdrm' 'lib32-libxshmfence' 'lib32-libxxf86vm' 'lib32-libxdamage' 'lib32-systemd' 'lib32-wayland')
+  depends=('lib32-libdrm-git' 'lib32-libxshmfence-git' 'lib32-libxxf86vm-git' 'lib32-libxdamage-git' 'lib32-systemd' 'lib32-wayland-git')
   optdepends=('opengl-man-pages: for the OpenGL API man pages')
   provides=('lib32-mesa=${_realver}' 'lib32-libglapi=${_realver}' 'lib32-osmesa=${_realver}' 'lib32-libgbm=${_realver}' 'lib32-libgles=${_realver}' 'lib32-libegl=${_realver}')
   conflicts=('lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')

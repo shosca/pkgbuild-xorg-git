@@ -66,6 +66,7 @@
 */libXxf86vm
 */llvm
 */clang
+*/clang-tools-extra
 */compiler-rt
 */macros
 */mesa
@@ -118,4 +119,6 @@
 */libxshmfence
 */presentproto
 */omxil
+*/glew
+*/libevdev
 Makefile.mk

@@ -7,13 +7,13 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/xf86dgaproto'
 _gitname='xf86dgaproto'
 
 pkgname=xf86dgaproto-git
-pkgver=20140217
-pkgrel=1305
+pkgver=20140227
+pkgrel=0935
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('xorg-util-macros-git' 'git')
 provides=('xf86dgaproto=${_realver}')
 conflicts=('xf86dgaproto')
 source=($_gitroot)

@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xwininfo"
 _gitname="xwininfo"
 
 pkgname=xorg-xwininfo-git
-pkgver=20140220
-pkgrel=0611
+pkgver=20140227
+pkgrel=1235
 pkgdesc="Command-line utility to print information about windows on an X server"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxcb>=1.9')
-makedepends=('xorg-util-macros-git' 'libx11>=1.5.99.901')
+depends=('libxcb-git')
+makedepends=('xorg-util-macros-git' 'libx11' 'git')
 groups=('xorg-apps' 'xorg')
 provides=('xorg-xwininfo=${_realver}')
 conflicts=('xorg-xwininfo')

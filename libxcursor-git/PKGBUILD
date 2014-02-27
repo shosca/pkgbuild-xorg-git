@@ -7,14 +7,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXcursor"
 _gitname="libXcursor"
 
 pkgname=libxcursor-git
-pkgver=20140220
-pkgrel=0611
+pkgver=20140227
+pkgrel=1105
 pkgdesc="X cursor management library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxfixes>=5.0' 'libxrender>=0.9.7')
-makedepends=('xorg-util-macros')
+depends=('libxfixes-git' 'libxrender-git')
+makedepends=('xorg-util-macros-git' 'git')
 options=('!libtool')
 provides=('libxcursor=${_realver}')
 conflicts=('libxcursor')

@@ -6,14 +6,14 @@ _gitroot='git://anongit.freedesktop.org/xorg/lib/libxkbfile'
 _gitname='libxkbfile'
 
 pkgname=libxkbfile-git
-pkgver=20140220
-pkgrel=0610
+pkgver=20140227
+pkgrel=0937
 pkgdesc="X11 keyboard file manipulation library"
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libx11>=1.5.99.901')
-makedepends=('xorg-util-macros-git')
+depends=('libx11-git')
+makedepends=('xorg-util-macros-git' 'git')
 options=('!libtool')
 provides=('libxkbfile=${_realver}')
 conflicts=('libxkbfile')

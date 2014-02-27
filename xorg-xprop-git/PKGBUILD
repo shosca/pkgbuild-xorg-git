@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xprop"
 _gitname="xprop"
 
 pkgname=xorg-xprop-git
-pkgver=20140220
-pkgrel=0610
+pkgver=20140227
+pkgrel=1235
 pkgdesc="Property displayer for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libx11>=1.5.99.901')
-makedepends=('xorg-util-macros-git')
+depends=('libx11')
+makedepends=('xorg-util-macros-git' 'git')
 groups=('xorg-apps' 'xorg')
 provides=('xorg-xprop=${_realver}')
 conflicts=('xorg-xprop')

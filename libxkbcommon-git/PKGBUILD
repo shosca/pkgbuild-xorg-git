@@ -4,20 +4,25 @@ _realver=0.4.0
 _gitroot="git://github.com/xkbcommon/libxkbcommon.git"
 _gitname="libxkbcommon"
 
-pkgname=libxkbcommon-git
-pkgver=20140224
-pkgrel=0613
+pkgbase=libxkbcommon-git
+pkgname=('libxkbcommon-git' 'libxkbcommon-x11-git')
+pkgver=20140227
+pkgrel=1121
 pkgdesc="A library to handle keyboard descriptions."
 url="http://xkbcommon.org/"
 arch=(i686 x86_64)
 license=('custom')
-makedepends=('git' 'xorg-util-macros-git' 'xkeyboard-config')
+depends=('xkeyboard-config-git')
+makedepends=('git' 'doxygen' 'xorg-util-macros-git' 'libxcb-git')
 provides=('libxkbcommon=${_realver}')
 replaces=('libxkbcommon')
 conflicts=('libxkbcommon')
-options=(!libtool)
 source=($_gitroot)
 md5sums=(SKIP)
+
+prepare() {
+  mkdir -p x11/usr/{include/xkbcommon,lib/pkgconfig}
+}
 
 build() {
   cd "${srcdir}/${_gitname}"
@@ -26,9 +31,20 @@ build() {
   make
 }
 
-package() {
+package_libxkbcommon-git() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
+
+  mv "$pkgdir"/usr/lib/*x11* "$srcdir/x11/usr/lib"
+  mv "$pkgdir"/usr/lib/pkgconfig/*x11* "$srcdir/x11/usr/lib/pkgconfig"
+  mv "$pkgdir"/usr/include/xkbcommon/*x11* "$srcdir/x11/usr/include/xkbcommon"
+}
+
+package_libxkbcommon-x11-git() {
+  pkgdesc="Keyboard handling library using XKB data for X11 XCB clients"
+  depends=('libxkbcommon-git' 'libxcb-git')
+
+  mv x11/* '$pkgdir'
 }
 # vim: ft=sh syn=sh et
 

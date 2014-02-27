@@ -6,13 +6,13 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libX11"
 _gitname="libX11"
 
 pkgname=libx11-git
-pkgver=20140220
-pkgrel=0605
+pkgver=20140227
+pkgrel=0931
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
-depends=('libxcb>=1.9' 'xproto>=7.0.23' 'kbproto>=1.0.6')
-makedepends=('xorg-util-macros-git' 'xextproto>=7.2.1' 'xtrans>=1.2.7' 'inputproto>=2.3')
+depends=('libxcb-git' 'xproto-git' 'kbproto-git')
+makedepends=('git' 'xorg-util-macros-git' 'xextproto-git' 'xtrans-git' 'inputproto-git')
 provides=('libx11=${_realver}')
 conflicts=('libx11')
 options=('!libtool')

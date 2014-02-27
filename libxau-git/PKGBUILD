@@ -6,16 +6,16 @@ _realver=1.0.8
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXau"
 _gitname="libXau"
 
-pkgname=lib32-libxau-git
-pkgver=20140217
-pkgrel=1305
+pkgname=libxau-git
+pkgver=20140227
+pkgrel=0930
 pkgdesc="X11 authorisation library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
-depends=('glibc' 'xproto>=7.0.23')
-provides=('lib32-libxau=${_realver}')
-conflicts=('lib32-libxau')
-makedepends=('pkgconfig')
+depends=('glibc' 'xproto-git')
+provides=('libxau=${_realver}')
+conflicts=('libxau')
+makedepends=('pkgconfig' 'xorg-util-macros-git' 'git')
 license=('custom')
 options=('!libtool')
 source=($_gitroot)
@@ -24,16 +24,7 @@ md5sums=(SKIP)
 build() {
   cd "${srcdir}/${_gitname}"
 
-  export CC="gcc -m32"
-  export CXX="g++ -m32"
-  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-
-  ./autogen.sh \
-    --prefix=/usr \
-    --libdir=/usr/lib32 \
-    --sysconfdir=/etc \
-    --disable-static
-
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc
   make
 }
 
@@ -41,7 +32,7 @@ package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
 
-  rm -rf "${pkgdir}"/usr/{include,share}
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 # vim: ft=sh syn=sh et
 

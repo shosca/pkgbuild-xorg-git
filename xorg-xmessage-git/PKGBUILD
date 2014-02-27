@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xmessage"
 _gitname="xmessage"
 
 pkgname=xorg-xmessage-git
-pkgver=20140220
-pkgrel=0620
+pkgver=20140227
+pkgrel=1235
 pkgdesc="Display a message or query in a window"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxaw')
-makedepends=('xorg-util-macros')
+depends=('libxaw-git')
+makedepends=('xorg-util-macros-git' 'git')
 provides=('xorg-xmessage=${_realver}')
 conflicts=('xorg-xmessage')
 replaces=('xorg-xmessage')

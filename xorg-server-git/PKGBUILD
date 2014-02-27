@@ -7,24 +7,26 @@ _realver=1.15.99.901
 _gitroot="git://anongit.freedesktop.org/xorg/xserver"
 _gitname="xserver"
 
-pkgbase=xorg-server
+pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=20140226
-pkgrel=0628
+pkgver=20140227
+pkgrel=1121
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
-makedepends=('bigreqsproto-git' 'presentproto-git' 'compositeproto-git'
+makedepends=('git' 'bigreqsproto-git' 'presentproto-git' 'compositeproto-git'
              'dmxproto-git' 'dri2proto-git' 'dri3proto-git' 'fontsproto-git'
-             'git' 'glproto-git' 'inputproto-git' 'libdmx>=1.1.2' 'libgcrypt'
-             'libgl' 'libpciaccess-git' 'libx11-git' 'libxaw' 'libxfont-git'
+             'glproto-git' 'inputproto-git' 'libdmx-git' 'libgcrypt'
+             'libpciaccess-git' 'libx11-git' 'libxaw-git' 'libxfont-git'
              'libxi-git' 'libxkbfile-git' 'libxmu-git' 'libxrender-git'
-             'libxres-git' 'libxtst-git' 'libxv-git' 'mesa-git' 'pixman-git'
+             'libxres-git' 'libxtst-git' 'libxv-git' 'mesa-libgl-git' 'pixman-git'
              'randrproto-git' 'recordproto-git' 'renderproto-git'
              'resourceproto-git' 'scrnsaverproto-git' 'udev' 'videoproto-git'
              'xcmiscproto-git' 'xextproto-git' 'xf86dgaproto-git'
              'xf86driproto-git' 'xineramaproto-git' 'xorg-font-util-git'
-             'xorg-util-macros-git' 'xorg-xkbcomp-git' 'xtrans-git')
+             'xorg-util-macros-git' 'xorg-xkbcomp-git' 'xtrans-git'
+             'xcb-util-git' 'xcb-util-image-git' 'xcb-util-wm-git' 'xcb-util-keysyms-git'
+             'libxshmfence-git')
 options=('!libtool')
 source=($_gitroot
         xvfb-run
@@ -104,10 +106,13 @@ package_xorg-server-common-git() {
 
 package_xorg-server-devel-git() {
   pkgdesc="Development files for the X.Org X server from Git"
-  depends=('dri2proto-git' 'dri3proto-git' 'fontsproto-git' 'inputproto-git'
-           'kbproto-git' 'libpciaccess-git' 'pixman-git' 'randrproto-git'
-           'renderproto-git' 'videoproto-git' 'xextproto-git' 'xproto-git'
-           'xineramaproto-git' 'xorg-util-macros-git')
+  depends=('xproto-git' 'randrproto-git' 'renderproto-git' 
+    'xextproto-git' 'inputproto-git' 'kbproto-git'
+    'fontsproto-git' 'pixman-git' 'videoproto-git' 
+    'xf86driproto-git' 'glproto-git' 'mesa-git'
+    'dri2proto-git' 'dri3proto-git' 'xineramaproto-git'
+    'libpciaccess-git' 'resourceproto-git' 'scrnsaverproto-git'
+    'presentproto-git' 'xorg-util-macros-git')
   provides=("xorg-server-devel=${_realver}")
   conflicts=('xorg-server-devel')
 

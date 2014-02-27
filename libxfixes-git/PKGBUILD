@@ -6,16 +6,16 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXfixes"
 _gitname="libXfixes"
 
 pkgname=libxfixes-git
-pkgver=20140220
-pkgrel=0610
+pkgver=20140227
+pkgrel=0936
 pkgdesc="X11 miscellaneous 'fixes' extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
+depends=('libx11-git' 'fixesproto-git')
+makedepends=('xorg-util-macros-git' 'git')
 license=('custom')
 provides=('libxfixes=${_realver}')
 conflicts=('libxfixes')
-depends=('libx11>=1.5.99.901' 'fixesproto>=5.0')
-makedepends=('xorg-util-macros-git')
 options=('!libtool')
 source=($_gitroot)
 md5sums=(SKIP)

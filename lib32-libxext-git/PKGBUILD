@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXext"
 _gitname="libXext"
 
 pkgname=lib32-libxext-git
-pkgver=20140220
-pkgrel=0618
+pkgver=20140227
+pkgrel=1017
 pkgdesc="X11 miscellaneous extensions library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('lib32-libx11>=1.5.99.901' 'xextproto>=7.2.1')
-makedepends=('xorg-util-macros-git')
+depends=('lib32-libx11-git' 'xextproto-git')
+makedepends=('xorg-util-macros-git' 'git')
 provides=('lib32-libxext=${_1.3.1}')
 conflicts=('lib32-libxext')
 options=('!libtool')

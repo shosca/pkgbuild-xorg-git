@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xhost"
 _gitname="xhost"
 
 pkgname=xorg-xhost-git
-pkgver=20140220
-pkgrel=0616
+pkgver=20140227
+pkgrel=1235
 pkgdesc="Server access control program for X"
 arch=(i686 x86_64)
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libxmu')
-makedepends=('xorg-util-macros-git')
+depends=('libx11-git' 'xtrans-git' 'libxmu-git')
+makedepends=('xorg-util-macros-git' 'git')
 groups=('xorg-apps' 'xorg')
 provides=('xorg-xhost=${_realver}')
 conflicts=('xorg-xhost')

@@ -6,14 +6,14 @@ _gitroot='git://anongit.freedesktop.org/xorg/app/xkbcomp'
 _gitname='xkbcomp'
 
 pkgname=xorg-xkbcomp-git
-pkgver=20140206
-pkgrel=0558
+pkgver=20140227
+pkgrel=0956
 pkgdesc="X Keyboard description compiler"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxkbfile>=1.0.8')
-makedepends=('xorg-util-macros-git')
+depends=('libxkbfile-git')
+makedepends=('xorg-util-macros-git' 'git')
 groups=('xorg-apps' 'xorg')
 provides=('xorg-xkbcomp=1.2.4')
 conflicts=('xorg-xkbcomp')

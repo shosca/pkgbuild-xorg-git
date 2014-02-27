@@ -5,13 +5,13 @@ _gitroot="git://omxil.git.sourceforge.net/gitroot/omxil/omxil"
 _gitname="omxil"
 
 pkgname=libomxil-bellagio-git
-pkgver=20140213
-pkgrel=1023
+pkgver=20140227
+pkgrel=0953
 pkgdesc="An opensource implementation of the OpenMAX Integration Layer API"
 arch=('arm' 'armv7h' 'i686' 'x86_64')
 url="http://omxil.sourceforge.net"
 license="LGPL"
-makedepends=('doxygen')
+makedepends=('doxygen' 'git')
 provides=('libomxil-bellagio=${_realver}')
 source=($_gitroot)
 md5sums=(SKIP)

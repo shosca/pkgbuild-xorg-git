@@ -7,14 +7,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/setxkbmap"
 _gitname="setxkbmap"
 
 pkgname=xorg-setxkbmap-git
-pkgver=20140220
-pkgrel=0615
+pkgver=20140227
+pkgrel=0956
 pkgdesc='Set the keyboard using the X Keyboard Extension'
 url='http://xorg.freedesktop.org/'
 license=('custom')
 arch=('i686' 'x86_64')
-depends=('libxkbfile>=1.0.8')
-makedepends=('xorg-util-macros-git')
+depends=('libxkbfile-git')
+makedepends=('xorg-util-macros-git' 'git')
 provides=('xorg-setxkbmap=${_realver}')
 conflicts=('xorg-setxkbmap')
 source=($_gitroot)

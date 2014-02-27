@@ -4,13 +4,13 @@ _gitroot='git://github.com/llvm-mirror/libclc.git'
 _gitname=libclc
 
 pkgname=libclc-git
-pkgver=20140226
-pkgrel=0624
+pkgver=20140227
+pkgrel=0951
 pkgdesc="Library requirements of the OpenCL C programming language"
 arch=('i686' 'x86_64')
 url="http://libclc.llvm.org/"
 license=('MIT')
-depends=('clang')
+depends=(llvm-git llvm-libs-git llvm-ocaml-git clang-git clang-analyzer-git)
 makedepends=('git' 'python2')
 source=($_gitroot)
 md5sums=('SKIP')
@@ -20,7 +20,10 @@ conflicts=('libclc')
 
 build() {
   cd "${srcdir}/${_gitname}"
-  python2 ./configure.py --prefix=/usr
+  /usr/bin/python2 ./configure.py \
+    --prefix=/usr \
+    --with-llvm-config=/usr/bin/llvm-config
+  sed -i 's/ python / python2 /' Makefile
   make
 }
 

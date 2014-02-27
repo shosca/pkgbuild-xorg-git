@@ -6,12 +6,13 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libxtrans"
 _gitname="libxtrans"
 
 pkgname=xtrans-git
-pkgver=20140127
-pkgrel=1015
+pkgver=20140227
+pkgrel=0930
 pkgdesc="X transport library"
 arch=('any')
 license=('custom')
 url="http://xorg.freedesktop.org/"
+makedepends=('xorg-util-macros-git' 'git')
 options=(!emptydirs)
 provides=('xtrans=${_realver}')
 conflicts=('xtrans')

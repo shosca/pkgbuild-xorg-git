@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXRes"
 _gitname="libXRes"
 
 pkgname=libxres-git
-pkgver=20140220
-pkgrel=0613
+pkgver=20140227
+pkgrel=1003
 pkgdesc="X11 Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"
 license=('custom')
-depends=('libxext>=1.3.1')
-makedepends=('resourceproto>=1.2.0' 'damageproto>=1.2.1' 'compositeproto>=0.4.2' 'scrnsaverproto>=1.2.2' 'xorg-util-macros-git')
+depends=('libxext-git')
+makedepends=('resourceproto-git' 'damageproto-git' 'compositeproto-git' 'scrnsaverproto' 'xorg-util-macros-git' 'git')
 options=('!libtool')
 provides=('libxres=${_realver}')
 conflicts=('libxres')

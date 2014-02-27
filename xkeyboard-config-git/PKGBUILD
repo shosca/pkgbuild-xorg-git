@@ -3,33 +3,25 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _realver=2.11
+_gitroot='git://anongit.freedesktop.org/xkeyboard-config'
+_gitname='xkeyboard-config'
+
 pkgname=xkeyboard-config-git
-pkgver=20140224
-pkgrel=0613
+pkgver=20140227
+pkgrel=1118
 pkgdesc="X keyboard configuration files"
 arch=(any)
 license=('custom')
 url="http://www.freedesktop.org/wiki/Software/XKeyboardConfig"
-depends=('xorg-xkbcomp')
-makedepends=('intltool')
+depends=('xorg-xkbcomp-git')
+makedepends=('intltool' 'xorg-util-macros-git' 'git')
 provides=('xkbdata' 'xkeyboard-config=${_realver}')
 replaces=('xkbdata')
 conflicts=('xkbdata' 'xkeyboard-config')
-
-_gitroot='git://anongit.freedesktop.org/xkeyboard-config'
-_gitname='xkeyboard-config'
+source=($_gitroot)
+md5sums=(SKIP)
 
 build() {
-  cd "${srcdir}"
-  msg 'Connecting to GIT server....'
-  if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git clean -xfd && git checkout -f && git pull origin
-  else
-    git clone --depth 1 ${_gitroot} ${_gitname}
-  fi
-  msg 'GIT checkout done or server timeout'
-  msg 'Starting make...'
-
   cd "${srcdir}/${_gitname}"
 
 

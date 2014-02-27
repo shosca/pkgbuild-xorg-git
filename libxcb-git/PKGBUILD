@@ -7,13 +7,13 @@ _gitroot="git://anongit.freedesktop.org/xcb/libxcb"
 _gitname="libxcb"
 
 pkgname=libxcb-git
-pkgver=20140220
-pkgrel=0559
+pkgver=20140227
+pkgrel=0930
 pkgdesc="X11 client-side library"
 arch=(i686 x86_64)
 url="http://xcb.freedesktop.org/"
-depends=('xcb-proto>=1.8' 'libxdmcp>=1.1.1' 'libxau>=1.0.7')
-makedepends=('pkgconfig' 'libxslt' 'python2')
+depends=('xcb-proto-git' 'libxdmcp-git' 'libxau-git')
+makedepends=('pkgconfig' 'xorg-util-macros-git' 'libxslt' 'python2' 'git')
 provides=('libxcb=${_realver}')
 conflicts=('libxcb')
 options=('!libtool')

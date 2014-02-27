@@ -6,15 +6,15 @@ _gitroot='git://anongit.freedesktop.org/git/cairo'
 _gitname='cairo'
 
 pkgname=cairo-git
-pkgver=20140226
-pkgrel=0605
+pkgver=20140227
+pkgrel=1216
 pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)
 license=('LGPL' 'MPL')
 url="http://cairographics.org/"
 depends=('libpng>=1.4.0' 'libxrender-git' 'fontconfig>=2.8.0' 'pixman-git'
-         'xcb-util-git' 'glib2>=2.24.0' 'mesa-git')
-makedepends=('gtk-doc' 'git')
+         'xcb-util-git' 'glib2>=2.24.0')
+makedepends=('gtk-doc' 'git' 'mesa-libgl-git')
 options=('!libtool')
 provides=('cairo=${_realver}' 'cairo-xcb=${_realver}')
 replaces=('cairo')

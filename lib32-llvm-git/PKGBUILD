@@ -9,8 +9,8 @@ _gitname="llvm"
 _realver="3.5svn"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git')
-pkgver=20140226
-pkgrel=0624
+pkgver=20140227
+pkgrel=1050
 arch=('x86_64')
 url="http://llvm.org"
 license=('custom:University of Illinois/NCSA Open Source License')
@@ -84,7 +84,7 @@ build() {
 
 package_lib32-llvm-git() {
   pkgdesc="Low Level Virtual Machine (32-bit)"
-  depends=('lib32-llvm-libs-git' 'llvm')
+  depends=('lib32-llvm-libs-git' 'llvm-git')
   provides=('lib32-llvm')
   conflicts=('lib32-llvm')
 

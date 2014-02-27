@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXdamage"
 _gitname="libXdamage"
 
 pkgname=lib32-libxdamage-git
-pkgver=20140220
-pkgrel=0620
+pkgver=20140227
+pkgrel=1017
 pkgdesc="X11 damaged region extension library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('lib32-libxfixes>=5.0' 'damageproto>=1.2.1')
-makedepends=('pkg-config')
+depends=('lib32-libxfixes-git' 'libxdamage-git')
+makedepends=('pkg-config' 'xorg-util-macros-git' 'git')
 provides=('lib32-libxdamage=${_realver}')
 conflicts=('lib32-libxdamage')
 options=('!libtool')

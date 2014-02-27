@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXdmcp"
 _gitname="libXdmcp"
 
 pkgname=libxdmcp-git
-pkgver=20140217
-pkgrel=1305
+pkgver=20140227
+pkgrel=0930
 pkgdesc="X11 Display Manager Control Protocol library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('xproto>=7.0.23' 'glibc')
-makedepends=('xorg-util-macros-git')
+depends=('xproto-git' 'glibc')
+makedepends=('xorg-util-macros-git' 'git')
 provides=('libxdmcp=${_realver}')
 conflicts=('libxdmcp')
 options=('!libtool')

@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXaw"
 _gitname="libXaw"
 
 pkgname=libxaw-git
-pkgver=20140220
-pkgrel=0617
+pkgver=20140227
+pkgrel=1003
 pkgdesc="X11 Athena Widget library"
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libxmu>=1.1.1' 'libxpm>=3.5.10')
-makedepends=('xorg-util-macros-git')
+depends=('libxmu-git' 'libxpm-git')
+makedepends=('xorg-util-macros-git' 'git')
 options=('!libtool')
 provides=('libxaw=${_realver}')
 conflicts=('libxaw')

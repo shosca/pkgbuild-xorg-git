@@ -7,14 +7,14 @@ _gitroot="git://anongit.freedesktop.org/xcb/util-keysyms"
 _gitname="util-keysyms"
 
 pkgname=xcb-util-keysyms-git
-pkgver=20140224
-pkgrel=0613
+pkgver=20140227
+pkgrel=0957
 pkgdesc="Utility libraries for XC Binding - Standard X key constants and conversion to/from keycodes"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
 license=('custom')
-depends=('libxcb>=1.7')
-makedepends=('xorg-util-macros')
+depends=('libxcb-git')
+makedepends=('xorg-util-macros-git' 'git')
 options=('!libtool')
 source=($_gitroot 'LICENSE')
 sha256sums=(SKIP 'ded299aa179dcf0d885bf89274a4db77a530e03f9f5e7cf1c3c4ef1d60e914b9')

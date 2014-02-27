@@ -7,12 +7,13 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/fixesproto'
 _gitname='fixesproto'
 
 pkgname=fixesproto-git
-pkgver=20140217
-pkgrel=1304
+pkgver=20140227
+pkgrel=0933
 pkgdesc='X11 fixes extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
+depends=('xproto-git' 'xextproto-git')
 makedepends=('xorg-util-macros-git' 'git')
 provides=('fixesproto=${_realver}')
 conflicts=('fixesproto')

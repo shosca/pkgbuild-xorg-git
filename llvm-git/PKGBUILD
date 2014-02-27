@@ -8,60 +8,65 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 _realver="3.5svn"
 
-pkgname=(llvm-git llvm-libs-git llvm-ocaml-git clang-git clang-analyzer-git)
-pkgver=20140226
-pkgrel=0605
+pkgname=(llvm-git llvm-libs-git llvm-ocaml-git clang-git clang-tools-extra-git clang-analyzer-git)
+pkgver=20140227
+pkgrel=0938
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
 license=('custom:University of Illinois/NCSA Open Source License')
-depends=('libffi' 'python2' 'ocaml')
+depends=('libffi' 'python2' 'ocaml' 'python-sphinx')
 makedepends=('git')
-options=('!strip')
+options=('staticlibs' '!strip')
 source=(git+$_gitroot
         git+http://llvm.org/git/clang.git
+        git+http://llvm.org/git/clang-tools-extra.git
         git+http://llvm.org/git/compiler-rt.git
-        installfix.patch
-)
-md5sums=('SKIP'
-         'SKIP'
-         'SKIP'
-         '6040dbb75d701294f302dc12c8cc0c97')
+        llvm-Config-config.h
+        llvm-Config-llvm-config.h)
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            '312574e655f9a87784ca416949c505c452b819fad3061f2cde8aced6540a19a3'
+            '597dc5968c695bbdbb0eac9e8eb5117fcd2773bc91edf5ec103ecffffab8bc48')
 
 prepare() {
   cd "${srcdir}/${_gitname}"
 
   git clone ${srcdir}/clang tools/clang
+  git clone ${srcdir}/clang-tools-extra tools/clang/tools/extra
   git clone ${srcdir}/compiler-rt projects/compiler-rt
 
-  patch -Np1 -i ../installfix.patch
+  sed -i 's:\$(PROJ_prefix)/docs/llvm:$(PROJ_prefix)/share/doc/llvm:' \
+    Makefile.config.in
+
 }
 
 build() {
   cd "${srcdir}/${_gitname}"
 
-  sed -i 's/python$/python2/' utils/llvm-build/llvm-build
-
   # Include location of libffi headers in CPPFLAGS
   export CPPFLAGS="$CPPFLAGS $(pkg-config --cflags libffi)"
 
   # Force the use of GCC instead of clang
-  PYTHON=/usr/bin/python2 CC=gcc CXX=g++ \
-  ./configure \
+  CC=gcc CXX=g++ ./configure \
     --prefix=/usr \
-    --libdir=/usr/lib/llvm \
     --sysconfdir=/etc \
     --enable-shared \
     --enable-libffi \
     --enable-targets=all \
-    --enable-experimental-targets=R600 \
     --disable-expensive-checks \
     --disable-debug-runtime \
     --disable-assertions \
     --with-binutils-include=/usr/include \
+    --with-python=/usr/bin/python2 \
     --enable-optimized
 
   make REQUIRES_RTTI=1 ENABLE_OPTIMIZED=1
+  make -C docs -f Makefile.sphinx man
+  make -C docs -f Makefile.sphinx html
+  make -C tools/clang/docs -f Makefile.sphinx html
 }
 
 package_llvm-git() {
@@ -84,8 +89,11 @@ package_llvm-git() {
   mv "$pkgdir/usr/lib/libLLVM-$_realver.so" "$srcdir"
 
   # OCaml bindings go to a separate package
-  rm -rf "$srcdir"/ocaml
-  mv "$pkgdir"/usr/lib/ocaml "$srcdir"
+  rm -rf "$srcdir"/{ocaml,ocamldoc}
+  mv "$pkgdir"/usr/{lib/ocaml,share/doc/llvm/ocamldoc} "$srcdir"
+
+  # Remove duplicate files installed by the OCaml bindings
+  rm "$pkgdir"/usr/{lib/libllvm*,share/doc/llvm/ocamldoc.tar.gz}
 
   # Fix permissions of static libs
   chmod -x "$pkgdir"/usr/lib/*.a
@@ -93,10 +101,27 @@ package_llvm-git() {
   # Get rid of example Hello transformation
   rm "$pkgdir"/usr/lib/*LLVMHello.*
 
-  install -m755 -d "$pkgdir/usr/share/"
-  mv "$pkgdir/usr/docs" "$pkgdir/usr/share/doc"
+  if [[ $CARCH == x86_64 ]]; then
+    # Needed for multilib (https://bugs.archlinux.org/task/29951)
+    # Header stubs are taken from Fedora
+    for _header in config llvm-config; do
+      echo "$pkgdir/usr/include/llvm/Config/$_header"{,-64}.h
+      mv "$pkgdir/usr/include/llvm/Config/$_header"{,-64}.h
+      cp "$srcdir/llvm-Config-$_header.h" \
+        "$pkgdir/usr/include/llvm/Config/$_header.h"
+    done
+  fi
+
+  # Install man pages
+  install -d "$pkgdir/usr/share/man/man1"
+  cp docs/_build/man/*.1 "$pkgdir/usr/share/man/man1/"
+
+  # Install html docs
+  cp -r docs/_build/html/* "$pkgdir/usr/share/doc/llvm/html/"
+  rm -r "$pkgdir/usr/share/doc/llvm/html/_sources"
 
   install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
 }
 
 package_llvm-libs-git() {
@@ -122,6 +147,7 @@ package_llvm-ocaml-git() {
 
   install -d "$pkgdir"/{usr/lib,usr/share/doc/llvm}
   cp -r "$srcdir/ocaml" "$pkgdir/usr/lib"
+  cp -r "$srcdir/ocamldoc" "$pkgdir/usr/share/doc/llvm"
 
   # Remove execute bit from static libraries
   chmod -x "$pkgdir"/usr/lib/ocaml/libllvm*.a
@@ -136,9 +162,35 @@ package_clang-git() {
   provides=('clang')
   conflicts=('clang')
 
+  # Fix installation path for clang docs
+  sed -i 's:$(PROJ_prefix)/share/doc/llvm:$(PROJ_prefix)/share/doc/clang:' \
+    "$srcdir/llvm/Makefile.config"
+
   cd "${srcdir}/${_gitname}/tools/clang"
+
+  # We move the extra tools directory out of the tree so it won't get
+  # installed and then we bring it back in for the clang-tools-extra package
+  mv tools/extra "$srcdir/extra.tmp"
+
   make DESTDIR="$pkgdir" install
-  rm -rf "$pkgdir/usr/docs"
+  mv "$srcdir/extra.tmp" tools/extra
+
+  # Fix permissions of static libs
+  chmod -x "$pkgdir"/usr/lib/*.a
+
+  # Revert the path change in case we want to do a repackage later
+  sed -i 's:$(PROJ_prefix)/share/doc/clang:$(PROJ_prefix)/share/doc/llvm:' \
+    "$srcdir/llvm/Makefile.config"
+
+  # Install html docs
+  cp -r docs/_build/html/* "$pkgdir/usr/share/doc/clang/html/"
+  rm -r "$pkgdir/usr/share/doc/clang/html/_sources"
+
+  # Install Python bindings
+  install -d "$pkgdir/usr/lib/python2.7/site-packages"
+  cp -r bindings/python/clang "$pkgdir/usr/lib/python2.7/site-packages/"
+  python2 -m compileall "$pkgdir/usr/lib/python2.7/site-packages/clang"
+  python2 -O -m compileall "$pkgdir/usr/lib/python2.7/site-packages/clang"
 
   install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
@@ -164,18 +216,35 @@ package_clang-analyzer-git() {
   # Relocate man page
   install -d "$pkgdir/usr/share/man/man1"
   mv "$pkgdir/usr/lib/clang-analyzer/scan-build/scan-build.1" \
-      "$pkgdir/usr/share/man/man1/"
+    "$pkgdir/usr/share/man/man1/"
 
   # Use Python 2
   sed -i \
-    -e 's|env python$|&2|' \
-    -e 's|/usr/bin/python$|&2|' \
-    "$pkgdir/usr/lib/clang-analyzer/scan-view/scan-view" \
-    "$pkgdir/usr/lib/clang-analyzer/scan-build/set-xcode-analyzer"
+      -e 's|env python$|&2|' \
+      -e 's|/usr/bin/python$|&2|' \
+      "$pkgdir/usr/lib/clang-analyzer/scan-view/scan-view" \
+      "$pkgdir/usr/lib/clang-analyzer/scan-build/set-xcode-analyzer"
 
   # Compile Python scripts
   python2 -m compileall "$pkgdir/usr/lib/clang-analyzer"
   python2 -O -m compileall "$pkgdir/usr/lib/clang-analyzer"
+
+  install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+package_clang-tools-extra-git() {
+  pkgdesc="Extra tools built using Clang's tooling APIs (git)"
+  url="http://clang.llvm.org/"
+  depends=("clang-git")
+  provides=('clang-tools-extra')
+  conflicts=('clang-tools-extra')
+
+  cd "${srcdir}/${_gitname}/tools/clang/tools/extra"
+
+  make DESTDIR="$pkgdir" install
+
+  # Fix permissions of static libs
+  chmod -x "$pkgdir"/usr/lib/*.a
 
   install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

@@ -6,19 +6,18 @@ _gitroot='git://git.freedesktop.org/git/xorg/font/alias'
 _gitname='alias'
 
 pkgname=xorg-fonts-alias-git
-pkgver=20131112
-pkgrel=1132
+pkgver=20140227
+pkgrel=1232
 pkgdesc="X.org font alias files"
 arch=('any')
 url="http://xorg.freedesktop.org/"
+makedepends=('git' 'xorg-util-macros-git' 'xorg-font-util-git')
 license=('custom')
-source=('LICENSE')
-md5sums=('ff91ae6d96d76130482d04653e7a836a')
+source=($_gitroot 'LICENSE')
+md5sums=('SKIP' 'ff91ae6d96d76130482d04653e7a836a')
 provides=('xorg-fonts-alias=${_realver}')
 conflicts=('xorg-fonts-alias')
 provides=('xorg-fonts-alias')
-source=($_gitroot)
-md5sums=(SKIP)
 
 build() {
   cd "${srcdir}/${_gitname}"

@@ -7,13 +7,13 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libICE"
 _gitname="libICE"
 
 pkgname=lib32-libice-git
-pkgver=20140217
-pkgrel=1306
+pkgver=20140227
+pkgrel=1013
 pkgdesc="X11 Inter-Client Exchange library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
-depends=('glibc' 'xproto>=7.0.23')
-makedepends=('pkgconfig' 'xtrans>=1.2.7')
+depends=('lib32-glibc' 'libice-git' 'xproto-git')
+makedepends=('gcc-multilib' 'pkgconfig' 'xorg-util-macros-git' 'xtrans-git' 'git')
 options=('!libtool')
 license=('custom')
 provides=('lib32-libice=${_realver}')
