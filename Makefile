@@ -3,14 +3,17 @@ PWD=$(shell pwd)
 DIRS=$(shell ls | grep 'git')
 DATE=$(shell date +"%Y%m%d")
 TIME=$(shell date +"%H%M")
-PACMAN=yaourt
-MAKEPKG=makepkg -sfL
+ARCHNSPAWN=arch-nspawn
+MKARCHROOT=/usr/bin/mkarchroot
+MAKECHROOTPKG=/usr/bin/makechrootpkg -c -u -r
 PKGEXT=pkg.tar.xz
 GITFETCH=git fetch --all -p
 GITCLONE=git clone --mirror
 CHROOTPATH64=/tmp/chroot64/$(REPO)
 
 TARGETS=$(addsuffix /built, $(DIRS))
+PULL_TARGETS=$(addsuffix -pull, $(DIRS))
+VER_TARGETS=$(addsuffix -ver, $(DIRS))
 
 .PHONY: $(DIRS) checkchroot
 
@@ -24,25 +27,17 @@ clean:
 reset: clean
 	sudo rm -f */built
 
-show:
-	@echo $(DATE)
-	@echo $(DIRS)
-
-updateversions:
-	sed -i "s/^pkgver=[^ ]*/pkgver=$(DATE)/" */PKGBUILD ; \
-	sed -i "s/^pkgrel=[^ ]*/pkgrel=$(TIME)/" */PKGBUILD
-
 checkchroot:
 	@if [ ! -d $(CHROOTPATH64) ]; then \
 		echo "Creating working chroot at $(CHROOTPATH64)/root" ; \
 		sudo mkdir -p $(CHROOTPATH64) ;\
-		[[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]] && sudo mkarchroot $(CHROOTPATH64)/root base-devel ; \
+		[[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]] && sudo $(MKARCHROOT) $(CHROOTPATH64)/root base-devel ; \
 		sudo sed -i -e '/^#\[multilib\]/ s,#,,' \
 			-i -e '/^\[multilib\]/{$$!N; s,#,,}' $(CHROOTPATH64)/root/etc/pacman.conf ; \
-		sudo arch-nspawn $(CHROOTPATH64)/root pacman \
+		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root pacman \
 			-Syyu --noconfirm ; \
-		sudo arch-nspawn $(CHROOTPATH64)/root \
-			/bin/bash -c 'yes | pacman -S gcc-multilib' ; \
+		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root \
+			/bin/bash -c 'yes | pacman -S gcc-multilib gcc-libs-multilib' ; \
 		sudo mkdir -p $(CHROOTPATH64)/root/repo ;\
 		echo "# Added by $$PKG" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
 		echo "[$(REPO)]" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
@@ -61,11 +56,10 @@ build:
 
 test:
 	@echo "REPO    : $(REPO)" ; \
-	echo "PACMAN  : $(PACMAN)" ; \
+	echo "DIRS    : $(DIRS)" ; \
 	echo "PKGEXT  : $(PKGEXT)" ; \
 	echo "GITFETCH: $(GITFETCH)" ; \
 	echo "GITCLONE: $(GITCLONE)"
-
 
 %/built:
 	@_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
@@ -75,7 +69,7 @@ test:
 	fi ; \
 	cd $* ; \
 	rm -f *$(PKGEXT) *.log ; \
-	sudo makechrootpkg -c -u -r $(CHROOTPATH64) || exit 1 && \
+	sudo $(MAKECHROOTPKG) $(CHROOTPATH64) || exit 1 && \
 	sudo rm -f $(addsuffix *, $(addprefix $(CHROOTPATH64)/root/repo/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
 	sudo cp *.$(PKGEXT) $(CHROOTPATH64)/root/repo/ ; \
 	for f in *.$(PKGEXT) ; do \
@@ -94,13 +88,12 @@ $(DIRS): checkchroot
 		$(MAKE) $@/built ; \
 	fi
 
-PULL_TARGETS=$(addsuffix -pull, $(DIRS))
-
 gitpull: $(PULL_TARGETS)
 
 %-pull:
 	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$*/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
 	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
+	echo "Pulling $*" ; \
 	if [ -f $(PWD)/$*/$$_gitname/HEAD ]; then \
 		echo "Updating $$_gitname" ; \
 		cd $(PWD)/$*/$$_gitname && \
@@ -110,8 +103,6 @@ gitpull: $(PULL_TARGETS)
 		fi ; \
 		cd $(PWD) ; \
 	fi
-
-VER_TARGETS=$(addsuffix -ver, $(DIRS))
 
 vers: $(VER_TARGETS)
 
@@ -361,11 +352,11 @@ lib32-libxt-git: libxt-git lib32-libsm-git lib32-libx11-git
 
 lib32-wayland-git: wayland-git
 
+lib32-libdrm-git: libdrm-git lib32-libpciaccess-git
+
 lib32-mesa-git: glproto-git lib32-libxshmfence-git lib32-libdrm-git lib32-llvm-git lib32-libxvmc-git lib32-libvdpau-git lib32-libxxf86vm-git lib32-libxdamage-git lib32-libx11-git lib32-libxt-git lib32-wayland-git mesa-git lib32-libxshmfence-git
 
 lib32-llvm-git: llvm-git
-
-lib32-libdrm-git: libdrm-git lib32-libpciaccess-git
 
 lib32-libxshmfence-git: libxshmfence-git
 

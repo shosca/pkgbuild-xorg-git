@@ -9,13 +9,12 @@ _gitname="llvm"
 _realver="3.5svn"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git')
-pkgver=20140227
-pkgrel=1406
+pkgver=20140228
+pkgrel=0847
 arch=('x86_64')
 url="http://llvm.org"
 license=('custom:University of Illinois/NCSA Open Source License')
-depends=('lib32-libffi' 'llvm-git' 'python2' 'ocaml')
-makedepends=('git' 'gcc-multilib')
+makedepends=('git' 'lib32-libffi' 'lib32-zlib' 'python2' 'gcc-multilib')
 provides=('lib32-llvm')
 conflicts=('lib32-llvm')
 source=(git+$_gitroot

@@ -12,7 +12,7 @@ pkgdesc="Cairo vector graphics library (git version)"
 arch=(i686 x86_64)
 license=('LGPL' 'MPL')
 url="http://cairographics.org/"
-depends=('libpng>=1.4.0' 'libxrender-git' 'fontconfig>=2.8.0' 'pixman-git'
+depends=('libpng' 'libxrender-git' 'fontconfig' 'pixman-git' 'glib2' 'sh' 'lzo2'
          'xcb-util-git' 'glib2>=2.24.0')
 makedepends=('gtk-doc' 'git' 'mesa-libgl-git')
 options=('!libtool')
