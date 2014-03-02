@@ -22,7 +22,7 @@ all:
 	$(MAKE) build
 
 clean:
-	sudo rm -rf *.log */pkg */src */logpipe*
+	sudo rm -rf */*.log */pkg */src */logpipe*
 
 reset: clean
 	sudo rm -f */built
@@ -44,8 +44,10 @@ checkchroot:
 		echo "SigLevel = Never" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
 		echo "Server = file:///repo" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
 		echo "Recreating working repo $(REPO)" ; \
-		sudo cp */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
-		sudo repo-add $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
+		if ls */*.$(PKGEXT) &> /dev/null ; then \
+			sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
+			sudo repo-add $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
+		fi \
 	fi
 
 resetchroot:
