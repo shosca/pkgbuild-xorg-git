@@ -6,13 +6,13 @@ _gitroot="git://anongit.freedesktop.org/git/pixman"
 _gitname="pixman"
 
 pkgname=pixman-git
-pkgver=20140227
-pkgrel=0932
+pkgver=20140303
+pkgrel=1303
 pkgdesc="The pixel-manipulation library for X and cairo"
-arch=(i686 x86_64)
+arch=('i686' 'x86_64')
 url="http://pixman.org/"
 license=('GPL')
-depends=(glibc)
+depends=('glibc')
 makedepends=('git' 'autoconf' 'automake' 'libtool' 'pkgconfig')
 provides=('pixman=${_realver}')
 conflicts=('pixman')

@@ -7,10 +7,10 @@ _gitroot="git://anongit.freedesktop.org/xcb/proto"
 _gitname="proto"
 
 pkgname=xcb-proto-git
-pkgver=20140227
-pkgrel=0930
+pkgver=20140303
+pkgrel=1300
 pkgdesc="XML-XCB protocol descriptions"
-arch=(any)
+arch=('any')
 url="http://xcb.freedesktop.org/"
 license=('custom')
 makedepends=('python2' 'libxml2' 'git')

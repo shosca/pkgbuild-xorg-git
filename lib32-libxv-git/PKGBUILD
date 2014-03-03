@@ -7,7 +7,7 @@ _gitname="libXv"
 
 pkgname=lib32-libxv-git
 pkgver=20140303
-pkgrel=0628
+pkgrel=1348
 pkgdesc="X11 Video extension library"
 arch=('x86_64')
 license=('custom')

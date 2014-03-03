@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/dri3proto'
 _gitname='dri3proto'
 
 pkgname=dri3proto-git
-pkgver=20140227
-pkgrel=0933
+pkgver=20140303
+pkgrel=1306
 pkgdesc='X11 DRI3 extension wire protocol.'
 url='http://xorg.freedesktop.org/'
 arch=('any')

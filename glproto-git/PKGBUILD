@@ -3,8 +3,8 @@
 
 _realver=1.4.17
 pkgname=glproto-git
-pkgver=20140227
-pkgrel=0933
+pkgver=20140303
+pkgrel=1307
 pkgdesc="X11 OpenGL extension wire protocol"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

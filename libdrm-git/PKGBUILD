@@ -8,7 +8,7 @@ _gitname='drm'
 
 pkgname=libdrm-git
 pkgver=20140303
-pkgrel=0556
+pkgrel=1308
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('MIT')

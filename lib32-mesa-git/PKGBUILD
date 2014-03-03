@@ -9,7 +9,7 @@ _gitname='mesa'
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
 pkgver=20140303
-pkgrel=0937
+pkgrel=1356
 arch=('x86_64')
 depends=('lib32-elfutils' 'lib32-libdrm-git' 'lib32-expat' 'lib32-libxt-git'
          'lib32-libxxf86vm-git' 'lib32-libxdamage-git' 'lib32-libx11-git'
@@ -34,9 +34,6 @@ build() {
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
   # for our llvm-config for 32 bit
   export LLVM_CONFIG=/usr/bin/llvm-config32
-
-  # c++11 build fix for llvm >= 3.5
-  sed -i 's/c++98/c++11/' src/gallium/state_trackers/clover/Makefile*
 
   ./autogen.sh \
     --prefix=/usr \

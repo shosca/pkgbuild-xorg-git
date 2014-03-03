@@ -7,9 +7,9 @@ _gitname="xhost"
 
 pkgname=xorg-xhost-git
 pkgver=20140303
-pkgrel=0734
+pkgrel=1408
 pkgdesc="Server access control program for X"
-arch=(i686 x86_64)
+arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('libx11-git' 'xtrans-git' 'libxmu-git')
