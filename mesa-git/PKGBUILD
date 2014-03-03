@@ -8,16 +8,15 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=20140303
-pkgrel=0619
+pkgrel=0930
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
-depends=('gcc-libs' 'glibc' 'elfutils' 'libdrm-git' 'expat' 'libxt-git' 'libxxf86vm-git'
-          'libxdamage-git' 'libx11-git' 'libxcb-git' 'libxfixes-git' 'libxext-git'
-          'wayland-git' 'libxshmfence-git' 'libomxil-bellagio-git' 'libclc-git')
-makedepends=('git' 'glproto-git' 'presentproto-git' 'expat' 'gcc-libs' 'dri2proto-git' 'dri3proto-git' 'libtool'
-              'python2' 'libxml2' 'llvm-git' 'systemd'
-              'libvdpau-git')
+makedepends=('git' 'python2' 'libxml2' 'libx11-git' 'glproto-git' 'libdrm-git'
+             'dri2proto-git' 'dri3proto-git' 'presentproto-git' 'libclc-git'
+             'libxshmfence-git' 'libomxil-bellagio-git' 'libxxf86vm-git'
+             'libxdamage-git' 'libvdpau-git' 'wayland-git' 'elfutils'
+             'llvm-git' 'systemd')
 optdepends=('opengl-man-pages: for the OpenGL API man pages')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
@@ -69,8 +68,8 @@ build() {
 }
 
 package_ati-dri-git() {
-  depends=('elfutils' 'mesa-libgl-git' 'libomxil-bellagio-git')
   pkgdesc="Mesa drivers for AMD/ATI Radeon"
+  depends=('mesa-libgl-git' 'libclc-git' 'libomxil-bellagio-git' 'libtxc_dxtn' 'mesa-git')
   provides=('ati-dri=${_realver}')
   conflicts=('ati-dri' 'xf86-video-ati<6.9.0-6')
 
@@ -92,10 +91,10 @@ package_ati-dri-git() {
 
 package_intel-dri-git() {
   pkgdesc="Mesa drivers for Intel"
-  depends=("mesa-libgl-git")
+  depends=('mesa-libgl-git' 'libtxc_dxtn' 'mesa-git')
   provides=('intel-dri=${_realver}')
-  conflicts=('intel-dri')
   replaces=('intel-dri')
+  conflicts=('intel-dri')
 
   install -m755 -d ${pkgdir}/usr/lib/dri
   mv -v ${srcdir}/fakeinstall/usr/lib/dri/{i915,i965}_dri.so ${pkgdir}/usr/lib/dri/
@@ -106,10 +105,10 @@ package_intel-dri-git() {
 
 package_nouveau-dri-git() {
   pkgdesc="Mesa drivers for Nouveau"
-  depends=("mesa-libgl-git")
+  depends=('mesa-libgl-git' 'libtxc_dxtn' 'mesa-git')
   provides=('nouveau-dri=${_realver}')
-  conflicts=('nouveau-dri')
   replaces=('nouveau-dri')
+  conflicts=('nouveau-dri')
 
   install -m755 -d ${pkgdir}/usr/lib/vdpau/
   install -m755 -d ${pkgdir}/usr/lib/dri
@@ -127,7 +126,10 @@ package_nouveau-dri-git() {
 
 package_svga-dri-git() {
   pkgdesc="Gallium3D VMware guest GL driver"
-  depends=("mesa-libgl-git" "gcc-libs" "libdrm" "expat" "libffi")
+  depends=('libdrm-git' 'expat' 'llvm-libs-git' 'mesa-git')
+  provides=('svga-dri')
+  replaces=('svga-dri')
+  conflicts=('svga-dri')
 
   install -m755 -d ${pkgdir}/usr/lib/dri
   mv -v ${srcdir}/fakeinstall/usr/lib/dri/vmwgfx_dri.so ${pkgdir}/usr/lib/dri/
@@ -162,9 +164,9 @@ package_mesa-git() {
   depends=('libdrm-git' 'libvdpau-git' 'wayland-git' 'libxshmfence-git'
            'libxxf86vm-git' 'libxdamage-git' 'systemd' 'llvm-libs-git')
   optdepends=('opengl-man-pages: for the OpenGL API man pages')
-  provides=('mesa=${_realver}' 'libglapi=${_realver}' 'osmesa=${_realver}' 'libgbm=${_realver}' 'libgles=${_realver}' 'libegl=${_realver}' 'khrplatform-devel=${_realver}')
-  conflicts=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
-  replaces=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
+  provides=('mesa' 'libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
+  conflicts=('mesa' 'libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
+  replaces=('mesa' 'libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
 
   mv -v ${srcdir}/fakeinstall/* ${pkgdir}
   # rename libgl.so to not conflict with blobs - may break gl.pc ?
@@ -177,9 +179,10 @@ package_mesa-git() {
 
 package_mesa-libgl-git(){
   pkgdesc="Mesa 3-D graphics library"
-  depends=("mesa-git")
-  provides=("libgl=${_realver}")
-  replaces=('libgl')
+  depends=('mesa-git')
+  provides=('mesa-libgl' 'libgl=${_realver}')
+  replaces=('mesa-libgl' 'libgl')
+  conflicts=('mesa-libgl')
 
   # See FS#26284
   install -m755 -d "${pkgdir}/usr/lib/xorg/modules/extensions"
