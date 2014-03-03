@@ -8,15 +8,15 @@ _gitname="glamor"
 
 pkgname=glamor-egl-git
 pkgver=20140303
-pkgrel=0935
+pkgrel=1042
 pkgdesc="X.org OpenGL based 2D rendering acceleration library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
-depends=('glibc' 'mesa-libgl-git' 'libdrm-git' 'libx11-git')
-makedepends=('glibc' 'libxfixes-git' 'xorg-server-devel-git' 'xf86driproto-git' 'glproto-git' 'git')
-provides=('glamor=${_realver}')
-conflicts=('glamor')
-replaces=('glamor' 'glamor-git')
+depends=('mesa-libgl-git' 'libdrm-git' 'libx11-git')
+makedepends=('libxfixes-git' 'xorg-server-devel-git' 'xf86driproto-git' 'glproto-git' 'git')
+provides=('glamor' 'glamor-egl')
+conflicts=('glamor' 'glamor-egl')
+replaces=('glamor' 'glamor-egl')
 options=('!libtool')
 license=('custom')
 source=($_gitroot)
