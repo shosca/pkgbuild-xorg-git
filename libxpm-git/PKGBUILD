@@ -7,7 +7,7 @@ _gitname="libXpm"
 
 pkgname=libxpm-git
 pkgver=20140311
-pkgrel=0721
+pkgrel=1108
 pkgdesc="X11 pixmap library"
 arch=('i686' 'x86_64')
 license=('custom')

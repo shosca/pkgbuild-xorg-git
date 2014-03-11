@@ -7,7 +7,7 @@ _gitname="xset"
 
 pkgname=xorg-xset-git
 pkgver=20140311
-pkgrel=0753
+pkgrel=1122
 pkgdesc="User preference utility for X"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
