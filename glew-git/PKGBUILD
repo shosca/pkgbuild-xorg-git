@@ -8,8 +8,8 @@ _gitroot="git://github.com/nigels-com/glew"
 _gitname="glew"
 
 pkgname=glew-git
-pkgver=20140305
-pkgrel=1025
+pkgver=20140311
+pkgrel=0732
 pkgdesc="The OpenGL Extension Wrangler Library"
 arch=('i686' 'x86_64')
 url="http://glew.sourceforge.net"
@@ -25,10 +25,10 @@ conflicts=('glew')
 build() {
   cd "${srcdir}/${_gitname}"
 
-  make extensions
+  make -j1 extensions
   sed -i 's|lib64|lib|' config/Makefile.linux
   sed -i '/^.PHONY: .*\.pc$/d' Makefile
-  make
+  make -j1
 }
 
 package() {

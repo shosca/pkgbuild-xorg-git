@@ -121,4 +121,5 @@
 */omxil
 */glew
 */libevdev
+*/libepoxy
 Makefile.mk

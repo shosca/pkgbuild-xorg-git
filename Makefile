@@ -261,9 +261,11 @@ libxfont-git: xproto-git fontsproto-git libfontenc-git xtrans-git
 
 libxkbfile-git: libx11-git
 
-cairo-git: libxrender-git pixman-git xcb-util-git
+cairo-git: libxrender-git pixman-git xcb-util-git mesa-git
 
 libclc-git: llvm-git
+
+libepoxy-git: mesa-git
 
 mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libvdpau-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git libomxil-bellagio-git libxshmfence-git
 
@@ -277,7 +279,7 @@ xorg-font-util-git: xorg-util-macros-git
 
 xorg-setxkbmap-git: libxkbfile-git xorg-util-macros-git
 
-xorg-server-git: bigreqsproto-git presentproto-git compositeproto-git dmxproto-git dri2proto-git dri3proto-git fontsproto-git glproto-git inputproto-git randrproto-git recordproto-git renderproto-git resourceproto-git scrnsaverproto-git videoproto-git xcmiscproto-git xextproto-git xf86dgaproto-git xf86driproto-git xineramaproto-git libdmx-git libdrm-git libpciaccess-git libx11-git libxau-git libxaw-git libxdmcp-git libxext-git libxfixes-git libxfont-git libxi-git libxkbfile-git libxmu-git libxrender-git libxres-git libxtst-git libxv-git mesa-git pixman-git xkeyboard-config-git xorg-font-util-git xorg-setxkbmap-git xorg-util-macros-git xorg-xkbcomp-git xtrans-git wayland-git xcb-util-image-git xcb-util-wm-git xcb-util-keysyms-git libxshmfence-git
+xorg-server-git: bigreqsproto-git presentproto-git compositeproto-git dmxproto-git dri2proto-git dri3proto-git fontsproto-git glproto-git inputproto-git randrproto-git recordproto-git renderproto-git resourceproto-git scrnsaverproto-git videoproto-git xcmiscproto-git xextproto-git xf86dgaproto-git xf86driproto-git xineramaproto-git libdmx-git libdrm-git libpciaccess-git libx11-git libxau-git libxaw-git libxdmcp-git libxext-git libxfixes-git libxfont-git libxi-git libxkbfile-git libxmu-git libxrender-git libxres-git libxtst-git libxv-git libepoxy-git mesa-git pixman-git xkeyboard-config-git xorg-font-util-git xorg-setxkbmap-git xorg-util-macros-git xorg-xkbcomp-git xtrans-git wayland-git xcb-util-image-git xcb-util-wm-git xcb-util-keysyms-git libxshmfence-git
 
 xorg-xauth-git: libxmu-git
 

@@ -9,8 +9,8 @@ _gitname="xserver"
 
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=20140305
-pkgrel=1023
+pkgver=20140311
+pkgrel=0749
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -22,7 +22,7 @@ makedepends=('git' 'bigreqsproto-git' 'presentproto-git' 'compositeproto-git'
              'libxres-git' 'libxtst-git' 'libxv-git' 'mesa-libgl-git' 'pixman-git'
              'randrproto-git' 'recordproto-git' 'renderproto-git'
              'resourceproto-git' 'scrnsaverproto-git' 'udev' 'videoproto-git'
-             'xcmiscproto-git' 'xextproto-git' 'xf86dgaproto-git'
+             'xcmiscproto-git' 'xextproto-git' 'xf86dgaproto-git' 'libepoxy-git'
              'xf86driproto-git' 'xineramaproto-git' 'xorg-font-util-git'
              'xorg-util-macros-git' 'xorg-xkbcomp-git' 'xtrans-git'
              'xcb-util-git' 'xcb-util-image-git' 'xcb-util-wm-git' 'xcb-util-keysyms-git'
@@ -45,7 +45,7 @@ prepare() {
 build() {
   cd "${srcdir}/${_gitname}"
 
-  # --enable-dmx \
+  # --enable-glamor \
   ./autogen.sh \
       --prefix=/usr \
       --enable-ipv6 \

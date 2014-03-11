@@ -1,0 +1,40 @@
+# Maintainer: Riccardo Berto <riccardobrt@gmail.com>
+# Previous Contributor: vbmithr
+# Contributor: Flamelab <panosfilip at gmail dot com>
+
+_realver=1.1
+_gitroot='git://github.com/anholt/libepoxy'
+_gitname='libepoxy'
+
+pkgname=libepoxy-git
+pkgver=20140311
+pkgrel=0722
+pkgdesc="Epoxy is a library for handling OpenGL function pointer management for you"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+depends=('libx11-git' 'mesa-git')
+makedepends=('git' 'xorg-util-macros-git' 'python2')
+provides=('libepoxy')
+conflicts=('libepoxy')
+replaces=('libepoxy')
+license=('custom')
+source=($_gitroot)
+sha1sums=('SKIP')
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --disable-static
+
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+}
+
+# vim: ft=sh syn=sh et
+
