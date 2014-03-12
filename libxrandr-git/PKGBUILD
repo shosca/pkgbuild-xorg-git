@@ -8,8 +8,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXrandr"
 _gitname="libXrandr"
 
 pkgname=libxrandr-git
-pkgver=20140311
-pkgrel=1118
+pkgver=20140312
+pkgrel=0741
 pkgdesc="X11 RandR extension library"
 arch=('i686' 'x86_64')
 license=('custom')

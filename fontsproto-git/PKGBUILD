@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/fontsproto'
 _gitname='fontsproto'
 
 pkgname=fontsproto-git
-pkgver=20140311
-pkgrel=1106
+pkgver=20140312
+pkgrel=0719
 pkgdesc='Xorg FontsProto protocol headers'
 url='http://xorg.freedesktop.org/'
 arch=('any')

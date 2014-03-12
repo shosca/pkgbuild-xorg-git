@@ -265,7 +265,7 @@ cairo-git: libxrender-git pixman-git xcb-util-git mesa-git
 
 libclc-git: llvm-git
 
-libepoxy-git: mesa-git
+libepoxy-git: mesa-git xorg-util-macros-git
 
 mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libvdpau-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git libomxil-bellagio-git libxshmfence-git
 

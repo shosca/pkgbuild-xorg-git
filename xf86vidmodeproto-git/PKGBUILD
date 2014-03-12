@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/xf86vidmodeproto'
 _gitname='xf86vidmodeproto'
 
 pkgname=xf86vidmodeproto-git
-pkgver=20140311
-pkgrel=1101
+pkgver=20140312
+pkgrel=0710
 pkgdesc='X11 xf86vidmode extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
