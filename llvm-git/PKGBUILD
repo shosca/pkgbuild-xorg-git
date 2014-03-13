@@ -10,7 +10,7 @@ _realver="3.5svn"
 
 pkgname=(llvm-git llvm-libs-git llvm-ocaml-git clang-git clang-tools-extra-git clang-analyzer-git)
 pkgver=20140313
-pkgrel=0725
+pkgrel=1327
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
