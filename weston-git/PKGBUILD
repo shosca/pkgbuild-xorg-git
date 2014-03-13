@@ -6,14 +6,14 @@ _gitroot="git://anongit.freedesktop.org/wayland/weston"
 _gitname="weston"
 
 pkgname=weston-git
-pkgver=20140312
-pkgrel=0742
+pkgver=20140313
+pkgrel=0805
 pkgdesc="Reference implementation of a Wayland compositor"
 arch=('i686' 'x86_64')
 url="http://wayland.freedesktop.org"
 license=('MIT')
 depends=('libxkbcommon-git' 'wayland-git' 'mesa-git' 'cairo-git' 'libunwind'
-         'poppler-glib' 'mtdev' 'libxcursor-git' 'pixman-git' 'glu-git')
+         'poppler-glib' 'mtdev' 'libinput-git' 'libxcursor-git' 'pixman-git' 'glu-git')
 makedepends=('git')
 options=(!libtool)
 provides=('weston=${_realver}')
@@ -26,6 +26,7 @@ build() {
   ./autogen.sh \
     --prefix=/usr \
     --libexecdir=/usr/lib/weston \
+    --enable-libinput-backend \
     --disable-android-compositor
 
   make
