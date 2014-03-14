@@ -7,8 +7,8 @@ _gitname="libevdev"
 
 
 pkgname=libevdev-git
-pkgver=20140311
-pkgrel=0745
+pkgver=20140314
+pkgrel=0625
 pkgdesc="Wrapper library for evdev devices"
 arch=('i686' 'x86_64')
 url="http://www.freedesktop.org/wiki/Software/libevdev/"
