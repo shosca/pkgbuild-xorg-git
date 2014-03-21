@@ -7,13 +7,13 @@ _gitroot="git://anongit.freedesktop.org/nouveau/xf86-video-nouveau"
 _gitname="xf86-video-nouveau"
 
 pkgname=xf86-video-nouveau-git
-pkgver=20140314
-pkgrel=0921
+pkgver=20140321
+pkgrel=1154
 pkgdesc="Open Source 2D acceleration driver for nVidia cards"
 arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
 license=('GPL')
-depends=('libdrm-git' 'udev' 'nouveau-dri-git' 'glamor-egl-git')
+depends=('libdrm-git' 'udev' 'nouveau-dri-git')
 makedepends=('xorg-server-devel-git' 'git')
 provides=('xf86-video-nouveau=${_realver}')
 conflicts=('xf86-video-nouveau' 'xorg-server<1.15.99')
@@ -26,7 +26,7 @@ sha1sums=('SKIP')
 build() {
   cd "${srcdir}/${_gitname}"
 
-  ./autogen.sh --prefix=/usr
+  ./autogen.sh --prefix=/usr --disable-glamor
   make
 }
 

@@ -9,8 +9,8 @@ _gitname="xserver"
 
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=20140314
-pkgrel=0919
+pkgver=20140321
+pkgrel=0812
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -45,7 +45,6 @@ prepare() {
 build() {
   cd "${srcdir}/${_gitname}"
 
-  # --enable-glamor \
   ./autogen.sh \
       --prefix=/usr \
       --enable-ipv6 \
@@ -53,6 +52,7 @@ build() {
       --enable-dri \
       --enable-dri2 \
       --enable-dri3 \
+      --enable-glamor \
       --enable-xvfb \
       --enable-xnest \
       --enable-composite \
@@ -186,7 +186,7 @@ package_xorg-server-git() {
            'libxau-git' 'libxdmcp-git' 'libxfont-git' 'pixman-git' 'udev'
            'xf86-input-evdev-git' 'xorg-server-common-git' 'wayland-git')
   backup=('etc/X11/xorg.conf.d/10-evdev.conf' 'etc/X11/xorg.conf.d/10-quirks.conf')
-  provides=('x-server' "xorg-server=${_realver}")
+  provides=('x-server' 'xorg-server=${_realver}' 'glamor-egl')
   conflicts=('xorg-server' 'nvidia-utils<=290.10')
   groups=('xorg')
 
