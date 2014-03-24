@@ -8,7 +8,7 @@ _gitname='libepoxy'
 
 pkgname=libepoxy-git
 pkgver=20140324
-pkgrel=0840
+pkgrel=1412
 pkgdesc="Epoxy is a library for handling OpenGL function pointer management for you"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

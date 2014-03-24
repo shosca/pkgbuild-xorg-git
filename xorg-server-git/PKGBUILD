@@ -10,7 +10,7 @@ _gitname="xserver"
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
 pkgver=20140324
-pkgrel=0842
+pkgrel=1412
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -183,11 +183,12 @@ package_xorg-server-xvfb-git() {
 package_xorg-server-git() {
   pkgdesc="Xorg X server - Git version"
   depends=('libdrm-git' 'libgcrypt' 'libpciaccess-git' 'libxshmfence-git'
-           'libxau-git' 'libxdmcp-git' 'libxfont-git' 'pixman-git' 'udev'
-           'xf86-input-evdev-git' 'xorg-server-common-git' 'wayland-git')
+           'libxau-git' 'libxdmcp-git' 'libepoxy-git' 'libxfont-git'
+           'pixman-git' 'udev' 'xf86-input-evdev-git' 'xorg-server-common-git'
+           'wayland-git')
   backup=('etc/X11/xorg.conf.d/10-evdev.conf' 'etc/X11/xorg.conf.d/10-quirks.conf')
   provides=('x-server' 'xorg-server=${_realver}' 'glamor-egl')
-  conflicts=('xorg-server' 'nvidia-utils<=290.10')
+  conflicts=('xorg-server' 'glamor-egl' 'nvidia-utils<=290.10')
   groups=('xorg')
 
   cd "${srcdir}/${_gitname}"

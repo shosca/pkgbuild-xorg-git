@@ -10,7 +10,7 @@ _realver="3.5svn"
 
 pkgname=(llvm-git llvm-libs-git llvm-ocaml-git clang-git clang-tools-extra-git clang-analyzer-git)
 pkgver=20140324
-pkgrel=0815
+pkgrel=1352
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -79,18 +79,16 @@ package_llvm-git() {
 
   # We move the clang directory out of the tree so it won't get installed and
   # then we bring it back in for the clang package
-  mv tools/clang "$srcdir/clang.tmp"
+  mv -v tools/clang "$srcdir/clang.tmp"
 
   # -j1 is due to race conditions during the installation of the OCaml bindings
   make -j1 DESTDIR="$pkgdir" install
-  mv "$srcdir/clang.tmp" tools/clang
 
-  # The runtime library goes into llvm-libs
-  mv "$pkgdir/usr/lib/libLLVM-$_realver.so" "$srcdir"
+  mv -v "$srcdir/clang.tmp" tools/clang
 
   # OCaml bindings go to a separate package
   rm -rf "$srcdir"/{ocaml,ocamldoc}
-  mv "$pkgdir"/usr/{lib/ocaml,share/doc/llvm/ocamldoc} "$srcdir"
+  mv -v "$pkgdir"/usr/{lib/ocaml,share/doc/llvm/ocamldoc} "$srcdir"
 
   # Remove duplicate files installed by the OCaml bindings
   rm "$pkgdir"/usr/{lib/libllvm*,share/doc/llvm/ocamldoc.tar.gz}
@@ -101,12 +99,16 @@ package_llvm-git() {
   # Get rid of example Hello transformation
   rm "$pkgdir"/usr/lib/*LLVMHello.*
 
+  # The runtime library goes into llvm-libs
+  mv -v "$pkgdir/usr/lib/libLLVM-3.5.0svn.so" "$srcdir"
+  mv -v "$pkgdir/usr/lib/libLLVM-3.5svn.so" "$srcdir"
+
   if [[ $CARCH == x86_64 ]]; then
     # Needed for multilib (https://bugs.archlinux.org/task/29951)
     # Header stubs are taken from Fedora
     for _header in config llvm-config; do
       echo "$pkgdir/usr/include/llvm/Config/$_header"{,-64}.h
-      mv "$pkgdir/usr/include/llvm/Config/$_header"{,-64}.h
+      mv -v "$pkgdir/usr/include/llvm/Config/$_header"{,-64}.h
       cp "$srcdir/llvm-Config-$_header.h" \
         "$pkgdir/usr/include/llvm/Config/$_header.h"
     done
@@ -132,7 +134,9 @@ package_llvm-libs-git() {
 
   cd "${srcdir}/${_gitname}"
 
-  install -D "$srcdir/libLLVM-$_realver.so" "$pkgdir/usr/lib/libLLVM-$_realver.so"
+  install -m755 -d ${pkgdir}/usr/lib/
+  mv -v "$srcdir/libLLVM-3.5.0svn.so" "$pkgdir/usr/lib"
+  mv -v "$srcdir/libLLVM-3.5svn.so" "$pkgdir/usr/lib"
 
   install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
@@ -170,10 +174,10 @@ package_clang-git() {
 
   # We move the extra tools directory out of the tree so it won't get
   # installed and then we bring it back in for the clang-tools-extra package
-  mv tools/extra "$srcdir/extra.tmp"
+  mv -v tools/extra "$srcdir/extra.tmp"
 
   make DESTDIR="$pkgdir" install
-  mv "$srcdir/extra.tmp" tools/extra
+  mv -v "$srcdir/extra.tmp" tools/extra
 
   # Fix permissions of static libs
   chmod -x "$pkgdir"/usr/lib/*.a
@@ -215,7 +219,7 @@ package_clang-analyzer-git() {
 
   # Relocate man page
   install -d "$pkgdir/usr/share/man/man1"
-  mv "$pkgdir/usr/lib/clang-analyzer/scan-build/scan-build.1" \
+  mv -v "$pkgdir/usr/lib/clang-analyzer/scan-build/scan-build.1" \
     "$pkgdir/usr/share/man/man1/"
 
   # Use Python 2
