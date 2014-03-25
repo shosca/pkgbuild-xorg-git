@@ -7,8 +7,8 @@ _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-synaptics
 _gitname=xf86-input-synaptics
 
 pkgname=xf86-input-synaptics-git
-pkgver=20140324
-pkgrel=1426
+pkgver=20140325
+pkgrel=0808
 pkgdesc="X.Org synaptics Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-synaptics/"
