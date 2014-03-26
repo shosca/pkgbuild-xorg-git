@@ -8,8 +8,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXxf86dga"
 _gitname="libXxf86dga"
 
 pkgname=libxxf86dga-git
-pkgver=20140324
-pkgrel=0901
+pkgver=20140326
+pkgrel=0908
 pkgdesc="X11 Direct Graphics Access extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
