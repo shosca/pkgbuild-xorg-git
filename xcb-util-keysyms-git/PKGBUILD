@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xcb/util-keysyms"
 _gitname="util-keysyms"
 
 pkgname=xcb-util-keysyms-git
-pkgver=20140324
-pkgrel=0842
+pkgver=20140327
+pkgrel=1009
 pkgdesc="Utility libraries for XC Binding - Standard X key constants and conversion to/from keycodes"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"

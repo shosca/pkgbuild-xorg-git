@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXau"
 _gitname="libXau"
 
 pkgname=libxau-git
-pkgver=20140314
-pkgrel=0542
+pkgver=20140327
+pkgrel=0932
 pkgdesc="X11 authorisation library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
