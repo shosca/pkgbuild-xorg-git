@@ -9,8 +9,8 @@ _gitname="llvm"
 _realver="3.5svn"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git')
-pkgver=20140328
-pkgrel=0758
+pkgver=r101850.5900e1d
+pkgrel=1
 arch=('x86_64')
 url="http://llvm.org"
 license=('custom:University of Illinois/NCSA Open Source License')
@@ -21,10 +21,15 @@ source=(git+$_gitroot
         git+http://llvm.org/git/compiler-rt.git
         installfix.patch
 )
-sha1sums=('SKIP'
-          'SKIP'
-          '99073637ffc688403158ba9c4fa07fe58d3091ab')
+sha256sums=('SKIP'
+            'SKIP'
+            '2537221fd58970763cd0552506a3fed5f8a951edf0a769652274635c28bacb04')
 options=('!strip')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 prepare() {
   cd "${srcdir}/${_gitname}"

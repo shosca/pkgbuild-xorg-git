@@ -6,8 +6,8 @@ _gitroot='git://anongit.freedesktop.org/git/cairo'
 _gitname='cairo'
 
 pkgname=cairo-git
-pkgver=20140328
-pkgrel=0754
+pkgver=r11026.bb17403
+pkgrel=1
 pkgdesc="Cairo vector graphics library (git version)"
 arch=('i686' 'x86_64')
 license=('LGPL' 'MPL')
@@ -20,7 +20,12 @@ provides=('cairo=${_realver}' 'cairo-xcb=${_realver}')
 replaces=('cairo')
 conflicts=('cairo' 'cairo-xcb')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXrender"
 _gitname="libXrender"
 
 pkgname=lib32-libxrender-git
-pkgver=20140327
-pkgrel=1016
+pkgver=r74.7887382
+pkgrel=1
 pkgdesc="X Rendering Extension client library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
@@ -18,7 +18,12 @@ conflicts=('lib32-libxrender')
 makedepends=('git' 'xorg-util-macros-git' 'pkgconfig')
 options=('!libtool')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

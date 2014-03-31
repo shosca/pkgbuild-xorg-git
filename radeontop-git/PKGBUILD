@@ -5,8 +5,8 @@ _gitroot='git://github.com/clbr/radeontop.git'
 _gitname='radeontop'
 
 pkgname=radeontop-git
-pkgver=20140227
-pkgrel=1148
+pkgver=r141.c5180ef
+pkgrel=1
 pkgdesc='Radeon cards monitoring utility'
 arch=('i686' 'x86_64')
 url='https://github.com/clbr/radeontop'
@@ -17,6 +17,11 @@ provides=('radeontop')
 conflicts=('radeontop')
 source=($_gitroot)
 sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 prepare() {
   cd "$srcdir/${pkgname%-git}"

@@ -5,8 +5,8 @@ _gitroot="git://anongit.freedesktop.org/wayland/wayland"
 _gitname="wayland"
 
 pkgname=lib32-wayland-git
-pkgver=20140327
-pkgrel=1025
+pkgver=r1499.1bf13ae
+pkgrel=1
 pkgdesc='A computer display server protocol (32 bit)'
 arch=('x86_64')
 url='http://wayland.freedesktop.org'
@@ -14,11 +14,16 @@ license=('MIT')
 depends=('lib32-libffi' 'wayland-git')
 makedepends=('git' 'gcc-multilib' 'lib32-expat')
 options=(!libtool)
-source=($_gitroot)
-sha1sums=('SKIP')
 provides=("lib32-wayland=${_realver}")
 conflicts=('lib32-libwayland' 'lib32-wayland')
 replaces=('lib32-libwayland' 'lib32-wayland')
+source=($_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {  
   export CC="gcc -m32"

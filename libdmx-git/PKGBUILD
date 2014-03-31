@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libdmx"
 _gitname="libdmx"
 
 pkgname=libdmx-git
-pkgver=20140327
-pkgrel=1003
+pkgver=r65.e0715a0
+pkgrel=1
 pkgdesc="X11 Distributed Multihead extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -18,7 +18,12 @@ provides=('libdmx=${_realver}')
 conflicts=('libdmx')
 options=('!libtool')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

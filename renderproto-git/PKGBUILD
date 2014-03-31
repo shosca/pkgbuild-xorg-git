@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/renderproto'
 _gitname='renderproto'
 
 pkgname=renderproto-git
-pkgver=20140327
-pkgrel=0929
+pkgver=r68.9c2a896
+pkgrel=1
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
@@ -17,7 +17,12 @@ makedepends=('xorg-util-macros-git' 'git')
 provides=('renderproto=${_realver}')
 conflicts=('renderproto')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

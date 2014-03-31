@@ -7,18 +7,23 @@ _gitname="libevdev"
 
 
 pkgname=libevdev-git
-pkgver=20140325
-pkgrel=0805
+pkgver=r408.b23649e
+pkgrel=1
 pkgdesc="Wrapper library for evdev devices"
 arch=('i686' 'x86_64')
 url="http://www.freedesktop.org/wiki/Software/libevdev/"
 license=(custom:X11)
 depends=('glibc')
 makedepends=('git' 'python')
-source=($_gitroot)
-sha256sums=('SKIP')
 provides=('libevdev=${_realver}')
 conflicts=('libevdev')
+source=($_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

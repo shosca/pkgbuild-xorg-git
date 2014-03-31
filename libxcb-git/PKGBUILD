@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xcb/libxcb"
 _gitname="libxcb"
 
 pkgname=libxcb-git
-pkgver=20140327
-pkgrel=0932
+pkgver=r570.e2813e1
+pkgrel=1
 pkgdesc="X11 client-side library"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org/"
@@ -19,8 +19,13 @@ conflicts=('libxcb')
 options=('!libtool')
 license=('custom')
 source=($_gitroot libxcb-1.1-no-pthread-stubs.patch)
-sha1sums=('SKIP'
-          '3ba323c1a8aad56d1e52f750e2a61cacf76abfe7')
+sha256sums=('SKIP'
+            'ae17e24d91c0f0e5ee86e96d9e9d4332b9b64e21523e8f6f3b6ed2de41df137d')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

@@ -8,8 +8,8 @@ _gitroot="git://github.com/nigels-com/glew"
 _gitname="glew"
 
 pkgname=glew-git
-pkgver=20140328
-pkgrel=0757
+pkgver=r763.0819658
+pkgrel=1
 pkgdesc="The OpenGL Extension Wrangler Library"
 arch=('i686' 'x86_64')
 url="http://glew.sourceforge.net"
@@ -17,10 +17,15 @@ license=('BSD' 'MIT' 'GPL')
 depends=('libxmu-git' 'libxi-git' 'glu-git')
 makedepends=('git' 'wget' 'perl' 'make')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
 provides=('glew=${_realver}')
 replaces=('glew')
 conflicts=('glew')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/kbproto'
 _gitname='kbproto'
 
 pkgname=kbproto-git
-pkgver=20140327
-pkgrel=0930
+pkgver=r68.5e40da7
+pkgrel=1
 pkgdesc='X11 kb extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
@@ -17,7 +17,12 @@ makedepends=('xorg-util-macros-git' 'git')
 provides=('kbproto=${_realver}')
 conflicts=('kbproto')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

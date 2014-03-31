@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/font/util"
 _gitname="util"
 
 pkgname=xorg-font-util-git
-pkgver=20140327
-pkgrel=1005
+pkgver=r75.9f53de0
+pkgrel=1
 pkgdesc='X.Org font utilities'
 url='http://xorg.freedesktop.org/'
 arch=('i686' 'x86_64')
@@ -19,7 +19,12 @@ provides=('font-util' 'xorg-font-util=${_realver}')
 conflicts=('font-util' 'xorg-font-util')
 groups=('xorg-fonts' 'xorg')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

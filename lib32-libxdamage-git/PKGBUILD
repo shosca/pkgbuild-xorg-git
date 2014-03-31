@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXdamage"
 _gitname="libXdamage"
 
 pkgname=lib32-libxdamage-git
-pkgver=20140327
-pkgrel=1016
+pkgver=r58.41cc41d
+pkgrel=1
 pkgdesc="X11 damaged region extension library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
@@ -18,7 +18,12 @@ provides=('lib32-libxdamage=${_realver}')
 conflicts=('lib32-libxdamage')
 options=('!libtool')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

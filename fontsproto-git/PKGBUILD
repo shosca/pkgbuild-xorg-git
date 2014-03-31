@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/fontsproto'
 _gitname='fontsproto'
 
 pkgname=fontsproto-git
-pkgver=20140327
-pkgrel=1000
+pkgver=r93.8ba53a7
+pkgrel=1
 pkgdesc='Xorg FontsProto protocol headers'
 url='http://xorg.freedesktop.org/'
 arch=('any')
@@ -17,7 +17,12 @@ makedepends=('xorg-util-macros-git' 'git')
 provides=('fontsproto=${_realver}')
 conflicts=('fontsproto')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

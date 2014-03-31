@@ -7,8 +7,8 @@ _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-synaptics
 _gitname=xf86-input-synaptics
 
 pkgname=xf86-input-synaptics-git
-pkgver=20140328
-pkgrel=0810
+pkgver=r1435.f1948e0
+pkgrel=1
 pkgdesc="X.Org synaptics Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-synaptics/"
@@ -21,8 +21,13 @@ provides=('xf86-input-synaptics=${_realver}')
 conflicts=('xf86-input-synaptics' 'xorg-server<1.15.99')
 backup=('etc/X11/xorg.conf.d/10-synaptics.conf')
 source=($_gitroot 10-synaptics.conf)
-sha1sums=('SKIP'
-          '68e1f4ef5e1038231d210eb422fa4d18c5922f0f')
+sha256sums=('SKIP'
+            'bd506a0545c335faa6da7ec42b3f60f2c09b5ed9e26f03003d6f59be88107ee2')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

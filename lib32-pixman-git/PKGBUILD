@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/git/pixman"
 _gitname="pixman"
 
 pkgname=lib32-pixman-git
-pkgver=20140327
-pkgrel=1028
+pkgver=r2220.c343846
+pkgrel=1
 pkgdesc="The pixel-manipulation library for X and cairo"
 arch=('x86_64')
 url="http://pixman.org/"
@@ -19,7 +19,12 @@ conflicts=('lib32-pixman')
 replaces=('lib32-pixman')
 options=('!libtool')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

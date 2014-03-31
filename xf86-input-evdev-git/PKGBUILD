@@ -7,20 +7,25 @@ _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-evdev
 _gitname=xf86-input-evdev
 
 pkgname=xf86-input-evdev-git
-pkgver=20140328
-pkgrel=0809
+pkgver=r625.ae67f64
+pkgrel=1
 pkgdesc="X.Org evdev Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-evdev/"
 license=('custom')
-depends=('xorg-server-git' 'libevdev-git')
+depends=('libevdev-git')
 makedepends=('xorg-server-devel-git' 'git')
 options=('!libtool' '!makeflags')
 groups=('xorg-drivers' 'xorg')
 provides=("xf86-input-evdev=${_realver}")
-conflicts=('xf86-input-evdev' 'xorg-server<1.15.99')
+conflicts=('xf86-input-evdev')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

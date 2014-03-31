@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libpciaccess"
 _gitname="libpciaccess"
 
 pkgname=lib32-libpciaccess-git
-pkgver=20140303
-pkgrel=1343
+pkgver=r273.b9c0688
+pkgrel=1
 pkgdesc="X11 PCI access library"
 arch=('x86_64')
 license=('custom')
@@ -19,7 +19,12 @@ provides=('lib32-libpciaccess=${_realver}')
 conflicts=('lib32-libpciaccess')
 options=('!libtool')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

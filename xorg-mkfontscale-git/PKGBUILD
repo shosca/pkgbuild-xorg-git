@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/mkfontscale"
 _gitname="mkfontscale"
 
 pkgname=xorg-mkfontscale-git
-pkgver=20140327
-pkgrel=1035
+pkgver=r102.399db42
+pkgrel=1
 pkgdesc="Create an index of scalable font files for X"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -18,7 +18,12 @@ groups=('xorg-apps' 'xorg')
 provides=('xorg-mkfontscale')
 conflicts=('xorg-mkfontscale')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

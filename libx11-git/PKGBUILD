@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libX11"
 _gitname="libX11"
 
 pkgname=libx11-git
-pkgver=20140327
-pkgrel=0933
+pkgver=r1160.8be4610
+pkgrel=1
 pkgdesc="X11 client-side library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -24,6 +24,11 @@ source=($_gitroot
 sha256sums=('SKIP'
             '1a1b5db0320579958fba24774bae7984a1b1b8c647ac6fbd4d8937178c48ed46'
             '96c85ccbdcb056540f2e2b6cf48dea067f80260c16957ee401c49cf94cea5894')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

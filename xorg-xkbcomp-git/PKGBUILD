@@ -6,8 +6,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/app/xkbcomp'
 _gitname='xkbcomp'
 
 pkgname=xorg-xkbcomp-git
-pkgver=20140311
-pkgrel=0723
+pkgver=r153.d4e02a0
+pkgrel=1
 pkgdesc="X Keyboard description compiler"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -18,7 +18,12 @@ groups=('xorg-apps' 'xorg')
 provides=('xorg-xkbcomp=1.2.4')
 conflicts=('xorg-xkbcomp')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

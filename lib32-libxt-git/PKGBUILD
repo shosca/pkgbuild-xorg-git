@@ -6,19 +6,24 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXt"
 _gitname="libXt"
 
 pkgname=lib32-libxt-git
-pkgver=20140327
-pkgrel=1017
+pkgver=r217.51d63a9
+pkgrel=1
 pkgdesc="X11 toolkit intrinsics library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('lib32-libsm-git' 'lib32-libx11-git' 'lib32-libxt-git')
+depends=('lib32-libsm-git' 'lib32-libx11-git' 'libxt-git')
 makedepends=('git' 'xorg-util-macros-git')
 options=('!libtool')
 provides=('lib32-libxt=${_realver}')
 conflicts=('lib32-libxt')
 source=($_gitroot)
-sha1sums=(SKIP)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

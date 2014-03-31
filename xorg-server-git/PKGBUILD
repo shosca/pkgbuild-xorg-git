@@ -9,8 +9,8 @@ _gitname="xserver"
 
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=20140328
-pkgrel=0755
+pkgver=r13806.8468e24
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -32,10 +32,15 @@ source=($_gitroot
         xvfb-run
         xvfb-run.1
         10-quirks.conf)
-sha1sums=('SKIP'
-          'c94f742d3f9cabf958ae58e4015d9dd185aabedc'
-          '6838fc00ef4618c924a77e0fb03c05346080908a'
-          '993798f3d22ad672d769dae5f48d1fa068d5578f')
+sha256sums=('SKIP'
+            'ff0156309470fc1d378fd2e104338020a884295e285972cc88e250e031cc35b9'
+            '2460adccd3362fefd4cdc5f1c70f332d7b578091fb9167bf88b5f91265bbd776'
+            '94612f5c0d34a3b7152915c2e285c7b462e9d8e38d3539bd551a339498eac166')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 prepare() {
   cd "${srcdir}/${_gitname}"

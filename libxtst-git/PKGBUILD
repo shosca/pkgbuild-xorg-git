@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXtst"
 _gitname="libXtst"
 
 pkgname=libxtst-git
-pkgver=20140327
-pkgrel=1007
+pkgver=r112.48d2656
+pkgrel=1
 pkgdesc="X11 Testing -- Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -18,7 +18,12 @@ options=('!libtool')
 provides=('libxtst=${_realver}')
 conflicts=('libxtst')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

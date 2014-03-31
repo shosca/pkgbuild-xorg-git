@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXau"
 _gitname="libXau"
 
 pkgname=lib32-libxau-git
-pkgver=20140327
-pkgrel=1014
+pkgver=r100.1e4635b
+pkgrel=1
 pkgdesc="X11 authorisation library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
@@ -19,7 +19,12 @@ makedepends=('pkgconfig' 'xorg-util-macros-git' 'git')
 license=('custom')
 options=('!libtool')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

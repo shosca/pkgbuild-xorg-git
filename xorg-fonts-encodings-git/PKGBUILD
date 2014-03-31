@@ -6,8 +6,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/font/encodings'
 _gitname='encodings'
 
 pkgname=xorg-fonts-encodings-git
-pkgver=20140327
-pkgrel=1035
+pkgver=r57.510924c
+pkgrel=1
 pkgdesc="X.org font encoding files"
 arch=('any')
 url="http://xorg.freedesktop.org/"
@@ -18,7 +18,12 @@ options=(!makeflags)
 provides=('xorg-fonts-encodings=${_realver}')
 conflicts=('xorg-fonts-encodings')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

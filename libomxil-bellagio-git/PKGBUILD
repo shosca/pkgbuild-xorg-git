@@ -5,8 +5,8 @@ _gitroot="git://omxil.git.sourceforge.net/gitroot/omxil/omxil"
 _gitname="omxil"
 
 pkgname=libomxil-bellagio-git
-pkgver=20140227
-pkgrel=0953
+pkgver=r708.f2c7fd9
+pkgrel=1
 pkgdesc="An opensource implementation of the OpenMAX Integration Layer API"
 arch=('arm' 'armv7h' 'i686' 'x86_64')
 url="http://omxil.sourceforge.net"
@@ -14,7 +14,12 @@ license="LGPL"
 makedepends=('doxygen' 'git')
 provides=('libomxil-bellagio=${_realver}')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "$srcdir/$_gitname"

@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xcb/util-image"
 _gitname="util-image"
 
 pkgname=xcb-util-image-git
-pkgver=20140327
-pkgrel=1008
+pkgver=r105.2eb581a
+pkgrel=1
 pkgdesc="Utility libraries for XC Binding - Port of Xlib's XImage and XShmImage functions"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
@@ -22,6 +22,11 @@ sha256sums=('SKIP'
 provides=('xcb-util-image=${_realver}')
 conflicts=('xcb-util-image')
 replaces=('xcb-util-image')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

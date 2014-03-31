@@ -7,8 +7,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/dri2proto'
 _gitname='dri2proto'
 
 pkgname=dri2proto-git
-pkgver=20140327
-pkgrel=1000
+pkgver=r49.ddc1287
+pkgrel=1
 pkgdesc='X11 DRI extension wire protocol.'
 url='http://xorg.freedesktop.org/'
 arch=('any')
@@ -17,7 +17,12 @@ makedepends=('xorg-util-macros-git' 'git')
 provides=('dri2proto=${_realver}')
 conflicts=('dri2proto')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

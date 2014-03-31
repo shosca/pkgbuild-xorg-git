@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/util/macros"
 _gitname="macros"
 
 pkgname=xorg-util-macros-git
-pkgver=20140327
-pkgrel=0929
+pkgver=r190.9a54b85
+pkgrel=1
 pkgdesc="X.Org Autotools macros"
 arch=('any')
 license=('custom')
@@ -16,7 +16,12 @@ makedepends=('git')
 provides=('xorg-util-macros=${_realver}')
 conflicts=('xorg-util-macros')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}/${_gitname}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

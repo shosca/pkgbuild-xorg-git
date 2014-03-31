@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xhost"
 _gitname="xhost"
 
 pkgname=xorg-xhost-git
-pkgver=20140327
-pkgrel=1036
+pkgver=r85.f224c62
+pkgrel=1
 pkgdesc="Server access control program for X"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -18,7 +18,12 @@ groups=('xorg-apps' 'xorg')
 provides=('xorg-xhost=${_realver}')
 conflicts=('xorg-xhost')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

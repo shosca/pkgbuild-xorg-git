@@ -1,8 +1,6 @@
 REPO=xorg-git
 PWD=$(shell pwd)
 DIRS=$(shell ls | grep 'git')
-DATE=$(shell date +"%Y%m%d")
-TIME=$(shell date +"%H%M")
 ARCHNSPAWN=arch-nspawn
 MKARCHROOT=/usr/bin/mkarchroot -C /usr/share/devtools/pacman-multilib.conf
 MAKECHROOTPKG=/usr/bin/makechrootpkg -c -u -r
@@ -14,6 +12,7 @@ CHROOTPATH64=/tmp/chroot64/$(REPO)
 TARGETS=$(addsuffix /built, $(DIRS))
 PULL_TARGETS=$(addsuffix -pull, $(DIRS))
 VER_TARGETS=$(addsuffix -ver, $(DIRS))
+SHA_TARGETS=$(addsuffix -sha, $(DIRS))
 
 .PHONY: $(DIRS) checkchroot
 
@@ -40,11 +39,7 @@ checkchroot:
 		echo "SigLevel = Never" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
 		echo "Server = file:///repo" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
 		echo "COMPRESSXZ=(7z a dummy -txz -si -so)" | sudo tee -a $(CHROOTPATH64)/root/etc/makepkg.conf ; \
-		echo "Recreating working repo $(REPO)" ; \
-		if ls */*.$(PKGEXT) &> /dev/null ; then \
-			sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
-			sudo repo-add $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
-		fi ; \
+		$(MAKE) recreaterepo ; \
 		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root pacman \
 			-Syyu --noconfirm ; \
 		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root \
@@ -53,6 +48,13 @@ checkchroot:
 
 resetchroot:
 	sudo rm -rf $(CHROOTPATH64) && $(MAKE) checkchroot
+
+recreaterepo:
+	echo "Recreating working repo $(REPO)" ; \
+	if ls */*.$(PKGEXT) &> /dev/null ; then \
+		sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
+		sudo repo-add $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
+	fi ; \
 
 build:
 	@$(MAKE) $(DIRS);
@@ -66,15 +68,12 @@ test:
 
 %/built:
 	@_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
-	if [ -f $(PWD)/$*/$$_gitname/HEAD ]; then \
-		sed -i "s/^pkgver=[^ ]*/pkgver=$(DATE)/" "$(PWD)/$*/PKGBUILD" ; \
-		sed -i "s/^pkgrel=[^ ]*/pkgrel=$(TIME)/" "$(PWD)/$*/PKGBUILD" ; \
-	fi ; \
 	cd $* ; \
 	rm -f *$(PKGEXT) *.log ; \
 	sudo $(MAKECHROOTPKG) $(CHROOTPATH64) || exit 1 && \
 	sudo rm -f $(addsuffix *, $(addprefix $(CHROOTPATH64)/root/repo/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
-	sudo cp *.$(PKGEXT) $(CHROOTPATH64)/root/repo/ ; \
+	sudo cp *.$(PKGEXT) $(CHROOTPATH64)/root/repo/ && \
+	cp $(CHROOTPATH64)/$$USER/startdir/PKGBUILD . && \
 	for f in *.$(PKGEXT) ; do \
 		sudo repo-add $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/"$$f" ; \
 	done ; \
@@ -122,6 +121,11 @@ vers: $(VER_TARGETS)
 			rm -f "$(PWD)/$*/built" ; \
 		fi ; \
 	fi
+
+updateshas: $(SHA_TARGETS)
+
+%-sha:
+	@cd $(PWD)/$* && updpkgsums
 
 -include Makefile.mk
 
@@ -249,7 +253,7 @@ libxv-git: videoproto-git libxext-git
 
 libxvmc-git: libxv-git
 
-libvdpau-git: libx11-git
+libvdpau-git: libx11-git libxext-git
 
 libva-git: libdrm-git libxfixes-git
 
@@ -267,7 +271,7 @@ libclc-git: llvm-git
 
 libepoxy-git: mesa-git xorg-util-macros-git
 
-mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libvdpau-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git libomxil-bellagio-git libxshmfence-git
+mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libvdpau-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git libomxil-bellagio-git libxshmfence-git dri2proto-git dri3proto-git presentproto-git
 
 glu-git: mesa-git
 
@@ -312,6 +316,8 @@ xf86-input-synaptics-git: xorg-server-git libevdev-git libxi-git libxtst-git res
 xf86-video-ati-git: xorg-server-git mesa-git glamor-egl-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
 
 radeontop-git:
+
+xkeyboard-config-git: kbproto-git xcb-proto-git xproto-git libx11-git libxau-git libxcb-git libxdmcp-git libxkbfile-git xorg-xkbcomp-git
 
 xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git dri3proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git glamor-egl-git
 

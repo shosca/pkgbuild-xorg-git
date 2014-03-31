@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xwininfo"
 _gitname="xwininfo"
 
 pkgname=xorg-xwininfo-git
-pkgver=20140327
-pkgrel=1038
+pkgver=r102.ba0d1b0
+pkgrel=1
 pkgdesc="Command-line utility to print information about windows on an X server"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -19,7 +19,12 @@ provides=('xorg-xwininfo=${_realver}')
 conflicts=('xorg-xwininfo')
 replaces=('xorg-xwininfo')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

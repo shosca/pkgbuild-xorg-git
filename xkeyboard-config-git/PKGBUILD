@@ -7,8 +7,8 @@ _gitroot='git://anongit.freedesktop.org/xkeyboard-config'
 _gitname='xkeyboard-config'
 
 pkgname=xkeyboard-config-git
-pkgver=20140303
-pkgrel=1338
+pkgver=r1728.d9e3d0e
+pkgrel=1
 pkgdesc="X keyboard configuration files"
 arch=('any')
 license=('custom')
@@ -19,7 +19,12 @@ provides=('xkbdata' 'xkeyboard-config=${_realver}')
 replaces=('xkbdata')
 conflicts=('xkbdata' 'xkeyboard-config')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

@@ -7,17 +7,22 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/scrnsaverproto'
 _gitname='scrnsaverproto'
 
 pkgname=scrnsaverproto-git
-pkgver=20140327
-pkgrel=1002
+pkgver=r58.5cf9455
+pkgrel=1
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('xorg-util-macros-git' 'git')
 provides=('scrnsaverproto=${_realver}')
 conflicts=('scrnsaverproto')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

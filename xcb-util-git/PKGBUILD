@@ -8,8 +8,8 @@ _gitroot="git://anongit.freedesktop.org/xcb/util"
 _gitname="util"
 
 pkgname=xcb-util-git
-pkgver=20140327
-pkgrel=0934
+pkgver=r122.030c7a8
+pkgrel=1
 pkgdesc="Utility libraries for XC Binding"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
@@ -23,6 +23,11 @@ sha256sums=('SKIP'
 provides=('xcb-util=${_realver}')
 conflicts=('xcb-util')
 replaces=('xcb-util')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

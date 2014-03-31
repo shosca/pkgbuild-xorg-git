@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xrdb"
 _gitname="xrdb"
 
 pkgname=xorg-xrdb-git
-pkgver=20140327
-pkgrel=1037
+pkgver=r88.17eda97
+pkgrel=1
 pkgdesc="X.Org authorization settings program"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -18,7 +18,12 @@ groups=('xorg-apps' 'xorg')
 provides=('xorg-xrdb=${_realver}')
 conflicts=('xorg-xrdb')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

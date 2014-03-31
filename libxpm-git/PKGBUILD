@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXpm"
 _gitname="libXpm"
 
 pkgname=libxpm-git
-pkgver=20140327
-pkgrel=1005
+pkgver=r117.42ca8d9
+pkgrel=1
 pkgdesc="X11 pixmap library"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -18,7 +18,12 @@ options=('!libtool')
 provides=('libxpm=${_realver}')
 conflicts=('libxpm')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"

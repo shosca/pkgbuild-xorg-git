@@ -5,8 +5,8 @@ _realver=1.7.2
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXi"
 _gitname="libXi"
 pkgname=libxi-git
-pkgver=20140327
-pkgrel=1006
+pkgver=r458.288f336
+pkgrel=1
 pkgdesc="X11 Input extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"
@@ -17,7 +17,12 @@ license=('custom')
 provides=('libxi=${_realver}')
 conflicts=('libxi')
 source=($_gitroot)
-sha1sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   cd "${srcdir}/${_gitname}"
