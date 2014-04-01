@@ -6,7 +6,7 @@ _gitname="libxkbcommon"
 
 pkgbase=libxkbcommon-git
 pkgname=('libxkbcommon-git' 'libxkbcommon-x11-git')
-pkgver=r1369.b5b86b6
+pkgver=r1370.99af72f
 pkgrel=1
 pkgdesc="A library to handle keyboard descriptions."
 url="http://xkbcommon.org/"
@@ -14,9 +14,6 @@ arch=('i686' 'x86_64')
 license=('custom')
 depends=('xkeyboard-config-git')
 makedepends=('git' 'doxygen' 'xorg-util-macros-git' 'libxcb-git')
-provides=('libxkbcommon=${_realver}')
-replaces=('libxkbcommon')
-conflicts=('libxkbcommon')
 source=($_gitroot)
 sha256sums=('SKIP')
 
@@ -37,6 +34,10 @@ build() {
 }
 
 package_libxkbcommon-git() {
+  provides=('libxkbcommon=${_realver}')
+  replaces=('libxkbcommon')
+  conflicts=('libxkbcommon')
+
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
 

@@ -56,8 +56,7 @@ recreaterepo:
 		sudo repo-add $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
 	fi ; \
 
-build:
-	@$(MAKE) $(DIRS);
+build: $(DIRS)
 
 test:
 	@echo "REPO    : $(REPO)" ; \
@@ -87,6 +86,8 @@ test:
 
 $(DIRS): checkchroot
 	@if [ ! -f $(PWD)/$@/built ]; then \
+		_pkgrel=$$(grep -R '^pkgrel' $(PWD)/$@/PKGBUILD | sed -e 's/pkgrel=//' -e "s/'//g" -e 's/"//g') && \
+		sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=$$(($$_pkgrel+1))/" $(PWD)/$@/PKGBUILD ; \
 		$(MAKE) $@/built ; \
 	fi
 
@@ -102,6 +103,9 @@ gitpull: $(PULL_TARGETS)
 		$(GITFETCH) && \
 		if [ -f $(PWD)/$*/built ] && [ "$$(cat $(PWD)/$*/built)" != "$$(git log -1 | head -n1)" ]; then \
 			rm -f $(PWD)/$*/built ; \
+			_newpkgver="r$$(git --git-dir=$(PWD)/$*/$$_gitname rev-list --count HEAD).$$(git --git-dir=$(PWD)/$*/$$_gitname rev-parse --short HEAD)" ; \
+			sed --follow-symlinks -i "s/^pkgver=[^ ]*/pkgver=$$_newpkgver/" $(PWD)/$*/PKGBUILD ; \
+			sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=0/" $(PWD)/$*/PKGBUILD ; \
 		fi ; \
 		cd $(PWD) ; \
 	fi
@@ -110,16 +114,10 @@ vers: $(VER_TARGETS)
 
 %-ver:
 	@_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
-	if [ -d $(PWD)/$*/src/$$_gitname ]; then \
-		cd $(PWD)/$*/src/$$_gitname && \
-		autoreconf -f > /dev/null 2>&1 && \
-		_oldver=$$(grep -R '^_realver' $(PWD)/$*/PKGBUILD | sed -e 's/_realver=//' -e "s/'//g" -e 's/"//g') && \
-		_realver=$$(grep 'PACKAGE_VERSION=' configure | head -n1 | sed -e 's/PACKAGE_VERSION=//' -e "s/'//g") ; \
-		if [ ! -z $$_realver ] && [ $$_oldver != $$_realver ]; then \
-			echo "$(subst -git,,$*) : $$_oldver $$_realver" ; \
-			sed -i "s/^_realver=[^ ]*/_realver=$$_realver/" "$(PWD)/$*/PKGBUILD" ; \
-			rm -f "$(PWD)/$*/built" ; \
-		fi ; \
+	if [ -d $(PWD)/$*/$$_gitname ]; then \
+		_newpkgver="r$$(git --git-dir=$(PWD)/$*/$$_gitname rev-list --count HEAD).$$(git --git-dir=$(PWD)/$*/$$_gitname rev-parse --short HEAD)" ; \
+		sed --follow-symlinks -i "s/^pkgver=[^ ]*/pkgver=$$_newpkgver/" $(PWD)/$*/PKGBUILD ; \
+		echo "$* r$$(git --git-dir=$(PWD)/$*/$$_gitname rev-list --count HEAD).$$(git --git-dir=$(PWD)/$*/$$_gitname rev-parse --short HEAD)" ; \
 	fi
 
 updateshas: $(SHA_TARGETS)
@@ -313,17 +311,15 @@ xf86-input-evdev-git: xorg-server-git libevdev-git libxi-git libxtst-git resourc
 
 xf86-input-synaptics-git: xorg-server-git libevdev-git libxi-git libxtst-git resourceproto-git scrnsaverproto-git
 
-xf86-video-ati-git: xorg-server-git mesa-git glamor-egl-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
+xf86-video-ati-git: xorg-server-git mesa-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
 
 radeontop-git:
 
 xkeyboard-config-git: kbproto-git xcb-proto-git xproto-git libx11-git libxau-git libxcb-git libxdmcp-git libxkbfile-git xorg-xkbcomp-git
 
-xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git dri3proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git glamor-egl-git
+xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git dri3proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git
 
-xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git glamor-egl-git
-
-glamor-egl-git: glproto-git xf86driproto-git libx11-git libdrm-git xorg-server-git mesa-git
+xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git
 
 weston-git: libinput-git libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git
 
