@@ -253,6 +253,8 @@ libxvmc-git: libxv-git
 
 libvdpau-git: libx11-git libxext-git
 
+vdpauinfo-git: libvdpau-git
+
 libva-git: libdrm-git libxfixes-git
 
 libva-intel-driver-git: libva-git

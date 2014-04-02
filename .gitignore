@@ -6,6 +6,7 @@
 */src
 */pkg
 *.log
+Makefile.mk
 
 */alias
 */bdftopcf
@@ -122,4 +123,4 @@
 */glew
 */libevdev
 */libepoxy
-Makefile.mk
+*/vdpauinfo
