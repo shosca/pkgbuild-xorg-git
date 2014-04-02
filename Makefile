@@ -1,6 +1,6 @@
 REPO=xorg-git
 PWD=$(shell pwd)
-DIRS=$(shell ls | grep 'git')
+DIRS=$(shell ls -d */ | sed -e 's/\///' )
 ARCHNSPAWN=arch-nspawn
 MKARCHROOT=/usr/bin/mkarchroot -C /usr/share/devtools/pacman-multilib.conf
 MAKECHROOTPKG=/usr/bin/makechrootpkg -c -u -r

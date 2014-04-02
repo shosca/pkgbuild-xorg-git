@@ -9,7 +9,7 @@ _gitname="llvm"
 _realver="3.5svn"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git')
-pkgver=r101937.f2dc47c
+pkgver=r101954.421397a
 pkgrel=1
 arch=('x86_64')
 url="http://llvm.org"
