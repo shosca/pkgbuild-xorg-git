@@ -8,7 +8,7 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=r62159.c6050ce
-pkgrel=1
+pkgrel=3
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -16,7 +16,7 @@ makedepends=('git' 'python2' 'libxml2' 'libx11-git' 'glproto-git' 'libdrm-git'
              'dri2proto-git' 'dri3proto-git' 'presentproto-git' 'libclc-git'
              'libxshmfence-git' 'libomxil-bellagio-git' 'libxxf86vm-git'
              'libxdamage-git' 'libvdpau-git' 'wayland-git' 'elfutils'
-             'llvm-git' 'systemd')
+             'llvm-git' 'systemd' 'opencl-headers')
 optdepends=('opengl-man-pages: for the OpenGL API man pages')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
@@ -145,7 +145,7 @@ package_svga-dri-git() {
 
 package_opencl-mesa-git() {
   pkgdesc="Mesa OpenCL library"
-  depends=('mesa-git' 'llvm-git' 'libclc-git')
+  depends=('mesa-git' 'llvm-git' 'libclc-git' 'opencl-headers')
   provides=("opencl-mesa=${_realver}" "libcl")
   replaces=('opencl-mesa' 'libcl')
   conflicts=('libcl')
@@ -171,9 +171,11 @@ package_mesa-git() {
   replaces=('mesa' 'libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
 
   mv -v ${srcdir}/fakeinstall/* ${pkgdir}
+  install -m755 -d ${pkgdir}/usr/lib/mesa
   # rename libgl.so to not conflict with blobs - may break gl.pc ?
-  mv ${pkgdir}/usr/lib/libGL.so.1.2.0   ${pkgdir}/usr/lib/mesa-libGL.so.1.2.0
-  rm ${pkgdir}/usr/lib/libGL.so{,.1}
+  mv -v ${pkgdir}/usr/lib/libGL.so*    ${pkgdir}/usr/lib/mesa/
+  mv -v ${pkgdir}/usr/lib/libEGL.so*   ${pkgdir}/usr/lib/mesa/
+  mv -v ${pkgdir}/usr/lib/libGLES*.so* ${pkgdir}/usr/lib/mesa/
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
@@ -190,9 +192,21 @@ package_mesa-libgl-git(){
   install -m755 -d "${pkgdir}/usr/lib/xorg/modules/extensions"
   ln -s libglx.xorg "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so"
 
-  ln -s mesa-libGL.so.1.2.0      ${pkgdir}/usr/lib/libGL.so
-  ln -s mesa-libGL.so.1.2.0      ${pkgdir}/usr/lib/libGL.so.1
-  ln -s mesa-libGL.so.1.2.0      ${pkgdir}/usr/lib/libGL.so.1.2.0
+  ln -s /usr/lib/mesa/libGL.so.1.2.0 ${pkgdir}/usr/lib/libGL.so.1.2.0
+  ln -s libGL.so.1.2.0               ${pkgdir}/usr/lib/libGL.so.1
+  ln -s libGL.so.1.2.0               ${pkgdir}/usr/lib/libGL.so
+
+  ln -s /usr/lib/mesa/libEGL.so.1.0.0 ${pkgdir}/usr/lib/libEGL.so.1.0.0
+  ln -s libEGL.so.1.0.0               ${pkgdir}/usr/lib/libEGL.so.1
+  ln -s libEGL.so.1.0.0               ${pkgdir}/usr/lib/libEGL.so
+
+  ln -s /usr/lib/mesa/libGLESv1_CM.so.1.1.0 ${pkgdir}/usr/lib/libGLESv1_CM.so.1.1.0
+  ln -s libGLESv1_CM.so.1.1.0               ${pkgdir}/usr/lib/libGLESv1_CM.so.1
+  ln -s libGLESv1_CM.so.1.1.0               ${pkgdir}/usr/lib/libGLESv1_CM.so
+
+  ln -s /usr/lib/mesa/libGLESv2.so.2.0.0 ${pkgdir}/usr/lib/libGLESv2.so.2.0.0
+  ln -s libGLESv2.so.2.0.0               ${pkgdir}/usr/lib/libGLESv2.so.2
+  ln -s libGLESv2.so.2.0.0               ${pkgdir}/usr/lib/libGLESv2.so
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"

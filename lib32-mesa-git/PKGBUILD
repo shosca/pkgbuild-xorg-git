@@ -9,7 +9,7 @@ _gitname='mesa'
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
 pkgver=r62159.c6050ce
-pkgrel=1
+pkgrel=4
 arch=('x86_64')
 depends=('lib32-elfutils' 'lib32-libdrm-git' 'lib32-expat' 'lib32-libxt-git'
          'lib32-libxxf86vm-git' 'lib32-libxdamage-git' 'lib32-libx11-git'
@@ -126,9 +126,11 @@ package_lib32-mesa-git() {
   replaces=('lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')
 
   mv -v ${srcdir}/fakeinstall/* ${pkgdir}
+  install -m755 -d ${pkgdir}/usr/lib32/mesa
   # rename libgl.so to not conflict with blobs - may break gl.pc ?
-  mv ${pkgdir}/usr/lib32/libGL.so.1.2.0   ${pkgdir}/usr/lib32/mesa-libGL.so.1.2.0
-  rm ${pkgdir}/usr/lib32/libGL.so{,.1}
+  mv -v ${pkgdir}/usr/lib32/libGL.so*    ${pkgdir}/usr/lib32/mesa/
+  mv -v ${pkgdir}/usr/lib32/libEGL.so*   ${pkgdir}/usr/lib32/mesa/
+  mv -v ${pkgdir}/usr/lib32/libGLES*.so* ${pkgdir}/usr/lib32/mesa/
 
   rm -rf ${pkgdir}/etc
   rm -rf ${pkgdir}/usr/include
@@ -145,9 +147,21 @@ package_lib32-mesa-libgl-git(){
 
   install -m755 -d ${pkgdir}/usr/lib32
 
-  ln -s mesa-libGL.so.1.2.0 ${pkgdir}/usr/lib32/libGL.so
-  ln -s mesa-libGL.so.1.2.0 ${pkgdir}/usr/lib32/libGL.so.1
-  ln -s mesa-libGL.so.1.2.0 ${pkgdir}/usr/lib32/libGL.so.1.2.0
+  ln -s /usr/lib32/mesa/libGL.so.1.2.0 ${pkgdir}/usr/lib32/libGL.so.1.2.0
+  ln -s libGL.so.1.2.0                 ${pkgdir}/usr/lib32/libGL.so.1
+  ln -s libGL.so.1.2.0                 ${pkgdir}/usr/lib32/libGL.so
+
+  ln -s /usr/lib32/mesa/libEGL.so.1.0.0 ${pkgdir}/usr/lib32/libEGL.so.1.0.0
+  ln -s libEGL.so.1.0.0                 ${pkgdir}/usr/lib32/libEGL.so.1
+  ln -s libEGL.so.1.0.0                 ${pkgdir}/usr/lib32/libEGL.so
+
+  ln -s /usr/lib32/mesa/libGLESv1_CM.so.1.1.0 ${pkgdir}/usr/lib32/libGLESv1_CM.so.1.1.0
+  ln -s libGLESv1_CM.so.1.1.0                 ${pkgdir}/usr/lib32/libGLESv1_CM.so.1
+  ln -s libGLESv1_CM.so.1.1.0                 ${pkgdir}/usr/lib32/libGLESv1_CM.so
+
+  ln -s /usr/lib32/mesa/libGLESv2.so.2.0.0 ${pkgdir}/usr/lib32/libGLESv2.so.2.0.0
+  ln -s libGLESv2.so.2.0.0                 ${pkgdir}/usr/lib32/libGLESv2.so.2
+  ln -s libGLESv2.so.2.0.0                 ${pkgdir}/usr/lib32/libGLESv2.so
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
