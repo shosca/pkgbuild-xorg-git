@@ -6,7 +6,7 @@ _gitroot="git://anongit.freedesktop.org/git/pixman"
 _gitname="pixman"
 
 pkgname=pixman-git
-pkgver=r2220.c343846
+pkgver=r2224.4b76bbf
 pkgrel=1
 pkgdesc="The pixel-manipulation library for X and cairo"
 arch=('i686' 'x86_64')
