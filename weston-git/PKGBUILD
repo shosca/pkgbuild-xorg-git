@@ -18,9 +18,8 @@ depends=('libxkbcommon-git' 'wayland-git' 'mesa-git' 'cairo-git' 'libunwind'
 makedepends=('git')
 options=(!libtool)
 provides=('weston=${_realver}')
-source=($_gitroot buildfix.patch)
-sha256sums=('SKIP'
-            'fa92969c3ba805ca0e71741d183ca6a5ef6c8b156695f7e513d3b30cbbd49fb2')
+source=($_gitroot)
+sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -29,8 +28,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  patch -Np1 -i ../buildfix.patch
 
   ./autogen.sh \
     --prefix=/usr \
