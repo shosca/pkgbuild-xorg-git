@@ -7,7 +7,7 @@ _gitname="weston"
 
 pkgname=weston-git
 pkgver=r3973.40d0228
-pkgrel=0
+pkgrel=1
 pkgdesc="Reference implementation of a Wayland compositor"
 arch=('i686' 'x86_64')
 url="http://wayland.freedesktop.org"
@@ -18,8 +18,9 @@ depends=('libxkbcommon-git' 'wayland-git' 'mesa-git' 'cairo-git' 'libunwind'
 makedepends=('git')
 options=(!libtool)
 provides=('weston=${_realver}')
-source=($_gitroot)
-sha256sums=('SKIP')
+source=($_gitroot buildfix.patch)
+sha256sums=('SKIP'
+            'fa92969c3ba805ca0e71741d183ca6a5ef6c8b156695f7e513d3b30cbbd49fb2')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -28,6 +29,8 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
+
+  patch -Np1 -i ../buildfix.patch
 
   ./autogen.sh \
     --prefix=/usr \
