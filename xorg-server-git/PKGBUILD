@@ -9,8 +9,8 @@ _gitname="xserver"
 
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=r13848.901fbfb
-pkgrel=9
+pkgver=r13850.bd3de10
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
