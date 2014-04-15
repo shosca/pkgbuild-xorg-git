@@ -7,7 +7,7 @@ _gitname="libXdamage"
 
 pkgname=lib32-libxdamage-git
 pkgver=r58.41cc41d
-pkgrel=4
+pkgrel=5
 pkgdesc="X11 damaged region extension library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"

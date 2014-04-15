@@ -8,7 +8,7 @@ _gitname="util-image"
 
 pkgname=xcb-util-image-git
 pkgver=r105.2eb581a
-pkgrel=4
+pkgrel=5
 pkgdesc="Utility libraries for XC Binding - Port of Xlib's XImage and XShmImage functions"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
