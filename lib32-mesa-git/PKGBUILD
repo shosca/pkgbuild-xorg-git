@@ -8,8 +8,8 @@ _gitname='mesa'
 
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
-pkgver=r62411.6d0e30c
-pkgrel=1
+pkgver=r62427.f23d116
+pkgrel=2
 arch=('x86_64')
 depends=('lib32-elfutils' 'lib32-libdrm-git' 'lib32-expat' 'lib32-libxt-git'
          'lib32-libxxf86vm-git' 'lib32-libxdamage-git' 'lib32-libx11-git'
@@ -22,10 +22,9 @@ makedepends=('gcc-multilib' 'git' 'glproto-git' 'presentproto-git' 'lib32-expat'
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
-source=($_gitroot LICENSE llvm_mccontext_fix.patch)
-sha256sums=('SKIP'
-            '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2'
-            '01cb88fe90e9ad525eac4e58e1e319f294c5759a968bf43724922e465f6bbc50')
+source=($_gitroot LICENSE)
+sha256sums=('SKIP' 
+            '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -34,8 +33,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  patch -Np1 -i ../llvm_mccontext_fix.patch
 
   export CC="gcc -m32"
   export CXX="g++ -m32"
