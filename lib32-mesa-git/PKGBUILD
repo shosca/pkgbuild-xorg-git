@@ -9,7 +9,7 @@ _gitname='mesa'
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
 pkgver=r62811.9701c69
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 depends=('lib32-elfutils' 'lib32-libdrm-git' 'lib32-expat' 'lib32-libxt-git'
          'lib32-libxxf86vm-git' 'lib32-libxdamage-git' 'lib32-libx11-git'
