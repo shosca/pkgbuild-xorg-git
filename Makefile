@@ -258,6 +258,8 @@ libva-git: libdrm-git libxfixes-git
 
 libva-intel-driver-git: libva-git
 
+libva-vdpau-driver-git: libva-git libvdpau-git mesa-git
+
 libxcursor-git: libxfixes-git libxrender-git
 
 libxfont-git: xproto-git fontsproto-git libfontenc-git xtrans-git

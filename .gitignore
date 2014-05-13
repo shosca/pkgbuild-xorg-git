@@ -52,6 +52,7 @@ Makefile.mk
 */util-image
 */util-keysyms
 */util-wm
+*/vdpau-driver
 */vdpauinfo
 */videoproto
 */wayland

@@ -1,0 +1,42 @@
+# $Id$
+# Maintainer: Ionut Biru <ibiru@archlinux.org>
+_gitroot="git://anongit.freedesktop.org/vaapi/vdpau-driver"
+_gitname="vdpau-driver"
+
+pkgname=libva-vdpau-driver-git
+pkgver=0.7.4
+pkgrel=2
+pkgdesc="VDPAU backend for VA API"
+arch=('i686' 'x86_64')
+url="http://freedesktop.org/wiki/Software/vaapi"
+license=('GPL')
+depends=('libva' 'libvdpau')
+makedepends=('mesa' 'git')
+provides=('libva-vdpau-driver')
+conflicts=('libva-vdpau-driver')
+replaces=('libva-vdpau-driver')
+source=($_gitroot buildfix.patch)
+sha256sums=('SKIP'
+            '0b94e4bdf34b50508df31c7b244b87521857b20b037f88ef9a94221e1ef2a2aa')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  patch -Np1 -i ../buildfix.patch
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="$pkgdir" install
+
+  install -m644 -D COPYING "$pkgdir"/usr/share/licenses/$pkgname/COPYING
+}
+# vim:set ts=2 sw=2 et:
