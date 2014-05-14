@@ -9,8 +9,8 @@ _gitname="llvm"
 _realver="3.5svn"
 
 pkgname=(llvm-git llvm-libs-git llvm-ocaml-git clang-git clang-tools-extra-git clang-analyzer-git)
-pkgver=r103690.df75220
-pkgrel=1
+pkgver=r103693.c413e01
+pkgrel=2
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -69,6 +69,14 @@ build() {
     --enable-optimized
 
   make REQUIRES_RTTI=1 ENABLE_OPTIMIZED=1
+
+  # remove reference to srcdir
+  sed -e "s:\$(LLVM_SRC_ROOT):/usr/src/llvm:" \
+    -e "s:\$(LLVM_OBJ_ROOT):/usr/src/llvm:" \
+    -i tools/llvm-config/Makefile
+
+  make REQUIRES_RTTI=1 ENABLE_OPTIMIZED=1
+
   make -C docs -f Makefile.sphinx man
   make -C docs -f Makefile.sphinx html
   make -C tools/clang/docs -f Makefile.sphinx html
@@ -84,12 +92,14 @@ package_llvm-git() {
 
   # We move the clang directory out of the tree so it won't get installed and
   # then we bring it back in for the clang package
-  mv -v tools/clang "$srcdir/clang.tmp"
-
   # -j1 is due to race conditions during the installation of the OCaml bindings
+  mv -v tools/clang "$srcdir/clang.src"
   make -j1 DESTDIR="$pkgdir" install
+  mv -v "$srcdir/clang.src" tools/clang
 
-  mv -v "$srcdir/clang.tmp" tools/clang
+  # The runtime library goes into llvm-libs
+  rm -rf "${srcdir}"/*.so
+  mv "${pkgdir}"/usr/lib/libLLVM-*.so "${srcdir}"
 
   # OCaml bindings go to a separate package
   rm -rf "$srcdir"/{ocaml,ocamldoc}
@@ -98,15 +108,19 @@ package_llvm-git() {
   # Remove duplicate files installed by the OCaml bindings
   rm "$pkgdir"/usr/{lib/libllvm*,share/doc/llvm/ocamldoc.tar.gz}
 
-  # Fix permissions of static libs
-  chmod -x "$pkgdir"/usr/lib/*.a
-
   # Get rid of example Hello transformation
   rm "$pkgdir"/usr/lib/*LLVMHello.*
 
-  # The runtime library goes into llvm-libs
-  mv -v "$pkgdir/usr/lib/libLLVM-3.5.0svn.so" "$srcdir"
-  mv -v "$pkgdir/usr/lib/libLLVM-3.5svn.so" "$srcdir"
+  # Fix permissions of static libs
+  chmod -x "$pkgdir"/usr/lib/*.a
+
+  # Remove reference to pkgdir
+  sed -e "s:${pkgdir}::g" -i "${pkgdir}/usr/share/llvm/cmake/LLVMConfig.cmake"
+
+  # Symlink LLVMgold.so into /usr/lib/bfd-plugins
+  # (https://bugs.archlinux.org/task/28479)
+  install -d "${pkgdir}/usr/lib/bfd-plugins"
+  ln -s ../LLVMgold.so "${pkgdir}/usr/lib/bfd-plugins/LLVMgold.so"
 
   if [[ $CARCH == x86_64 ]]; then
     # Needed for multilib (https://bugs.archlinux.org/task/29951)
@@ -128,7 +142,6 @@ package_llvm-git() {
   rm -r "$pkgdir/usr/share/doc/llvm/html/_sources"
 
   install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
-
 }
 
 package_llvm-libs-git() {
@@ -140,8 +153,12 @@ package_llvm-libs-git() {
   cd "${srcdir}/${_gitname}"
 
   install -m755 -d ${pkgdir}/usr/lib/
-  mv -v "$srcdir/libLLVM-3.5.0svn.so" "$pkgdir/usr/lib"
-  mv -v "$srcdir/libLLVM-3.5svn.so" "$pkgdir/usr/lib"
+
+  mv "${srcdir}"/libLLVM-*.so "${pkgdir}/usr/lib/"
+  for _shlib in "${pkgdir}"/usr/lib/*.so
+  do
+    test -L "${_shlib}" && ln -sf $(basename $(readlink ${_shlib})) ${_shlib}
+  done
 
   install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
@@ -180,7 +197,6 @@ package_clang-git() {
   # We move the extra tools directory out of the tree so it won't get
   # installed and then we bring it back in for the clang-tools-extra package
   mv -v tools/extra "$srcdir/extra.tmp"
-
   make DESTDIR="$pkgdir" install
   mv -v "$srcdir/extra.tmp" tools/extra
 
