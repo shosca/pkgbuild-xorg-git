@@ -1,0 +1,45 @@
+# $Id: PKGBUILD 165113 2012-08-11 08:21:35Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
+# Contributor: Alexander Baldeck <alexander@archlinux.org>
+
+_realver=1.4.2
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXinerama"
+_gitname="libXinerama"
+
+pkgname=libxinerama-git
+pkgver=r75.edd9518
+pkgrel=2
+pkgdesc="X11 Xinerama extension library"
+arch=('i686' 'x86_64')
+license=('custom')
+url="http://xorg.freedesktop.org/"
+depends=('libxext-git' 'xineramaproto')
+makedepends=('xorg-util-macros-git' 'git')
+options=('!libtool')
+provides=('libxinerama')
+conflicts=('libxinerama')
+source=($_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+# vim: ft=sh syn=sh et
+

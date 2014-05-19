@@ -25,6 +25,7 @@ Makefile.mk
 */encodings
 */fixesproto
 */fontsproto
+*/freerdp
 */glamor
 */glew
 */glproto
