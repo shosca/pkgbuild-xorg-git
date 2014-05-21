@@ -25,6 +25,7 @@ clean:
 
 reset: clean
 	sudo rm -f */built
+	sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=0/" $(PWD)/**/PKGBUILD ; \
 
 checkchroot:
 	@if [ ! -d $(CHROOTPATH64) ]; then \
@@ -39,6 +40,8 @@ checkchroot:
 		echo "SigLevel = Never" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
 		echo "Server = file:///repo" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
 		echo "COMPRESSXZ=(7z a dummy -txz -si -so)" | sudo tee -a $(CHROOTPATH64)/root/etc/makepkg.conf ; \
+		echo 'LANG="en_US.UTF-8"' | sudo tee -a $(CHROOTPATH64)/root/etc/locale.conf ; \
+		echo 'LANGUAGE="en_US:en"' | sudo tee -a $(CHROOTPATH64)/root/etc/locale.conf ; \
 		$(MAKE) recreaterepo ; \
 		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root pacman \
 			-Syyu --noconfirm ; \
@@ -69,7 +72,10 @@ test:
 	@_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
 	cd $* ; \
 	rm -f *$(PKGEXT) *.log ; \
-	sudo $(MAKECHROOTPKG) $(CHROOTPATH64) || exit 1 && \
+	sudo $(MAKECHROOTPKG) $(CHROOTPATH64) ; \
+	if ! ls *.$(PKGEXT) &> /dev/null ; then \
+		exit 1 ; \
+	fi ; \
 	sudo rm -f $(addsuffix *, $(addprefix $(CHROOTPATH64)/root/repo/, $(shell grep -R '^pkgname' $*/PKGBUILD | sed -e 's/pkgname=//' -e 's/(//g' -e 's/)//g' -e "s/'//g" -e 's/"//g'))) ; \
 	sudo cp *.$(PKGEXT) $(CHROOTPATH64)/root/repo/ && \
 	for f in *.$(PKGEXT) ; do \
@@ -87,7 +93,10 @@ $(DIRS): checkchroot
 	@if [ ! -f $(PWD)/$@/built ]; then \
 		_pkgrel=$$(grep -R '^pkgrel' $(PWD)/$@/PKGBUILD | sed -e 's/pkgrel=//' -e "s/'//g" -e 's/"//g') && \
 		sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=$$(($$_pkgrel+1))/" $(PWD)/$@/PKGBUILD ; \
-		$(MAKE) $@/built ; \
+		if ! $(MAKE) $@/built ; then \
+			sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=$$_pkgrel/" $(PWD)/$@/PKGBUILD ; \
+			exit 1 ; \
+		fi ; \
 	fi
 
 gitpull: $(PULL_TARGETS)

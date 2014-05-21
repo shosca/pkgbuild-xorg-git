@@ -1,0 +1,16 @@
+diff --git a/utils/prepare-builtins.cpp b/utils/prepare-builtins.cpp
+index e0ad6a3..28c3e49 100644
+--- a/utils/prepare-builtins.cpp
++++ b/utils/prepare-builtins.cpp
+@@ -33,7 +33,11 @@ int main(int argc, char **argv) {
+   std::auto_ptr<Module> M;
+ 
+   {
++#if LLVM_VERSION_MAJOR > 3 || (LLVM_VERSION_MAJOR == 3 && LLVM_VERSION_MINOR > 4)
++    std::unique_ptr<MemoryBuffer> BufferPtr;
++#else
+     OwningPtr<MemoryBuffer> BufferPtr;
++#endif
+     if (error_code ec = MemoryBuffer::getFileOrSTDIN(InputFilename, BufferPtr))
+       ErrorMessage = ec.message();
+     else {
