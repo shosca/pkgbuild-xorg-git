@@ -7,14 +7,14 @@ _gitname="weston"
 
 pkgname=weston-git
 pkgver=r4100.dda9313
-pkgrel=4
+pkgrel=5
 pkgdesc="Reference implementation of a Wayland compositor"
 arch=('i686' 'x86_64')
 url="http://wayland.freedesktop.org"
 license=('MIT')
 depends=('libxkbcommon-git' 'wayland-git' 'mesa-git' 'cairo-git' 'libunwind'
          'poppler-glib' 'mtdev' 'libinput-git' 'libxcursor-git' 'pixman-git'
-         'glu-git')
+         'glu-git' 'freerdp-git')
 makedepends=('git')
 options=(!libtool)
 provides=('weston=${_realver}')
@@ -33,6 +33,10 @@ build() {
     --prefix=/usr \
     --libexecdir=/usr/lib/weston \
     --enable-libinput-backend \
+    --enable-xwayland \
+    --enable-rdp-compositor \
+    --disable-static \
+    --disable-setuid-install \
     --disable-android-compositor
 
   make
