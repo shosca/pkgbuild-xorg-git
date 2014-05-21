@@ -2,20 +2,19 @@
 # Contributor: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Gaetan Bisson <bisson@archlinux.org>
 
-_realver=1.3.0
 _gitroot="git://anongit.freedesktop.org/xorg/app/setxkbmap"
 _gitname="setxkbmap"
 
 pkgname=xorg-setxkbmap-git
 pkgver=r93.56346c7
-pkgrel=8
+pkgrel=9
 pkgdesc='Set the keyboard using the X Keyboard Extension'
 url='http://xorg.freedesktop.org/'
 license=('custom')
 arch=('i686' 'x86_64')
 depends=('libxkbfile-git')
 makedepends=('xorg-util-macros-git' 'git')
-provides=('xorg-setxkbmap=${_realver}')
+provides=('xorg-setxkbmap')
 conflicts=('xorg-setxkbmap')
 source=($_gitroot)
 sha256sums=('SKIP')

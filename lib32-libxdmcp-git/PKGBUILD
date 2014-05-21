@@ -1,7 +1,6 @@
 # $Id: PKGBUILD 152771 2012-03-09 16:07:19Z andyrtr $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.1.1
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXdmcp"
 _gitname="libXdmcp"
 
@@ -14,7 +13,7 @@ url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libxdmcp-git' 'xproto-git' 'glibc')
 makedepends=('gcc-multilib' 'xorg-util-macros-git' 'git')
-provides=('lib32-libxdmcp=${_realver}')
+provides=('lib32-libxdmcp')
 conflicts=('lib32-libxdmcp')
 options=('!libtool')
 source=($_gitroot)

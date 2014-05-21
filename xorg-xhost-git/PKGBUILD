@@ -1,13 +1,12 @@
 # $Id: PKGBUILD 154150 2012-03-23 19:14:18Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.0.6
 _gitroot="git://anongit.freedesktop.org/xorg/app/xhost"
 _gitname="xhost"
 
 pkgname=xorg-xhost-git
 pkgver=r85.f224c62
-pkgrel=8
+pkgrel=9
 pkgdesc="Server access control program for X"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -15,7 +14,7 @@ url="http://xorg.freedesktop.org/"
 depends=('libx11-git' 'xtrans-git' 'libxmu-git')
 makedepends=('xorg-util-macros-git' 'git')
 groups=('xorg-apps' 'xorg')
-provides=('xorg-xhost=${_realver}')
+provides=('xorg-xhost')
 conflicts=('xorg-xhost')
 source=($_gitroot)
 sha256sums=('SKIP')

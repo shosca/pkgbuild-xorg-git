@@ -1,7 +1,6 @@
 # $Id: PKGBUILD 149834 2012-02-11 10:04:54Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.1.1
 _gitroot="git://anongit.freedesktop.org/xorg/app/mkfontscale"
 _gitname="mkfontscale"
 

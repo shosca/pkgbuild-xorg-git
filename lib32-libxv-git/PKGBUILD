@@ -1,13 +1,12 @@
 # $Id: PKGBUILD 152795 2012-03-09 16:32:25Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.0.10
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXv"
 _gitname="libXv"
 
 pkgname=lib32-libxv-git
 pkgver=r104.736d7ac
-pkgrel=8
+pkgrel=9
 pkgdesc="X11 Video extension library"
 arch=('x86_64')
 license=('custom')
@@ -15,7 +14,7 @@ url="http://xorg.freedesktop.org/"
 depends=('lib32-libxext-git' 'libxv-git')
 makedepends=('pkgconfig' 'xorg-util-macros-git' 'git')
 options=('!libtool')
-provides=('lib32-libxv=${_realver}')
+provides=('lib32-libxv')
 conflicts=('lib32-libxv')
 source=($_gitroot)
 sha256sums=('SKIP')

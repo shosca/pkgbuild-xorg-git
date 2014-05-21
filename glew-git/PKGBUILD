@@ -3,13 +3,12 @@
 # Contributor: Stéphane Gaudreault <stephane@archlinux.org>
 # Contributor: SleepyDog
 
-_realver=1.10.0
 _gitroot="git://github.com/nigels-com/glew"
 _gitname="glew"
 
 pkgname=glew-git
 pkgver=r763.0819658
-pkgrel=96
+pkgrel=97
 pkgdesc="The OpenGL Extension Wrangler Library"
 arch=('i686' 'x86_64')
 url="http://glew.sourceforge.net"
@@ -18,7 +17,7 @@ depends=('libxmu-git' 'libxi-git' 'glu-git')
 makedepends=('git' 'wget' 'perl' 'make')
 source=($_gitroot)
 sha256sums=('SKIP')
-provides=('glew=${_realver}')
+provides=('glew')
 replaces=('glew')
 conflicts=('glew')
 

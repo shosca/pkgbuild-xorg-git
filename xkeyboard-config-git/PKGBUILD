@@ -2,20 +2,19 @@
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=2.11
 _gitroot='git://anongit.freedesktop.org/xkeyboard-config'
 _gitname='xkeyboard-config'
 
 pkgname=xkeyboard-config-git
 pkgver=r1744.2bf80b0
-pkgrel=2
+pkgrel=3
 pkgdesc="X keyboard configuration files"
 arch=('any')
 license=('custom')
 url="http://www.freedesktop.org/wiki/Software/XKeyboardConfig"
 depends=('xorg-xkbcomp-git')
 makedepends=('intltool' 'xorg-util-macros-git' 'git')
-provides=('xkbdata' 'xkeyboard-config=${_realver}')
+provides=('xkbdata' 'xkeyboard-config')
 replaces=('xkbdata')
 conflicts=('xkbdata' 'xkeyboard-config')
 source=($_gitroot)

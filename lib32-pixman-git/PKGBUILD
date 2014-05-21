@@ -1,7 +1,6 @@
 # Maintainer: aboe76 AT gmail DOT com>
 # contribution: EdwardXXIV
 
-_realver=0.33.1
 _gitroot="git://anongit.freedesktop.org/git/pixman"
 _gitname="pixman"
 
@@ -14,7 +13,7 @@ url="http://pixman.org/"
 license=('GPL')
 depends=('lib32-pango' 'glibc')
 makedepends=('git' 'autoconf' 'automake' 'libtool' 'pkgconfig')
-provides=('lib32-pixman=${_realver}')
+provides=('lib32-pixman')
 conflicts=('lib32-pixman')
 replaces=('lib32-pixman')
 options=('!libtool')

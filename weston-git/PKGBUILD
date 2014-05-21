@@ -1,13 +1,12 @@
 # Maintainer: Joel Teichroeb <joel@teichroeb.net>
 # Contributor: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 
-_realver=1.4.0
 _gitroot="git://anongit.freedesktop.org/wayland/weston"
 _gitname="weston"
 
 pkgname=weston-git
 pkgver=r4100.dda9313
-pkgrel=5
+pkgrel=6
 pkgdesc="Reference implementation of a Wayland compositor"
 arch=('i686' 'x86_64')
 url="http://wayland.freedesktop.org"
@@ -17,7 +16,7 @@ depends=('libxkbcommon-git' 'wayland-git' 'mesa-git' 'cairo-git' 'libunwind'
          'glu-git' 'freerdp-git')
 makedepends=('git')
 options=(!libtool)
-provides=('weston=${_realver}')
+provides=('weston')
 source=($_gitroot)
 sha256sums=('SKIP')
 

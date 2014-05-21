@@ -2,7 +2,6 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
-_realver=0.3.9
 _gitroot="git://anongit.freedesktop.org/xcb/util-keysyms"
 _gitname="util-keysyms"
 
@@ -16,7 +15,7 @@ license=('custom')
 depends=('libxcb-git')
 makedepends=('xorg-util-macros-git' 'git')
 options=('!libtool')
-provides=('xcb-util-keysyms=${_realver}')
+provides=('xcb-util-keysyms')
 conflicts=('xcb-util-keysyms')
 replaces=('xcb-util-keysyms')
 source=($_gitroot 'LICENSE')

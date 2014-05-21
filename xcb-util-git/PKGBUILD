@@ -3,7 +3,6 @@
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
-_realver=0.3.9
 _gitroot="git://anongit.freedesktop.org/xcb/util"
 _gitname="util"
 
@@ -20,7 +19,7 @@ options=('!libtool')
 source=($_gitroot 'LICENSE')
 sha256sums=('SKIP'
             'ded299aa179dcf0d885bf89274a4db77a530e03f9f5e7cf1c3c4ef1d60e914b9')
-provides=('xcb-util=${_realver}')
+provides=('xcb-util')
 conflicts=('xcb-util')
 replaces=('xcb-util')
 

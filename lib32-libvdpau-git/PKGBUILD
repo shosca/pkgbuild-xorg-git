@@ -2,13 +2,12 @@
 # Contributor: TryA <tryagainprod {at} gmail.com>
 # Contributor: Ionut Biru <ibiru@archlinux.org>
 
-_realver=0.7
 _gitroot="git://people.freedesktop.org/~aplattner/libvdpau"
 _gitname="libvdpau"
 
 pkgname=lib32-libvdpau-git
 pkgver=r56.186195b
-pkgrel=8
+pkgrel=9
 pkgdesc="Nvidia VDPAU library (32-bit)"
 arch=('x86_64')
 url=http://cgit.freedesktop.org/~aplattner/libvdpau
@@ -16,7 +15,7 @@ license=('custom')
 depends=('lib32-gcc-libs' "libvdpau-git")
 makedepends=('gcc-multilib' 'lib32-libx11-git' 'git')
 options=('!libtool')
-provides=('lib32-libvdpau=${_realver}')
+provides=('lib32-libvdpau')
 conflicts=('lib32-libvdpau')
 replaces=('lib32-libvdpau')
 source=($_gitroot)

@@ -1,6 +1,5 @@
 # Maintainer: Joni Lapilainen <joni.lapilainen@gmail.com>
 
-_realver=0.9.3
 _gitroot="git://omxil.git.sourceforge.net/gitroot/omxil/omxil"
 _gitname="omxil"
 
@@ -12,7 +11,7 @@ arch=('arm' 'armv7h' 'i686' 'x86_64')
 url="http://omxil.sourceforge.net"
 license="LGPL"
 makedepends=('doxygen' 'git')
-provides=('libomxil-bellagio=${_realver}')
+provides=('libomxil-bellagio')
 source=($_gitroot)
 sha256sums=('SKIP')
 

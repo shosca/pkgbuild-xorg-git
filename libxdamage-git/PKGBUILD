@@ -1,20 +1,19 @@
 # $Id: PKGBUILD 174256 2013-01-03 11:42:05Z jgc $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.1.4
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXdamage"
 _gitname="libXdamage"
 
 pkgname=libxdamage-git
 pkgver=r58.41cc41d
-pkgrel=8
+pkgrel=9
 pkgdesc="X11 damaged region extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libxfixes-git' 'damageproto-git')
 makedepends=('pkg-config' 'xorg-util-macros-git' 'git')
-provides=('libxdamage=${_realver}')
+provides=('libxdamage')
 conflicts=('libxdamage')
 options=('!libtool')
 source=($_gitroot)

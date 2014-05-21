@@ -1,13 +1,12 @@
 # $Id: PKGBUILD 152801 2012-03-09 16:38:21Z andyrtr $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.1.3
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXxf86vm"
 _gitname="libXxf86vm"
 
 pkgname=libxxf86vm-git
 pkgver=r84.f3cdbab
-pkgrel=8
+pkgrel=9
 pkgdesc="X11 XFree86 video mode extension library"
 arch=('x86_64' 'i686')
 license=('custom')
@@ -15,7 +14,7 @@ url="http://xorg.freedesktop.org/"
 depends=('libxext-git' 'xf86vidmodeproto-git')
 makedepends=('xorg-util-macros-git' 'git')
 options=('!libtool')
-provides=('libxxf86vm=${_realver}')
+provides=('libxxf86vm')
 conflicts=('libxxf86vm')
 source=($_gitroot)
 sha256sums=('SKIP')

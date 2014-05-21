@@ -2,7 +2,6 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
-_realver=2.1
 _gitroot='git://git.freedesktop.org/git/xorg/proto/xf86dgaproto'
 _gitname='xf86dgaproto'
 
@@ -14,7 +13,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
-provides=('xf86dgaproto=${_realver}')
+provides=('xf86dgaproto')
 conflicts=('xf86dgaproto')
 source=($_gitroot)
 sha256sums=('SKIP')

@@ -1,13 +1,12 @@
 # $Id: PKGBUILD 153609 2012-03-16 17:09:01Z andyrtr $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.1.4
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXt"
 _gitname="libXt"
 
 pkgname=libxt-git
 pkgver=r217.51d63a9
-pkgrel=8
+pkgrel=9
 pkgdesc="X11 toolkit intrinsics library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -15,7 +14,7 @@ license=('custom')
 depends=('libsm-git' 'libx11-git')
 makedepends=('xorg-util-macros-git' 'git')
 options=('!libtool')
-provides=('libxt=${_realver}')
+provides=('libxt')
 conflicts=('libxt')
 source=($_gitroot)
 sha256sums=('SKIP')

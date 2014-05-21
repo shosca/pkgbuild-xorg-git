@@ -1,7 +1,6 @@
 # $Id: PKGBUILD 153461 2012-03-14 17:38:45Z andyrtr $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.18.0
 _gitroot="git://anongit.freedesktop.org/xorg/util/macros"
 _gitname="macros"
 
@@ -13,7 +12,7 @@ arch=('any')
 license=('custom')
 url="http://xorg.freedesktop.org/"
 makedepends=('git')
-provides=('xorg-util-macros=${_realver}')
+provides=('xorg-util-macros')
 conflicts=('xorg-util-macros')
 source=($_gitroot)
 sha256sums=('SKIP')

@@ -2,7 +2,6 @@
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.0.8
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libICE"
 _gitname="libICE"
 
@@ -16,7 +15,7 @@ depends=('lib32-glibc' 'libice-git' 'xproto-git')
 makedepends=('gcc-multilib' 'pkgconfig' 'xorg-util-macros-git' 'xtrans-git' 'git')
 options=('!libtool')
 license=('custom')
-provides=('lib32-libice=${_realver}')
+provides=('lib32-libice')
 conflicts=('lib32-libice')
 source=($_gitroot)
 sha256sums=('SKIP')

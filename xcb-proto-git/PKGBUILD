@@ -2,7 +2,6 @@
 # Maintainer: Alexander Baldeck <alexander@archlinux.org>
 # Contributor: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.10
 _gitroot="git://anongit.freedesktop.org/xcb/proto"
 _gitname="proto"
 
@@ -14,7 +13,7 @@ arch=('any')
 url="http://xcb.freedesktop.org/"
 license=('custom')
 makedepends=('python2' 'libxml2' 'git')
-provides=('xcb-proto=${_realver}')
+provides=('xcb-proto')
 conflicts=('xcb-proto')
 source=($_gitroot)
 sha256sums=('SKIP')

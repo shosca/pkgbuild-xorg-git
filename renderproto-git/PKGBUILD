@@ -2,7 +2,6 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
-_realver=0.11.1
 _gitroot='git://git.freedesktop.org/git/xorg/proto/renderproto'
 _gitname='renderproto'
 
@@ -14,7 +13,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
-provides=('renderproto=${_realver}')
+provides=('renderproto')
 conflicts=('renderproto')
 source=($_gitroot)
 sha256sums=('SKIP')

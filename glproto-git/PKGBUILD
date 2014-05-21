@@ -1,7 +1,6 @@
 # Maintainer: kfgz <kfgz at interia pl>
 # Contributor: Cilyan Olowen <gaknar at gmail dot com>
 
-_realver=1.4.17
 _gitroot="git://git.freedesktop.org/git/xorg/proto/glproto"
 _gitname="glproto"
 
@@ -13,7 +12,7 @@ arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
-provides=('glproto=${_realver}')
+provides=('glproto')
 conflicts=('glproto')
 source=($_gitroot)
 sha256sums=('SKIP')

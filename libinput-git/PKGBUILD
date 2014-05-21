@@ -1,6 +1,5 @@
 # Maintainer: Joel Teichroeb <joel@teichroeb.net>
 
-_realver=0.0.90
 _gitroot="git://anongit.freedesktop.org/wayland/libinput"
 _gitname="libinput"
 
@@ -10,7 +9,7 @@ pkgrel=1
 pkgdesc="Input device management and event handling library"
 arch=('i686' 'x86_64')
 url="http://wayland.freedesktop.org"
-provides=("libinput=${_realver}")
+provides=("libinput")
 conflicts=('libinput')
 replaces=('libinput')
 license=('MIT')

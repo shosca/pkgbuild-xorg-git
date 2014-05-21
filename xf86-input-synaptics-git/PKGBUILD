@@ -2,13 +2,12 @@
 # Contributor: <Eugeny Borisov flekst@gmail.com>
 # Based on [extra]'s xf86-input-synaptics
 
-_realver=1.7.99.1
 _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-synaptics
 _gitname=xf86-input-synaptics
 
 pkgname=xf86-input-synaptics-git
 pkgver=r1448.ddd8844
-pkgrel=3
+pkgrel=4
 pkgdesc="X.Org synaptics Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-synaptics/"
@@ -17,7 +16,7 @@ depends=('mtdev' 'libevdev-git' 'libxi-git' 'libxtst-git')
 makedepends=('xorg-server-devel-git' 'resourceproto-git' 'scrnsaverproto-git' 'git')
 options=('!libtool' '!makeflags')
 groups=('xorg-drivers' 'xorg')
-provides=('xf86-input-synaptics=${_realver}')
+provides=('xf86-input-synaptics')
 conflicts=('xf86-input-synaptics' 'xorg-server<1.15.99')
 backup=('etc/X11/xorg.conf.d/10-synaptics.conf')
 source=($_gitroot 10-synaptics.conf)

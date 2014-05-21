@@ -2,7 +2,6 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
-_realver=0.4.1
 _gitroot="git://anongit.freedesktop.org/xcb/util-wm"
 _gitname="util-wm"
 
@@ -16,7 +15,7 @@ license=('custom')
 depends=('libxcb-git')
 makedepends=('git' 'xorg-util-macros-git')
 options=('!libtool')
-provides=('xcb-util-wm=${_realver}')
+provides=('xcb-util-wm')
 conflicts=('xcb-util-wm')
 replaces=('xcb-util-wm')
 source=($_gitroot 'LICENSE')

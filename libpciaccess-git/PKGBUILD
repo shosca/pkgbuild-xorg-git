@@ -2,7 +2,6 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
-_realver=0.13.2
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libpciaccess"
 _gitname="libpciaccess"
 
@@ -15,7 +14,7 @@ license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('glibc')
 makedepends=('git' 'pkgconfig' 'xorg-util-macros-git')
-provides=('libpciaccess=${_realver}')
+provides=('libpciaccess')
 conflicts=('libpciaccess')
 replaces=('libpciaccess')
 options=('!libtool')

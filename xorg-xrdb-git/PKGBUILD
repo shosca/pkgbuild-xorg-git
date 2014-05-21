@@ -1,13 +1,12 @@
 # $Id: PKGBUILD 154150 2012-03-23 19:14:18Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.1.0
 _gitroot="git://anongit.freedesktop.org/xorg/app/xrdb"
 _gitname="xrdb"
 
 pkgname=xorg-xrdb-git
 pkgver=r88.17eda97
-pkgrel=8
+pkgrel=9
 pkgdesc="X.Org authorization settings program"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -15,7 +14,7 @@ url="http://xorg.freedesktop.org/"
 depends=('libxmu-git' 'mcpp')
 makedepends=('xorg-util-macros-git' 'git')
 groups=('xorg-apps' 'xorg')
-provides=('xorg-xrdb=${_realver}')
+provides=('xorg-xrdb')
 conflicts=('xorg-xrdb')
 source=($_gitroot)
 sha256sums=('SKIP')

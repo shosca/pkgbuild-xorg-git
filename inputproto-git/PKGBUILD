@@ -1,7 +1,6 @@
 # Maintainer: kfgz <kfgz at interia pl>
 # Contributor: Cilyan Olowen <gaknar at gmail dot com>
 
-_realver=2.3
 _gitroot="git://git.freedesktop.org/git/xorg/proto/inputproto"
 _gitname="inputproto"
 
@@ -12,7 +11,7 @@ pkgdesc="X11 input extension wire protocol"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-provides=('inputproto=${_realver}')
+provides=('inputproto')
 makedepends=('xorg-util-macros-git' 'git')
 conflicts=('inputproto')
 source=($_gitroot)

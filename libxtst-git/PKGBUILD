@@ -1,13 +1,12 @@
 # $Id: PKGBUILD 152793 2012-03-09 16:30:31Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.2.2
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXtst"
 _gitname="libXtst"
 
 pkgname=libxtst-git
 pkgver=r112.48d2656
-pkgrel=8
+pkgrel=9
 pkgdesc="X11 Testing -- Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -15,7 +14,7 @@ license=('custom')
 depends=('libxext-git' 'libxi-git' 'recordproto-git' 'inputproto-git')
 makedepends=('xorg-util-macros-git' 'git')
 options=('!libtool')
-provides=('libxtst=${_realver}')
+provides=('libxtst')
 conflicts=('libxtst')
 source=($_gitroot)
 sha256sums=('SKIP')

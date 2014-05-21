@@ -2,7 +2,6 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
-_realver=0.3.9
 _gitroot="git://anongit.freedesktop.org/xcb/util-image"
 _gitname="util-image"
 
@@ -19,7 +18,7 @@ options=('!libtool')
 source=($_gitroot 'LICENSE')
 sha256sums=('SKIP'
             'ded299aa179dcf0d885bf89274a4db77a530e03f9f5e7cf1c3c4ef1d60e914b9')
-provides=('xcb-util-image=${_realver}')
+provides=('xcb-util-image')
 conflicts=('xcb-util-image')
 replaces=('xcb-util-image')
 

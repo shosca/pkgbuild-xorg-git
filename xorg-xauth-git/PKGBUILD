@@ -1,13 +1,12 @@
 # $Id: PKGBUILD 154150 2012-03-23 19:14:18Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.0.8
 _gitroot="git://anongit.freedesktop.org/xorg/app/xauth"
 _gitname="xauth"
 
 pkgname=xorg-xauth-git
 pkgver=r110.12e63de
-pkgrel=8
+pkgrel=9
 pkgdesc="X.Org authorization settings program"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -15,7 +14,7 @@ url="http://xorg.freedesktop.org/"
 depends=('libxmu-git')
 makedepends=('xorg-util-macros-git' 'git')
 groups=('xorg-apps' 'xorg')
-provides=('xorg-xauth=${_realver}')
+provides=('xorg-xauth')
 conflicts=('xorg-xauth')
 source=($_gitroot)
 sha256sums=('SKIP')

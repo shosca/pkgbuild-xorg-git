@@ -1,6 +1,5 @@
 # Maintainer: josephgbr <rafael.f.f1@gmail.com>
 
-_realver=1.4.0
 _gitroot="git://anongit.freedesktop.org/wayland/wayland"
 _gitname="wayland"
 
@@ -14,7 +13,7 @@ license=('MIT')
 depends=('lib32-libffi' 'wayland-git')
 makedepends=('git' 'gcc-multilib' 'lib32-expat')
 options=(!libtool)
-provides=("lib32-wayland=${_realver}")
+provides=("lib32-wayland")
 conflicts=('lib32-libwayland' 'lib32-wayland')
 replaces=('lib32-libwayland' 'lib32-wayland')
 source=($_gitroot)

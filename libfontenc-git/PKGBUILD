@@ -1,7 +1,6 @@
 # $Id: PKGBUILD 151844 2012-03-03 13:37:37Z andyrtr $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.1.2
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libfontenc"
 _gitname="libfontenc"
 
@@ -15,7 +14,7 @@ license=('custom')
 depends=('zlib' 'xproto-git' 'xorg-font-util-git')
 makedepends=('pkgconfig' 'xorg-util-macros-git' 'git')
 options=('!libtool')
-provides=('libfontenc=${_realver}')
+provides=('libfontenc')
 conflicts=('libfontenc')
 source=($_gitroot)
 sha256sums=('SKIP')

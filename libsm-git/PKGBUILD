@@ -1,7 +1,6 @@
 # $Id: PKGBUILD 151850 2012-03-03 13:43:52Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.2.2
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libSM"
 _gitname="libSM"
 
@@ -15,7 +14,7 @@ url="http://xorg.freedesktop.org/"
 depends=('libice-git' 'util-linux-ng')
 makedepends=('xorg-util-macros-git' 'xtrans-git' 'git')
 options=('!libtool')
-provides=('libsm=${_realver}')
+provides=('libsm')
 conflicts=('libsm')
 source=($_gitroot)
 sha256sums=('SKIP')

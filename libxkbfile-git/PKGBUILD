@@ -1,13 +1,12 @@
 # $Id: PKGBUILD 152781 2012-03-09 16:19:36Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.0.8
 _gitroot='git://anongit.freedesktop.org/xorg/lib/libxkbfile'
 _gitname='libxkbfile'
 
 pkgname=libxkbfile-git
 pkgver=r82.3b46025
-pkgrel=8
+pkgrel=9
 pkgdesc="X11 keyboard file manipulation library"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -15,7 +14,7 @@ url="http://xorg.freedesktop.org/"
 depends=('libx11-git')
 makedepends=('xorg-util-macros-git' 'git')
 options=('!libtool')
-provides=('libxkbfile=${_realver}')
+provides=('libxkbfile')
 conflicts=('libxkbfile')
 source=($_gitroot)
 sha256sums=('SKIP')

@@ -6,10 +6,9 @@
 
 _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
-_realver="3.5svn"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git')
-pkgver=r103928.8208615
+pkgver=r103930.03b003b
 pkgrel=1
 arch=('x86_64')
 url="http://llvm.org"
@@ -96,7 +95,9 @@ package_lib32-llvm-git() {
   make -j1 DESTDIR="$pkgdir" install
 
   # The runtime library goes into lib32-llvm-libs
-  mv "$pkgdir/usr/lib32/libLLVM-$_realver.so" "$srcdir"
+  # The runtime library goes into llvm-libs
+  rm -rf "${srcdir}"/*.so
+  mv "${pkgdir}"/usr/lib32/libLLVM-*.so "${srcdir}"
 
   # Fix permissions of static libs
   chmod -x "$pkgdir"/usr/lib32/*.a
@@ -132,7 +133,12 @@ package_lib32-llvm-libs-git() {
 
   cd "${srcdir}"
 
-  install -D libLLVM-$_realver.so "$pkgdir/usr/lib32/libLLVM-$_realver.so"
+  install -m755 -d ${pkgdir}/usr/lib32/
+  mv "${srcdir}"/libLLVM-*.so "${pkgdir}/usr/lib32/"
+  for _shlib in "${pkgdir}"/usr/lib32/*.so
+  do
+    test -L "${_shlib}" && ln -sf $(basename $(readlink ${_shlib})) ${_shlib}
+  done
 
   install -Dm644 ${_gitname}/LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

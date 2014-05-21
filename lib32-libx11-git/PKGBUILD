@@ -1,19 +1,18 @@
 # $Id: PKGBUILD 160633 2012-06-02 21:43:25Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.6.2
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libX11"
 _gitname="libX11"
 
 pkgname=lib32-libx11-git
-pkgver=r1163.ca435c2
+pkgver=r1171.e3dc0d1
 pkgrel=1
 pkgdesc="X11 client-side library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
 depends=('lib32-libxcb-git' 'libx11-git')
 makedepends=('xorg-util-macros-git' 'xextproto-git' 'xtrans-git' 'inputproto-git' 'git')
-provides=('lib32-libx11=${_realver}')
+provides=('lib32-libx11')
 conflicts=('lib32-libx11')
 options=('!libtool')
 license=('custom')

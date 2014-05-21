@@ -1,17 +1,16 @@
 # Maintainer: Christoph Haag <haagch at studi.informatik.uni-stuttgart.de>
 
-_realver=9.0.0
 _gitroot="git://cgit.freedesktop.org/mesa/glu/"
 _gitname="glu"
 
 pkgname=glu-git
 pkgver=r198.0692115
-pkgrel=96
+pkgrel=97
 pkgdesc="GL utility library for mesa builds from git after 2012-08-31"
 arch=('i686' 'x86_64')
 url="http://mesa.freedesktop.org/"
 license=('LGPL')
-provides=('glu=${_realver}')
+provides=('glu')
 depends=('mesa-libgl-git' 'gcc-libs')
 makedepends=('git')
 conflicts=('glu')

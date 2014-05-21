@@ -1,19 +1,18 @@
 # Maintainer: Perry3D <perry3d@gmail.com>
 
-_realver=8.1.0
 _gitroot="git://anongit.freedesktop.org/mesa/demos"
 _gitname="demos"
 
 pkgname=mesa-demos-git
 pkgver=r5956.b695b1f
-pkgrel=28
+pkgrel=29
 pkgdesc="The mesa demos (glxinfo, glxgears, ...), built from the git master branch."
 arch=('i686' 'x86_64')
 url="http://mesa3d.org/"
 license=('LGPL')
 depends=('mesa-libgl-git' 'glew-git')
 makedepends=('git')
-provides=('mesa-demos=${_realver}')
+provides=('mesa-demos')
 replaces=('mesa-demos')
 conflicts=('mesa-demos')
 source=($_gitroot)

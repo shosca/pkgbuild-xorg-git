@@ -2,7 +2,6 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
-_realver=1.4.0
 _gitroot='git://git.freedesktop.org/git/xorg/proto/randrproto'
 _gitname='randrproto'
 
@@ -14,7 +13,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
-provides=('randrproto=${_realver}')
+provides=('randrproto')
 conflicts=('randrproto')
 source=($_gitroot)
 sha256sums=('SKIP')

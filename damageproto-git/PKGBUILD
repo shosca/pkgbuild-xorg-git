@@ -2,7 +2,6 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
-_realver=1.2.1
 _gitroot='git://git.freedesktop.org/git/xorg/proto/damageproto'
 _gitname='damageproto'
 
@@ -15,7 +14,7 @@ arch=('any')
 license=('custom')
 depends=('xproto-git' 'fixesproto-git')
 makedepends=('xorg-util-macros-git' 'git')
-provides=('damageproto=${_realver}')
+provides=('damageproto')
 conflicts=('damageproto')
 source=($_gitroot)
 sha256sums=('SKIP')

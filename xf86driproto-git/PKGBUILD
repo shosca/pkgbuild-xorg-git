@@ -2,7 +2,6 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
-_realver=2.1.1
 _gitroot='git://git.freedesktop.org/git/xorg/proto/xf86driproto'
 _gitname='xf86driproto'
 
@@ -14,7 +13,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
-provides=('xf86driproto=${_realver}')
+provides=('xf86driproto')
 conflicts=('xf86driproto')
 source=($_gitroot)
 sha256sums=('SKIP')

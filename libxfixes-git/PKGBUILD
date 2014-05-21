@@ -1,20 +1,19 @@
 # $Id: PKGBUILD 151418 2012-02-26 10:42:43Z pierre $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=5.0.1
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXfixes"
 _gitname="libXfixes"
 
 pkgname=libxfixes-git
 pkgver=r74.1702cdf
-pkgrel=8
+pkgrel=9
 pkgdesc="X11 miscellaneous 'fixes' extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 depends=('libx11-git' 'fixesproto-git')
 makedepends=('xorg-util-macros-git' 'git')
 license=('custom')
-provides=('libxfixes=${_realver}')
+provides=('libxfixes')
 conflicts=('libxfixes')
 options=('!libtool')
 source=($_gitroot)

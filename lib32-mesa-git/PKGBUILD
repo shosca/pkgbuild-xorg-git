@@ -2,13 +2,12 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
-_realver=10.2.0-devel
 _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
-pkgver=r63020.cdeb700
+pkgver=r63022.46737ce
 pkgrel=1
 arch=('x86_64')
 depends=('lib32-elfutils' 'lib32-libdrm-git' 'lib32-expat' 'lib32-libxt-git'
@@ -72,7 +71,7 @@ build() {
 package_lib32-ati-dri-git() {
   depends=("lib32-mesa-libgl-git")
   pkgdesc="Mesa drivers for AMD/ATI Radeon (32-bit)"
-  provides=('lib32-ati-dri=${_realver}')
+  provides=('lib32-ati-dri')
   conflicts=('lib32-ati-dri' 'xf86-video-ati<6.9.0-6')
 
   install -m755 -d ${pkgdir}/usr/lib32/dri
@@ -88,7 +87,7 @@ package_lib32-ati-dri-git() {
 package_lib32-intel-dri-git() {
   pkgdesc="Mesa drivers for Intel (32-bit)"
   depends=("lib32-mesa-libgl-git")
-  provides=('lib32-intel-dri=${_realver}')
+  provides=('lib32-intel-dri')
   conflicts=('lib32-intel-dri')
   replaces=('lib32-intel-dri')
 
@@ -102,7 +101,7 @@ package_lib32-intel-dri-git() {
 package_lib32-nouveau-dri-git() {
   pkgdesc="Mesa drivers for Nouveau (32-bit)"
   depends=("lib32-mesa-libgl-git")
-  provides=('lib32-nouveau-dri=${_realver}')
+  provides=('lib32-nouveau-dri')
   conflicts=('lib32-nouveau-dri')
   replaces=('lib32-nouveau-dri')
 
@@ -121,7 +120,7 @@ package_lib32-mesa-git() {
   pkgdesc="an open-source implementation of the OpenGL specification"
   depends=('lib32-libdrm-git' 'lib32-libxshmfence-git' 'lib32-libxxf86vm-git' 'lib32-libxdamage-git' 'lib32-systemd' 'lib32-wayland-git')
   optdepends=('opengl-man-pages: for the OpenGL API man pages')
-  provides=('lib32-mesa=${_realver}' 'lib32-libglapi=${_realver}' 'lib32-osmesa=${_realver}' 'lib32-libgbm=${_realver}' 'lib32-libgles=${_realver}' 'lib32-libegl=${_realver}')
+  provides=('lib32-mesa' 'lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')
   conflicts=('lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')
   replaces=('lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')
 
@@ -142,7 +141,7 @@ package_lib32-mesa-git() {
 package_lib32-mesa-libgl-git(){
   pkgdesc="Mesa 3-D graphics library"
   depends=("lib32-mesa-git")
-  provides=("lib32-libgl=${_realver}")
+  provides=("lib32-libgl")
   replaces=('lib32-libgl')
 
   install -m755 -d ${pkgdir}/usr/lib32

@@ -1,6 +1,5 @@
 # Maintainer: Antoine Lubineau <antoine@lubignon.info>
 
-_realver=0.6.4
 _gitroot='git://github.com/clbr/radeontop.git'
 _gitname='radeontop'
 

@@ -1,6 +1,5 @@
 # Maintainer: Joel Teichroeb <joel@teichroeb.net>
 
-_realver=0.4.0
 _gitroot="git://github.com/xkbcommon/libxkbcommon.git"
 _gitname="libxkbcommon"
 
@@ -34,7 +33,7 @@ build() {
 }
 
 package_libxkbcommon-git() {
-  provides=('libxkbcommon=${_realver}')
+  provides=('libxkbcommon')
   replaces=('libxkbcommon')
   conflicts=('libxkbcommon')
 

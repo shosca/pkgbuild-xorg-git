@@ -1,20 +1,19 @@
 # $Id: PKGBUILD 202383 2013-12-21 14:15:26Z bpiotrowski $
 # Maintainer : Ionut Biru <ibiru@archlinux.org>
 
-_realver=1.2.3.pre1
 _gitroot="git://anongit.freedesktop.org/vaapi/intel-driver"
 _gitname="intel-driver"
 
 pkgname=libva-intel-driver-git
 pkgver=r1207.b48ba79
-pkgrel=5
+pkgrel=6
 pkgdesc='VA-API implementation for Intel G45 and HD Graphics family'
 arch=('i686' 'x86_64')
 url='http://freedesktop.org/wiki/Software/vaapi'
 license=('MIT')
 depends=('libva-git')
 makedepends=('git')
-provides=('libva-intel-driver=${_realver}')
+provides=('libva-intel-driver')
 conflicts=('libva-intel-driver')
 replaces=('libva-intel-driver' 'libva-driver-intel')
 source=($_gitroot)

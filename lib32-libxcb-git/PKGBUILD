@@ -2,7 +2,6 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
-_realver=1.10
 _gitroot="git://anongit.freedesktop.org/xcb/libxcb"
 _gitname="libxcb"
 
@@ -14,7 +13,7 @@ arch=('x86_64')
 url="http://xcb.freedesktop.org/"
 depends=('xcb-proto-git' 'libxcb-git' 'lib32-libxdmcp-git' 'lib32-libxau-git')
 makedepends=('gcc-multilib' 'pkgconfig' 'libxslt' 'python2' 'xorg-util-macros-git' 'git')
-provides=('lib32-libxcb=${_realver}')
+provides=('lib32-libxcb')
 conflicts=('lib32-libxcb')
 options=('!libtool')
 license=('custom')

@@ -1,7 +1,6 @@
 # $Id: PKGBUILD 152267 2012-03-06 08:39:49Z allan $
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.0.4
 _gitroot='git://git.freedesktop.org/git/xorg/font/encodings'
 _gitname='encodings'
 
@@ -15,7 +14,7 @@ license=('custom')
 makedepends=('xorg-mkfontscale-git' 'xorg-util-macros-git' 'xorg-font-util-git' 'git')
 groups=('xorg-fonts' 'xorg')
 options=(!makeflags)
-provides=('xorg-fonts-encodings=${_realver}')
+provides=('xorg-fonts-encodings')
 conflicts=('xorg-fonts-encodings')
 source=($_gitroot)
 sha256sums=('SKIP')

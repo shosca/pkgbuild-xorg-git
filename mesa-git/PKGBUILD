@@ -2,12 +2,11 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
-_realver=10.2.0-devel
 _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=mesa-git
-pkgver=r63020.cdeb700
+pkgver=r63022.46737ce
 pkgrel=1
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
@@ -72,7 +71,7 @@ build() {
 package_ati-dri-git() {
   pkgdesc="Mesa drivers for AMD/ATI Radeon"
   depends=('mesa-libgl-git' 'libclc-git' 'libomxil-bellagio-git' 'libtxc_dxtn' 'mesa-git')
-  provides=('ati-dri=${_realver}')
+  provides=('ati-dri')
   conflicts=('ati-dri' 'xf86-video-ati<6.9.0-6')
 
   install -m755 -d ${pkgdir}/usr/lib/
@@ -94,7 +93,7 @@ package_ati-dri-git() {
 package_intel-dri-git() {
   pkgdesc="Mesa drivers for Intel"
   depends=('mesa-libgl-git' 'libtxc_dxtn' 'mesa-git')
-  provides=('intel-dri=${_realver}')
+  provides=('intel-dri')
   replaces=('intel-dri')
   conflicts=('intel-dri')
 
@@ -108,7 +107,7 @@ package_intel-dri-git() {
 package_nouveau-dri-git() {
   pkgdesc="Mesa drivers for Nouveau"
   depends=('mesa-libgl-git' 'libtxc_dxtn' 'mesa-git')
-  provides=('nouveau-dri=${_realver}')
+  provides=('nouveau-dri')
   replaces=('nouveau-dri')
   conflicts=('nouveau-dri')
 
@@ -146,7 +145,7 @@ package_svga-dri-git() {
 package_opencl-mesa-git() {
   pkgdesc="Mesa OpenCL library"
   depends=('mesa-git' 'llvm-git' 'libclc-git' 'opencl-headers')
-  provides=("opencl-mesa=${_realver}" "libcl")
+  provides=("opencl-mesa" "libcl")
   replaces=('opencl-mesa' 'libcl')
   conflicts=('libcl')
 
@@ -184,7 +183,7 @@ package_mesa-git() {
 package_mesa-libgl-git(){
   pkgdesc="Mesa 3-D graphics library"
   depends=('mesa-git')
-  provides=('mesa-libgl' 'libgl=${_realver}')
+  provides=('mesa-libgl' 'libgl')
   replaces=('mesa-libgl' 'libgl')
   conflicts=('mesa-libgl')
 

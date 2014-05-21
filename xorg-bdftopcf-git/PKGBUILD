@@ -1,7 +1,6 @@
 # $Id: PKGBUILD 150979 2012-02-24 12:29:18Z allan $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.0.4
 _gitroot="git://anongit.freedesktop.org/xorg/app/bdftopcf"
 _gitname="bdftopcf"
 
@@ -15,7 +14,7 @@ license=('custom')
 depends=('libxfont-git')
 makedepends=('xorg-util-macros-git' 'git')
 groups=('xorg' 'xorg-apps')
-provides=('xorg-bdftopcf=${_realver}')
+provides=('xorg-bdftopcf')
 replaces=('xorg-bdftopcf')
 conflicts=('xorg-bdftopcf')
 source=($_gitroot)

@@ -1,7 +1,6 @@
 # $Id: PKGBUILD 154156 2012-03-23 20:01:59Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.2.4
 _gitroot='git://anongit.freedesktop.org/xorg/app/xkbcomp'
 _gitname='xkbcomp'
 
@@ -15,7 +14,7 @@ license=('custom')
 depends=('libxkbfile-git')
 makedepends=('xorg-util-macros-git' 'git')
 groups=('xorg-apps' 'xorg')
-provides=('xorg-xkbcomp=1.2.4')
+provides=('xorg-xkbcomp')
 conflicts=('xorg-xkbcomp')
 source=($_gitroot)
 sha256sums=('SKIP')

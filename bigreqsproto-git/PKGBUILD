@@ -2,7 +2,6 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
-_realver=1.1.2
 _gitroot='git://git.freedesktop.org/git/xorg/proto/bigreqsproto'
 _gitname='bigreqsproto'
 
@@ -14,7 +13,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros-git' 'git' 'xmlto' 'docbook-xml')
-provides=('bigreqsproto=${_realver}')
+provides=('bigreqsproto')
 conflicts=('bigreqsproto')
 source=($_gitroot)
 sha256sums=('SKIP')

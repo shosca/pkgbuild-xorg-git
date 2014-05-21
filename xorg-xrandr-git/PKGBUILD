@@ -1,13 +1,12 @@
 # $Id: PKGBUILD 130753 2011-07-07 22:30:11Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.4.1
 _gitroot="git://anongit.freedesktop.org/xorg/app/xrandr"
 _gitname="xrandr"
 
 pkgname=xorg-xrandr-git
 pkgver=r268.792f05e
-pkgrel=3
+pkgrel=4
 pkgdesc="Primitive command line interface to RandR extension"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -15,7 +14,7 @@ license=('custom')
 depends=('libxrandr-git' 'libx11')
 makedepends=('xorg-util-macros-git' 'git')
 groups=('xorg-apps' 'xorg')
-provides=('xorg-xrandr=${_realver}')
+provides=('xorg-xrandr')
 conflicts=('xorg-xrandr')
 source=($_gitroot)
 sha256sums=('SKIP')

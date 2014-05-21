@@ -3,7 +3,6 @@
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
-_realver=1.4.2
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXinerama"
 _gitname="libXinerama"
 

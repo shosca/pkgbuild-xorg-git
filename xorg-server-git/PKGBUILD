@@ -3,14 +3,13 @@
 # Contributor: SpeedVin <speedvin at archlinux dot us>
 # Based on xorg-server-dev
 
-_realver=1.15.99.901
 _gitroot="git://anongit.freedesktop.org/xorg/xserver"
 _gitname="xserver"
 
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
 pkgver=r13941.01e18af
-pkgrel=17
+pkgrel=18
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -95,7 +94,7 @@ build() {
 package_xorg-server-common-git() {
   pkgdesc="Xorg server common files - Git ones"
   depends=('xkeyboard-config-git' 'xorg-fonts-misc' 'xorg-setxkbmap-git' 'xorg-xkbcomp-git')
-  provides=("xorg-server-common=${_realver}")
+  provides=("xorg-server-common")
   conflicts=('xorg-server-common')
 
   cd "${srcdir}/${_gitname}"
@@ -118,7 +117,7 @@ package_xorg-server-devel-git() {
     'dri2proto-git' 'dri3proto-git' 'xineramaproto-git'
     'libpciaccess-git' 'resourceproto-git' 'scrnsaverproto-git'
     'presentproto-git' 'xorg-util-macros-git')
-  provides=("xorg-server-devel=${_realver}")
+  provides=("xorg-server-devel")
   conflicts=('xorg-server-devel')
 
   cd "${srcdir}/${_gitname}"
@@ -133,7 +132,7 @@ package_xorg-server-xdmx-git() {
   pkgdesc="Distributed Multihead X Server and utilities - Git ones"
   depends=('libdmx-git' 'libgcrypt' 'libxaw-git' 'libxfixes-git' 'libxfont-git'
            'libxi-git' 'libxrender-git' 'pixman-git' 'xorg-server-common-git')
-  provides=("xorg-server-xdmx=${_realver}")
+  provides=("xorg-server-xdmx")
   conflicts=('xorg-server-xdmx')
 
   cd "${srcdir}/${_gitname}/hw/dmx"
@@ -146,7 +145,7 @@ package_xorg-server-xdmx-git() {
 package_xorg-server-xephyr-git() {
   pkgdesc="A nested X server that runs as an X application - Git version"
   depends=('libgcrypt' 'libgl' 'libxfont-git' 'libxv-git' 'pixman-git' 'xorg-server-common-git')
-  provides=("xorg-server-xephyr=${_realver}")
+  provides=("xorg-server-xephyr")
   conflicts=('xorg-server-xephyr')
 
   cd "${srcdir}/${_gitname}/hw/kdrive"
@@ -159,7 +158,7 @@ package_xorg-server-xephyr-git() {
 package_xorg-server-xnest-git() {
   pkgdesc="A nested X server that runs as an X application - Git version"
   depends=('libgcrypt' 'libxext-git' 'libxfont-git' 'pixman-git' 'xorg-server-common-git')
-  provides=("xorg-server-xnest=${_realver}")
+  provides=("xorg-server-xnest")
   conflicts=('xorg-server-xnest')
 
   cd "${srcdir}/${_gitname}/hw/xnest"
@@ -172,7 +171,7 @@ package_xorg-server-xnest-git() {
 package_xorg-server-xvfb-git() {
   pkgdesc="Virtual framebuffer X server - Git version"
   depends=('libgcrypt' 'libxau-git' 'libxdmcp-git' 'libxfont-git' 'pixman-git' 'xorg-server-common-git')
-  provides=("xorg-server-xvfb=${_realver}")
+  provides=("xorg-server-xvfb")
   conflicts=('xorg-server-xvfb')
 
   cd "${srcdir}/${_gitname}/hw/vfb"
@@ -192,7 +191,7 @@ package_xorg-server-git() {
            'pixman-git' 'udev' 'xf86-input-evdev-git' 'xorg-server-common-git'
            'wayland-git')
   backup=('etc/X11/xorg.conf.d/10-evdev.conf' 'etc/X11/xorg.conf.d/10-quirks.conf')
-  provides=('x-server' 'xorg-server=${_realver}' 'glamor-egl')
+  provides=('x-server' 'xorg-server' 'glamor-egl')
   conflicts=('xorg-server' 'glamor-egl' 'nvidia-utils<=290.10')
   groups=('xorg')
 

@@ -1,7 +1,6 @@
 # $Id: $
 # Maintainer: Jan de Groot
 
-_realver=0.6
 _gitroot="git://anongit.freedesktop.org/libevdev"
 _gitname="libevdev"
 
@@ -15,7 +14,7 @@ url="http://www.freedesktop.org/wiki/Software/libevdev/"
 license=(custom:X11)
 depends=('glibc')
 makedepends=('git' 'python')
-provides=('libevdev=${_realver}')
+provides=('libevdev')
 conflicts=('libevdev')
 source=($_gitroot)
 sha256sums=('SKIP')

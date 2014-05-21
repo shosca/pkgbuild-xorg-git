@@ -1,7 +1,6 @@
 # $Id: PKGBUILD 158868 2012-05-12 16:25:29Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.1
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libxshmfence"
 _gitname="libxshmfence"
 
@@ -15,7 +14,7 @@ depends=('libxshmfence-git')
 makedepends=('pkgconfig' 'xorg-util-macros-git' 'git')
 options=(!libtool)
 license=('custom')
-provides=('lib32-libxshmfence=${_realver}')
+provides=('lib32-libxshmfence')
 conflicts=('lib32-libxshmfence')
 source=($_gitroot)
 sha256sums=('SKIP')

@@ -2,7 +2,6 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
 # Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
 
-_realver=2.8
 _gitroot='git://git.freedesktop.org/git/xorg/proto/dri2proto'
 _gitname='dri2proto'
 
@@ -14,7 +13,7 @@ url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
-provides=('dri2proto=${_realver}')
+provides=('dri2proto')
 conflicts=('dri2proto')
 source=($_gitroot)
 sha256sums=('SKIP')

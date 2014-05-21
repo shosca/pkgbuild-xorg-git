@@ -1,7 +1,6 @@
 # $Id: PKGBUILD 154130 2012-03-23 17:11:54Z andyrtr $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=1.3.4
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libxtrans"
 _gitname="libxtrans"
 
@@ -14,7 +13,7 @@ license=('custom')
 url="http://xorg.freedesktop.org/"
 makedepends=('xorg-util-macros-git' 'git')
 options=(!emptydirs)
-provides=('xtrans=${_realver}')
+provides=('xtrans')
 conflicts=('xtrans')
 source=($_gitroot)
 sha256sums=('SKIP')

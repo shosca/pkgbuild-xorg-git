@@ -1,13 +1,12 @@
 # $Id: PKGBUILD 174258 2013-01-03 11:50:21Z jgc $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-_realver=0.4.4
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXcomposite"
 _gitname="libXcomposite"
 
 pkgname=libxcomposite-git
 pkgver=r72.514ae7c
-pkgrel=8
+pkgrel=9
 pkgdesc="X11 Composite extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -15,7 +14,7 @@ license=('custom')
 depends=('libxfixes-git')
 makedepends=('xorg-util-macros-git' 'compositeproto-git' 'git')
 options=('!libtool')
-provides=('libxcomposite=${_realver}')
+provides=('libxcomposite')
 conflicts=('libxcomposite')
 replaces=('libxcomposite')
 source=($_gitroot)

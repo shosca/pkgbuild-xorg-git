@@ -2,7 +2,6 @@
 #Jan de Groot
 #Andreas Radke
 
-_realver=2.4.52
 _gitroot='git://git.freedesktop.org/git/mesa/drm'
 _gitname='drm'
 
@@ -17,7 +16,7 @@ depends=('lib32-libpciaccess-git' 'libdrm-git')
 makedepends=('gcc-multilib' 'git' 'udev')
 options=('!libtool')
 url="http://dri.freedesktop.org/"
-provides=('lib32-libdrm=${_realver}')
+provides=('lib32-libdrm')
 conflicts=('lib32-libdrm')
 source=($_gitroot)
 sha256sums=('SKIP')

@@ -2,13 +2,12 @@
 # Previous Contributor: vbmithr
 # Contributor: Flamelab <panosfilip at gmail dot com>
 
-_realver=1.1
 _gitroot='git://github.com/anholt/libepoxy'
 _gitname='libepoxy'
 
 pkgname=libepoxy-git
 pkgver=r204.7422de5
-pkgrel=15
+pkgrel=16
 pkgdesc="Epoxy is a library for handling OpenGL function pointer management for you"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
