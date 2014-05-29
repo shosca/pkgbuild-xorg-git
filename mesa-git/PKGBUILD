@@ -6,8 +6,8 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=mesa-git
-pkgver=r63119.57730d6
-pkgrel=1
+pkgver=r63146.c0bd206
+pkgrel=2
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -20,9 +20,12 @@ optdepends=('opengl-man-pages: for the OpenGL API man pages')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
-source=($_gitroot LICENSE)
+source=($_gitroot LICENSE
+  Mesa-dev-2-2-egl-static-resolve-library-linking.patch
+)
 sha256sums=('SKIP'
-'7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2')
+            '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2'
+            'cb352a0f26c245416252e4724a47bba09f6f607e0c27d9212eae4c0b39eaac68')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -31,6 +34,8 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
+
+  patch -Np1 -i ../Mesa-dev-2-2-egl-static-resolve-library-linking.patch
 
   #--enable-xvmc \
   ./autogen.sh \
