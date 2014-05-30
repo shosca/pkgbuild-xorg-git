@@ -7,7 +7,7 @@ _gitname='mesa'
 
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
-pkgver=r63136.9ec7cb8
+pkgver=r63159.56bdffe
 pkgrel=1
 arch=('x86_64')
 depends=('lib32-elfutils' 'lib32-libdrm-git' 'lib32-expat' 'lib32-libxt-git'
@@ -53,7 +53,7 @@ build() {
     --libdir=/usr/lib32 \
     --with-llvm-shared-libs \
     --enable-egl \
-    --enable-gallium-egl \
+    --disable-gallium-egl \
     --enable-gallium-llvm \
     --with-egl-platforms=drm,x11,wayland \
     --enable-shared-glapi \
@@ -83,7 +83,7 @@ package_lib32-ati-dri-git() {
   install -m755 -d ${pkgdir}/usr/lib32/gallium-pipe
 
   mv -v ${srcdir}/fakeinstall/usr/lib32/dri/{r200,r300,r600,radeon,radeonsi}_dri.so ${pkgdir}/usr/lib32/dri/
-  mv -v ${srcdir}/fakeinstall/usr/lib32/gallium-pipe/pipe_{r300,r600,radeonsi}* ${pkgdir}/usr/lib32/gallium-pipe/
+  #mv -v ${srcdir}/fakeinstall/usr/lib32/gallium-pipe/pipe_{r300,r600,radeonsi}* ${pkgdir}/usr/lib32/gallium-pipe/
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
@@ -115,7 +115,7 @@ package_lib32-nouveau-dri-git() {
   install -m755 -d ${pkgdir}/usr/lib32/gallium-pipe/
 
   mv -v ${srcdir}/fakeinstall/usr/lib32/dri/nouveau_{dri,vieux_dri}.so ${pkgdir}/usr/lib32/dri/
-  mv -v ${srcdir}/fakeinstall/usr/lib32/gallium-pipe/pipe_nouveau* ${pkgdir}/usr/lib32/gallium-pipe/
+  #mv -v ${srcdir}/fakeinstall/usr/lib32/gallium-pipe/pipe_nouveau* ${pkgdir}/usr/lib32/gallium-pipe/
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
