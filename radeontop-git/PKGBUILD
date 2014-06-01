@@ -4,7 +4,7 @@ _gitroot='git://github.com/clbr/radeontop.git'
 _gitname='radeontop'
 
 pkgname=radeontop-git
-pkgver=r147.f35f363
+pkgver=r148.7eceb17
 pkgrel=1
 pkgdesc='Radeon cards monitoring utility'
 arch=('i686' 'x86_64')

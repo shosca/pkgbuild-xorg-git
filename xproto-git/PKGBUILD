@@ -6,14 +6,14 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/xproto'
 _gitname='xproto'
 
 pkgname=xproto-git
-pkgver=r240.03cbbf6
-pkgrel=1
+pkgver=r241.068fd2c
+pkgrel=2
 pkgdesc='X11 x extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
 license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
-provides=('xproto')
+provides=('xproto=7.0.26')
 conflicts=('xproto')
 source=($_gitroot)
 sha256sums=('SKIP')

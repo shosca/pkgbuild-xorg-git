@@ -6,7 +6,7 @@ _gitname="libSM"
 
 pkgname=lib32-libsm-git
 pkgver=r144.f2dd693
-pkgrel=2
+pkgrel=5
 pkgdesc="X11 Session Management library"
 arch=('x86_64')
 license=('custom')

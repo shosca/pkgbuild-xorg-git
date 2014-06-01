@@ -6,16 +6,16 @@ _gitroot="git://github.com/freerdp/freerdp"
 _gitname="freerdp"
 
 pkgname=freerdp-git
-pkgver=r6424.2309169
-pkgrel=1
+pkgver=r6448.ad978a1
+pkgrel=2
 pkgdesc="Free RDP client"
 arch=('i686' 'x86_64')
 url="http://freerdp.sourceforge.net"
 license=('GPL')
-depends=('openssl' 'libxcursor' 'libcups' 'alsa-lib' 'libxext'
-      'libxdamage' 'ffmpeg' 'libxkbfile' 'libxinerama'
-      'libxv' 'libpulse')
-makedepends=('krb5' 'cmake' 'damageproto' 'xmlto' 'docbook-xsl' 'git')
+depends=('openssl' 'libxcursor-git' 'libcups' 'alsa-lib' 'libxext-git'
+      'libxdamage-git' 'ffmpeg' 'libxkbfile-git' 'libxinerama-git'
+      'libxv-git' 'libpulse')
+makedepends=('krb5' 'cmake' 'damageproto-git' 'xmlto' 'docbook-xsl' 'git')
 conflicts=('freerdp')
 replaces=('freerdp')
 provides=('freerdp')

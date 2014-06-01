@@ -6,7 +6,7 @@ _gitname="libxkbcommon"
 pkgbase=libxkbcommon-git
 pkgname=('libxkbcommon-git' 'libxkbcommon-x11-git')
 pkgver=r1405.d6f2d8e
-pkgrel=1
+pkgrel=2
 pkgdesc="A library to handle keyboard descriptions."
 url="http://xkbcommon.org/"
 arch=('i686' 'x86_64')
@@ -48,6 +48,9 @@ package_libxkbcommon-git() {
 package_libxkbcommon-x11-git() {
   pkgdesc="Keyboard handling library using XKB data for X11 XCB clients"
   depends=('libxkbcommon-git' 'libxcb-git')
+  provides=('libxkbcommon-x11')
+  replaces=('libxkbcommon-x11')
+  conflicts=('libxkbcommon-x11')
 
   mv x11/* "$pkgdir"
 }
