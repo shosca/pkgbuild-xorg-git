@@ -4,7 +4,7 @@ _gitroot="git://anongit.freedesktop.org/wayland/libinput"
 _gitname="libinput"
 
 pkgname=libinput-git
-pkgver=r464.42bedd6
+pkgver=r467.bd4550c
 pkgrel=1
 pkgdesc="Input device management and event handling library"
 arch=('i686' 'x86_64')
