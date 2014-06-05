@@ -5,7 +5,7 @@ _gitroot='git://git.freedesktop.org/git/xorg/font/alias'
 _gitname='alias'
 
 pkgname=xorg-fonts-alias-git
-pkgver=r32.4f63896
+pkgver=r34.50f4974
 pkgrel=1
 pkgdesc="X.org font alias files"
 arch=('any')

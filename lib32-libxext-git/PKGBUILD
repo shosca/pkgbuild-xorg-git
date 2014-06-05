@@ -6,7 +6,7 @@ _gitname="libXext"
 
 pkgname=lib32-libxext-git
 pkgver=r197.11aad96
-pkgrel=13
+pkgrel=14
 pkgdesc="X11 miscellaneous extensions library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
