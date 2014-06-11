@@ -6,7 +6,7 @@ _gitname="xrdb"
 
 pkgname=xorg-xrdb-git
 pkgver=r96.ae495ec
-pkgrel=3
+pkgrel=4
 pkgdesc="X.Org authorization settings program"
 arch=('i686' 'x86_64')
 license=('custom')
