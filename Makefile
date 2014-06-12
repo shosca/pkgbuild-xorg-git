@@ -36,28 +36,28 @@ checkchroot:
 			-i -e '/^\[multilib\]/{$$!N; s,#,,}' $(CHROOTPATH64)/root/etc/pacman.conf ; \
 		sudo mkdir -p $(CHROOTPATH64)/root/repo ;\
 		echo "# Added by $$PKG" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
-		echo "[$(REPO)]" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
-		echo "SigLevel = Never" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
-		echo "Server = file:///repo" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
 		echo "COMPRESSXZ=(7z a dummy -txz -si -so)" | sudo tee -a $(CHROOTPATH64)/root/etc/makepkg.conf ; \
 		echo 'LANG="en_US.UTF-8"' | sudo tee -a $(CHROOTPATH64)/root/etc/locale.conf ; \
 		echo 'LANGUAGE="en_US:en"' | sudo tee -a $(CHROOTPATH64)/root/etc/locale.conf ; \
-		$(MAKE) recreaterepo ; \
-		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root pacman -Syyu --noconfirm ; \
 		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c 'yes | pacman -S gcc-multilib gcc-libs-multilib p7zip' ; \
-	else \
-		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root pacman -Syyu --noconfirm ; \
-	fi
+		sudo bsdtar -czf $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz -T /dev/null ; \
+		sudo ln -sf $(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/$(REPO).db ; \
+		echo "[$(REPO)]" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
+		echo "SigLevel = Never" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
+		echo "Server = file:///repo" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
+	fi ; \
+	$(MAKE) recreaterepo ; \
 
 resetchroot:
 	sudo rm -rf $(CHROOTPATH64) && $(MAKE) checkchroot
 
 recreaterepo:
-	echo "Recreating working repo $(REPO)" ; \
+	@echo "Recreating working repo $(REPO)" ; \
 	if ls */*.$(PKGEXT) &> /dev/null ; then \
 		sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
 		sudo repo-add $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
 	fi ; \
+	sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root pacman -Syyu --noconfirm ; \
 
 build: $(DIRS)
 
@@ -328,6 +328,10 @@ xkeyboard-config-git: kbproto-git xcb-proto-git xproto-git libx11-git libxau-git
 xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git dri3proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git
 
 xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git
+
+xf86-video-modesetting-git: libdrm-git xorg-server-git
+
+xf86-video-fbdev-git: xorg-server-git
 
 weston-git: libinput-git libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git
 

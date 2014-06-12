@@ -8,7 +8,7 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-intel'
 _gitname='xf86-video-intel'
 
 pkgname=xf86-video-intel-git
-pkgver=r8147.ad076b3
+pkgver=r8154.abbf6d6
 pkgrel=1
 pkgdesc='X.org Intel i810/i830/i915/945G/G965+ video drivers'
 arch=('i686' 'x86_64')
@@ -40,6 +40,8 @@ build() {
 
 package() {
   cd "${srcdir}/${_gitname}"
+
+  make DESTDIR="${pkgdir}" install 
 
   install -D -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
 }

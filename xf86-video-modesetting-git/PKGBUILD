@@ -1,0 +1,44 @@
+# $Id$
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
+# Contributor: Gerardo Exequiel Pozzi <vmlinuz386@yahoo.com.ar>
+
+_gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-modesetting'
+_gitname='xf86-video-modesetting'
+
+pkgname=xf86-video-modesetting-git
+pkgver=r121.d1c6e27
+pkgrel=2
+pkgdesc='X.org generic modesetting video driver'
+arch=('i686' 'x86_64')
+url='http://xorg.freedesktop.org/'
+license=('custom')
+depends=('libdrm-git' 'systemd')
+makedepends=('git' 'xorg-server-devel-git')
+provides=('xf86-video-modesetting')
+conflicts=('xf86-video-modesetting')
+source=($_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr
+
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+
+  make DESTDIR="${pkgdir}" install 
+
+  install -D -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}
+
+# vim: ft=sh syn=sh et
+
