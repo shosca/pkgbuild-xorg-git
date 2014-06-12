@@ -9,7 +9,7 @@ _gitname="xserver"
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
 pkgver=r13975.e27a839
-pkgrel=10
+pkgrel=13
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -25,7 +25,7 @@ makedepends=('git' 'bigreqsproto-git' 'presentproto-git' 'compositeproto-git'
              'xf86driproto-git' 'xineramaproto-git' 'xorg-font-util-git'
              'xorg-util-macros-git' 'xorg-xkbcomp-git' 'xtrans-git'
              'xcb-util-git' 'xcb-util-image-git' 'xcb-util-wm-git' 'xcb-util-keysyms-git'
-             'libxshmfence-git')
+             'libxshmfence-git' 'systemd')
 options=('!libtool')
 source=($_gitroot
         xvfb-run
@@ -80,7 +80,8 @@ build() {
       --localstatedir=/var \
       --with-xkb-path=/usr/share/X11/xkb \
       --with-xkb-output=/var/lib/xkb \
-      --with-fontrootdir=/usr/share/fonts
+      --with-fontrootdir=/usr/share/fonts \
+      --enable-systemd-logind
   make
 
   # Disable subdirs for make install rule to make splitting easier
