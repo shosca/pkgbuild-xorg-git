@@ -7,7 +7,7 @@ _gitname='xf86-video-modesetting'
 
 pkgname=xf86-video-modesetting-git
 pkgver=r121.d1c6e27
-pkgrel=5
+pkgrel=6
 pkgdesc='X.org generic modesetting video driver'
 arch=('i686' 'x86_64')
 url='http://xorg.freedesktop.org/'
