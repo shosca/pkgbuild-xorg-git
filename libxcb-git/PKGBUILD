@@ -6,7 +6,7 @@ _gitroot="git://anongit.freedesktop.org/xcb/libxcb"
 _gitname="libxcb"
 
 pkgname=libxcb-git
-pkgver=r574.72e4596
+pkgver=r576.1251354
 pkgrel=1
 pkgdesc="X11 client-side library"
 arch=('i686' 'x86_64')
