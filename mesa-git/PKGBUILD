@@ -7,7 +7,7 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=r63453.39cdf16
-pkgrel=1
+pkgrel=2
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -71,7 +71,8 @@ package_ati-dri-git() {
   pkgdesc="Mesa drivers for AMD/ATI Radeon"
   depends=('mesa-libgl-git' 'libclc-git' 'libomxil-bellagio-git' 'libtxc_dxtn' 'mesa-git')
   provides=('ati-dri')
-  conflicts=('ati-dri' 'xf86-video-ati<6.9.0-6')
+  conflicts=('ati-dri')
+  replaces=('ati-dri')
 
   install -m755 -d ${pkgdir}/usr/lib/
   install -m755 -d ${pkgdir}/usr/lib/vdpau/
