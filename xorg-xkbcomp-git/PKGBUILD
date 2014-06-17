@@ -16,6 +16,7 @@ makedepends=('xorg-util-macros-git' 'git')
 groups=('xorg-apps' 'xorg')
 provides=('xorg-xkbcomp')
 conflicts=('xorg-xkbcomp')
+replaces=('xorg-xkbcomp')
 source=($_gitroot)
 sha256sums=('SKIP')
 

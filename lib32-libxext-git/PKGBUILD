@@ -6,7 +6,7 @@ _gitname="libXext"
 
 pkgname=lib32-libxext-git
 pkgver=r197.11aad96
-pkgrel=18
+pkgrel=20
 pkgdesc="X11 miscellaneous extensions library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
@@ -15,6 +15,7 @@ depends=('lib32-libx11-git' 'xextproto-git')
 makedepends=('xorg-util-macros-git' 'git')
 provides=('lib32-libxext=${_1.3.1}')
 conflicts=('lib32-libxext')
+replaces=('lib32-libxext')
 options=('!libtool')
 source=($_gitroot)
 sha256sums=('SKIP')

@@ -15,7 +15,6 @@ license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('libxext-git' 'xineramaproto')
 makedepends=('xorg-util-macros-git' 'git')
-options=('!libtool')
 provides=('libxinerama')
 conflicts=('libxinerama')
 source=($_gitroot)

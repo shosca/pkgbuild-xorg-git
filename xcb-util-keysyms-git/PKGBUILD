@@ -7,14 +7,13 @@ _gitname="util-keysyms"
 
 pkgname=xcb-util-keysyms-git
 pkgver=r64.ae88512
-pkgrel=11
+pkgrel=13
 pkgdesc="Utility libraries for XC Binding - Standard X key constants and conversion to/from keycodes"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
 license=('custom')
 depends=('libxcb-git')
 makedepends=('xorg-util-macros-git' 'git')
-options=('!libtool')
 provides=('xcb-util-keysyms')
 conflicts=('xcb-util-keysyms')
 replaces=('xcb-util-keysyms')

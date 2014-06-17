@@ -6,16 +6,16 @@ _gitname="libXxf86vm"
 
 pkgname=libxxf86vm-git
 pkgver=r84.f3cdbab
-pkgrel=18
+pkgrel=20
 pkgdesc="X11 XFree86 video mode extension library"
 arch=('x86_64' 'i686')
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('libxext-git' 'xf86vidmodeproto-git')
 makedepends=('xorg-util-macros-git' 'git')
-options=('!libtool')
 provides=('libxxf86vm')
 conflicts=('libxxf86vm')
+replaces=('libxxf86vm')
 source=($_gitroot)
 sha256sums=('SKIP')
 

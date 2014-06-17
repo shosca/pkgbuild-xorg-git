@@ -6,7 +6,7 @@ _gitname="libX11"
 
 pkgname=lib32-libx11-git
 pkgver=r1178.602d7f5
-pkgrel=1
+pkgrel=3
 pkgdesc="X11 client-side library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
@@ -14,6 +14,7 @@ depends=('lib32-libxcb-git' 'libx11-git')
 makedepends=('xorg-util-macros-git' 'xextproto-git' 'xtrans-git' 'inputproto-git' 'git')
 provides=('lib32-libx11')
 conflicts=('lib32-libx11')
+replaces=('lib32-libx11')
 options=('!libtool')
 license=('custom')
 source=($_gitroot)

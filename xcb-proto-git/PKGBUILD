@@ -7,7 +7,7 @@ _gitname="proto"
 
 pkgname=xcb-proto-git
 pkgver=r345.84bfd90
-pkgrel=1
+pkgrel=2
 pkgdesc="XML-XCB protocol descriptions"
 arch=('any')
 url="http://xcb.freedesktop.org/"
@@ -15,6 +15,7 @@ license=('custom')
 makedepends=('python2' 'libxml2' 'git')
 provides=('xcb-proto')
 conflicts=('xcb-proto')
+replaces=('xcb-proto')
 source=($_gitroot)
 sha256sums=('SKIP')
 

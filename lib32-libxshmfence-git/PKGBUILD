@@ -16,6 +16,7 @@ options=(!libtool)
 license=('custom')
 provides=('lib32-libxshmfence')
 conflicts=('lib32-libxshmfence')
+replaces=('lib32-libxshmfence')
 source=($_gitroot)
 sha256sums=('SKIP')
 

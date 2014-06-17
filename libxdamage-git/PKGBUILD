@@ -6,7 +6,7 @@ _gitname="libXdamage"
 
 pkgname=libxdamage-git
 pkgver=r58.41cc41d
-pkgrel=18
+pkgrel=20
 pkgdesc="X11 damaged region extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -15,7 +15,7 @@ depends=('libxfixes-git' 'damageproto-git')
 makedepends=('pkg-config' 'xorg-util-macros-git' 'git')
 provides=('libxdamage')
 conflicts=('libxdamage')
-options=('!libtool')
+replaces=('libxdamage')
 source=($_gitroot)
 sha256sums=('SKIP')
 

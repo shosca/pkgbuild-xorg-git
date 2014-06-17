@@ -6,7 +6,7 @@ _gitname="libXfixes"
 
 pkgname=libxfixes-git
 pkgver=r74.1702cdf
-pkgrel=18
+pkgrel=20
 pkgdesc="X11 miscellaneous 'fixes' extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -15,7 +15,7 @@ makedepends=('xorg-util-macros-git' 'git')
 license=('custom')
 provides=('libxfixes')
 conflicts=('libxfixes')
-options=('!libtool')
+replaces=('libxfixes')
 source=($_gitroot)
 sha256sums=('SKIP')
 

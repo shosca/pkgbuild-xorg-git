@@ -9,7 +9,7 @@ _gitname="xserver"
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
 pkgver=r13975.e27a839
-pkgrel=19
+pkgrel=21
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -26,7 +26,6 @@ makedepends=('git' 'bigreqsproto-git' 'presentproto-git' 'compositeproto-git'
              'xorg-util-macros-git' 'xorg-xkbcomp-git' 'xtrans-git'
              'xcb-util-git' 'xcb-util-image-git' 'xcb-util-wm-git' 'xcb-util-keysyms-git'
              'libxshmfence-git' 'systemd')
-options=('!libtool')
 source=($_gitroot
         xvfb-run
         xvfb-run.1
@@ -81,8 +80,9 @@ build() {
       --with-xkb-path=/usr/share/X11/xkb \
       --with-xkb-output=/var/lib/xkb \
       --with-fontrootdir=/usr/share/fonts \
-      --disable-systemd-logind \
-      --without-systemd-daemon
+      --enable-systemd-logind \
+      --with-systemd-daemon
+
   make
 
   # Disable subdirs for make install rule to make splitting easier
@@ -98,6 +98,7 @@ package_xorg-server-common-git() {
   depends=('xkeyboard-config-git' 'xorg-fonts-misc' 'xorg-setxkbmap-git' 'xorg-xkbcomp-git')
   provides=("xorg-server-common")
   conflicts=('xorg-server-common')
+  replaces=('xorg-server-common')
 
   cd "${srcdir}/${_gitname}"
   make -C xkb DESTDIR="$pkgdir" install-data
@@ -121,6 +122,7 @@ package_xorg-server-devel-git() {
     'presentproto-git' 'xorg-util-macros-git')
   provides=("xorg-server-devel")
   conflicts=('xorg-server-devel')
+  replaces=('xorg-server-devel')
 
   cd "${srcdir}/${_gitname}"
   make DESTDIR="$pkgdir" install
@@ -136,6 +138,7 @@ package_xorg-server-xdmx-git() {
            'libxi-git' 'libxrender-git' 'pixman-git' 'xorg-server-common-git')
   provides=("xorg-server-xdmx")
   conflicts=('xorg-server-xdmx')
+  replaces=('xorg-server-xdmx')
 
   cd "${srcdir}/${_gitname}/hw/dmx"
   make DESTDIR="$pkgdir" install
@@ -149,6 +152,7 @@ package_xorg-server-xephyr-git() {
   depends=('libgcrypt' 'libgl' 'libxfont-git' 'libxv-git' 'pixman-git' 'xorg-server-common-git')
   provides=("xorg-server-xephyr")
   conflicts=('xorg-server-xephyr')
+  replaces=('xorg-server-xephyr')
 
   cd "${srcdir}/${_gitname}/hw/kdrive"
   make DESTDIR="$pkgdir" install
@@ -162,6 +166,7 @@ package_xorg-server-xnest-git() {
   depends=('libgcrypt' 'libxext-git' 'libxfont-git' 'pixman-git' 'xorg-server-common-git')
   provides=("xorg-server-xnest")
   conflicts=('xorg-server-xnest')
+  replaces=('xorg-server-xnest')
 
   cd "${srcdir}/${_gitname}/hw/xnest"
   make DESTDIR="$pkgdir" install
@@ -175,6 +180,7 @@ package_xorg-server-xvfb-git() {
   depends=('libgcrypt' 'libxau-git' 'libxdmcp-git' 'libxfont-git' 'pixman-git' 'xorg-server-common-git')
   provides=("xorg-server-xvfb")
   conflicts=('xorg-server-xvfb')
+  replaces=('xorg-server-xvfb')
 
   cd "${srcdir}/${_gitname}/hw/vfb"
   make DESTDIR="$pkgdir" install
@@ -195,6 +201,7 @@ package_xorg-server-git() {
   backup=('etc/X11/xorg.conf.d/10-evdev.conf' 'etc/X11/xorg.conf.d/10-quirks.conf')
   provides=('x-server' 'xorg-server' 'glamor-egl')
   conflicts=('xorg-server' 'glamor-egl' 'nvidia-utils<=290.10')
+  replaces=('xorg-servver')
   groups=('xorg')
 
   cd "${srcdir}/${_gitname}"

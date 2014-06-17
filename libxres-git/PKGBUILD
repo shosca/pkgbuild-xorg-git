@@ -6,16 +6,16 @@ _gitname="libXRes"
 
 pkgname=libxres-git
 pkgver=r83.ae0ddaa
-pkgrel=18
+pkgrel=20
 pkgdesc="X11 Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"
 license=('custom')
 depends=('libxext-git')
 makedepends=('resourceproto-git' 'damageproto-git' 'compositeproto-git' 'scrnsaverproto' 'xorg-util-macros-git' 'git')
-options=('!libtool')
 provides=('libxres')
 conflicts=('libxres')
+replaces=('libxres')
 source=($_gitroot)
 sha256sums=('SKIP')
 

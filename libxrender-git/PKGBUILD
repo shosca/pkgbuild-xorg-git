@@ -6,7 +6,7 @@ _gitname="libXrender"
 
 pkgname=libxrender-git
 pkgver=r74.7887382
-pkgrel=19
+pkgrel=21
 pkgdesc="X Rendering Extension client library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -15,7 +15,6 @@ depends=('libx11-git' 'renderproto-git')
 provides=('libxrender')
 conflicts=('libxrender')
 makedepends=('git' 'xorg-util-macros-git' 'pkgconfig')
-options=('!libtool')
 source=($_gitroot)
 sha256sums=('SKIP')
 

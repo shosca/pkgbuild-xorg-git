@@ -16,7 +16,6 @@ makedepends=('git' 'autoconf' 'automake' 'libtool' 'pkgconfig')
 provides=('pixman')
 conflicts=('pixman')
 replaces=('pixman')
-options=('!libtool')
 source=($_gitroot)
 sha256sums=('SKIP')
 

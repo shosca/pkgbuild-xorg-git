@@ -6,7 +6,7 @@ _gitname="libxtrans"
 
 pkgname=xtrans-git
 pkgver=r231.a57a7f6
-pkgrel=1
+pkgrel=2
 pkgdesc="X transport library"
 arch=('any')
 license=('custom')
@@ -15,6 +15,7 @@ makedepends=('xorg-util-macros-git' 'git')
 options=(!emptydirs)
 provides=('xtrans')
 conflicts=('xtrans')
+replaces=('xtrans')
 source=($_gitroot)
 sha256sums=('SKIP')
 

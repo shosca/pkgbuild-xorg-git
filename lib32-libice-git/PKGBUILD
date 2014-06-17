@@ -7,7 +7,7 @@ _gitname="libICE"
 
 pkgname=lib32-libice-git
 pkgver=r142.0dfab42
-pkgrel=1
+pkgrel=2
 pkgdesc="X11 Inter-Client Exchange library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
@@ -17,6 +17,7 @@ options=('!libtool')
 license=('custom')
 provides=('lib32-libice')
 conflicts=('lib32-libice')
+replaces=('lib32-libice')
 source=($_gitroot)
 sha256sums=('SKIP')
 

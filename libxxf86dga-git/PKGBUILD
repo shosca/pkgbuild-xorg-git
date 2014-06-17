@@ -8,16 +8,16 @@ _gitname="libXxf86dga"
 
 pkgname=libxxf86dga-git
 pkgver=r83.7fad129
-pkgrel=18
+pkgrel=20
 pkgdesc="X11 Direct Graphics Access extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libxext-git' 'xf86dgaproto-git')
 makedepends=('xorg-util-macros-git' 'git')
-options=('!libtool')
 provides=('libxxf86dga')
 conflicts=('libxxf86dga')
+replaces=('libxxf86dga')
 source=($_gitroot)
 sha256sums=('SKIP')
 

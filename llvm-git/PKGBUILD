@@ -86,6 +86,7 @@ package_llvm-git() {
   depends=('llvm-libs-git' 'perl')
   provides=('llvm')
   conflicts=('llvm')
+  replaces=('llvm')
 
   cd "${srcdir}/${_pkgname}"
 
@@ -136,6 +137,7 @@ package_llvm-libs-git() {
   depends=('gcc-libs' 'zlib' 'libffi')
   provides=('llvm-libs')
   conflicts=('llvm-libs')
+  replaces=('llvm-libs')
 
   mkdir -p "${pkgdir}"/usr/lib/
 
@@ -155,6 +157,7 @@ package_llvm-ocaml-git() {
   depends=('llvm-git' 'ocaml')
   provides=('llvm-ocaml')
   conflicts=('llvm-ocaml')
+  replaces=('llvm-ocaml')
 
   cd "${srcdir}/${_pkgname}"
 
@@ -173,6 +176,7 @@ package_clang-git() {
   depends=('llvm-git' 'gcc')
   provides=('clang')
   conflicts=('clang')
+  replaces=('clang')
 
   sed -e 's:$(PROJ_prefix)/share/doc/llvm:$(PROJ_prefix)/share/doc/clang:' \
       -i "${srcdir}/llvm/Makefile.config"
@@ -206,6 +210,7 @@ package_clang-analyzer-git() {
   depends=('clang-git' 'python2')
   provides=('clang-analyzer')
   conflicts=('clang-analyzer')
+  replaces=('clang-analyzer')
 
   cd "${srcdir}/llvm/tools/clang"
 
@@ -238,6 +243,7 @@ package_clang-tools-extra-git() {
   depends=("clang-git")
   provides=('clang-tools-extra')
   conflicts=('clang-tools-extra')
+  replaces=('clang-tools-extra')
 
   cd "${srcdir}/llvm/tools/clang/tools/extra"
 

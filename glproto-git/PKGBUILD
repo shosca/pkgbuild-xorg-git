@@ -6,7 +6,7 @@ _gitname="glproto"
 
 pkgname=glproto-git
 pkgver=r83.f84853d
-pkgrel=1
+pkgrel=2
 pkgdesc="X11 OpenGL extension wire protocol"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -14,6 +14,7 @@ license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
 provides=('glproto')
 conflicts=('glproto')
+replaces=('glproto')
 source=($_gitroot)
 sha256sums=('SKIP')
 

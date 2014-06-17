@@ -15,6 +15,7 @@ depends=('glibc')
 makedepends=('git' 'xorg-server-devel-git')
 provides=('xf86-video-vesa')
 conflicts=('xf86-video-vesa')
+replaces=('xf86-video-vesa')
 source=($_gitroot)
 sha256sums=('SKIP')
 

@@ -7,16 +7,16 @@ _gitname="libXau"
 
 pkgname=libxau-git
 pkgver=r100.1e4635b
-pkgrel=4
+pkgrel=5
 pkgdesc="X11 authorisation library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
 depends=('glibc' 'xproto-git')
-provides=('libxau')
-conflicts=('libxau')
 makedepends=('pkgconfig' 'xorg-util-macros-git' 'git')
 license=('custom')
-options=('!libtool')
+provides=('libxau')
+conflicts=('libxau')
+replaces=('libxau')
 source=($_gitroot)
 sha256sums=('SKIP')
 

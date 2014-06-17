@@ -6,16 +6,16 @@ _gitname="libXmu"
 
 pkgname=libxmu-git
 pkgver=r118.22d9c59
-pkgrel=19
+pkgrel=21
 pkgdesc="X11 miscellaneous micro-utility library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 depends=('libxext-git' 'libxt-git')
 makedepends=('xorg-util-macros-git' 'git')
 license=('custom')
-options=('!libtool')
 provides=('libxmu')
 conflicts=('libxmu')
+replaces=('libxmu')
 source=($_gitroot)
 sha256sums=('SKIP')
 

@@ -8,14 +8,13 @@ _gitname="util"
 
 pkgname=xcb-util-git
 pkgver=r122.030c7a8
-pkgrel=13
+pkgrel=15
 pkgdesc="Utility libraries for XC Binding"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
 license=('custom')
 depends=('libxcb-git')
 makedepends=('gperf' 'xorg-util-macros-git' 'git')
-options=('!libtool')
 source=($_gitroot 'LICENSE')
 sha256sums=('SKIP'
             'ded299aa179dcf0d885bf89274a4db77a530e03f9f5e7cf1c3c4ef1d60e914b9')

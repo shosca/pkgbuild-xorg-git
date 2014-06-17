@@ -12,6 +12,8 @@ url="http://omxil.sourceforge.net"
 license="LGPL"
 makedepends=('doxygen' 'git')
 provides=('libomxil-bellagio')
+conflicts=('libomxil-bellagio')
+replaces=('libomxil-bellagio')
 source=($_gitroot)
 sha256sums=('SKIP')
 

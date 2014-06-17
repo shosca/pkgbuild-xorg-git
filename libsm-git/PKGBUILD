@@ -6,16 +6,16 @@ _gitname="libSM"
 
 pkgname=libsm-git
 pkgver=r144.f2dd693
-pkgrel=6
+pkgrel=7
 pkgdesc="X11 Session Management library"
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('libice-git' 'util-linux-ng')
 makedepends=('xorg-util-macros-git' 'xtrans-git' 'git')
-options=('!libtool')
 provides=('libsm')
 conflicts=('libsm')
+replaces=('libsm')
 source=($_gitroot)
 sha256sums=('SKIP')
 

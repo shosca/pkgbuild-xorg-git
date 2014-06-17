@@ -17,7 +17,6 @@ makedepends=('git' 'pkgconfig' 'xorg-util-macros-git')
 provides=('libpciaccess')
 conflicts=('libpciaccess')
 replaces=('libpciaccess')
-options=('!libtool')
 source=($_gitroot)
 sha256sums=('SKIP')
 

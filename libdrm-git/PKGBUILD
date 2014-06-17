@@ -10,13 +10,13 @@ pkgver=r5261.8fc62ca
 pkgrel=2
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
+url="http://dri.freedesktop.org/"
 license=('MIT')
 depends=('libpciaccess-git')
 makedepends=('git' 'cairo>=1.12.15' 'udev' 'valgrind')
 provides=('libdrm')
-options=('!libtool')
-url="http://dri.freedesktop.org/"
 conflicts=('libdrm')
+replaces=('libdrm')
 source=($_gitroot)
 sha256sums=('SKIP')
 

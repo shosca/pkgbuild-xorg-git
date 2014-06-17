@@ -7,7 +7,7 @@ _gitname="libxcb"
 
 pkgname=lib32-libxcb-git
 pkgver=r576.1251354
-pkgrel=1
+pkgrel=3
 pkgdesc="X11 client-side library"
 arch=('x86_64')
 url="http://xcb.freedesktop.org/"
@@ -15,6 +15,7 @@ depends=('xcb-proto-git' 'libxcb-git' 'lib32-libxdmcp-git' 'lib32-libxau-git')
 makedepends=('gcc-multilib' 'pkgconfig' 'libxslt' 'python2' 'xorg-util-macros-git' 'git')
 provides=('lib32-libxcb')
 conflicts=('lib32-libxcb')
+replaces=('lib32-libxcb')
 options=('!libtool')
 license=('custom')
 source=($_gitroot libxcb-1.1-no-pthread-stubs.patch)

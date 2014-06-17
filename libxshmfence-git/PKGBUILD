@@ -12,10 +12,10 @@ arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"
 depends=('xproto-git')
 makedepends=('pkgconfig' 'xorg-util-macros-git' 'git')
-options=(!libtool)
 license=('custom')
 provides=('libxshmfence')
 conflicts=('libxshmfence')
+replaces=('libxshmfence')
 source=($_gitroot)
 sha256sums=('SKIP')
 

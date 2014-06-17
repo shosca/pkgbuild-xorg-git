@@ -6,16 +6,16 @@ _gitname="libXpm"
 
 pkgname=libxpm-git
 pkgver=r117.42ca8d9
-pkgrel=19
+pkgrel=21
 pkgdesc="X11 pixmap library"
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('libxt-git' 'libxext-git')
 makedepends=('xorg-util-macros-git' 'git')
-options=('!libtool')
 provides=('libxpm')
 conflicts=('libxpm')
+replaces=('libxpm')
 source=($_gitroot)
 sha256sums=('SKIP')
 

@@ -7,14 +7,13 @@ _gitname="util-image"
 
 pkgname=xcb-util-image-git
 pkgver=r115.f3a7f6b
-pkgrel=7
+pkgrel=9
 pkgdesc="Utility libraries for XC Binding - Port of Xlib's XImage and XShmImage functions"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
 license=('custom')
 depends=('libxcb-git' 'xcb-util-git')
 makedepends=('git' 'xorg-util-macros-git')
-options=('!libtool')
 source=($_gitroot 'LICENSE')
 sha256sums=('SKIP'
             'ded299aa179dcf0d885bf89274a4db77a530e03f9f5e7cf1c3c4ef1d60e914b9')

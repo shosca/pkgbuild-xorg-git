@@ -6,16 +6,16 @@ _gitname="libXtst"
 
 pkgname=libxtst-git
 pkgver=r112.48d2656
-pkgrel=18
+pkgrel=20
 pkgdesc="X11 Testing -- Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libxext-git' 'libxi-git' 'recordproto-git' 'inputproto-git')
 makedepends=('xorg-util-macros-git' 'git')
-options=('!libtool')
 provides=('libxtst')
 conflicts=('libxtst')
+replaces=('libxtst')
 source=($_gitroot)
 sha256sums=('SKIP')
 

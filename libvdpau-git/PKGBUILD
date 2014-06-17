@@ -6,14 +6,13 @@ _gitname="libvdpau"
 
 pkgname=libvdpau-git
 pkgver=r57.ee9491a
-pkgrel=7
+pkgrel=9
 pkgdesc="Nvidia VDPAU library"
 arch=('i686' 'x86_64')
 url='http://cgit.freedesktop.org/~aplattner/libvdpau'
 depends=('gcc-libs' 'libxext-git')
 makedepends=('libx11-git' 'git')
 conflicts=('nvidia-utils<190.42-2')
-options=('!libtool')
 license=('custom')
 provides=('libvdpau')
 conflicts=('libvdpau')

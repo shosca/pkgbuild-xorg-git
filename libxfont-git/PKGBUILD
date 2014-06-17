@@ -6,16 +6,16 @@ _gitname="libXfont"
 
 pkgname=libxfont-git
 pkgver=r294.783a406
-pkgrel=3
+pkgrel=4
 pkgdesc="X11 font rasterisation library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('freetype2' 'libfontenc-git' 'xproto-git' 'fontsproto-git')
 makedepends=('xorg-util-macros-git' 'xtrans-git' 'git')
-options=('!libtool')
 provides=('libxfont')
 conflicts=('libxfont')
+replaces=('libxfont')
 source=($_gitroot)
 sha256sums=('SKIP')
 

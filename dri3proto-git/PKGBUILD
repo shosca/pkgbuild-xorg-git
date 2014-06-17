@@ -7,7 +7,7 @@ _gitname='dri3proto'
 
 pkgname=dri3proto-git
 pkgver=r23.91df0f8
-pkgrel=1
+pkgrel=2
 pkgdesc='X11 DRI3 extension wire protocol.'
 url='http://xorg.freedesktop.org/'
 arch=('any')
@@ -15,6 +15,7 @@ license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
 provides=('dri3proto')
 conflicts=('dri3proto')
+replaces=('dri3proto')
 source=($_gitroot)
 sha256sums=('SKIP')
 

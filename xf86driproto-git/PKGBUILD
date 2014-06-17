@@ -7,7 +7,7 @@ _gitname='xf86driproto'
 
 pkgname=xf86driproto-git
 pkgver=r43.c856293
-pkgrel=1
+pkgrel=2
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
@@ -15,6 +15,7 @@ license=('custom')
 makedepends=('xorg-util-macros-git' 'git')
 provides=('xf86driproto')
 conflicts=('xf86driproto')
+replaces=('xf86driproto')
 source=($_gitroot)
 sha256sums=('SKIP')
 
