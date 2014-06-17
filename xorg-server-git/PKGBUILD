@@ -9,7 +9,7 @@ _gitname="xserver"
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
 pkgver=r13975.e27a839
-pkgrel=15
+pkgrel=18
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -81,7 +81,8 @@ build() {
       --with-xkb-path=/usr/share/X11/xkb \
       --with-xkb-output=/var/lib/xkb \
       --with-fontrootdir=/usr/share/fonts \
-      --enable-systemd-logind
+      --disable-systemd-logind \
+      --without-systemd-daemon
   make
 
   # Disable subdirs for make install rule to make splitting easier
