@@ -6,7 +6,7 @@ _gitname="xwininfo"
 
 pkgname=xorg-xwininfo-git
 pkgver=r106.017b373
-pkgrel=10
+pkgrel=11
 pkgdesc="Command-line utility to print information about windows on an X server"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
