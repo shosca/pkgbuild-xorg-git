@@ -11,13 +11,13 @@ _gitname="llvm"
 _pkgname=$_gitname
 
 pkgname=(llvm-git llvm-libs-git llvm-ocaml-git clang-git clang-tools-extra-git clang-analyzer-git)
-pkgver=r104836.8317509
-pkgrel=0
+pkgver=r104840.2710772
+pkgrel=2
 pkgdesc='Low Level Virtual Machine'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
 license=('custom:University of Illinois')
-makedepends=('git' 'libffi' 'python2' 'ocaml' 'python-sphinx')
+makedepends=('git' 'clang-git' 'libffi' 'python2' 'ocaml' 'python-sphinx')
 options=('staticlibs' '!strip')
 source=(git+$_gitroot
         git+http://llvm.org/git/clang.git
@@ -54,7 +54,7 @@ build() {
 
   CPPFLAGS+=" $(pkg-config --cflags libffi)"
 
-  CC=gcc CXX=g++ \
+  CC=clang CXX=clang++ \
   ./configure \
       --prefix=/usr \
       --sysconfdir=/etc \
