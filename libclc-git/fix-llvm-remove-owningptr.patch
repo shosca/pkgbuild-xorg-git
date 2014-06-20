@@ -1,0 +1,23 @@
+diff --git a/utils/prepare-builtins.cpp b/utils/prepare-builtins.cpp
+index c7f013f..5975d33 100644
+--- a/utils/prepare-builtins.cpp
++++ b/utils/prepare-builtins.cpp
+@@ -1,4 +1,6 @@
++#if LLVM_VERSION_MAJOR > 3 || (LLVM_VERSION_MAJOR == 3 && LLVM_VERSION_MINOR <= 4)
+ #include "llvm/ADT/OwningPtr.h"
++#endif
+ #include "llvm/Bitcode/ReaderWriter.h"
+ #include "llvm/IR/Function.h"
+ #include "llvm/IR/GlobalVariable.h"
+@@ -87,7 +89,11 @@ int main(int argc, char **argv) {
+   }
+ 
+   std::string ErrorInfo;
++#if LLVM_VERSION_MAJOR > 3 || (LLVM_VERSION_MAJOR == 3 && LLVM_VERSION_MINOR > 4)
++  std::unique_ptr<tool_output_file> Out
++#else
+   OwningPtr<tool_output_file> Out
++#endif
+   (new tool_output_file(OutputFilename.c_str(), ErrorInfo,
+ #if (LLVM_VERSION_MAJOR == 3 && LLVM_VERSION_MINOR == 4)
+                         sys::fs::F_Binary));

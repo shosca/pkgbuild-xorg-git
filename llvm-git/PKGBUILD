@@ -11,8 +11,8 @@ _gitname="llvm"
 _pkgname=$_gitname
 
 pkgname=(llvm-git llvm-libs-git llvm-ocaml-git clang-git clang-tools-extra-git clang-analyzer-git)
-pkgver=r104840.2710772
-pkgrel=2
+pkgver=r104877.d1e6461
+pkgrel=1
 pkgdesc='Low Level Virtual Machine'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -24,13 +24,15 @@ source=(git+$_gitroot
         git+http://llvm.org/git/clang-tools-extra.git
         git+http://llvm.org/git/compiler-rt.git
         llvm-Config-config.h
-        llvm-Config-llvm-config.h)
+        llvm-Config-llvm-config.h
+        fix-enable-shared.patch)
 sha256sums=('SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
             '312574e655f9a87784ca416949c505c452b819fad3061f2cde8aced6540a19a3'
-            '597dc5968c695bbdbb0eac9e8eb5117fcd2773bc91edf5ec103ecffffab8bc48')
+            '597dc5968c695bbdbb0eac9e8eb5117fcd2773bc91edf5ec103ecffffab8bc48'
+            '7d0b549cff584bee55bd15d774ad6035efbf8b504a19a2c660dbbcc8ef14c7a6')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -47,6 +49,8 @@ prepare() {
   sed -i 's:\$(PROJ_prefix)/docs/llvm:$(PROJ_prefix)/share/doc/llvm:' \
     Makefile.config.in
 
+  patch -Np1 -i ../fix-enable-shared.patch
+
 }
 
 build() {
@@ -54,7 +58,7 @@ build() {
 
   CPPFLAGS+=" $(pkg-config --cflags libffi)"
 
-  CC=clang CXX=clang++ \
+  CC=gcc CXX=g++ \
   ./configure \
       --prefix=/usr \
       --sysconfdir=/etc \
