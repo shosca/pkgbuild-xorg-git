@@ -6,7 +6,7 @@ _gitname="libevdev"
 
 
 pkgname=libevdev-git
-pkgver=r445.f415f2a
+pkgver=r447.734aadb
 pkgrel=1
 pkgdesc="Wrapper library for evdev devices"
 arch=('i686' 'x86_64')
@@ -17,8 +17,9 @@ makedepends=('git' 'python')
 provides=('libevdev')
 conflicts=('libevdev')
 replaces=('libevdev')
-source=($_gitroot)
-sha256sums=('SKIP')
+source=($_gitroot fix-ui-get-sysname.patch)
+sha256sums=('SKIP'
+            'fff1d056fdb9e378c33e9ca08a49e14cc67ce9f97ea80f0b809c058441411129')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -27,6 +28,8 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
+
+  patch -Np1 -i ../fix-ui-get-sysname.patch
 
   ./autogen.sh --prefix=/usr --disable-static --disable-gcov
   make

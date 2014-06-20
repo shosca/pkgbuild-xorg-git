@@ -1,0 +1,15 @@
+diff --git a/libevdev/libevdev-uinput.h b/libevdev/libevdev-uinput.h
+index 3212628..1ee2b2d 100644
+--- a/libevdev/libevdev-uinput.h
++++ b/libevdev/libevdev-uinput.h
+@@ -29,6 +29,10 @@ extern "C" {
+ 
+ #include <libevdev/libevdev.h>
+ 
++#ifndef UI_GET_SYSNAME
++#define UI_GET_SYSNAME(len) _IOC(_IOC_READ, UINPUT_IOCTL_BASE, 300, len)
++#endif
++
+ struct libevdev_uinput;
+ 
+ /**
