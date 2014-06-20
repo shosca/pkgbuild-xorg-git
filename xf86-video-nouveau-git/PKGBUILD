@@ -7,7 +7,7 @@ _gitname="xf86-video-nouveau"
 
 pkgname=xf86-video-nouveau-git
 pkgver=r2385.65a70c4
-pkgrel=1
+pkgrel=2
 pkgdesc="Open Source 2D acceleration driver for nVidia cards"
 arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
