@@ -6,8 +6,8 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=mesa-git
-pkgver=r63531.96a95f4
-pkgrel=2
+pkgver=r63542.564821c
+pkgrel=1
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -20,10 +20,10 @@ optdepends=('opengl-man-pages: for the OpenGL API man pages')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
-source=($_gitroot LICENSE remove-llvm-owningptr-fix.patch)
+source=($_gitroot LICENSE)
 sha256sums=('SKIP'
-            '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2'
-            'c280d12a63f11eb42e17ea36e00f8352ffca7146984f18ac87b762c630fc6989')
+            '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2')
+
 pkgver() {
   cd "$srcdir/$_gitname"
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
@@ -31,8 +31,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  patch -Np1 -i ../remove-llvm-owningptr-fix.patch
 
   ./autogen.sh \
     --prefix=/usr \
