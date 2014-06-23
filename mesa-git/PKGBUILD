@@ -6,8 +6,8 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=mesa-git
-pkgver=r63542.564821c
-pkgrel=1
+pkgver=r63559.ca55a1a
+pkgrel=2
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -81,7 +81,7 @@ package_ati-dri-git() {
   install -m755 -d ${pkgdir}/usr/lib/gallium-pipe/
   install -m755 -d ${pkgdir}/usr/lib/bellagio/
 
-  mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_{r600,radeonsi}.* ${pkgdir}/usr/lib/vdpau/
+  #mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_{r600,radeonsi}.* ${pkgdir}/usr/lib/vdpau/
   mv -v ${srcdir}/fakeinstall/usr/lib/dri/{r200,r300,r600,radeon,radeonsi}_dri.so ${pkgdir}/usr/lib/dri/
   mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_{r300,r600,radeonsi}* ${pkgdir}/usr/lib/gallium-pipe/
   mv -v ${srcdir}/fakeinstall/usr/lib/bellagio/libomx_{r600,radeonsi}* ${pkgdir}/usr/lib/bellagio/
@@ -116,7 +116,7 @@ package_nouveau-dri-git() {
   install -m755 -d ${pkgdir}/usr/lib/dri
   install -m755 -d ${pkgdir}/usr/lib/gallium-pipe
 
-  mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_nouveau.* ${pkgdir}/usr/lib/vdpau/
+  #mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_nouveau.* ${pkgdir}/usr/lib/vdpau/
   mv -v ${srcdir}/fakeinstall/usr/lib/dri/nouveau_{dri,vieux_dri}.so ${pkgdir}/usr/lib/dri/
 
   #mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCnouveau* ${pkgdir}/usr/lib/gallium-pipe/
