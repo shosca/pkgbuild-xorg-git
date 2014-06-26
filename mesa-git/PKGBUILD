@@ -6,7 +6,7 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=mesa-git
-pkgver=r63592.9a8acaf
+pkgver=r63607.f3a97c0
 pkgrel=1
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
@@ -84,7 +84,7 @@ package_ati-dri-git() {
   mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_{r600,radeonsi}.* ${pkgdir}/usr/lib/vdpau/
   mv -v ${srcdir}/fakeinstall/usr/lib/dri/{r200,r300,r600,radeon,radeonsi}_dri.so ${pkgdir}/usr/lib/dri/
   mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_{r300,r600,radeonsi}* ${pkgdir}/usr/lib/gallium-pipe/
-  mv -v ${srcdir}/fakeinstall/usr/lib/bellagio/libomx_{r600,radeonsi}* ${pkgdir}/usr/lib/bellagio/
+  #mv -v ${srcdir}/fakeinstall/usr/lib/bellagio/libomx_{r600,radeonsi}* ${pkgdir}/usr/lib/bellagio/
   #mv -v ${srcdir}/fakeinstall/usr/lib/libXvMCr600.* ${pkgdir}/usr/lib/
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
