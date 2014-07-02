@@ -7,7 +7,7 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=r63758.fcac702
-pkgrel=0
+pkgrel=1
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
 arch=('i686' 'x86_64')
@@ -31,9 +31,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  #breaks xserver build
-  git revert -n 29800e6a3e7965bc9a7a77c968fe724f9d4d3ba5
 
   ./autogen.sh \
     --prefix=/usr \
