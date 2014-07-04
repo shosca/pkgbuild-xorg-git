@@ -6,7 +6,7 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libpciaccess"
 _gitname="libpciaccess"
 
 pkgname=libpciaccess-git
-pkgver=r274.ee4e253
+pkgver=r275.1654a04
 pkgrel=1
 pkgdesc="X11 PCI access library"
 arch=('i686' 'x86_64')

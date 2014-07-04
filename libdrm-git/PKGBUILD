@@ -7,7 +7,7 @@ _gitname='drm'
 
 pkgname=libdrm-git
 pkgver=r5269.e8c3c13
-pkgrel=1
+pkgrel=2
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 url="http://dri.freedesktop.org/"
