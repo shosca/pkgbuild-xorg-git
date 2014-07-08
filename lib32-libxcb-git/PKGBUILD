@@ -7,7 +7,7 @@ _gitname="libxcb"
 
 pkgname=lib32-libxcb-git
 pkgver=r576.1251354
-pkgrel=3
+pkgrel=4
 pkgdesc="X11 client-side library"
 arch=('x86_64')
 url="http://xcb.freedesktop.org/"
