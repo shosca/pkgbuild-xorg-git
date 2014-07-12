@@ -6,7 +6,7 @@ _gitname="libXmu"
 
 pkgname=libxmu-git
 pkgver=r118.22d9c59
-pkgrel=23
+pkgrel=24
 pkgdesc="X11 miscellaneous micro-utility library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
