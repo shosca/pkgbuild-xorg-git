@@ -5,8 +5,8 @@ _gitroot="git://anongit.freedesktop.org/wayland/weston"
 _gitname="weston"
 
 pkgname=weston-git
-pkgver=r4134.9c5aedf
-pkgrel=17
+pkgver=r4140.e7d7468
+pkgrel=2
 pkgdesc="Reference implementation of a Wayland compositor"
 arch=('i686' 'x86_64')
 url="http://wayland.freedesktop.org"

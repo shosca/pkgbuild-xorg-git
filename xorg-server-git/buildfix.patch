@@ -1,0 +1,24 @@
+diff --git a/hw/xfree86/common/xf86platformBus.h b/hw/xfree86/common/xf86platformBus.h
+index 2a90104..f451f3a 100644
+--- a/hw/xfree86/common/xf86platformBus.h
++++ b/hw/xfree86/common/xf86platformBus.h
+@@ -115,6 +115,9 @@ _xf86_get_platform_device_attrib(struct xf86_platform_device *device, int attrib
+         return xf86_platform_device_odev_attributes(device)->busid;
+     case ODEV_ATTRIB_DRIVER:
+         return xf86_platform_device_odev_attributes(device)->driver;
++    default:
++        assert(FALSE);
++        return NULL;
+     }
+ }
+ 
+@@ -135,6 +138,9 @@ _xf86_get_platform_device_int_attrib(struct xf86_platform_device *device, int at
+         return xf86_platform_device_odev_attributes(device)->major;
+     case ODEV_ATTRIB_MINOR:
+         return xf86_platform_device_odev_attributes(device)->minor;
++    default:
++        assert(FALSE);
++        return 0;
+     }
+ }
+ 

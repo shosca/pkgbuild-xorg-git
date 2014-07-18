@@ -8,8 +8,8 @@ _gitname="xserver"
 
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=r14009.8b36e1e
-pkgrel=2
+pkgver=r14056.5c2e9fa
+pkgrel=4
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -29,24 +29,23 @@ makedepends=('git' 'bigreqsproto-git' 'presentproto-git' 'compositeproto-git'
 source=($_gitroot
         xvfb-run
         xvfb-run.1
-        10-quirks.conf)
+        10-quirks.conf
+        buildfix.patch)
 sha256sums=('SKIP'
             'ff0156309470fc1d378fd2e104338020a884295e285972cc88e250e031cc35b9'
             '2460adccd3362fefd4cdc5f1c70f332d7b578091fb9167bf88b5f91265bbd776'
-            '94612f5c0d34a3b7152915c2e285c7b462e9d8e38d3539bd551a339498eac166')
+            '94612f5c0d34a3b7152915c2e285c7b462e9d8e38d3539bd551a339498eac166'
+            '5b825e95bf678cf7d94a5be650ad15adfdcdd308f105ae219ec9fa3b0b2bdc66')
 
 pkgver() {
   cd "$srcdir/$_gitname"
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
-prepare() {
-  cd "${srcdir}/${_gitname}"
-  #git merge origin/xwayland -m "xwayland"
-}
-
 build() {
   cd "${srcdir}/${_gitname}"
+
+  patch -Np1 -i ../buildfix.patch
 
   ./autogen.sh \
       --prefix=/usr \
