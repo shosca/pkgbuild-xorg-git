@@ -6,7 +6,7 @@ _gitname="libXvMC"
 
 pkgname=lib32-libxvmc-git
 pkgver=r90.0ac79f0
-pkgrel=23
+pkgrel=24
 pkgdesc="X11 Video Motion Compensation extension library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
