@@ -1,0 +1,63 @@
+From 3ea7972088cb9d1fb70dbb87c207f386d809ca86 Mon Sep 17 00:00:00 2001
+From: Alex Deucher <alexander.deucher@amd.com>
+Date: Thu, 24 Jul 2014 19:39:58 -0400
+Subject: [PATCH] radeon: enable hawaii accel conditionally
+
+Only if the kernel has the new CP firmware.
+
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+---
+ src/radeon_kms.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
+
+diff --git a/src/radeon_kms.c b/src/radeon_kms.c
+index 707d0c7..ab27911 100644
+--- a/src/radeon_kms.c
++++ b/src/radeon_kms.c
+@@ -383,6 +383,10 @@ static Bool RADEONIsAccelWorking(ScrnInfoPtr pScrn)
+ #ifndef RADEON_INFO_ACCEL_WORKING2
+ #define RADEON_INFO_ACCEL_WORKING2 0x05
+ #endif
++#ifndef RADEON_INFO_HAWAII_ACCEL
++#define RADEON_INFO_HAWAII_ACCEL 0x21
++#endif
++
+ 
+     memset(&ginfo, 0, sizeof(ginfo));
+     if (info->dri2.pKernelDRMVersion->version_minor >= 5)
+@@ -400,8 +404,20 @@ static Bool RADEONIsAccelWorking(ScrnInfoPtr pScrn)
+         }
+         return FALSE;
+     }
+-    if (tmp)
+-        return TRUE;
++    if (tmp) {
++	if (info->ChipFamily == CHIP_FAMILY_HAWAII) {
++	    memset(&ginfo, 0, sizeof(ginfo));
++	    ginfo.request = RADEON_INFO_HAWAII_ACCEL;
++	    ginfo.value = (uintptr_t)&tmp;
++	    r = drmCommandWriteRead(info->dri2.drm_fd, DRM_RADEON_INFO, &ginfo, sizeof(ginfo));
++	    if (r)
++		return FALSE;
++	    if (tmp)
++		return TRUE;
++	} else {
++	    return TRUE;
++	}
++    }
+     return FALSE;
+ }
+ 
+@@ -499,8 +515,7 @@ static Bool RADEONPreInitAccel_KMS(ScrnInfoPtr pScrn)
+ 	info->is_fast_fb = TRUE;
+     }
+ 
+-    if (!xf86ReturnOptValBool(info->Options, OPTION_ACCEL,
+-			     info->ChipFamily != CHIP_FAMILY_HAWAII) ||
++    if (!xf86ReturnOptValBool(info->Options, OPTION_ACCEL, TRUE) ||
+ 	(!RADEONIsAccelWorking(pScrn))) {
+ 	xf86DrvMsg(pScrn->scrnIndex, X_INFO,
+ 		   "GPU accel disabled or not working, using shadowfb for KMS\n");
+-- 
+1.8.3.1
+

@@ -8,8 +8,8 @@ _gitname="xserver"
 
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=r14059.cff1293
-pkgrel=5
+pkgver=r14073.2172714
+pkgrel=4
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -29,11 +29,13 @@ makedepends=('git' 'bigreqsproto-git' 'presentproto-git' 'compositeproto-git'
 source=($_gitroot
         xvfb-run
         xvfb-run.1
-        10-quirks.conf)
+        10-quirks.conf
+        headerfix.patch)
 sha256sums=('SKIP'
             'ff0156309470fc1d378fd2e104338020a884295e285972cc88e250e031cc35b9'
             '2460adccd3362fefd4cdc5f1c70f332d7b578091fb9167bf88b5f91265bbd776'
-            '94612f5c0d34a3b7152915c2e285c7b462e9d8e38d3539bd551a339498eac166')
+            '94612f5c0d34a3b7152915c2e285c7b462e9d8e38d3539bd551a339498eac166'
+            'e54e284e7ee15616460c03ff710fe3fb1265bd1757966a1e0dbc011b6cd8aa8d')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -42,6 +44,8 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
+
+  patch -Np1 -i ../headerfix.patch
 
   ./autogen.sh \
       --prefix=/usr \

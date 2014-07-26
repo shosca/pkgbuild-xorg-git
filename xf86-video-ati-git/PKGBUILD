@@ -7,18 +7,20 @@ _gitname="xf86-video-ati"
 
 pkgname=xf86-video-ati-git
 pkgver=r3141.c4ae0e2
-pkgrel=33
+pkgrel=34
 pkgdesc="X.org ati video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 depends=('libpciaccess-git' 'libdrm-git' 'udev' 'pixman-git' 'ati-dri-git')
-makedepends=('xorg-server-devel-git' 'xf86driproto-git' 'git' 'glproto-git')
+makedepends=('xorg-server-git' 'xorg-server-devel-git' 'xf86driproto-git' 'git' 'glproto-git')
 provides=('xf86-video-ati')
 conflicts=('xf86-video-ati' 'xorg-server<1.15.99')
 replaces=('xf86-video-ati')
 license=('custom')
-source=($_gitroot)
-sha256sums=('SKIP')
+source=($_gitroot
+        http://people.freedesktop.org/~agd5f/0001-radeon-enable-hawaii-accel-conditionally.patch)
+sha256sums=('SKIP'
+            '98d5c45fb9a1f396565e22c821339e00151e29e845fdd6249c141fe1abc5281a')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -27,6 +29,8 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
+
+  patch -Np1 -i ../0001-radeon-enable-hawaii-accel-conditionally.patch
 
   ./autogen.sh --prefix=/usr --enable-glamor
   make
