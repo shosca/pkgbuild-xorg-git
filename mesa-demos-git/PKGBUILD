@@ -5,12 +5,12 @@ _gitname="demos"
 
 pkgname=mesa-demos-git
 pkgver=r5977.d45c9ff
-pkgrel=17
+pkgrel=18
 pkgdesc="The mesa demos (glxinfo, glxgears, ...), built from the git master branch."
 arch=('i686' 'x86_64')
 url="http://mesa3d.org/"
 license=('LGPL')
-depends=('mesa-libgl-git' 'glew-git')
+depends=('mesa-libgl-git' 'glew-git' 'freeglut-git')
 makedepends=('git')
 provides=('mesa-demos')
 replaces=('mesa-demos')
@@ -26,15 +26,14 @@ pkgver() {
 build() {
   cd "${srcdir}/${_gitname}"
 
-  sed -i -e '/texwrap/d' src/tests/Makefile.am
   ./autogen.sh --prefix=/usr
-  make -C src/xdemos
+  make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
 
-  make -C src/xdemos DESTDIR="${pkgdir}" install
+  make DESTDIR="${pkgdir}" install
 }
 
 # vim: ft=sh syn=sh et

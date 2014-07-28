@@ -1,0 +1,39 @@
+# $Id$
+# Maintainer: Eric Belanger <eric@archlinux.org>
+# Contributor: Tom Newsom <Jeepster@gmx.co.uk>
+
+_gitroot="git://github.com/dcnieho/FreeGLUT"
+_gitname="freeglut"
+
+
+pkgname=freeglut-git
+pkgver=2.8.1
+pkgrel=3
+pkgdesc="Provides functionality for small OpenGL programs"
+arch=('i686' 'x86_64')
+url="http://freeglut.sourceforge.net/"
+license=('MIT')
+depends=('libxi-git' 'libxrandr-git')
+makedepends=('mesa-git' 'glu-git' 'libxxf86vm-git' 'git' 'cmake')
+replaces=('glut')
+provides=('glut')
+conflicts=('glut')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "$srcdir/$_gitname/$_gitname/$_gitname"
+
+  cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr .
+  make
+}
+
+package() {
+  cd "$srcdir/$_gitname/$_gitname/$_gitname"
+  make DESTDIR="${pkgdir}" install
+}

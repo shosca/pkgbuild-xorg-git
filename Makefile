@@ -287,7 +287,9 @@ glu-git: mesa-git
 
 glew-git: glu-git
 
-mesa-demos-git: mesa-git glew-git
+freeglut-git: libxi-git libxrandr-git mesa-git glu-git libxxf86vm-git
+
+mesa-demos-git: mesa-git glew-git freeglut-git
 
 xorg-font-util-git: xorg-util-macros-git
 
