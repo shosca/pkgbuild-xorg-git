@@ -6,7 +6,7 @@ _gitroot='git://git.freedesktop.org/git/mesa/drm'
 _gitname='drm'
 
 pkgname=libdrm-git
-pkgver=r5274.8bdb4cf
+pkgver=r5275.2169dce
 pkgrel=1
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
@@ -17,9 +17,8 @@ makedepends=('git' 'cairo>=1.12.15' 'udev' 'valgrind')
 provides=('libdrm')
 conflicts=('libdrm')
 replaces=('libdrm')
-source=($_gitroot fix.patch)
-sha256sums=('SKIP'
-            '1868d44b3be091b91b18624862ed3dda48177bf2cc3254644c0f611e17d022fb')
+source=($_gitroot)
+sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -28,8 +27,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  patch -Np1 -i ../fix.patch
 
   sed -i 's/PKG_CHECK_MODULES(PTHREADSTUBS, pthread-stubs)//' configure.ac
 
