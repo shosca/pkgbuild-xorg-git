@@ -7,8 +7,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/xserver"
 _gitname="xserver"
 
 pkgbase=xorg-server-git
-pkgname=('xorg-server-git' 'xorg-server-common-git' 'xorg-server-devel-git' 'xorg-server-xdmx-git' 'xorg-server-xephyr-git' 'xorg-server-xnest-git' 'xorg-server-xvfb-git')
-pkgver=r14097.8a60d1c
+pkgname=('xorg-server-git' 'xorg-server-xephyr-git' 'xorg-server-xdmx-git' 'xorg-server-xvfb-git' 'xorg-server-xnest-git' 'xorg-server-xwayland-git' 'xorg-server-common-git' 'xorg-server-devel-git')
+pkgver=r14119.a08e7a0
 pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
@@ -89,6 +89,7 @@ build() {
       -e 's/^XVFB_SUBDIRS =.*/XVFB_SUBDIRS =/' \
       -e 's/^XNEST_SUBDIRS =.*/XNEST_SUBDIRS = /' \
       -e 's/^KDRIVE_SUBDIRS =.*/KDRIVE_SUBDIRS =/' \
+      -e 's/^XWAYLAND_SUBDIRS =.*/XWAYLAND_SUBDIRS =/' \
       -i hw/Makefile
 }
 
@@ -100,14 +101,126 @@ package_xorg-server-common-git() {
   replaces=('xorg-server-common')
 
   cd "${srcdir}/${_gitname}"
-  make -C xkb DESTDIR="$pkgdir" install-data
+  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-common"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/xorg-server-common"
 
-  install -Dm644 COPYING "$pkgdir/usr/share/licenses/xorg-server-common/COPYING"
-  install -Dm644 man/Xserver.1 "$pkgdir/usr/share/man/man1/Xserver.1"
-  install -Dm644 dix/protocol.txt "$pkgdir/usr/lib/xorg/protocol.txt"
+  make -C xkb DESTDIR="${pkgdir}" install-data
 
-  # Don't need this
-  rm -f "$pkgdir"/var/lib/xkb/README.compiled
+  install -m755 -d "${pkgdir}/usr/share/man/man1"
+  install -m644 man/Xserver.1 "${pkgdir}/usr/share/man/man1/"
+
+  install -m755 -d "${pkgdir}/usr/lib/xorg"
+  install -m644 dix/protocol.txt "${pkgdir}/usr/lib/xorg/"
+}
+
+package_xorg-server-git() {
+  pkgdesc="Xorg X server - Git version"
+  depends=('libdrm-git' 'libgcrypt' 'libpciaccess-git' 'libxshmfence-git'
+           'libxau-git' 'libxdmcp-git' 'libepoxy-git' 'libxfont-git'
+           'pixman-git' 'udev' 'xf86-input-evdev-git' 'xorg-server-common-git'
+           'wayland-git')
+  backup=('etc/X11/xorg.conf.d/10-evdev.conf' 'etc/X11/xorg.conf.d/10-quirks.conf')
+  provides=('x-server' 'xorg-server' 'glamor-egl')
+  conflicts=('xorg-server' 'glamor-egl' 'nvidia-utils<=290.10')
+  replaces=('xorg-servver' 'glamor-egl')
+  groups=('xorg')
+
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="$pkgdir" install
+
+  # distro specific files must be installed in /usr/share/X11/xorg.conf.d
+  install -m755 -d "${pkgdir}/etc/X11/xorg.conf.d"
+  # install -m644 "${srcdir}/nvidia-drm-outputclass.conf" "${pkgdir}/usr/share/X11/xorg.conf.d/"
+
+  # Needed for non-mesa drivers, libgl will restore it
+  mv "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so" \
+     "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.xorg"
+
+  rm -rf "${pkgdir}/var"
+
+  rm -f "${pkgdir}/usr/share/man/man1/Xserver.1"
+  rm -f "${pkgdir}/usr/lib/xorg/protocol.txt"
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server/COPYING"
+
+  rm -rf "${pkgdir}/usr/lib/pkgconfig"
+  rm -rf "${pkgdir}/usr/include"
+  rm -rf "${pkgdir}/usr/share/aclocal"
+}
+
+package_xorg-server-xephyr-git() {
+  pkgdesc="A nested X server that runs as an X application - Git version"
+  depends=('libgcrypt' 'libgl' 'libxfont-git' 'libxv-git' 'pixman-git' 'xorg-server-common-git')
+  provides=("xorg-server-xephyr")
+  conflicts=('xorg-server-xephyr')
+  replaces=('xorg-server-xephyr')
+
+  cd "${srcdir}/${_gitname}/hw/kdrive"
+  make DESTDIR="$pkgdir" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-xephyr"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server-xephyr/COPYING"
+}
+
+package_xorg-server-xvfb-git() {
+  pkgdesc="Virtual framebuffer X server - Git version"
+  depends=('libgcrypt' 'libxau-git' 'libxdmcp-git' 'libxfont-git' 'pixman-git' 'xorg-server-common-git')
+  provides=("xorg-server-xvfb")
+  conflicts=('xorg-server-xvfb')
+  replaces=('xorg-server-xvfb')
+
+  cd "${srcdir}/${_gitname}/hw/vfb"
+  make DESTDIR="$pkgdir" install
+
+  install -m755 "${srcdir}/xvfb-run" "${pkgdir}/usr/bin/"
+  install -m644 "${srcdir}/xvfb-run.1" "${pkgdir}/usr/share/man/man1/"
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-xvfb"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server-xvfb/COPYING"
+}
+
+package_xorg-server-xnest-git() {
+  pkgdesc="A nested X server that runs as an X application - Git version"
+  depends=('libgcrypt' 'libxext-git' 'libxfont-git' 'pixman-git' 'xorg-server-common-git')
+  provides=("xorg-server-xnest")
+  conflicts=('xorg-server-xnest')
+  replaces=('xorg-server-xnest')
+
+  cd "${srcdir}/${_gitname}/hw/xnest"
+  make DESTDIR="$pkgdir" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-xnest"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server-xnest/COPYING"
+}
+
+package_xorg-server-xdmx-git() {
+  pkgdesc="Distributed Multihead X Server and utilities - Git ones"
+  depends=('libdmx-git' 'libgcrypt' 'libxaw-git' 'libxfixes-git' 'libxfont-git'
+           'libxi-git' 'libxrender-git' 'pixman-git' 'xorg-server-common-git')
+  provides=("xorg-server-xdmx")
+  conflicts=('xorg-server-xdmx')
+  replaces=('xorg-server-xdmx')
+
+  cd "${srcdir}/${_gitname}/hw/dmx"
+  make DESTDIR="$pkgdir" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-xdmx"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server-xdmx/COPYING"
+}
+
+package_xorg-server-xwayland-git() {
+  pkgdesc="Xorg Xwayland support"
+  depends=("libxfont-git" "mesa-libgl-git" "pixman-git" "xorg-server-common-git")
+  conflicts=('xorg-server-xwayland')
+  provides=('xorg-server-xwayland')
+  replaces=('xorg-server-xwayland')
+
+  cd "${srcdir}/${_gitname}/hw/xwayland"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-xwayland"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server-xwayland/COPYING"
 }
 
 package_xorg-server-devel-git() {
@@ -126,100 +239,15 @@ package_xorg-server-devel-git() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="$pkgdir" install
 
-  rm -rf "$pkgdir"/{usr/{bin,share/{man,doc,X11},lib/xorg},var}
-  mkdir -p "$pkgdir/usr/share/licenses/xorg-server-devel"
-  ln -sf ../xorg-server-common/COPYING "$pkgdir/usr/share/licenses/xorg-server-devel/"
-}
+  rm -rf "${pkgdir}/usr/bin"
+  rm -rf "${pkgdir}/usr/share/man"
+  rm -rf "${pkgdir}/usr/share/doc"
+  rm -rf "${pkgdir}/usr/share/X11"
+  rm -rf "${pkgdir}/usr/lib/xorg"
+  rm -rf "${pkgdir}/var"
 
-package_xorg-server-xdmx-git() {
-  pkgdesc="Distributed Multihead X Server and utilities - Git ones"
-  depends=('libdmx-git' 'libgcrypt' 'libxaw-git' 'libxfixes-git' 'libxfont-git'
-           'libxi-git' 'libxrender-git' 'pixman-git' 'xorg-server-common-git')
-  provides=("xorg-server-xdmx")
-  conflicts=('xorg-server-xdmx')
-  replaces=('xorg-server-xdmx')
-
-  cd "${srcdir}/${_gitname}/hw/dmx"
-  make DESTDIR="$pkgdir" install
-
-  mkdir -p "$pkgdir/usr/share/licenses/xorg-server-xdmx"
-  ln -sf ../xorg-server-common/COPYING "$pkgdir/usr/share/licenses/xorg-server-xdmx/"
-}
-
-package_xorg-server-xephyr-git() {
-  pkgdesc="A nested X server that runs as an X application - Git version"
-  depends=('libgcrypt' 'libgl' 'libxfont-git' 'libxv-git' 'pixman-git' 'xorg-server-common-git')
-  provides=("xorg-server-xephyr")
-  conflicts=('xorg-server-xephyr')
-  replaces=('xorg-server-xephyr')
-
-  cd "${srcdir}/${_gitname}/hw/kdrive"
-  make DESTDIR="$pkgdir" install
-
-  mkdir -p "$pkgdir/usr/share/licenses/xorg-server-xephyr"
-  ln -sf ../xorg-server-common/COPYING "$pkgdir/usr/share/licenses/xorg-server-xephyr/"
-}
-
-package_xorg-server-xnest-git() {
-  pkgdesc="A nested X server that runs as an X application - Git version"
-  depends=('libgcrypt' 'libxext-git' 'libxfont-git' 'pixman-git' 'xorg-server-common-git')
-  provides=("xorg-server-xnest")
-  conflicts=('xorg-server-xnest')
-  replaces=('xorg-server-xnest')
-
-  cd "${srcdir}/${_gitname}/hw/xnest"
-  make DESTDIR="$pkgdir" install
-
-  mkdir -p "$pkgdir/usr/share/licenses/xorg-server-xnest"
-  ln -sf ../xorg-server-common/COPYING "$pkgdir/usr/share/licenses/xorg-server-xnest/"
-}
-
-package_xorg-server-xvfb-git() {
-  pkgdesc="Virtual framebuffer X server - Git version"
-  depends=('libgcrypt' 'libxau-git' 'libxdmcp-git' 'libxfont-git' 'pixman-git' 'xorg-server-common-git')
-  provides=("xorg-server-xvfb")
-  conflicts=('xorg-server-xvfb')
-  replaces=('xorg-server-xvfb')
-
-  cd "${srcdir}/${_gitname}/hw/vfb"
-  make DESTDIR="$pkgdir" install
-
-  install -m755 "$srcdir/xvfb-run" "$pkgdir/usr/bin/"
-  cp "$srcdir/xvfb-run.1" "$pkgdir/usr/share/man/man1/"
-
-  mkdir -p "$pkgdir/usr/share/licenses/xorg-server-xvfb"
-  ln -sf ../xorg-server-common/COPYING "$pkgdir/usr/share/licenses/xorg-server-xvfb/"
-}
-
-package_xorg-server-git() {
-  pkgdesc="Xorg X server - Git version"
-  depends=('libdrm-git' 'libgcrypt' 'libpciaccess-git' 'libxshmfence-git'
-           'libxau-git' 'libxdmcp-git' 'libepoxy-git' 'libxfont-git'
-           'pixman-git' 'udev' 'xf86-input-evdev-git' 'xorg-server-common-git'
-           'wayland-git')
-  backup=('etc/X11/xorg.conf.d/10-evdev.conf' 'etc/X11/xorg.conf.d/10-quirks.conf')
-  provides=('x-server' 'xorg-server' 'glamor-egl')
-  conflicts=('xorg-server' 'glamor-egl' 'nvidia-utils<=290.10')
-  replaces=('xorg-servver')
-  groups=('xorg')
-
-  cd "${srcdir}/${_gitname}"
-  make DESTDIR="$pkgdir" install
-
-  mkdir -p "$pkgdir/etc/X11"
-  mv "$pkgdir/usr/share/X11/xorg.conf.d" "$pkgdir/etc/X11/"
-  cp ../10-quirks.conf "$pkgdir/etc/X11/xorg.conf.d/"
-
-  # Needed for non-mesa drivers, libgl will restore it
-  mv "$pkgdir"/usr/lib/xorg/modules/extensions/libglx.{so,xorg}
-
-  mkdir -p "$pkgdir/usr/share/licenses/xorg-server"
-  ln -sf ../xorg-server-common/COPYING "$pkgdir/usr/share/licenses/xorg-server/"
-
-  rm -rf "$pkgdir"/usr/{share/{man/man1/Xserver.1,aclocal,X11},lib/{xorg/protocol.txt,pkgconfig},include}
-
-  # Don't need this
-  rm -f "$pkgdir"/var/lib/xkb/README.compiled
+  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-devel"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server-devel/COPYING"
 }
 
 # vim: ft=sh syn=sh et
