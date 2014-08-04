@@ -5,8 +5,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xrandr"
 _gitname="xrandr"
 
 pkgname=xorg-xrandr-git
-pkgver=r270.00477d8
-pkgrel=7
+pkgver=r273.9887ed4
+pkgrel=1
 pkgdesc="Primitive command line interface to RandR extension"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xcb/libxcb"
 _gitname="libxcb"
 
 pkgname=libxcb-git
-pkgver=r585.70ea5da
-pkgrel=2
+pkgver=r587.d1e8ec9
+pkgrel=1
 pkgdesc="X11 client-side library"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org/"
@@ -17,9 +17,8 @@ provides=('libxcb')
 conflicts=('libxcb')
 replaces=('libxcb')
 license=('custom')
-source=($_gitroot libxcb-1.1-no-pthread-stubs.patch)
-sha256sums=('SKIP'
-            'ae17e24d91c0f0e5ee86e96d9e9d4332b9b64e21523e8f6f3b6ed2de41df137d')
+source=($_gitroot)
+sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -29,7 +28,7 @@ pkgver() {
 build() {
   cd "${srcdir}/${_gitname}"
 
-  patch -Np1 -i ../libxcb-1.1-no-pthread-stubs.patch
+  sed -e 's/pthread-stubs //g' -i configure.ac
 
   PYTHON=/usr/bin/python2 
   ./autogen.sh --prefix=/usr \
