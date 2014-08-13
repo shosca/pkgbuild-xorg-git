@@ -6,7 +6,7 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=mesa-git
-pkgver=r64533.36771dc
+pkgver=r64611.52901ec
 pkgrel=1
 pkgname=('ati-dri-git' 'intel-dri-git' 'nouveau-dri-git' 'svga-dri-git' 'opencl-mesa-git' 'mesa-git' 'mesa-libgl-git')
 
@@ -38,7 +38,7 @@ build() {
     --disable-static \
     --with-gallium-drivers=r300,r600,radeonsi,nouveau,svga,swrast \
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
-    --disable-gallium-egl \
+    --enable-gallium-egl \
     --enable-gallium-llvm \
     --enable-gallium-osmesa \
     --enable-gallium-gbm \
