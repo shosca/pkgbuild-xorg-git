@@ -7,8 +7,8 @@ _gitname='mesa'
 
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
-pkgver=r64638.6fb42ee
-pkgrel=1
+pkgver=r64694.afa7df9
+pkgrel=0
 arch=('x86_64')
 depends=('lib32-elfutils' 'lib32-libdrm-git' 'lib32-expat' 'lib32-libxt-git'
          'lib32-libxxf86vm-git' 'lib32-libxdamage-git' 'lib32-libx11-git'
@@ -35,30 +35,33 @@ build() {
   export CC="gcc -m32"
   export CXX="g++ -m32"
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-  # for our llvm-config for 32 bit
   export LLVM_CONFIG=/usr/bin/llvm-config32
 
   ./autogen.sh \
+    --enable-32-bit \
+    --libdir=/usr/lib32 \
     --prefix=/usr \
     --sysconfdir=/etc \
     --with-gallium-drivers=r300,r600,radeonsi,nouveau,swrast \
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
-    --enable-32-bit \
-    --libdir=/usr/lib32 \
+    --with-egl-platforms=drm,x11,wayland \
     --with-llvm-shared-libs \
     --enable-egl \
     --disable-gallium-egl \
-    --enable-gallium-llvm \
-    --with-egl-platforms=drm,x11,wayland \
-    --enable-shared-glapi \
+    --disable-gallium-gbm \
     --enable-gbm \
+    --enable-gallium-llvm \
+    --enable-shared-glapi \
     --enable-glx-tls \
     --enable-dri \
     --enable-glx \
+    --enable-osmesa \
     --enable-gles1 \
     --enable-gles2 \
     --enable-texture-float \
-    --enable-r600-llvm-compiler
+    --enable-r600-llvm-compiler \
+    --enable-vdpau \
+    --enable-dri3
 
   make
 
