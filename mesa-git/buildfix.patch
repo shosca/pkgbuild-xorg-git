@@ -1,0 +1,16 @@
+diff --git a/src/gallium/state_trackers/clover/llvm/invocation.cpp b/src/gallium/state_trackers/clover/llvm/invocation.cpp
+index 5d2efc4..c489fba 100644
+--- a/src/gallium/state_trackers/clover/llvm/invocation.cpp
++++ b/src/gallium/state_trackers/clover/llvm/invocation.cpp
+@@ -234,7 +234,11 @@ namespace {
+       memcpy(address_spaces, c.getTarget().getAddressSpaceMap(),
+                                                         sizeof(address_spaces));
+ 
++#if HAVE_LLVM >= 0x0306
++      return act.takeModule().release();
++#else
+       return act.takeModule();
++#endif
+    }
+ 
+    void
