@@ -1,0 +1,51 @@
+diff --git a/utils/prepare-builtins.cpp b/utils/prepare-builtins.cpp
+index 726866e..681bb75 100644
+--- a/utils/prepare-builtins.cpp
++++ b/utils/prepare-builtins.cpp
+@@ -12,6 +12,9 @@
+ #include "llvm/Support/ToolOutputFile.h"
+ #include "llvm/Config/llvm-config.h"
+ 
++#define LLVM_360_AND_NEWER \
++  (LLVM_VERSION_MAJOR > 3 || (LLVM_VERSION_MAJOR == 3 && LLVM_VERSION_MINOR >= 6))
++
+ #define LLVM_350_AND_NEWER \
+   (LLVM_VERSION_MAJOR > 3 || (LLVM_VERSION_MAJOR == 3 && LLVM_VERSION_MINOR >= 5))
+ 
+@@ -59,7 +62,12 @@ int main(int argc, char **argv) {
+       ErrorMessage = ec.message();
+     else {
+ #if LLVM_VERSION_MAJOR > 3 || (LLVM_VERSION_MAJOR == 3 && LLVM_VERSION_MINOR > 4)
++#if LLVM_360_AND_NEWER
++      ErrorOr<Module *> ModuleOrErr =
++          parseBitcodeFile(BufferPtr.get()->getMemBufferRef(), Context);
++#else
+       ErrorOr<Module *> ModuleOrErr = parseBitcodeFile(BufferPtr.get(), Context);
++#endif
+       if (ERROR_CODE ec = ModuleOrErr.getError())
+         ErrorMessage = ec.message();
+       M.reset(ModuleOrErr.get());
+@@ -95,6 +103,15 @@ int main(int argc, char **argv) {
+     return 1;
+   }
+ 
++#if LLVM_360_AND_NEWER
++  std::error_code EC;
++  UNIQUE_PTR<tool_output_file> Out
++  (new tool_output_file(OutputFilename, EC, sys::fs::F_None));
++  if (EC) {
++    errs() << EC.message() << '\n';
++    exit(1);
++  }
++#else
+   std::string ErrorInfo;
+   UNIQUE_PTR<tool_output_file> Out
+   (new tool_output_file(OutputFilename.c_str(), ErrorInfo,
+@@ -109,6 +126,7 @@ int main(int argc, char **argv) {
+     errs() << ErrorInfo << '\n';
+     exit(1);
+   }
++#endif // LLVM_360_AND_NEWER
+ 
+   WriteBitcodeToFile(M.get(), Out->os());
+ 

@@ -15,8 +15,9 @@ makedepends=('git' 'python2')
 provides=('libclc')
 replaces=('libclc')
 conflicts=('libclc')
-source=($_gitroot)
-sha256sums=('SKIP')
+source=($_gitroot llvm_buildfix.patch)
+sha256sums=('SKIP'
+            'cd03f864291261ae83ca1a8160361105f1f04b1b088561f9da5ed60a5a02767a')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -25,6 +26,7 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
+  patch -Np1 -i ../llvm_buildfix.patch
   /usr/bin/python2 ./configure.py \
     --prefix=/usr \
     --with-llvm-config=/usr/bin/llvm-config
