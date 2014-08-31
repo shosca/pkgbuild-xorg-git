@@ -5,8 +5,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libxtrans"
 _gitname="libxtrans"
 
 pkgname=xtrans-git
-pkgver=r231.a57a7f6
-pkgrel=2
+pkgver=r238.17491de
+pkgrel=1
 pkgdesc="X transport library"
 arch=('any')
 license=('custom')
