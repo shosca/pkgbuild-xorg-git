@@ -4,8 +4,8 @@ _gitroot="git://anongit.freedesktop.org/vaapi/vdpau-driver"
 _gitname="vdpau-driver"
 
 pkgname=libva-vdpau-driver-git
-pkgver=0.7.4
-pkgrel=154
+pkgver=r388.3dda0b4
+pkgrel=155
 pkgdesc="VDPAU backend for VA API"
 arch=('i686' 'x86_64')
 url="http://freedesktop.org/wiki/Software/vaapi"
