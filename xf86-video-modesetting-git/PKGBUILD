@@ -6,8 +6,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-modesetting'
 _gitname='xf86-video-modesetting'
 
 pkgname=xf86-video-modesetting-git
-pkgver=r122.1e4cb92
-pkgrel=76
+pkgver=r123.91571cc
+pkgrel=1
 pkgdesc='X.org generic modesetting video driver'
 arch=('i686' 'x86_64')
 url='http://xorg.freedesktop.org/'

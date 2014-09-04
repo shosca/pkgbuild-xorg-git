@@ -7,7 +7,7 @@ _gitname='mesa'
 
 pkgbase=lib32-mesa-git
 pkgname=('lib32-ati-dri-git' 'lib32-intel-dri-git' 'lib32-nouveau-dri-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
-pkgver=r65089.8abdc3c
+pkgver=r65104.504f5f9
 pkgrel=1
 arch=('x86_64')
 depends=('lib32-elfutils' 'lib32-libdrm-git' 'lib32-expat' 'lib32-libxt-git'
@@ -21,10 +21,9 @@ makedepends=('gcc-multilib' 'git' 'glproto-git' 'presentproto-git' 'lib32-expat'
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
-source=($_gitroot LICENSE llvm_buildfix.patch)
+source=($_gitroot LICENSE)
 sha256sums=('SKIP'
-            '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2'
-            '095ae0193cc3dc7f40028f70e699eb5a48a3db6d956edff145f8ee026f86ac17')
+            '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2')
 pkgver() {
   cd "$srcdir/$_gitname"
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
@@ -32,8 +31,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  patch -Np1 -i ../llvm_buildfix.patch
 
   export CC="gcc -m32"
   export CXX="g++ -m32"
