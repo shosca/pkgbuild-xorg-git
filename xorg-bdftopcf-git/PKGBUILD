@@ -6,7 +6,7 @@ _gitname="bdftopcf"
 
 pkgname=xorg-bdftopcf-git
 pkgver=r62.234ab38
-pkgrel=8
+pkgrel=9
 pkgdesc="Convert X font from Bitmap Distribution Format to Portable Compiled Format"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
