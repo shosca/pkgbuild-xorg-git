@@ -335,8 +335,6 @@ xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libd
 
 xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git
 
-xf86-video-modesetting-git: libdrm-git xorg-server-git
-
 xf86-video-fbdev-git: xorg-server-git
 
 weston-git: libinput-git libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git

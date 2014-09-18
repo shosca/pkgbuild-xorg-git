@@ -8,8 +8,8 @@ _gitname="xserver"
 
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-xephyr-git' 'xorg-server-xdmx-git' 'xorg-server-xvfb-git' 'xorg-server-xnest-git' 'xorg-server-xwayland-git' 'xorg-server-common-git' 'xorg-server-devel-git')
-pkgver=r14185.d342771
-pkgrel=4
+pkgver=r14326.eaee657
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -117,8 +117,8 @@ package_xorg-server-git() {
            'wayland-git')
   backup=('etc/X11/xorg.conf.d/10-evdev.conf' 'etc/X11/xorg.conf.d/10-quirks.conf')
   provides=('x-server' 'xorg-server' 'glamor-egl')
-  conflicts=('xorg-server' 'glamor-egl' 'nvidia-utils<=290.10')
-  replaces=('xorg-servver' 'glamor-egl')
+  conflicts=('xorg-server' 'glamor-egl' 'xf86-video-modesetting' 'nvidia-utils<=290.10')
+  replaces=('xorg-server' 'glamor-egl' 'xf86-video-modesetting')
   groups=('xorg')
 
   cd "${srcdir}/${_gitname}"
