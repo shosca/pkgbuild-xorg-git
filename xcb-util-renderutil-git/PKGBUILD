@@ -1,0 +1,48 @@
+# $Id: PKGBUILD 215097 2014-06-13 17:16:50Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
+
+_gitroot="git://anongit.freedesktop.org/xcb/util-renderutil"
+_gitname="util-renderutil"
+
+pkgname=xcb-util-renderutil-git
+pkgver=0.3.9
+pkgrel=3
+pkgdesc="Utility libraries for XC Binding - Convenience functions for the Render extension"
+arch=('i686' 'x86_64')
+url="http://xcb.freedesktop.org"
+license=('custom')
+depends=('libxcb-git')
+makedepends=('git' 'xorg-util-macros-git')
+source=($_gitroot 'LICENSE')
+sha256sums=('SKIP'
+            'ded299aa179dcf0d885bf89274a4db77a530e03f9f5e7cf1c3c4ef1d60e914b9')
+provides=('xcb-util-renderutil')
+conflicts=('xcb-util-renderutil')
+replaces=('xcb-util-renderutil')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+  git submodule init && git submodule update
+
+  ./autogen.sh --prefix=/usr --disable-static
+  make
+}
+
+check() {
+  cd "${srcdir}/${_gitname}"
+  make check
+}
+
+package() { 
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -D -m644 "${srcdir}/LICENSE" \
+    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
