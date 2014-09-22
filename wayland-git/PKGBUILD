@@ -4,7 +4,7 @@ _gitroot="git://anongit.freedesktop.org/wayland/wayland"
 _gitname="wayland"
 
 pkgname=wayland-git
-pkgver=r1586.339e83a
+pkgver=r1588.f3e7eed
 pkgrel=1
 pkgdesc="A modern display server."
 arch=('i686' 'x86_64')
@@ -26,7 +26,9 @@ pkgver() {
 build() {
   cd "${srcdir}/${_gitname}"
 
-  ./autogen.sh --prefix=/usr --disable-static
+  ./autogen.sh --prefix=/usr \
+    --disable-static \
+    --disable-documentation
   make
 }
 
