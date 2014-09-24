@@ -7,12 +7,12 @@ _gitname="xf86-video-nouveau"
 
 pkgname=xf86-video-nouveau-git
 pkgver=r2410.3cd4c84
-pkgrel=16
+pkgrel=17
 pkgdesc="Open Source 2D acceleration driver for nVidia cards"
 arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
 license=('GPL')
-depends=('libdrm-git' 'udev' 'nouveau-dri-git')
+depends=('libdrm-git' 'udev' 'mesa-dri-git')
 makedepends=('xorg-server-devel-git' 'git')
 provides=('xf86-video-nouveau')
 conflicts=('xf86-video-nouveau' 'xorg-server<1.15.99')

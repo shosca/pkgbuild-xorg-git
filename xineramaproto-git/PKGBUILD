@@ -7,7 +7,7 @@ _gitname='xineramaproto'
 
 pkgname=xineramaproto-git
 pkgver=r48.441b8d8
-pkgrel=2
+pkgrel=3
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

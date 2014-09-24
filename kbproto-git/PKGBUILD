@@ -7,7 +7,7 @@ _gitname='kbproto'
 
 pkgname=kbproto-git
 pkgver=r68.5e40da7
-pkgrel=2
+pkgrel=3
 pkgdesc='X11 kb extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

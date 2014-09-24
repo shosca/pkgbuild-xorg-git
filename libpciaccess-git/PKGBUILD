@@ -7,7 +7,7 @@ _gitname="libpciaccess"
 
 pkgname=libpciaccess-git
 pkgver=r276.b7e4264
-pkgrel=1
+pkgrel=2
 pkgdesc="X11 PCI access library"
 arch=('i686' 'x86_64')
 license=('custom')

@@ -7,7 +7,7 @@ _gitname='presentproto'
 
 pkgname=presentproto-git
 pkgver=r21.ef84007
-pkgrel=2
+pkgrel=3
 pkgdesc='X11 present extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

@@ -8,7 +8,7 @@ _gitname="libXinerama"
 
 pkgname=libxinerama-git
 pkgver=r75.edd9518
-pkgrel=2
+pkgrel=3
 pkgdesc="X11 Xinerama extension library"
 arch=('i686' 'x86_64')
 license=('custom')

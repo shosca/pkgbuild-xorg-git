@@ -5,7 +5,7 @@ _gitname="omxil"
 
 pkgname=libomxil-bellagio-git
 pkgver=r708.f2c7fd9
-pkgrel=1
+pkgrel=2
 pkgdesc="An opensource implementation of the OpenMAX Integration Layer API"
 arch=('arm' 'armv7h' 'i686' 'x86_64')
 url="http://omxil.sourceforge.net"
