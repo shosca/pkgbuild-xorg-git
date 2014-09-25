@@ -7,8 +7,8 @@ _gitname='mesa'
 
 pkgbase=lib32-mesa-git
 pkgname=('lib32-mesa-dri-git' 'lib32-mesa-vdpau-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
-pkgver=r65575.2f7714e
-pkgrel=4
+pkgver=r65622.23247e8
+pkgrel=1
 arch=('x86_64')
 makedepends=('git' 'python2' 'lib32-libxml2' 'lib32-expat' 'lib32-libx11-git'
              'glproto-git' 'lib32-libdrm-git' 'dri2proto-git' 'dri3proto-git'

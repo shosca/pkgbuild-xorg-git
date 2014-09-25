@@ -8,7 +8,7 @@ _gitname="freeglut"
 
 pkgname=freeglut-git
 pkgver=r1696.06adf95
-pkgrel=21
+pkgrel=22
 pkgdesc="Provides functionality for small OpenGL programs"
 arch=('i686' 'x86_64')
 url="http://freeglut.sourceforge.net/"
