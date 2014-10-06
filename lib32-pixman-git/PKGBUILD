@@ -5,8 +5,8 @@ _gitroot="git://anongit.freedesktop.org/git/pixman"
 _gitname="pixman"
 
 pkgname=lib32-pixman-git
-pkgver=r2237.f078727
-pkgrel=2
+pkgver=r2238.a866913
+pkgrel=1
 pkgdesc="The pixel-manipulation library for X and cairo"
 arch=('x86_64')
 url="http://pixman.org/"

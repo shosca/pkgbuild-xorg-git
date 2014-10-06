@@ -7,7 +7,7 @@ _gitname="util-renderutil"
 
 pkgname=xcb-util-renderutil-git
 pkgver=0.3.9
-pkgrel=4
+pkgrel=5
 pkgdesc="Utility libraries for XC Binding - Convenience functions for the Render extension"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
