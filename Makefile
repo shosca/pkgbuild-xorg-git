@@ -279,7 +279,7 @@ libxfont-git: xproto-git fontsproto-git libfontenc-git xtrans-git
 
 libxkbfile-git: libx11-git
 
-freerdp-git: libxinerama-git libxcursor-git libxkbfile-git
+freerdp-git: libxinerama-git libxcursor-git libxkbfile-git wayland-git
 
 cairo-git: libxrender-git pixman-git xcb-util-git mesa-git
 
