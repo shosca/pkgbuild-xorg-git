@@ -6,8 +6,8 @@ _gitroot="git://github.com/freerdp/freerdp"
 _gitname="freerdp"
 
 pkgname=freerdp-git
-pkgver=r7395.81a1840
-pkgrel=0
+pkgver=r7418.4c455b8
+pkgrel=1
 pkgdesc="Free RDP client"
 arch=('i686' 'x86_64')
 url="http://freerdp.sourceforge.net"
@@ -30,10 +30,12 @@ pkgver() {
 build() {
   cd "$srcdir/$_gitname"
   cmake \
-	-DCMAKE_INSTALL_PREFIX=/usr \
-	-DCMAKE_INSTALL_LIBDIR=lib \
-	-DWITH_PULSEAUDIO=ON \
-	.
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DWITH_PULSEAUDIO=ON \
+    -DWITH_WAYLAND=OFF \
+    .
+
   make
 }
 
