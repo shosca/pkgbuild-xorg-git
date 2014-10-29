@@ -5,8 +5,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libxshmfence"
 _gitname="libxshmfence"
 
 pkgname=lib32-libxshmfence-git
-pkgver=r24.9c4f070
-pkgrel=2
+pkgver=r25.b63ea14
+pkgrel=1
 pkgdesc="X11 shared memory fences using futexes"
 arch=('x86_64')
 url="http://xorg.freedesktop.org"

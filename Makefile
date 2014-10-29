@@ -7,7 +7,7 @@ MAKECHROOTPKG=/usr/bin/makechrootpkg -c -u -r
 PKGEXT=pkg.tar.xz
 GITFETCH=git fetch --all -p
 GITCLONE=git clone --mirror
-CHROOTPATH64=/tmp/chroot64/$(REPO)
+CHROOTPATH64=/var/chroot64/$(REPO)
 
 TARGETS=$(addsuffix /built, $(DIRS))
 PULL_TARGETS=$(addsuffix -pull, $(DIRS))
@@ -21,7 +21,7 @@ all:
 	$(MAKE) build
 
 clean:
-	sudo rm -rf */*.log */pkg */src */logpipe*
+	sudo rm -rf */*.log */pkg */src */logpipe* $(CHROOTPATH64)
 
 reset: clean
 	sudo rm -f */built ; \
