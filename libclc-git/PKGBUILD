@@ -5,13 +5,12 @@ _gitname=libclc
 
 pkgname=libclc-git
 pkgver=r213.ac887c4
-pkgrel=1
+pkgrel=2
 pkgdesc="Library requirements of the OpenCL C programming language"
 arch=('i686' 'x86_64')
 url="http://libclc.llvm.org/"
 license=('MIT')
-depends=(llvm-git llvm-libs-git llvm-ocaml-git clang-git clang-analyzer-git)
-makedepends=('git' 'python2')
+makedepends=('clang-git' 'git' 'python2')
 provides=('libclc')
 replaces=('libclc')
 conflicts=('libclc')
