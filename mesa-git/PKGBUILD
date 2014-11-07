@@ -6,7 +6,7 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=mesa-git
-pkgver=r66293.1ca88aa
+pkgver=r66311.ba0bb42
 pkgrel=1
 pkgname=('opencl-mesa-git' 'mesa-dri-git' 'mesa-vdpau-git' 'mesa-git' 'mesa-libgl-git')
 arch=('i686' 'x86_64')

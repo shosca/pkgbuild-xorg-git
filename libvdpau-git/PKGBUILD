@@ -5,7 +5,7 @@ _gitroot="git://people.freedesktop.org/~aplattner/libvdpau"
 _gitname="libvdpau"
 
 pkgname=libvdpau-git
-pkgver=r70.ea92efb
+pkgver=r74.3162456
 pkgrel=1
 pkgdesc="Nvidia VDPAU library"
 arch=('i686' 'x86_64')
