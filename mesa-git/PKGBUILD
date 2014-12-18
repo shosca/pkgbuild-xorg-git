@@ -7,15 +7,17 @@ _gitname='mesa'
 
 pkgbase=mesa-git
 pkgver=r67072.a9e7789
-pkgrel=1
-pkgname=('opencl-mesa-git' 'mesa-dri-git' 'mesa-vdpau-git' 'mesa-git' 'mesa-libgl-git')
+pkgrel=2
+pkgname=('opencl-mesa-git' 'libva-mesa-driver-git' 'mesa-vdpau-git' 'mesa-git' 'mesa-libgl-git')
 arch=('i686' 'x86_64')
 makedepends=('git' 'python2' 'libxml2' 'libx11-git' 'glproto-git' 'libdrm-git'
              'dri2proto-git' 'dri3proto-git' 'presentproto-git' 'libclc-git'
              'libxshmfence-git' 'libomxil-bellagio-git' 'libxxf86vm-git'
              'libxdamage-git' 'libvdpau-git' 'wayland-git' 'elfutils'
              'llvm-git' 'systemd' 'opencl-headers' 'clang-git')
-optdepends=('opengl-man-pages: for the OpenGL API man pages')
+optdepends=('opengl-man-pages: for the OpenGL API man pages'
+            'mesa-vdpau-git: for accelerated playback'
+            'libva-mesa-driver: for accelerated playback')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
@@ -38,10 +40,8 @@ build() {
     --with-gallium-drivers=r300,r600,radeonsi,nouveau,svga,swrast \
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
     --with-egl-platforms=drm,x11,wayland \
-    --with-llvm-shared-libs \
+    --enable-llvm-shared-libs \
     --enable-egl \
-    --disable-gallium-egl \
-    --disable-gallium-gbm \
     --enable-gbm \
     --enable-gallium-llvm \
     --enable-shared-glapi \
@@ -55,6 +55,7 @@ build() {
     --enable-xa \
     --enable-vdpau \
     --enable-omx \
+    --enable-nine \
     --enable-opencl \
     --enable-opencl-icd \
     --with-clang-libdir=/usr/lib
@@ -84,27 +85,15 @@ package_opencl-mesa-git() {
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
-package_mesa-dri-git() {
-  pkgdesc="Mesa DRI drivers"
-  depends=('expat' 'libdrm-git' 'mesa-git' 'libtxc_dxtn')
-  conflicts=('mesa-dri' 'ati-dri' 'ati-dri-git' 'intel-dri' 'intel-dri-git' 'nouveau-dri' 'nouveau-dri-git' 'svga-dri' 'svga-dri-git')
-  provides=('mesa-dri' 'ati-dri' 'ati-dri-git' 'intel-dri' 'intel-dri-git' 'nouveau-dri' 'nouveau-dri-git' 'svga-dri' 'svga-dri-git')
-  replaces=('mesa-dri' 'ati-dri' 'ati-dri-git' 'intel-dri' 'intel-dri-git' 'nouveau-dri' 'nouveau-dri-git' 'svga-dri' 'svga-dri-git')
-
-  install -m755 -d ${pkgdir}/etc
-  mv -v ${srcdir}/fakeinstall/etc/drirc ${pkgdir}/etc
+package_libva-mesa-driver-git() {
+  pkgdesc=('VA-API implementation for gallium')
+  depends=('libdrm-git' 'libx11-git' 'llvm-libs-git' 'expat' 'elfutils')
+  provides=('libva-mesa-driver')
+  conflicts=('libva-mesa-driver')
+  replaces=('libva-mesa-driver')
 
   install -m755 -d ${pkgdir}/usr/lib/dri
-  # ati-dri
-  mv -v ${srcdir}/fakeinstall/usr/lib/dri/{r200,r300,r600,radeon{,si}}_dri.so ${pkgdir}/usr/lib/dri
-  # nouveau-dri
-  mv -v ${srcdir}/fakeinstall/usr/lib/dri/nouveau{,_vieux}_dri.so ${pkgdir}/usr/lib/dri
-  # intel-dri
-  mv -v ${srcdir}/fakeinstall/usr/lib/dri/{i915,i965}_dri.so ${pkgdir}/usr/lib/dri
-  # svga-dri
-  mv -v ${srcdir}/fakeinstall/usr/lib/dri/vmwgfx_dri.so ${pkgdir}/usr/lib/dri
-  # swrast
-  mv -v ${srcdir}/fakeinstall/usr/lib/dri/{kms_,}swrast_dri.so ${pkgdir}/usr/lib/dri
+  mv -v ${srcdir}/fakeinstall/usr/lib/dri/gallium_drv_video* ${pkgdir}/usr/lib/dri
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
@@ -129,22 +118,33 @@ package_mesa-git() {
   depends=('libdrm-git' 'libvdpau-git' 'wayland-git' 'libxshmfence-git'
            'libxxf86vm-git' 'libxdamage-git' 'systemd' 'llvm-libs-git')
   optdepends=('opengl-man-pages: for the OpenGL API man pages')
-  provides=('mesa' 'libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
-  conflicts=('mesa' 'libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
-  replaces=('mesa' 'libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
+  provides=('mesa' 'libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl'
+            'khrplatform-devel'
+            'ati-dri' 'intel-dri' 'nouveau-dri' 'svga-dri' 'mesa-dri')
+  conflicts=('mesa' 'libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl'
+             'khrplatform-devel'
+             'ati-dri' 'intel-dri' 'nouveau-dri' 'svga-dri' 'mesa-dri')
+  replaces=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel'
+            'ati-dri' 'intel-dri' 'nouveau-dri' 'svga-dri' 'mesa-dri')
 
-  install -m755 -d ${pkgdir}/usr/lib
+  install -m755 -d ${pkgdir}/etc
+  mv -v ${srcdir}/fakeinstall/etc/drirc ${pkgdir}/etc
+
+  install -m755 -d ${pkgdir}/usr/lib/dri
+  mv -v ${srcdir}/fakeinstall/usr/lib/dri/* ${pkgdir}/usr/lib/dri
+
   mv -v ${srcdir}/fakeinstall/usr/lib/bellagio ${pkgdir}/usr/lib
-  mv -v ${srcdir}/fakeinstall/usr/lib/lib{OSMesa,gbm,glapi,wayland-egl,xatracker}.so* ${pkgdir}/usr/lib/
+  mv -v ${srcdir}/fakeinstall/usr/lib/d3d ${pkgdir}/usr/lib
+  mv -v ${srcdir}/fakeinstall/usr/lib/*.so* ${pkgdir}/usr/lib
 
   mv -v ${srcdir}/fakeinstall/usr/include ${pkgdir}/usr
   mv -v ${srcdir}/fakeinstall/usr/lib/pkgconfig ${pkgdir}/usr/lib/
 
   install -m755 -d ${pkgdir}/usr/lib/mesa
-  # rename libgl.so to not conflict with blobs - may break gl.pc ?
-  mv -v ${srcdir}/fakeinstall/usr/lib/libGL.so*    ${pkgdir}/usr/lib/mesa/
-  mv -v ${srcdir}/fakeinstall/usr/lib/libEGL.so*   ${pkgdir}/usr/lib/mesa/
-  mv -v ${srcdir}/fakeinstall/usr/lib/libGLES*.so* ${pkgdir}/usr/lib/mesa/
+  # move libgl/EGL/glesv*.so to not conflict with blobs - may break .pc files ?
+  mv -v ${pkgdir}/usr/lib/libGL.so*    ${pkgdir}/usr/lib/mesa/
+  mv -v ${pkgdir}/usr/lib/libEGL.so*   ${pkgdir}/usr/lib/mesa/
+  mv -v ${pkgdir}/usr/lib/libGLES*.so* ${pkgdir}/usr/lib/mesa/
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
