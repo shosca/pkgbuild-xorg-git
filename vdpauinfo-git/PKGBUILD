@@ -2,8 +2,8 @@ _gitroot='git://people.freedesktop.org/~aplattner/vdpauinfo'
 _gitname='vdpauinfo'
 
 pkgname=vdpauinfo-git
-pkgver=r25.178f33e
-pkgrel=10
+pkgver=r28.4a4feb8
+pkgrel=1
 pkgdesc="CLI utility for VDPAU device querying."
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/~aplattner/vdpauinfo"
