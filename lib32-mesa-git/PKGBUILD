@@ -6,7 +6,7 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=lib32-mesa-git
-pkgname=('lib32-mesa-dri-git' 'lib32-mesa-vdpau-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
+pkgname=('lib32-mesa-vdpau-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
 pkgver=r67275.92a0b0b
 pkgrel=1
 arch=('x86_64')
@@ -46,8 +46,6 @@ build() {
     --with-egl-platforms=drm,x11,wayland \
     --enable-llvm-shared-libs \
     --enable-egl \
-    --disable-gallium-egl \
-    --disable-gallium-gbm \
     --enable-gbm \
     --enable-gallium-llvm \
     --enable-shared-glapi \
@@ -68,27 +66,6 @@ build() {
   make DESTDIR=${srcdir}/fakeinstall install
 }
 
-package_lib32-mesa-dri-git() {
-  pkgdesc="Mesa DRI drivers (32-bit)"
-  depends=('lib32-expat' 'lib32-libdrm-git' 'lib32-libtxc_dxtn')
-  conflicts=('lib32-mesa-dri' 'lib32-ati-dri' 'lib32-ati-dri-git' 'lib32-intel-dri' 'lib32-intel-dri-git' 'lib32-nouveau-dri' 'lib32-nouveau-dri-git')
-  provides=('lib32-mesa-dri' 'lib32-ati-dri' 'lib32-ati-dri-git' 'lib32-intel-dri' 'lib32-intel-dri-git' 'lib32-nouveau-dri' 'lib32-nouveau-dri-git')
-  replaces=('lib32-mesa-dri' 'lib32-ati-dri' 'lib32-ati-dri-git' 'lib32-intel-dri' 'lib32-intel-dri-git' 'lib32-nouveau-dri' 'lib32-nouveau-dri-git')
-
-  install -m755 -d ${pkgdir}/usr/lib32/dri
-  # ati-dri
-  mv -v ${srcdir}/fakeinstall/usr/lib32/dri/{r200,r300,r600,radeon{,si}}_dri.so ${pkgdir}/usr/lib32/dri
-  # nouveau-dri
-  mv -v ${srcdir}/fakeinstall/usr/lib32/dri/nouveau{,_vieux}_dri.so ${pkgdir}/usr/lib32//dri
-  # intel-dri
-  mv -v ${srcdir}/fakeinstall/usr/lib32/dri/{i915,i965}_dri.so ${pkgdir}/usr/lib32/dri
-  # swrast
-  mv -v ${srcdir}/fakeinstall/usr/lib32/dri/{kms_,}swrast_dri.so ${pkgdir}/usr/lib32/dri
-
-  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
-}
-
 package_lib32-mesa-vdpau-git() {
   pkgdesc="Mesa VDPAU drivers (32-bit)"
   depends=('lib32-libdrm-git' 'lib32-libx11-git' 'lib32-expat' 'lib32-elfutils')
@@ -107,31 +84,28 @@ package_lib32-mesa-git() {
   pkgdesc="an open-source implementation of the OpenGL specification"
   depends=('lib32-libdrm-git' 'lib32-libxxf86vm-git' 'lib32-libxdamage-git'
            'lib32-libxshmfence-git' 'lib32-systemd' 'lib32-elfutils'
-           'lib32-llvm-libs-git' 'lib32-wayland-git' 'lib32-mesa-dri-git'
+           'lib32-llvm-libs-git' 'lib32-wayland-git'
            'mesa-git')
   optdepends=('opengl-man-pages: for the OpenGL API man pages')
-  provides=('lib32-mesa' 'lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')
-  conflicts=('lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')
-  replaces=('lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')
+  provides=('lib32-mesa-dri' 'lib32-mesa' 'lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')
+  conflicts=('lib32-mesa-dri' 'lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')
+  replaces=('lib32-mesa-dri-git' 'lib32-libglapi' 'lib32-osmesa' 'lib32-libgbm' 'lib32-libgles' 'lib32-libegl')
 
-  install -m755 -d ${pkgdir}/usr/lib32
-  mv -v ${srcdir}/fakeinstall/usr/lib32/lib{OSMesa,gbm,glapi,wayland-egl}.so* ${pkgdir}/usr/lib32/
-  #mv -v ${srcdir}/fakeinstall/usr/lib32/gallium-pipe/pipe_swrast* ${pkgdir}/usr/lib32/gallium-pipe/
-  # FS#41337
-  #mv -v ${srcdir}/fakeinstall/usr/lib32/gbm/gbm_gallium_drm* ${pkgdir}/usr/lib32/gbm/
+  install -m755 -d ${pkgdir}/usr/lib32/dri
+  mv -v ${srcdir}/fakeinstall/usr/lib32/dri/* ${pkgdir}/usr/lib32/dri
 
-  mv -v ${srcdir}/fakeinstall/usr/lib32/pkgconfig ${pkgdir}/usr/lib32/
+  mv -v ${srcdir}/fakeinstall/usr/lib32/d3d ${pkgdir}/usr/lib32
+  mv -v ${srcdir}/fakeinstall/usr/lib32/*.so* ${pkgdir}/usr/lib32/
 
   install -m755 -d ${pkgdir}/usr/lib32/mesa
   # move libgl/EGL/glesv*.so to not conflict with blobs - may break .pc files ?
-  mv -v ${srcdir}/fakeinstall/usr/lib32/libGL.so*    ${pkgdir}/usr/lib32/mesa/
-  mv -v ${srcdir}/fakeinstall/usr/lib32/libEGL.so*   ${pkgdir}/usr/lib32/mesa/
-  mv -v ${srcdir}/fakeinstall/usr/lib32/libGLES*.so* ${pkgdir}/usr/lib32/mesa/
+  mv -v ${pkgdir}/usr/lib32/libGL.so*    ${pkgdir}/usr/lib32/mesa/
+  mv -v ${pkgdir}/usr/lib32/libEGL.so*   ${pkgdir}/usr/lib32/mesa/
+  mv -v ${pkgdir}/usr/lib32/libGLES*.so* ${pkgdir}/usr/lib32/mesa/
 
   # keep symlinks until pacman 4.2 FS#42046
   #install -m755 -d "${pkgdir}/usr/share/licenses/lib32-mesa"
   #install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/lib32-mesa/"
-
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
