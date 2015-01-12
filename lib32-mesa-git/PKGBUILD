@@ -7,10 +7,10 @@ _gitname='mesa'
 
 pkgbase=lib32-mesa-git
 pkgname=('lib32-mesa-vdpau-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
-pkgver=r67275.92a0b0b
+pkgver=r67345.457d40e
 pkgrel=1
 arch=('x86_64')
-makedepends=('git' 'python2' 'lib32-libxml2' 'lib32-expat' 'lib32-libx11-git'
+makedepends=('git' 'python2-mako' 'lib32-libxml2' 'lib32-expat' 'lib32-libx11-git'
              'glproto-git' 'lib32-libdrm-git' 'dri2proto-git' 'dri3proto-git'
              'presentproto-git' 'lib32-libxshmfence-git' 'lib32-libxxf86vm-git'
              'lib32-libxdamage-git' 'gcc-multilib' 'lib32-elfutils'
