@@ -6,7 +6,7 @@ _gitname="libXxf86vm"
 
 pkgname=lib32-libxxf86vm-git
 pkgver=r85.723f4a1
-pkgrel=1
+pkgrel=2
 pkgdesc="X11 XFree86 video mode extension library"
 arch=('x86_64')
 license=('custom')
