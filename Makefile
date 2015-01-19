@@ -330,6 +330,8 @@ xorg-fonts-encodings-git: xorg-mkfontscale-git xorg-util-macros-git xorg-font-ut
 
 xf86-input-evdev-git: xorg-server-git libevdev-git libxi-git libxtst-git resourceproto-git scrnsaverproto-git
 
+xf86-input-libinput-git: xorg-server-git libinput-git libxi-git libxtst-git resourceproto-git scrnsaverproto-git
+
 xf86-input-synaptics-git: xorg-server-git libevdev-git libxi-git libxtst-git resourceproto-git scrnsaverproto-git
 
 xf86-video-ati-git: xorg-server-git mesa-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
