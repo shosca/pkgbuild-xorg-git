@@ -9,7 +9,7 @@ _gitname="xserver"
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-xephyr-git' 'xorg-server-xdmx-git' 'xorg-server-xvfb-git' 'xorg-server-xnest-git' 'xorg-server-xwayland-git' 'xorg-server-common-git' 'xorg-server-devel-git')
 pkgver=r14625.5af2f5b
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -114,7 +114,7 @@ package_xorg-server-git() {
   pkgdesc="Xorg X server - Git version"
   depends=('libdrm-git' 'libgcrypt' 'libpciaccess-git' 'libxshmfence-git'
            'libxau-git' 'libxdmcp-git' 'libepoxy-git' 'libxfont-git'
-           'pixman-git' 'udev' 'xf86-input-evdev-git' 'xorg-server-common-git'
+           'pixman-git' 'udev' 'xorg-server-common-git'
            'wayland-git')
   backup=('etc/X11/xorg.conf.d/10-evdev.conf' 'etc/X11/xorg.conf.d/10-quirks.conf')
   provides=('x-server' 'xorg-server' 'glamor-egl')

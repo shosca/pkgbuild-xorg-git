@@ -6,7 +6,7 @@ _gitname="libX11"
 
 pkgname=lib32-libx11-git
 pkgver=r1257.446f5f7
-pkgrel=3
+pkgrel=4
 pkgdesc="X11 client-side library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"

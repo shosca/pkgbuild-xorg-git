@@ -5,8 +5,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libfontenc"
 _gitname="libfontenc"
 
 pkgname=libfontenc-git
-pkgver=r84.0037a42
-pkgrel=12
+pkgver=r88.de1843a
+pkgrel=1
 pkgdesc="X11 font encoding library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
