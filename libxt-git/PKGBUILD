@@ -5,8 +5,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXt"
 _gitname="libXt"
 
 pkgname=libxt-git
-pkgver=r218.f9baaf5
-pkgrel=3
+pkgver=r224.33a6d9d
+pkgrel=1
 pkgdesc="X11 toolkit intrinsics library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
