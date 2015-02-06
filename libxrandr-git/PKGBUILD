@@ -8,7 +8,7 @@ _gitname="libXrandr"
 
 pkgname=libxrandr-git
 pkgver=r160.bc00b4f
-pkgrel=49
+pkgrel=50
 pkgdesc="X11 RandR extension library"
 arch=('i686' 'x86_64')
 license=('custom')

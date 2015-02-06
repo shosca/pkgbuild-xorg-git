@@ -6,7 +6,7 @@ _gitname="xrandr"
 
 pkgname=xorg-xrandr-git
 pkgver=r275.f429a51
-pkgrel=10
+pkgrel=11
 pkgdesc="Primitive command line interface to RandR extension"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
