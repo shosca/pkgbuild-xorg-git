@@ -7,8 +7,8 @@ _gitname="freeglut"
 
 
 pkgname=freeglut-git
-pkgver=r1756.5600276
-pkgrel=33
+pkgver=r1763.27d5d26
+pkgrel=2
 pkgdesc="Provides functionality for small OpenGL programs"
 arch=('i686' 'x86_64')
 url="http://freeglut.sourceforge.net/"
@@ -29,7 +29,8 @@ pkgver() {
 build() {
   cd "$srcdir/$_gitname/$_gitname/$_gitname"
 
-  cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr .
+  cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+        -DCMAKE_INSTALL_LIBDIR:PATH=/usr/lib .
   make
 }
 
