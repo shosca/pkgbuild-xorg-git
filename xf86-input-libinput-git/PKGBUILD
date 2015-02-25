@@ -6,7 +6,7 @@ _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-libinput
 _gitname=xf86-input-libinput
 
 pkgname=xf86-input-libinput-git
-pkgver=r89.278a685
+pkgver=r90.2600a4a
 pkgrel=1
 pkgdesc="X.Org libinput driver - Git version"
 arch=('i686' 'x86_64')
