@@ -6,7 +6,7 @@ _gitname='xf86-video-fbdev'
 
 pkgname=xf86-video-fbdev-git
 pkgver=r101.ae0aeff
-pkgrel=140
+pkgrel=141
 pkgdesc='X.org framebuffer video driver'
 arch=('i686' 'x86_64')
 url='http://xorg.freedesktop.org/'
