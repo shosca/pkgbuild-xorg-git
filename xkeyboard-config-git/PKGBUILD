@@ -7,7 +7,7 @@ _gitname='xkeyboard-config'
 
 pkgname=xkeyboard-config-git
 pkgver=r1792.26f344c
-pkgrel=5
+pkgrel=6
 pkgdesc="X keyboard configuration files"
 arch=('any')
 license=('custom')
