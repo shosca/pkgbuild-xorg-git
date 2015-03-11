@@ -6,7 +6,7 @@ _gitname='libxkbfile'
 
 pkgname=libxkbfile-git
 pkgver=r84.9fa0438
-pkgrel=9
+pkgrel=10
 pkgdesc="X11 keyboard file manipulation library"
 arch=('i686' 'x86_64')
 license=('custom')
