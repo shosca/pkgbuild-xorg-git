@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/font/util"
 _gitname="util"
 
 pkgname=xorg-font-util-git
-pkgver=r76.1a0f701
-pkgrel=2
+pkgver=r77.cfe0b4f
+pkgrel=1
 pkgdesc='X.Org font utilities'
 url='http://xorg.freedesktop.org/'
 arch=('i686' 'x86_64')

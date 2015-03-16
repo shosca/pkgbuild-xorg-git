@@ -6,8 +6,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/randrproto'
 _gitname='randrproto'
 
 pkgname=randrproto-git
-pkgver=r155.a4a6694
-pkgrel=4
+pkgver=r156.b1ba68d
+pkgrel=1
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
