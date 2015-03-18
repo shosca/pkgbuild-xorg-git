@@ -7,7 +7,7 @@ _gitname=xf86-input-libinput
 
 pkgname=xf86-input-libinput-git
 pkgver=r104.8d4e035
-pkgrel=1
+pkgrel=2
 pkgdesc="X.Org libinput driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-libinput/"
