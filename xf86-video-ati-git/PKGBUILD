@@ -6,8 +6,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-ati'
 _gitname="xf86-video-ati"
 
 pkgname=xf86-video-ati-git
-pkgver=r3197.391900a
-pkgrel=3
+pkgver=r3203.f8b0f23
+pkgrel=1
 pkgdesc="X.org ati video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
