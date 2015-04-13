@@ -6,7 +6,7 @@ _gitroot="git://github.com/freerdp/freerdp"
 _gitname="freerdp"
 
 pkgname=freerdp-git
-pkgver=r8417.121ea23
+pkgver=r8435.423b151
 pkgrel=1
 pkgdesc="Free RDP client"
 arch=('i686' 'x86_64')

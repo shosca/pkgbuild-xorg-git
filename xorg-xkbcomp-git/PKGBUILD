@@ -5,7 +5,7 @@ _gitroot='git://anongit.freedesktop.org/xorg/app/xkbcomp'
 _gitname='xkbcomp'
 
 pkgname=xorg-xkbcomp-git
-pkgver=r156.fc3e6dd
+pkgver=r157.1ae525b
 pkgrel=1
 pkgdesc="X Keyboard description compiler"
 arch=('i686' 'x86_64')
