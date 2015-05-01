@@ -6,14 +6,14 @@ _gitroot='git://git.freedesktop.org/git/mesa/drm'
 _gitname='drm'
 
 pkgname=libdrm-git
-pkgver=r5464.0d78b37
+pkgver=r5497.b4a6f50
 pkgrel=1
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 url="http://dri.freedesktop.org/"
 license=('MIT')
 depends=('libpciaccess-git')
-makedepends=('git' 'cairo>=1.12.15' 'udev' 'valgrind')
+makedepends=('git' 'xorg-util-macros-git' 'cairo>=1.12.15' 'udev' 'valgrind')
 provides=('libdrm')
 conflicts=('libdrm')
 replaces=('libdrm')

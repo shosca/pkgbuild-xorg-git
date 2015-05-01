@@ -6,7 +6,7 @@ _gitname="xhost"
 
 pkgname=xorg-xhost-git
 pkgver=r87.06d7137
-pkgrel=2
+pkgrel=3
 pkgdesc="Server access control program for X"
 arch=('i686' 'x86_64')
 license=('custom')

@@ -200,7 +200,7 @@ libpciaccess-git: xorg-util-macros-git
 
 libshmfence-git: xorg-util-macros-git
 
-libdrm-git: libpciaccess-git
+libdrm-git: libpciaccess-git xorg-util-macros-git
 
 libfontenc-git: xproto-git xorg-font-util-git
 
