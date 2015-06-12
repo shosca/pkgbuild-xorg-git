@@ -5,8 +5,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-vesa'
 _gitname='xf86-video-vesa'
 
 pkgname=xf86-video-vesa-git
-pkgver=r145.e36a0a8
-pkgrel=3
+pkgver=r146.e667a9a
+pkgrel=1
 pkgdesc='X.org vesa video driver'
 arch=('i686' 'x86_64')
 url='http://xorg.freedesktop.org/'
