@@ -1,11 +1,11 @@
 # Maintainer: Armin K. <krejzi at email dot com>
 
-_gitroot='git://github.com/llvm-mirror/libclc.git'
+_gitroot='git+http://llvm.org/git/libclc.git'
 _gitname=libclc
 
 pkgname=libclc-git
 pkgver=r262.4f09ca6
-pkgrel=4
+pkgrel=5
 pkgdesc="Library requirements of the OpenCL C programming language"
 arch=('i686' 'x86_64')
 url="http://libclc.llvm.org/"

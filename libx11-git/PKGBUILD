@@ -5,7 +5,7 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libX11"
 _gitname="libX11"
 
 pkgname=libx11-git
-pkgver=r1269.f0286b2
+pkgver=r1270.26e0d2d
 pkgrel=1
 pkgdesc="X11 client-side library"
 arch=('i686' 'x86_64')

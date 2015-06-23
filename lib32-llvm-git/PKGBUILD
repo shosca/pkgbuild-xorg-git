@@ -8,7 +8,7 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git')
-pkgver=r117806.60bc0ab
+pkgver=r118401.99e760a
 pkgrel=1
 arch=('x86_64')
 url="http://llvm.org"
@@ -77,7 +77,6 @@ build() {
     --enable-shared \
     --enable-libffi \
     --enable-targets=all \
-    --enable-experimental-targets=R600 \
     --disable-expensive-checks \
     --disable-debug-runtime \
     --disable-assertions \

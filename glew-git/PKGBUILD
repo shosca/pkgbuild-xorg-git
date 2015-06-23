@@ -7,7 +7,7 @@ _gitroot="git://github.com/nigels-com/glew"
 _gitname="glew"
 
 pkgname=glew-git
-pkgver=r841.e943e3c
+pkgver=r854.a4a87f9
 pkgrel=1
 pkgdesc="The OpenGL Extension Wrangler Library"
 arch=('i686' 'x86_64')
