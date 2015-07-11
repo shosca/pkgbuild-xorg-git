@@ -36,6 +36,7 @@ Makefile.mk
 */kbproto
 */lib*
 */llvm
+*/lldb
 */macros
 */mesa
 */mkfontscale

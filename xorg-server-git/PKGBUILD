@@ -7,9 +7,9 @@ _gitroot="git://anongit.freedesktop.org/xorg/xserver"
 _gitname="xserver"
 
 pkgbase=xorg-server-git
-pkgname=('xorg-server-git' 'xorg-server-xephyr-git' 'xorg-server-xdmx-git' 'xorg-server-xvfb-git' 'xorg-server-xnest-git' 'xorg-server-xwayland-git' 'xorg-server-common-git' 'xorg-server-devel-git')
+pkgname=('xorg-server-git' 'xorg-server-xephyr-git' 'xorg-server-xvfb-git' 'xorg-server-xnest-git' 'xorg-server-xwayland-git' 'xorg-server-common-git' 'xorg-server-devel-git')
 pkgver=r14836.b4061cf
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -47,7 +47,6 @@ build() {
   ./autogen.sh \
       --prefix=/usr \
       --enable-ipv6 \
-      --enable-dmx \
       --enable-dri \
       --enable-dri2 \
       --enable-dri3 \
@@ -71,6 +70,7 @@ build() {
       --disable-xfbdev \
       --disable-xfake \
       --disable-static \
+      --disable-dmx \
       --sysconfdir=/etc/X11 \
       --localstatedir=/var \
       --with-xkb-path=/usr/share/X11/xkb \
@@ -189,21 +189,6 @@ package_xorg-server-xnest-git() {
 
   install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-xnest"
   ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server-xnest/COPYING"
-}
-
-package_xorg-server-xdmx-git() {
-  pkgdesc="Distributed Multihead X Server and utilities - Git ones"
-  depends=('libdmx-git' 'libgcrypt' 'libxaw-git' 'libxfixes-git' 'libxfont-git'
-           'libxi-git' 'libxrender-git' 'pixman-git' 'xorg-server-common-git')
-  provides=("xorg-server-xdmx")
-  conflicts=('xorg-server-xdmx')
-  replaces=('xorg-server-xdmx')
-
-  cd "${srcdir}/${_gitname}/hw/dmx"
-  make DESTDIR="$pkgdir" install
-
-  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-xdmx"
-  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server-xdmx/COPYING"
 }
 
 package_xorg-server-xwayland-git() {

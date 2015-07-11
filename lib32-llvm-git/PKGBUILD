@@ -8,7 +8,7 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git')
-pkgver=r118982.dcec526
+pkgver=r119416.22af148
 pkgrel=1
 arch=('x86_64')
 url="http://llvm.org"
@@ -55,20 +55,20 @@ prepare() {
 
   patch -Np1 -i ../installfix.patch
   patch -Np1 -i ../fix-enable-shared.patch
+
+  rm -rf "${srcdir}/build"
+  mkdir -p "${srcdir}/build"
 }
 
 
 build() {
-  cd "${srcdir}/${_gitname}"
+  cd "${srcdir}/build"
 
   export CC="gcc -m32"
   export CXX="g++ -m32"
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
-  # Include location of libffi headers in CPPFLAGS
-  CPPFLAGS+=" $(pkg-config --cflags libffi)"
-
-  ./configure \
+  ${srcdir}/${_gitname}/configure \
     --host=i386-pc-linux-gnu \
     --target=i386-pc-linux-gnu \
     --prefix=/usr \
@@ -84,7 +84,7 @@ build() {
     --with-python=/usr/bin/python2 \
     --enable-optimized
 
-  make REQUIRES_RTTI=1 ENABLE_OPTIMIZED=1
+  make REQUIRES_RTTI=1
 }
 
 package_lib32-llvm-git() {
@@ -93,8 +93,7 @@ package_lib32-llvm-git() {
   provides=('lib32-llvm')
   conflicts=('lib32-llvm')
 
-  cd "${srcdir}/${_gitname}"
-  make -j1 DESTDIR="$pkgdir" install
+  make -C "${srcdir}/build" DESTDIR="${pkgdir}" install
 
   # The runtime library goes into lib32-llvm-libs
   # The runtime library goes into llvm-libs
@@ -124,7 +123,7 @@ package_lib32-llvm-git() {
   install -d "$pkgdir"/usr/bin
   mv "$pkgdir/usr/lib32/llvm-config" "$pkgdir/usr/bin/llvm-config32"
 
-  install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 ${srcdir}/${_gitname}/LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
 package_lib32-llvm-libs-git() {
@@ -142,7 +141,7 @@ package_lib32-llvm-libs-git() {
     test -L "${_shlib}" && ln -sf $(basename $(readlink ${_shlib})) ${_shlib}
   done
 
-  install -Dm644 ${_gitname}/LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 ${srcdir}/${_gitname}/LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 # vim: ft=sh syn=sh et
 

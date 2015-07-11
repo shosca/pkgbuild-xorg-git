@@ -10,23 +10,26 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 _pkgname=$_gitname
 
-pkgname=(llvm-git llvm-libs-git clang-git clang-tools-extra-git clang-analyzer-git)
-pkgver=r118982.dcec526
+pkgname=(llvm-git llvm-libs-git lldb-git clang-git clang-analyzer-git)
+pkgver=r119416.22af148
 pkgrel=1
 pkgdesc='Low Level Virtual Machine'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
 license=('custom:University of Illinois')
-makedepends=('git' 'libffi' 'python2' 'python-sphinx')
+depends=('libedit')
+makedepends=('git' 'libffi' 'python2' 'python-sphinx' 'chrpath' 'swig')
 options=('staticlibs' '!strip')
 source=(git+$_gitroot
         git+http://llvm.org/git/clang.git
         git+http://llvm.org/git/clang-tools-extra.git
         git+http://llvm.org/git/compiler-rt.git
+        git+http://llvm.org/git/lldb.git
         llvm-Config-config.h
         llvm-Config-llvm-config.h
         fix-enable-shared.patch)
 sha256sums=('SKIP'
+            'SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
@@ -42,24 +45,39 @@ pkgver() {
 prepare() {
   cd "${srcdir}/${_gitname}"
 
+  rm -rf tools/clang
   git clone ${srcdir}/clang tools/clang
+
+  rm -rf tools/clang/tools/extra
   git clone ${srcdir}/clang-tools-extra tools/clang/tools/extra
+
+  rm -rf projects/compiler-rt
   git clone ${srcdir}/compiler-rt projects/compiler-rt
+
+  rm -rf tools/lldb
+  git clone ${srcdir}/lldb tools/lldb
+
 
   sed -i 's:\$(PROJ_prefix)/docs/llvm:$(PROJ_prefix)/share/doc/llvm:' \
     Makefile.config.in
 
-  patch -Np1 -i ../fix-enable-shared.patch
+  # Fix definition of LLVM_CMAKE_DIR in LLVMConfig.cmake
+  sed -i '/@LLVM_CONFIG_CMAKE_DIR@/s:$(PROJ_cmake):$(PROJ_prefix)/share/llvm/cmake:' \
+    cmake/modules/Makefile
 
+  # Use Python 2
+  find tools/lldb -name Makefile -exec sed -i 's/python-config/python2-config/' {} +
+  sed -i 's|/usr/bin/env python|&2|' \
+    tools/lldb/scripts/Python/{build-swig-Python,finish-swig-Python-LLDB}.sh
+
+  rm -rf "${srcdir}/build"
+  mkdir -p "${srcdir}/build"
 }
 
 build() {
-  cd "${srcdir}/${_pkgname}"
+  cd "${srcdir}/build"
 
-  CPPFLAGS+=" $(pkg-config --cflags libffi)"
-
-  CC=gcc CXX=g++ \
-  ./configure \
+  ${srcdir}/${_gitname}/configure \
       --prefix=/usr \
       --sysconfdir=/etc \
       --enable-shared \
@@ -80,9 +98,9 @@ build() {
       -i tools/llvm-config/Makefile
 
   make REQUIRES_RTTI=1
-  make -C docs -f Makefile.sphinx man
-  make -C docs -f Makefile.sphinx html
-  make -C tools/clang/docs -f Makefile.sphinx html
+  make -C ${srcdir}/${_gitname}/docs -f Makefile.sphinx man
+  make -C ${srcdir}/${_gitname}/docs -f Makefile.sphinx html
+  make -C ${srcdir}/${_gitname}/tools/clang/docs -f Makefile.sphinx html
 }
 
 package_llvm-git() {
@@ -92,11 +110,20 @@ package_llvm-git() {
   conflicts=('llvm')
   replaces=('llvm')
 
-  cd "${srcdir}/${_pkgname}"
+  make -C "${srcdir}/build" DESTDIR="${pkgdir}" install
 
-  mv tools/clang "${srcdir}/clang.src"
-  make -j1 DESTDIR="${pkgdir}" install
-  mv "${srcdir}/clang.src" tools/clang
+  rm -rf ${pkgdir}/usr/bin/{c-index-test,clang*}
+  rm -rf ${pkgdir}/usr/include/clang*
+  rm -rf ${pkgdir}/usr/include/lldb*
+  rm -rf ${pkgdir}/usr/lib/clang*
+  rm -rf ${pkgdir}/usr/lib/lldb*
+  rm -rf ${pkgdir}/usr/lib/libclang*
+  rm -rf ${pkgdir}/usr/lib/liblldb*
+  rm -rf ${pkgdir}/usr/share/clang*
+  rm -rf ${pkgdir}/usr/share/doc/clang*
+  rm -rf ${pkgdir}/usr/share/man/man1/clang*
+  rm -rf ${pkgdir}/usr/lib/python*/site-packages/clang
+  rm -rf ${pkgdir}/usr/lib/python*/site-packages/lldb
 
   rm -rf "${srcdir}"/*.so
   mv "${pkgdir}"/usr/lib/libLLVM-*.so "${srcdir}"
@@ -124,17 +151,17 @@ package_llvm-git() {
   fi
 
   install -d "${pkgdir}/usr/share/man/man1"
-  cp docs/_build/man/*.1 "${pkgdir}/usr/share/man/man1/"
+  cp ${srcdir}/${_gitname}/docs/_build/man/*.1 "${pkgdir}/usr/share/man/man1/"
 
-  cp -r docs/_build/html/* "${pkgdir}/usr/share/doc/$_pkgname/html/"
+  cp -r ${srcdir}/${_gitname}/docs/_build/html/* "${pkgdir}/usr/share/doc/$_pkgname/html/"
   rm -r "${pkgdir}/usr/share/doc/${_pkgname}/html/_sources"
 
-  install -Dm644 LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -Dm644 ${srcdir}/${_gitname}/LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
 package_llvm-libs-git() {
   pkgdesc="Low Level Virtual Machine (runtime library)"
-  depends=('gcc-libs' 'zlib' 'libffi')
+  depends=('gcc-libs' 'zlib' 'libedit' 'libffi')
   provides=('llvm-libs')
   conflicts=('llvm-libs')
   replaces=('llvm-libs')
@@ -152,38 +179,60 @@ package_llvm-libs-git() {
                  "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
+package_lldb-git() {
+  pkgdesc="Next generation, high-performance debugger"
+  url="http://lldb.llvm.org/"
+  depends=("llvm-libs=$pkgver-$pkgrel" 'libedit' 'python2')
+
+  cd "$srcdir/build/tools/lldb"
+
+  make DESTDIR="$pkgdir" install
+
+  # Fix permissions of static libs
+  chmod -x "$pkgdir"/usr/lib/*.a
+
+  # Remove insecure rpath
+  chrpath -d "$pkgdir"/usr/bin/*
+
+  # Compile Python scripts
+  python2 -m compileall "$pkgdir/usr/lib/python2.7/site-packages/lldb"
+  python2 -O -m compileall "$pkgdir/usr/lib/python2.7/site-packages/lldb"
+
+  install -Dm644 ${srcdir}/${_gitname}/tools/lldb/LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
 package_clang-git() {
   pkgdesc="C language family frontend for LLVM"
   url="http://clang.llvm.org/"
   depends=('llvm-git' 'gcc')
-  provides=('clang')
-  conflicts=('clang')
-  replaces=('clang')
+  provides=('clang' 'clang-tools-extra' 'clang-tools-extra-git')
+  conflicts=('clang' 'clang-tools-extra' 'clang-tools-extra-git')
+  replaces=('clang' 'clang-tools-extra' 'clang-tools-extra-git')
 
   sed -e 's:$(PROJ_prefix)/share/doc/llvm:$(PROJ_prefix)/share/doc/clang:' \
-      -i "${srcdir}/llvm/Makefile.config"
+    -i "${srcdir}/build/Makefile.config"
 
-  cd "${srcdir}/llvm/tools/clang"
+  make -C "${srcdir}/build/tools/clang" DESTDIR="${pkgdir}" install
 
-  mv tools/extra "${srcdir}"
-
-  make DESTDIR="${pkgdir}" install
-  mv "${srcdir}/extra" tools/
+  rm -r "${pkgdir}/usr/bin/pp-trace"
+  rm -r "${pkgdir}/usr/lib/libmodernizeCore.a"
+  find "${pkgdir}/usr/lib/" -iname "libLTO*" -exec rm  {} \;
 
   chmod -x "${pkgdir}"/usr/lib/*.a
 
   sed -e 's:$(PROJ_prefix)/share/doc/clang:$(PROJ_prefix)/share/doc/llvm:' \
-      -i "${srcdir}/llvm/Makefile.config"
+      -i "${srcdir}/build/Makefile.config"
 
-  cp -r docs/_build/html/* "${pkgdir}/usr/share/doc/clang/html/"
+  cp -r ${srcdir}/${_gitname}/docs/_build/html/* "${pkgdir}/usr/share/doc/clang/html/"
   rm -r "${pkgdir}/usr/share/doc/clang/html/_sources"
 
   install -d "${pkgdir}/usr/lib/python2.7/site-packages"
-  cp -r bindings/python/clang "${pkgdir}/usr/lib/python2.7/site-packages/"
+  cp -r ${srcdir}/${_gitname}/tools/clang/bindings/python/clang "$pkgdir/usr/lib/python2.7/site-packages/"
   python2 -m compileall "${pkgdir}/usr/lib/python2.7/site-packages/clang"
   python2 -O -m compileall "${pkgdir}/usr/lib/python2.7/site-packages/clang"
 
-  install -Dm644 LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+
+  install -Dm644 ${srcdir}/${_gitname}/tools/clang/LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
 package_clang-analyzer-git() {
@@ -194,13 +243,14 @@ package_clang-analyzer-git() {
   conflicts=('clang-analyzer')
   replaces=('clang-analyzer')
 
-  cd "${srcdir}/llvm/tools/clang"
+  cd "${srcdir}/${_gitname}/tools/clang"
 
-  install -d "${pkgdir}"/usr/{bin,lib/clang-analyzer}
-  for _tool in scan-{build,view}; do
-    cp -r tools/${_tool} "${pkgdir}/usr/lib/clang-analyzer/"
-    ln -s /usr/lib/clang-analyzer/${_tool}/${_tool} "${pkgdir}/usr/bin/"
-  done
+  install -d ${pkgdir}/usr/{bin,lib/clang-analyzer}
+  cp -r tools/scan-build "${pkgdir}/usr/lib/clang-analyzer/"
+  ln -s /usr/lib/clang-analyzer/scan-build/scan-build "${pkgdir}/usr/bin/"
+
+  cp -r tools/scan-view "${pkgdir}/usr/lib/clang-analyzer/"
+  ln -s /usr/lib/clang-analyzer/scan-view/scan-view "${pkgdir}/usr/bin/"
 
   ln -s /usr/bin/clang "${pkgdir}/usr/lib/clang-analyzer/scan-build/"
 
@@ -219,21 +269,5 @@ package_clang-analyzer-git() {
   install -Dm644 LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
-package_clang-tools-extra-git() {
-  pkgdesc="Extra tools built using Clang's tooling APIs"
-  url="http://clang.llvm.org/"
-  depends=("clang-git")
-  provides=('clang-tools-extra')
-  conflicts=('clang-tools-extra')
-  replaces=('clang-tools-extra')
-
-  cd "${srcdir}/llvm/tools/clang/tools/extra"
-
-  make DESTDIR="$pkgdir" install
-
-  chmod -x "$pkgdir"/usr/lib/*.a
-
-  install -Dm644 LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-}
 # vim: ft=sh syn=sh et
 
