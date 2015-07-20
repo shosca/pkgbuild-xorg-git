@@ -6,7 +6,7 @@ _gitname="libevdev"
 
 
 pkgname=libevdev-git
-pkgver=r513.743deaf
+pkgver=r515.8b9c47a
 pkgrel=1
 pkgdesc="Wrapper library for evdev devices"
 arch=('i686' 'x86_64')
