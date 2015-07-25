@@ -8,7 +8,7 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git')
-pkgver=r119904.ca1494b
+pkgver=r119944.e6dad29
 pkgrel=1
 arch=('x86_64')
 url="http://llvm.org"
