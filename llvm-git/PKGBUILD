@@ -11,8 +11,8 @@ _gitname="llvm"
 _pkgname=$_gitname
 
 pkgname=(llvm-git llvm-libs-git lldb-git clang-git clang-analyzer-git)
-pkgver=r120145.c136e55
-pkgrel=0
+pkgver=r120271.b892465
+pkgrel=1
 pkgdesc='Low Level Virtual Machine'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -27,7 +27,8 @@ source=(git+$_gitroot
         git+http://llvm.org/git/lldb.git
         llvm-Config-config.h
         llvm-Config-llvm-config.h
-        fix-enable-shared.patch)
+        fix-enable-shared.patch
+        D11717.diff)
 sha256sums=('SKIP'
             'SKIP'
             'SKIP'
@@ -35,7 +36,8 @@ sha256sums=('SKIP'
             'SKIP'
             '312574e655f9a87784ca416949c505c452b819fad3061f2cde8aced6540a19a3'
             '597dc5968c695bbdbb0eac9e8eb5117fcd2773bc91edf5ec103ecffffab8bc48'
-            '7d0b549cff584bee55bd15d774ad6035efbf8b504a19a2c660dbbcc8ef14c7a6')
+            '7d0b549cff584bee55bd15d774ad6035efbf8b504a19a2c660dbbcc8ef14c7a6'
+            '494ee97caa5594d99331ff753818e26c1feef5eedc89581af1585f39acac553d')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -69,6 +71,9 @@ prepare() {
   find tools/lldb -name Makefile -exec sed -i 's/python-config/python2-config/' {} +
   sed -i 's|/usr/bin/env python|&2|' \
     tools/lldb/scripts/Python/{build-swig-Python,finish-swig-Python-LLDB}.sh
+
+  cd tools/lldb
+  patch -Np0 -i ${srcdir}/D11717.diff
 
   rm -rf "${srcdir}/build"
   mkdir -p "${srcdir}/build"
