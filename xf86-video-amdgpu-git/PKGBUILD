@@ -2,10 +2,10 @@
 # Previous Contributor: vbmithr
 # Contributor: Flamelab <panosfilip at gmail dot com>
 
-_gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-ati'
-_gitname="xf86-video-ati"
+_gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-amdgpu'
+_gitname="xf86-video-amdgpu"
 
-pkgname=xf86-video-ati-git
+pkgname=xf86-video-amdgpu-git
 pkgver=r3248.09c7cdb
 pkgrel=4
 pkgdesc="X.org ati video driver"
@@ -13,9 +13,9 @@ arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 depends=('libpciaccess-git' 'libdrm-git' 'udev' 'pixman-git' 'mesa-git')
 makedepends=('xorg-server-devel-git' 'xf86driproto-git' 'git' 'glproto-git')
-provides=('xf86-video-ati')
-conflicts=('xf86-video-ati' 'xorg-server<1.15.99')
-replaces=('xf86-video-ati')
+provides=('xf86-video-amdgpu')
+conflicts=('xf86-video-amdgpu' 'xorg-server<1.15.99')
+replaces=('xf86-video-amdgpu')
 license=('custom')
 source=($_gitroot)
 sha256sums=('SKIP')
@@ -28,7 +28,7 @@ pkgver() {
 build() {
   cd "${srcdir}/${_gitname}"
 
-  ./autogen.sh --prefix=/usr --enable-glamor
+  ./autogen.sh --prefix=/usr
   make
 }
 

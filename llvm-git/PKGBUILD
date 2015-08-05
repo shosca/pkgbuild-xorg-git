@@ -11,7 +11,7 @@ _gitname="llvm"
 _pkgname=$_gitname
 
 pkgname=(llvm-git llvm-libs-git lldb-git clang-git clang-analyzer-git)
-pkgver=r120271.b892465
+pkgver=r120328.c2b7a39
 pkgrel=1
 pkgdesc='Low Level Virtual Machine'
 arch=('i686' 'x86_64')
@@ -71,9 +71,6 @@ prepare() {
   find tools/lldb -name Makefile -exec sed -i 's/python-config/python2-config/' {} +
   sed -i 's|/usr/bin/env python|&2|' \
     tools/lldb/scripts/Python/{build-swig-Python,finish-swig-Python-LLDB}.sh
-
-  cd tools/lldb
-  patch -Np0 -i ${srcdir}/D11717.diff
 
   rm -rf "${srcdir}/build"
   mkdir -p "${srcdir}/build"

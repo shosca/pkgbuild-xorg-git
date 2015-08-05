@@ -336,6 +336,8 @@ xf86-input-synaptics-git: xorg-server-git libevdev-git libxi-git libxtst-git res
 
 xf86-video-ati-git: xorg-server-git mesa-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
 
+xf86-video-amdgpu-git: xorg-server-git mesa-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
+
 radeontop-git:
 
 xkeyboard-config-git: kbproto-git xcb-proto-git xproto-git libx11-git libxau-git libxcb-git libxdmcp-git libxkbfile-git xorg-xkbcomp-git
