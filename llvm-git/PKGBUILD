@@ -11,7 +11,7 @@ _gitname="llvm"
 _pkgname=$_gitname
 
 pkgname=(llvm-git llvm-libs-git lldb-git clang-git clang-analyzer-git)
-pkgver=r120328.c2b7a39
+pkgver=r120440.1962b1b
 pkgrel=1
 pkgdesc='Low Level Virtual Machine'
 arch=('i686' 'x86_64')
