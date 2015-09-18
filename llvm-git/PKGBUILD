@@ -8,34 +8,78 @@
 
 _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
-_pkgname=$_gitname
 
-pkgname=(llvm-git llvm-libs-git lldb-git clang-git clang-analyzer-git)
-pkgver=r121676.2d07ebf
+pkgname=(llvm-git llvm-libs-git llvm-ocaml-git lldb-git clang-git clang-analyzer-git clang-tools-extra-git)
+pkgver=r121926.c6b18f3
 pkgrel=1
 pkgdesc='Low Level Virtual Machine'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
 license=('custom:University of Illinois')
-depends=('libedit')
-makedepends=('git' 'libffi' 'python2' 'python-sphinx' 'chrpath' 'swig')
+makedepends=(
+    'cmake'
+    'libffi'
+    'ocaml-ctypes'
+    'ocaml-findlib'
+    'python2'
+    'python2-sphinx'
+    'chrpath'
+    'libedit'
+    'swig'
+    'git'
+)
 options=('staticlibs' '!strip')
 source=(git+$_gitroot
         git+http://llvm.org/git/clang.git
         git+http://llvm.org/git/clang-tools-extra.git
         git+http://llvm.org/git/compiler-rt.git
         git+http://llvm.org/git/lldb.git
-        llvm-Config-config.h
         llvm-Config-llvm-config.h
-        fix-enable-shared.patch)
+        llvm_tools_shlib_CMakeLists.patch
+)
 sha256sums=('SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
-            '312574e655f9a87784ca416949c505c452b819fad3061f2cde8aced6540a19a3'
             '597dc5968c695bbdbb0eac9e8eb5117fcd2773bc91edf5ec103ecffffab8bc48'
-            '7d0b549cff584bee55bd15d774ad6035efbf8b504a19a2c660dbbcc8ef14c7a6')
+            'a1c9f36b97c639666ab6a1bd647a08a027e93e3d3cfd6f5af9c36e757599ce81')
+
+# Python site-packages dir (relative to ${pkgdir})
+_py_sitepkg_dir="/usr/lib/python2.7/site-packages"
+
+# Compile the Python files in a directory
+# Arguments: directory_to_operate_on
+_compile_python_files() {
+    python2 -m compileall "${1}"
+    python2 -O -m compileall "${1}"
+}
+# Install the Python bindings of a package
+# Arguments: source_directory_to_install_from
+_install_python_bindings() {
+    install -m 0755 -d "${pkgdir}${_py_sitepkg_dir}"
+    cp -r "${1}" "${pkgdir}${_py_sitepkg_dir}/"
+    _compile_python_files "${pkgdir}${_py_sitepkg_dir}/${1##*/}"
+}
+
+# Install the license file for a package
+# Arguments: NONE
+_install_license() {
+    install -D -m 0644 "${1}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+# Determine the installed OCaml package version
+# Arguments: NONE
+_ocamlver() {
+    pacman -Q ocaml | awk '{ print $2 }' | cut -d - -f 1 | cut -d . -f 1,2,3
+}
+# Fix the Python interpreter path in .py files to point to python2
+# Arguments: py_file_to_patch [py_file_to_patch ...]
+_fix_python_exec_path() {
+    sed -i \
+        -e 's|^#!/usr/bin/python$|&2|' \
+        -e 's|^#!/usr/bin/env python$|&2|' \
+        ${@}
+}
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -58,17 +102,18 @@ prepare() {
   git clone ${srcdir}/lldb tools/lldb
 
 
-  sed -i 's:\$(PROJ_prefix)/docs/llvm:$(PROJ_prefix)/share/doc/llvm:' \
-    Makefile.config.in
-
-  # Fix definition of LLVM_CMAKE_DIR in LLVMConfig.cmake
-  sed -i '/@LLVM_CONFIG_CMAKE_DIR@/s:$(PROJ_cmake):$(PROJ_prefix)/share/llvm/cmake:' \
-    cmake/modules/Makefile
+    # Fix docs installation directory
+    sed -e 's|^\([[:blank:]]*DESTINATION[[:blank:]]\+\)docs/html|\1share/doc|' \
+        -e 's|^\([[:blank:]]*DESTINATION[[:blank:]]\+\)docs/ocaml/html|\1share/doc/ocaml|' \
+        -i docs/CMakeLists.txt
 
   # Use Python 2
   find tools/lldb -name Makefile -exec sed -i 's/python-config/python2-config/' {} +
   sed -i 's|/usr/bin/env python|&2|' \
     tools/lldb/scripts/Python/{build-swig-Python,finish-swig-Python-LLDB}.sh
+
+  # https://llvm.org/bugs/show_bug.cgi?id=24157
+  patch -p2 -i "${srcdir}/llvm_tools_shlib_CMakeLists.patch"
 
   rm -rf "${srcdir}/build"
   mkdir -p "${srcdir}/build"
@@ -77,112 +122,144 @@ prepare() {
 build() {
   cd "${srcdir}/build"
 
-  ${srcdir}/${_gitname}/configure \
-      --prefix=/usr \
-      --sysconfdir=/etc \
-      --enable-shared \
-      --enable-libffi \
-      --enable-targets=all \
-      --disable-expensive-checks \
-      --disable-debug-runtime \
-      --disable-assertions \
-      --with-binutils-include=/usr/include \
-      --with-python=/usr/bin/python2 \
-      --enable-optimized
+  export PKG_CONFIG_PATH='/usr/lib/pkgconfig'
+  _ffi_include_flags=$(pkg-config --cflags-only-I libffi)
+  _ffi_libs_flags=$(pkg-config --libs-only-L libffi)
 
-  make REQUIRES_RTTI=1
+  # LLVM_BUILD_LLVM_DYLIB: Build the dynamic runtime libraries (e.g. libLLVM.so).
+  # LLVM_DYLIB_EXPORT_ALL: Export all symbols in the dynamic libs, not just the C API.
+  # LLVM_LINK_LLVM_DYLIB:  Link our own tools against the libLLVM dynamic library, too.
+  # LLVM_BINUTILS_INCDIR:  Set to binutils' plugin-api.h location in order to build LLVMgold.
+  cmake -G 'Unix Makefiles' \
+        -DCMAKE_BUILD_TYPE:STRING=Release \
+        -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+        -DLLVM_APPEND_VC_REV:BOOL=ON \
+        -DLLVM_ENABLE_RTTI:BOOL=ON \
+        -DLLVM_ENABLE_FFI:BOOL=ON \
+        -DFFI_INCLUDE_DIR:PATH="${_ffi_include_flags#-I}" \
+        -DFFI_LIBRARY_DIR:PATH="${_ffi_libs_flags#-L}" \
+        -DLLVM_BUILD_DOCS:BOOL=ON \
+        -DLLVM_ENABLE_SPHINX:BOOL=ON \
+        -DSPHINX_OUTPUT_HTML:BOOL=ON \
+        -DSPHINX_OUTPUT_MAN:BOOL=ON \
+        -DSPHINX_WARNINGS_AS_ERRORS:BOOL=OFF \
+        -DLLVM_BUILD_LLVM_DYLIB:BOOL=ON \
+        -DLLVM_DYLIB_EXPORT_ALL:BOOL=ON \
+        -DLLVM_LINK_LLVM_DYLIB:BOOL=ON \
+        -DLLVM_BINUTILS_INCDIR:PATH=/usr/include \
+        "../${_gitname}"
 
-  # remove reference to srcdir
-  sed -e "s:\$(LLVM_SRC_ROOT):/usr/src/llvm:" \
-      -e "s:\$(LLVM_OBJ_ROOT):/usr/src/llvm:" \
-      -i tools/llvm-config/Makefile
+  # Must run this target independently, or else docs/cmake_install.cmake will fail.
+  # Also, we must check that there isn't an incompatible llvm-ocaml package installed,
+  # or else the build will fail with "inconsistent assumptions over interface" errors.
+  [[ $(ocamlfind query -format %v llvm 2>/dev/null | tr - _) =~ (${pkgver}|^$) ]] || {
+      error 'Incompatible LLVM OCaml bindings installed.'
+      plain 'Please either uninstall any currently installed llvm-ocaml* package before building,'
+      plain 'or, __preferably__, build in a clean chroot, as described on the Arch Linux wiki:'
+      plain 'https://wiki.archlinux.org/index.php/DeveloperWiki:Building_in_a_Clean_Chroot'
+      exit 1
+  }
+  make ocaml_doc
 
-  make REQUIRES_RTTI=1
-  make -C ${srcdir}/${_gitname}/docs -f Makefile.sphinx man
-  make -C ${srcdir}/${_gitname}/docs -f Makefile.sphinx html
-  make -C ${srcdir}/${_gitname}/tools/clang/docs -f Makefile.sphinx html
+  make
 }
 
 package_llvm-git() {
-  pkgdesc="Low Level Virtual Machine"
-  depends=('llvm-libs-git' 'perl')
+  pkgdesc='The LLVM Compiler Infrastructure'
+  depends=('llvm-libs-git' 'libedit' 'perl')
   provides=('llvm')
-  conflicts=('llvm')
   replaces=('llvm')
+  conflicts=('llvm')
 
-  make -C "${srcdir}/build" DESTDIR="${pkgdir}" install
+  cd "${srcdir}/build"
+  # Exclude the clang directory, since it'll be installed in a separate package
+  sed -i \
+      "s|^\([[:blank:]]*include(\"${srcdir}/build/tools/clang/cmake_install.cmake\")\)$|#\1|" \
+      tools/cmake_install.cmake
 
-  rm -rf ${pkgdir}/usr/bin/{c-index-test,clang*}
-  rm -rf ${pkgdir}/usr/include/clang*
-  rm -rf ${pkgdir}/usr/include/lldb*
-  rm -rf ${pkgdir}/usr/lib/clang*
-  rm -rf ${pkgdir}/usr/lib/lldb*
-  rm -rf ${pkgdir}/usr/lib/libclang*
-  rm -rf ${pkgdir}/usr/lib/liblldb*
-  rm -rf ${pkgdir}/usr/share/clang*
-  rm -rf ${pkgdir}/usr/share/doc/clang*
-  rm -rf ${pkgdir}/usr/share/man/man1/clang*
-  rm -rf ${pkgdir}/usr/lib/python*/site-packages/clang
-  rm -rf ${pkgdir}/usr/lib/python*/site-packages/lldb
+  make DESTDIR="${pkgdir}" install
 
-  rm -rf "${srcdir}"/*.so
-  mv "${pkgdir}"/usr/lib/libLLVM-*.so "${srcdir}"
+  # The runtime libraries get installed in llvm-libs-svn
+  rm -f "${pkgdir}"/usr/lib/lib{LLVM,LTO}.so{,.*}
+  mv -f "${pkgdir}"/usr/lib/{BugpointPasses,LLVMgold}.so "${srcdir}/"
 
-  rm -rf "${pkgdir}"/usr/lib/*LLVMHello.*
+  # Clang libraries and OCaml bindings go to separate packages
+  rm -rf "${srcdir}"/{clang,ocaml.{doc,lib}}
+  mv "${pkgdir}/usr/lib/clang" "${srcdir}/clang"
+  mv "${pkgdir}/usr/lib/ocaml" "${srcdir}/ocaml.lib"
+  mv "${pkgdir}/usr/share/doc/ocaml" "${srcdir}/ocaml.doc"
 
-  chmod -x "${pkgdir}"/usr/lib/*.a
+  # Get rid of example Hello transformation
+  rm -f "${pkgdir}"/usr/lib/*LLVMHello.*
 
-  # Remove reference to pkgdir
-  sed -e "s:${pkgdir}::g" -i "${pkgdir}/usr/share/llvm/cmake/LLVMConfig.cmake"
-
-  # Symlink LLVMgold.so into /usr/lib/bfd-plugins
-  # (https://bugs.archlinux.org/task/28479)
-  install -d "${pkgdir}/usr/lib/bfd-plugins"
-  ln -s ../LLVMgold.so "${pkgdir}/usr/lib/bfd-plugins/LLVMgold.so"
-
-  if [[ $CARCH == x86_64 ]]; then
-    # Needed for multilib (https://bugs.archlinux.org/task/29951)
-    # Header stubs are taken from Fedora
-    for _header in config llvm-config; do
-      mv "${pkgdir}/usr/include/llvm/Config/${_header}"{,-64}.h
-      cp "${srcdir}/llvm-Config-${_header}.h" \
-           "${pkgdir}/usr/include/llvm/Config/${_header}.h"
-    done
+  if [[ "${CARCH}" == "x86_64" ]]; then
+      # Needed for multilib (https://bugs.archlinux.org/task/29951)
+      # Header stubs are taken from Fedora
+      mv "${pkgdir}/usr/include/llvm/Config/llvm-config"{,-64}.h
+      cp "${srcdir}/llvm-Config-llvm-config.h" "${pkgdir}/usr/include/llvm/Config/llvm-config.h"
   fi
 
-  install -d "${pkgdir}/usr/share/man/man1"
-  cp ${srcdir}/${_gitname}/docs/_build/man/*.1 "${pkgdir}/usr/share/man/man1/"
+  # Clean up documentation
+  rm -rf "${pkgdir}/usr/share/doc/llvm/html/_sources"
 
-  cp -r ${srcdir}/${_gitname}/docs/_build/html/* "${pkgdir}/usr/share/doc/$_pkgname/html/"
-  rm -r "${pkgdir}/usr/share/doc/${_pkgname}/html/_sources"
+  _install_python_bindings "${srcdir}/llvm/bindings/python/llvm"
 
-  install -Dm644 ${srcdir}/${_gitname}/LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  _install_license "${srcdir}/${_gitname}/LICENSE.TXT"
 }
 
 package_llvm-libs-git() {
-  pkgdesc="Low Level Virtual Machine (runtime library)"
-  depends=('gcc-libs' 'zlib' 'libedit' 'libffi')
+  pkgdesc='The LLVM Compiler Infrastructure (runtime libraries)'
+  depends=( 'libffi' 'zlib')
   provides=('llvm-libs')
   conflicts=('llvm-libs')
   replaces=('llvm-libs')
 
-  mkdir -p "${pkgdir}"/usr/lib/
+  cd "${srcdir}/build"
 
-  mv "${srcdir}"/libLLVM-*.so "${pkgdir}/usr/lib/"
+  make DESTDIR="${pkgdir}" install-{LLVM,LTO}
 
-  for _shlib in "${pkgdir}"/usr/lib/*.so
-  do
-    test -L "${_shlib}" && ln -sf $(basename $(readlink ${_shlib})) ${_shlib}
+  # Moved from the llvm-svn package here
+  mv "${srcdir}"/{BugpointPasses,LLVMgold}.so "${pkgdir}/usr/lib/"
+
+  # Ref: http://llvm.org/docs/GoldPlugin.html
+  install -m755 -d "${pkgdir}/usr/lib/bfd-plugins"
+  ln -s {/usr/lib,"${pkgdir}/usr/lib/bfd-plugins"}/LLVMgold.so
+
+  # Must have a symlink that corresponds to the output of `llvm-config --version`.
+  # Without it, some builds, e.g. Mesa, might fail for "lack of shared libraries".
+  for _shlib in lib{LLVM,LTO} ; do
+    ln -rs "${pkgdir}/usr/lib/${_shlib}.so.3.8.0svn" "${pkgdir}/usr/lib/${_shlib}-3.8.0git.so"
   done
 
-  install -Dm644 "${srcdir}/${_pkgname}/LICENSE.TXT" \
-                 "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  _install_license "${srcdir}/${_gitname}/LICENSE.TXT"
 }
+
+package_llvm-ocaml-git() {
+  pkgdesc='OCaml bindings for LLVM'
+  depends=(
+      "llvm-git"
+      "ocaml=$(_ocamlver)"
+      'ocaml-ctypes'
+  )
+  provides=('llvm-ocaml')
+  replaces=('llvm-ocaml')
+  conflicts=('llvm-ocaml')
+
+  cd "${srcdir}/build"
+
+  install -m755 -d "${pkgdir}/usr/lib"
+  install -m755 -d "${pkgdir}/usr/share/doc"
+  cp -a "${srcdir}/ocaml.lib" "${pkgdir}/usr/lib/ocaml"
+  cp -a "${srcdir}/ocaml.doc" "${pkgdir}/usr/share/doc/ocaml"
+
+  _install_license "${srcdir}/${_gitname}/LICENSE.TXT"
+}
+
 
 package_lldb-git() {
   pkgdesc="Next generation, high-performance debugger"
   url="http://lldb.llvm.org/"
-  depends=("llvm-libs=$pkgver-$pkgrel" 'libedit' 'python2')
+  depends=('llvm-libs-git' 'libedit' 'python2')
 
   cd "$srcdir/build/tools/lldb"
 
@@ -198,76 +275,86 @@ package_lldb-git() {
   python2 -m compileall "$pkgdir/usr/lib/python2.7/site-packages/lldb"
   python2 -O -m compileall "$pkgdir/usr/lib/python2.7/site-packages/lldb"
 
-  install -Dm644 ${srcdir}/${_gitname}/tools/lldb/LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  _install_license "${srcdir}/${_gitname}/tools/lldb/LICENSE.TXT"
 }
 
 package_clang-git() {
-  pkgdesc="C language family frontend for LLVM"
-  url="http://clang.llvm.org/"
-  depends=('llvm-git' 'gcc')
-  provides=('clang' 'clang-tools-extra' 'clang-tools-extra-git')
-  conflicts=('clang' 'clang-tools-extra' 'clang-tools-extra-git')
-  replaces=('clang' 'clang-tools-extra' 'clang-tools-extra-git')
+  pkgdesc='C language family frontend for LLVM'
+  url='http://clang.llvm.org/'
+  depends=('llvm-git')
+  optdepends=(
+      'python2: git-clang-format and clang-format-diff.py support'
+  )
+  provides=('clang')
+  replaces=('clang')
+  conflicts=('clang')
 
-  sed -e 's:$(PROJ_prefix)/share/doc/llvm:$(PROJ_prefix)/share/doc/clang:' \
-    -i "${srcdir}/build/Makefile.config"
+  cd "${srcdir}/build/tools/clang"
 
-  make -C "${srcdir}/build/tools/clang" DESTDIR="${pkgdir}" install
+  # Exclude the extra directory, since it'll be installed in a separate package
+  sed -i \
+      "s|^\([[:blank:]]*include(\"${srcdir}/build/tools/clang/tools/extra/cmake_install.cmake\")\)$|#\1|" \
+      tools/cmake_install.cmake
 
-  rm -r "${pkgdir}/usr/bin/pp-trace"
-  rm -r "${pkgdir}/usr/lib/libmodernizeCore.a"
-  find "${pkgdir}/usr/lib/" -iname "libLTO*" -exec rm  {} \;
+  make DESTDIR="${pkgdir}" install
 
-  chmod -x "${pkgdir}"/usr/lib/*.a
-
-  sed -e 's:$(PROJ_prefix)/share/doc/clang:$(PROJ_prefix)/share/doc/llvm:' \
-      -i "${srcdir}/build/Makefile.config"
-
-  cp -r ${srcdir}/${_gitname}/docs/_build/html/* "${pkgdir}/usr/share/doc/clang/html/"
+  # Clean up documentation
   rm -r "${pkgdir}/usr/share/doc/clang/html/_sources"
 
-  install -d "${pkgdir}/usr/lib/python2.7/site-packages"
-  cp -r ${srcdir}/${_gitname}/tools/clang/bindings/python/clang "$pkgdir/usr/lib/python2.7/site-packages/"
-  python2 -m compileall "${pkgdir}/usr/lib/python2.7/site-packages/clang"
-  python2 -O -m compileall "${pkgdir}/usr/lib/python2.7/site-packages/clang"
+  _fix_python_exec_path \
+      "${pkgdir}/usr/bin/git-clang-format" \
+      "${pkgdir}/usr/share/clang/clang-format-diff.py"
 
+  _install_python_bindings "${srcdir}/llvm/tools/clang/bindings/python/clang"
 
-  install -Dm644 ${srcdir}/${_gitname}/tools/clang/LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  _install_license "${srcdir}/${_gitname}/LICENSE.TXT"
 }
 
 package_clang-analyzer-git() {
-  pkgdesc="A source code analysis framework"
-  url="http://clang-analyzer.llvm.org/"
+  pkgdesc='Source code analysis tool for Clang, supporting C, C++, and Objective-C'
+  url='http://clang-analyzer.llvm.org/'
   depends=('clang-git' 'python2')
   provides=('clang-analyzer')
-  conflicts=('clang-analyzer')
   replaces=('clang-analyzer')
+  conflicts=('clang-analyzer')
 
-  cd "${srcdir}/${_gitname}/tools/clang"
+  cd "${srcdir}/llvm/tools/clang"
 
-  install -d ${pkgdir}/usr/{bin,lib/clang-analyzer}
-  cp -r tools/scan-build "${pkgdir}/usr/lib/clang-analyzer/"
-  ln -s /usr/lib/clang-analyzer/scan-build/scan-build "${pkgdir}/usr/bin/"
+  install -m755 -d "${pkgdir}"/usr/{bin,lib/clang-analyzer}
+  for _tool in scan-{build,view}; do
+      cp -r "tools/${_tool}" "${pkgdir}/usr/lib/clang-analyzer/"
+      ln -s "/usr/lib/clang-analyzer/${_tool}/${_tool}" "${pkgdir}/usr/bin/"
+  done
 
-  cp -r tools/scan-view "${pkgdir}/usr/lib/clang-analyzer/"
-  ln -s /usr/lib/clang-analyzer/scan-view/scan-view "${pkgdir}/usr/bin/"
-
+  # scan-build looks for clang within the same directory
   ln -s /usr/bin/clang "${pkgdir}/usr/lib/clang-analyzer/scan-build/"
 
-  install -d "${pkgdir}/usr/share/man/man1"
-  mv "${pkgdir}/usr/lib/clang-analyzer/scan-build/scan-build.1" \
-     "${pkgdir}/usr/share/man/man1/"
+  # Relocate man page
+  install -m755 -d "${pkgdir}/usr/share/man/man1"
+  mv "${pkgdir}/usr/lib/clang-analyzer/scan-build/scan-build.1" "${pkgdir}/usr/share/man/man1/"
 
-  sed -e 's|env python$|&2|' \
-      -e 's|/usr/bin/python$|&2|' \
-      -i "${pkgdir}/usr/lib/clang-analyzer/scan-view/scan-view" \
-         "${pkgdir}/usr/lib/clang-analyzer/scan-build/set-xcode-analyzer"
+  _fix_python_exec_path \
+      "${pkgdir}/usr/lib/clang-analyzer/scan-view/scan-view" \
+      "${pkgdir}/usr/lib/clang-analyzer/scan-build/set-xcode-analyzer"
 
-  python2 -m compileall "${pkgdir}/usr/lib/clang-analyzer"
-  python2 -O -m compileall "${pkgdir}/usr/lib/clang-analyzer"
+  _compile_python_files "${pkgdir}/usr/lib/clang-analyzer"
 
-  install -Dm644 LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  _install_license "${srcdir}/${_gitname}/LICENSE.TXT"
 }
 
+package_clang-tools-extra-git() {
+  pkgdesc='Standalone tools for Clang: syntax checking, formatting, refactoring, etc.'
+  url='http://clang.llvm.org/docs/ClangTools.html'
+  depends=('clang-git')
+  provides=('clang-tools-extra')
+  replaces=('clang-tools-extra')
+  conflicts=('clang-tools-extra')
+
+  cd "${srcdir}/build/tools/clang/tools/extra"
+
+  make DESTDIR="${pkgdir}" install
+
+  _install_license "${srcdir}/${_gitname}/LICENSE.TXT"
+}
 # vim: ft=sh syn=sh et
 

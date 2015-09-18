@@ -6,7 +6,7 @@ _gitname="xauth"
 
 pkgname=xorg-xauth-git
 pkgver=r115.a64ca3a
-pkgrel=9
+pkgrel=10
 pkgdesc="X.Org authorization settings program"
 arch=('i686' 'x86_64')
 license=('custom')

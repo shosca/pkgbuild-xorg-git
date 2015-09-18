@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/nouveau/xf86-video-nouveau"
 _gitname="xf86-video-nouveau"
 
 pkgname=xf86-video-nouveau-git
-pkgver=r2437.6296145
-pkgrel=11
+pkgver=r2441.1ff13a9
+pkgrel=1
 pkgdesc="Open Source 2D acceleration driver for nVidia cards"
 arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
@@ -19,10 +19,8 @@ conflicts=('xf86-video-nouveau' 'xorg-server<1.15.99')
 replaces=('xf86-video-nouveau')
 groups=('xorg-drivers' 'xorg')
 install=$pkgname.install
-source=($_gitroot
-        glamor-build-fix.patch)
-sha256sums=('SKIP'
-            '441300d666484703eb722e93a2fdfc5ed04ea201d62b4a290971fe70454d9c29')
+source=($_gitroot)
+sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -32,9 +30,8 @@ pkgver() {
 build() {
   cd "${srcdir}/${_gitname}"
 
-  patch -Np1 -i ../glamor-build-fix.patch
-
   ./autogen.sh --prefix=/usr
+
   make
 }
 
