@@ -6,8 +6,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/renderproto'
 _gitname='renderproto'
 
 pkgname=renderproto-git
-pkgver=r68.9c2a896
-pkgrel=3
+pkgver=r71.da705f9
+pkgrel=1
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
