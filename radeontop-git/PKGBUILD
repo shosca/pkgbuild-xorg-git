@@ -35,7 +35,7 @@ build() {
 
 package() {
   cd "$srcdir/${pkgname%-git}"
-  make DESTDIR="$pkgdir/" install
+  make DESTDIR="${pkgdir}/" install
 }
 
 # vim: ft=sh syn=sh et

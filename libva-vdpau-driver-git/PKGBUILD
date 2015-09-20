@@ -5,7 +5,7 @@ _gitname="vdpau-driver"
 
 pkgname=libva-vdpau-driver-git
 pkgver=r388.3dda0b4
-pkgrel=340
+pkgrel=341
 pkgdesc="VDPAU backend for VA API"
 arch=('i686' 'x86_64')
 url="http://freedesktop.org/wiki/Software/vaapi"
@@ -35,8 +35,8 @@ build() {
 
 package() {
   cd "${srcdir}/${_gitname}"
-  make DESTDIR="$pkgdir" install
+  make DESTDIR="${pkgdir}" install
 
-  install -m644 -D COPYING "$pkgdir"/usr/share/licenses/$pkgname/COPYING
+  install -m644 -D COPYING "${pkgdir}"/usr/share/licenses/${pkgname}/COPYING
 }
 # vim:set ts=2 sw=2 et:

@@ -7,7 +7,7 @@ _gitname=xf86-input-evdev
 
 pkgname=xf86-input-evdev-git
 pkgver=r657.034be31
-pkgrel=7
+pkgrel=8
 pkgdesc="X.Org evdev Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-evdev/"
@@ -36,8 +36,8 @@ build() {
 
 package(){
   cd "${srcdir}/${_gitname}"
-  make DESTDIR="$pkgdir" install
-  install -Dm644 COPYING "$pkgdir/usr/share/licenses/xf86-input-evdev/COPYING"
+  make DESTDIR="${pkgdir}" install
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/xf86-input-evdev/COPYING"
 }
 # vim: ft=sh syn=sh et
 

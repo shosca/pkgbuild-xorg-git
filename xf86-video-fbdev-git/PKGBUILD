@@ -6,7 +6,7 @@ _gitname='xf86-video-fbdev'
 
 pkgname=xf86-video-fbdev-git
 pkgver=r101.ae0aeff
-pkgrel=200
+pkgrel=201
 pkgdesc='X.org framebuffer video driver'
 arch=('i686' 'x86_64')
 url='http://xorg.freedesktop.org/'
@@ -37,7 +37,7 @@ package() {
 
   make DESTDIR="${pkgdir}" install 
 
-  install -D -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 # vim: ft=sh syn=sh et

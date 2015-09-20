@@ -43,7 +43,7 @@ build() {
 
 package() {
   cd "$srcdir/$_gitname"
-  make DESTDIR="$pkgdir/" install
+  make DESTDIR="${pkgdir}/" install
 
   rm -rf "${pkgdir}"/usr/{include,share}
 }

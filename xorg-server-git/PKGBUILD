@@ -9,7 +9,7 @@ _gitname="xserver"
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-xephyr-git' 'xorg-server-xvfb-git' 'xorg-server-xnest-git' 'xorg-server-xwayland-git' 'xorg-server-common-git' 'xorg-server-devel-git')
 pkgver=r14953.58d54ee
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -98,8 +98,8 @@ package_xorg-server-common-git() {
   replaces=('xorg-server-common')
 
   cd "${srcdir}/${_gitname}"
-  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-common"
-  install -m644 COPYING "${pkgdir}/usr/share/licenses/xorg-server-common"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}"
 
   make -C xkb DESTDIR="${pkgdir}" install-data
 
@@ -123,7 +123,7 @@ package_xorg-server-git() {
   groups=('xorg')
 
   cd "${srcdir}/${_gitname}"
-  make DESTDIR="$pkgdir" install
+  make DESTDIR="${pkgdir}" install
 
   # distro specific files must be installed in /usr/share/X11/xorg.conf.d
   install -m755 -d "${pkgdir}/etc/X11/xorg.conf.d"
@@ -138,8 +138,8 @@ package_xorg-server-git() {
   rm -f "${pkgdir}/usr/share/man/man1/Xserver.1"
   rm -f "${pkgdir}/usr/lib/xorg/protocol.txt"
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server"
-  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server/COPYING"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 
   rm -rf "${pkgdir}/usr/lib/pkgconfig"
   rm -rf "${pkgdir}/usr/include"
@@ -154,10 +154,10 @@ package_xorg-server-xephyr-git() {
   replaces=('xorg-server-xephyr')
 
   cd "${srcdir}/${_gitname}/hw/kdrive"
-  make DESTDIR="$pkgdir" install
+  make DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-xephyr"
-  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server-xephyr/COPYING"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 package_xorg-server-xvfb-git() {
@@ -168,13 +168,13 @@ package_xorg-server-xvfb-git() {
   replaces=('xorg-server-xvfb')
 
   cd "${srcdir}/${_gitname}/hw/vfb"
-  make DESTDIR="$pkgdir" install
+  make DESTDIR="${pkgdir}" install
 
   install -m755 "${srcdir}/xvfb-run" "${pkgdir}/usr/bin/"
   install -m644 "${srcdir}/xvfb-run.1" "${pkgdir}/usr/share/man/man1/"
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-xvfb"
-  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server-xvfb/COPYING"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 package_xorg-server-xnest-git() {
@@ -185,10 +185,10 @@ package_xorg-server-xnest-git() {
   replaces=('xorg-server-xnest')
 
   cd "${srcdir}/${_gitname}/hw/xnest"
-  make DESTDIR="$pkgdir" install
+  make DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-xnest"
-  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server-xnest/COPYING"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 package_xorg-server-xwayland-git() {
@@ -201,8 +201,8 @@ package_xorg-server-xwayland-git() {
   cd "${srcdir}/${_gitname}/hw/xwayland"
   make DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-xwayland"
-  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server-xwayland/COPYING"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 package_xorg-server-devel-git() {
@@ -219,7 +219,7 @@ package_xorg-server-devel-git() {
   replaces=('xorg-server-devel')
 
   cd "${srcdir}/${_gitname}"
-  make DESTDIR="$pkgdir" install
+  make DESTDIR="${pkgdir}" install
 
   rm -rf "${pkgdir}/usr/bin"
   rm -rf "${pkgdir}/usr/share/man"
@@ -228,8 +228,8 @@ package_xorg-server-devel-git() {
   rm -rf "${pkgdir}/usr/lib/xorg"
   rm -rf "${pkgdir}/var"
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-devel"
-  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/xorg-server-devel/COPYING"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 # vim: ft=sh syn=sh et

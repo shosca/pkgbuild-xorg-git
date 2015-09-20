@@ -37,7 +37,7 @@ package() {
 
   make DESTDIR="${pkgdir}" install 
 
-  install -D -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 # vim: ft=sh syn=sh et

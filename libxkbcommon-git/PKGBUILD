@@ -40,9 +40,9 @@ package_libxkbcommon-git() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
 
-  mv "$pkgdir"/usr/lib/*x11* "$srcdir/x11/usr/lib"
-  mv "$pkgdir"/usr/lib/pkgconfig/*x11* "$srcdir/x11/usr/lib/pkgconfig"
-  mv "$pkgdir"/usr/include/xkbcommon/*x11* "$srcdir/x11/usr/include/xkbcommon"
+  mv "${pkgdir}"/usr/lib/*x11* "$srcdir/x11/usr/lib"
+  mv "${pkgdir}"/usr/lib/pkgconfig/*x11* "$srcdir/x11/usr/lib/pkgconfig"
+  mv "${pkgdir}"/usr/include/xkbcommon/*x11* "$srcdir/x11/usr/include/xkbcommon"
 }
 
 package_libxkbcommon-x11-git() {
@@ -52,7 +52,7 @@ package_libxkbcommon-x11-git() {
   replaces=('libxkbcommon-x11')
   conflicts=('libxkbcommon-x11')
 
-  mv x11/* "$pkgdir"
+  mv x11/* "${pkgdir}"
 }
 # vim: ft=sh syn=sh et
 

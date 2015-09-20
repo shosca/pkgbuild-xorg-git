@@ -7,7 +7,7 @@ _gitname="xf86-video-nouveau"
 
 pkgname=xf86-video-nouveau-git
 pkgver=r2441.1ff13a9
-pkgrel=2
+pkgrel=3
 pkgdesc="Open Source 2D acceleration driver for nVidia cards"
 arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
@@ -18,7 +18,7 @@ provides=('xf86-video-nouveau')
 conflicts=('xf86-video-nouveau' 'xorg-server<1.15.99')
 replaces=('xf86-video-nouveau')
 groups=('xorg-drivers' 'xorg')
-install=$pkgname.install
+install=${pkgname}.install
 source=($_gitroot)
 sha256sums=('SKIP')
 
@@ -37,7 +37,7 @@ build() {
 
 package() {
   cd "${srcdir}/${_gitname}"
-  make DESTDIR="$pkgdir" install
+  make DESTDIR="${pkgdir}" install
 }
 
 # vim: ft=sh syn=sh et

@@ -41,7 +41,7 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  rm -rf "$pkgdir"/usr/{bin,include,share}
+  rm -rf "${pkgdir}"/usr/{bin,include,share}
   install -Dm 644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 

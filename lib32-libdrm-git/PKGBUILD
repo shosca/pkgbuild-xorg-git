@@ -6,7 +6,7 @@ _gitroot='git://git.freedesktop.org/git/mesa/drm'
 _gitname='drm'
 
 pkgname=lib32-libdrm-git
-pkgver=r5708.c349616
+pkgver=r5711.14968e4
 pkgrel=1
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('x86_64')
@@ -50,7 +50,7 @@ build() {
 
 package() {
   cd "$srcdir/$_gitname"
-  make DESTDIR="$pkgdir" install
+  make DESTDIR="${pkgdir}" install
 
   rm -rf "${pkgdir}"/usr/{include,share}
 }
