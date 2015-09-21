@@ -6,8 +6,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/damageproto'
 _gitname='damageproto'
 
 pkgname=damageproto-git
-pkgver=r38.ddfcf56
-pkgrel=3
+pkgver=r39.d6f17be
+pkgrel=1
 pkgdesc='X11 damage extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')
