@@ -8,7 +8,7 @@ _gitname="xserver"
 
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-xephyr-git' 'xorg-server-xvfb-git' 'xorg-server-xnest-git' 'xorg-server-xwayland-git' 'xorg-server-common-git' 'xorg-server-devel-git')
-pkgver=r14955.1f915e8
+pkgver=r14979.aa5606b
 pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
