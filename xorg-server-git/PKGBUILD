@@ -8,7 +8,7 @@ _gitname="xserver"
 
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-xephyr-git' 'xorg-server-xvfb-git' 'xorg-server-xnest-git' 'xorg-server-xwayland-git' 'xorg-server-common-git' 'xorg-server-devel-git')
-pkgver=r14979.aa5606b
+pkgver=r14983.5932700
 pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
@@ -26,7 +26,7 @@ makedepends=('git' 'bigreqsproto-git' 'presentproto-git' 'compositeproto-git'
              'xorg-util-macros-git' 'xorg-xkbcomp-git' 'xtrans-git'
              'xcb-util-git' 'xcb-util-image-git' 'xcb-util-wm-git'
              'xcb-util-keysyms-git' 'xcb-util-renderutil-git'
-             'libxshmfence-git' 'systemd')
+             'libxshmfence-git' 'systemd' 'libedit')
 source=($_gitroot
         xvfb-run
         xvfb-run.1

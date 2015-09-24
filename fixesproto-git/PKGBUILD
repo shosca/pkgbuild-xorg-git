@@ -6,8 +6,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/fixesproto'
 _gitname='fixesproto'
 
 pkgname=fixesproto-git
-pkgver=r52.e4ba4e0
-pkgrel=5
+pkgver=r53.d6d910b
+pkgrel=1
 pkgdesc='X11 fixes extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

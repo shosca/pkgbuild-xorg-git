@@ -10,8 +10,8 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 pkgname=(llvm-git llvm-libs-git llvm-ocaml-git lldb-git clang-git clang-analyzer-git clang-tools-extra-git)
-pkgver=r122030.eb1a6c5
-pkgrel=1
+pkgver=r122060.ebe9301
+pkgrel=2
 pkgdesc='Low Level Virtual Machine'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -138,11 +138,7 @@ build() {
         -DLLVM_ENABLE_FFI:BOOL=ON \
         -DFFI_INCLUDE_DIR:PATH="${_ffi_include_flags#-I}" \
         -DFFI_LIBRARY_DIR:PATH="${_ffi_libs_flags#-L}" \
-        -DLLVM_BUILD_DOCS:BOOL=ON \
-        -DLLVM_ENABLE_SPHINX:BOOL=ON \
-        -DSPHINX_OUTPUT_HTML:BOOL=ON \
-        -DSPHINX_OUTPUT_MAN:BOOL=ON \
-        -DSPHINX_WARNINGS_AS_ERRORS:BOOL=OFF \
+        -DLLVM_BUILD_DOCS:BOOL=OFF \
         -DLLVM_BUILD_LLVM_DYLIB:BOOL=ON \
         -DLLVM_DYLIB_EXPORT_ALL:BOOL=ON \
         -DLLVM_LINK_LLVM_DYLIB:BOOL=ON \
@@ -200,7 +196,8 @@ package_llvm-git() {
   fi
 
   # Clean up documentation
-  rm -rf "${pkgdir}/usr/share/doc/llvm/html/_sources"
+  [[ -d "${pkgdir}/usr/share/doc/llvm/html/_sources" ]] && \
+    rm -rf "${pkgdir}/usr/share/doc/llvm/html/_sources"
 
   _install_python_bindings "${srcdir}/llvm/bindings/python/llvm"
 
@@ -299,7 +296,8 @@ package_clang-git() {
   make DESTDIR="${pkgdir}" install
 
   # Clean up documentation
-  rm -r "${pkgdir}/usr/share/doc/clang/html/_sources"
+  [[ -d "${pkgdir}/usr/share/doc/clang/html/_sources" ]] && \
+    rm -r "${pkgdir}/usr/share/doc/clang/html/_sources"
 
   _fix_python_exec_path \
       "${pkgdir}/usr/bin/git-clang-format" \
