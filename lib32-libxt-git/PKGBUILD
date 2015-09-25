@@ -6,7 +6,7 @@ _gitname="libXt"
 
 pkgname=lib32-libxt-git
 pkgver=r229.e7411e7
-pkgrel=13
+pkgrel=14
 pkgdesc="X11 toolkit intrinsics library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
