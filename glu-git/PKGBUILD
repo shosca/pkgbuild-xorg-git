@@ -5,13 +5,13 @@ _gitname="glu"
 
 pkgname=glu-git
 pkgver=r198.0692115
-pkgrel=431
+pkgrel=432
 pkgdesc="GL utility library for mesa builds from git after 2012-08-31"
 arch=('i686' 'x86_64')
 url="http://mesa.freedesktop.org/"
 license=('LGPL')
 depends=('mesa-libgl-git' 'gcc-libs')
-makedepends=('git')
+makedepends=('git' 'libedit')
 provides=('glu')
 conflicts=('glu')
 replaces=('glu')
