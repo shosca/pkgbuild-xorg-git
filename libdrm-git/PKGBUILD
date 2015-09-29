@@ -6,8 +6,8 @@ _gitroot='git://git.freedesktop.org/git/mesa/drm'
 _gitname='drm'
 
 pkgname=libdrm-git
-pkgver=r5736.f3c6740
-pkgrel=2
+pkgver=r5737.4031dc1
+pkgrel=1
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 url="http://dri.freedesktop.org/"

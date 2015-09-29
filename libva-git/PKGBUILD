@@ -5,8 +5,8 @@ _gitroot="git://anongit.freedesktop.org/vaapi/libva"
 _gitname="libva"
 
 pkgname=libva-git
-pkgver=r1119.a08a690
-pkgrel=6
+pkgver=r1120.d3b24b7
+pkgrel=1
 pkgdesc="Video Acceleration (VA) API for Linux"
 arch=('i686' 'x86_64')
 url="http://freedesktop.org/wiki/Software/vaapi"
