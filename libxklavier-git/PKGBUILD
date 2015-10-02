@@ -1,0 +1,40 @@
+# $Id: PKGBUILD 152781 2012-03-09 16:19:36Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_gitroot='git://anongit.freedesktop.org/libxklavier'
+_gitname='libxklavier'
+
+pkgname=libxklavier
+pkgver=r339.65c132a
+pkgrel=1
+pkgdesc="High-level API for X Keyboard Extension"
+arch=('i686' 'x86_64')
+license=('custom')
+url="http://xorg.freedesktop.org/"
+depends=('glib2' 'libxkbfile-git' 'libxml2' 'xkeyboard-config-git' 'libxi-git' 'iso-codes')
+makedepends=('gtk-doc' 'intltool' 'xorg-util-macros-git' 'git')
+provides=('libxklavier')
+conflicts=('libxklavier')
+replaces=('libxklavier')
+source=($_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --with-xkb-bin-base=/usr/bin \
+    --with-xkb-base=/usr/share/X11/xkb --disable-static --enable-gtk-doc
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+}
+# vim: ft=sh syn=sh et
+
