@@ -342,6 +342,8 @@ radeontop-git:
 
 xkeyboard-config-git: kbproto-git xcb-proto-git xproto-git libx11-git libxau-git libxcb-git libxdmcp-git libxkbfile-git xorg-xkbcomp-git
 
+libxklavier-git: libxi-git xkeyboard-config-git
+
 xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git dri3proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git
 
 xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git
