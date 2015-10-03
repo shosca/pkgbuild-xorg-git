@@ -8,12 +8,12 @@ _gitname="libXinerama"
 
 pkgname=libxinerama-git
 pkgver=r75.edd9518
-pkgrel=3
+pkgrel=4
 pkgdesc="X11 Xinerama extension library"
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libxext-git' 'xineramaproto')
+depends=('libxext-git' 'xineramaproto-git')
 makedepends=('xorg-util-macros-git' 'git')
 provides=('libxinerama')
 conflicts=('libxinerama')

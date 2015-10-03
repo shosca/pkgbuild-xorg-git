@@ -1,0 +1,49 @@
+# Maintainer: Det <who@cares.com>
+# Contributor: <Eugeny Borisov flekst@gmail.com>
+# Based on [extra]'s xf86-input-joystick
+
+_gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-joystick
+_gitname=xf86-input-joystick
+
+pkgname=xf86-input-joystick-git
+pkgver=r282.baf8bd4
+pkgrel=1
+pkgdesc="X.Org joystick Input driver - Git version"
+arch=('i686' 'x86_64')
+url="http://cgit.freedesktop.org/xorg/driver/xf86-input-joystick/"
+license=('custom')
+depends=('glibc')
+makedepends=('xorg-server-devel-git' 'resourceproto-git' 'scrnsaverproto-git' 'git')
+groups=('xorg-drivers' 'xorg')
+provides=('xf86-input-joystick')
+conflicts=('xf86-input-joystick' 'xorg-server<1.15.99')
+replaces=('xf86-input-joystick')
+backup=('etc/X11/xorg.conf.d/50-joystick.conf')
+source=($_gitroot 50-joystick.conf)
+sha256sums=('SKIP'
+            'd6ddaec1767e1a73f8eacc6e58b0fd1d1ca5e73bbf58b6a106ebf92589b87483')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package(){
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/X11/xorg.conf.d"
+  install -m644 "${srcdir}/50-joystick.conf" "${pkgdir}/usr/share/X11/xorg.conf.d/"
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+# vim: ft=sh syn=sh et

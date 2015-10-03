@@ -334,6 +334,18 @@ xf86-input-libinput-git: xorg-server-git libinput-git libxi-git libxtst-git reso
 
 xf86-input-synaptics-git: xorg-server-git libevdev-git libxi-git libxtst-git resourceproto-git scrnsaverproto-git
 
+xf86-input-joystick-git: xorg-server-git resourceproto-git scrnsaverproto-git
+
+xf86-input-keyboard-git: xorg-server-git resourceproto-git scrnsaverproto-git
+
+xf86-input-mouse-git: xorg-server-git resourceproto-git scrnsaverproto-git
+
+xf86-input-vmmouse-git: xorg-server-git resourceproto-git scrnsaverproto-git
+
+xf86-input-void-git: xorg-server-git resourceproto-git scrnsaverproto-git
+
+xf86-input-wacom-git: xorg-server-git libevdev-git libxi-git libxtst-git resourceproto-git scrnsaverproto-git
+
 xf86-video-ati-git: xorg-server-git mesa-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
 
 xf86-video-amdgpu-git: xorg-server-git mesa-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git

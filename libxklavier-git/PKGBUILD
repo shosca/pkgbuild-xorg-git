@@ -4,7 +4,7 @@
 _gitroot='git://anongit.freedesktop.org/libxklavier'
 _gitname='libxklavier'
 
-pkgname=libxklavier
+pkgname=libxklavier-git
 pkgver=r339.65c132a
 pkgrel=1
 pkgdesc="High-level API for X Keyboard Extension"
