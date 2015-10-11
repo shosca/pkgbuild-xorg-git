@@ -8,7 +8,7 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git' 'lib32-clang-svn')
-pkgver=r122547.0425965
+pkgver=r122610.4796857
 pkgrel=1
 arch=('x86_64')
 url='http://llvm.org/'
@@ -28,13 +28,11 @@ source=(
     git+$_gitroot
     git+http://llvm.org/git/clang.git
     git+http://llvm.org/git/compiler-rt.git
-    llvm_tools_shlib_CMakeLists.patch
 )
 sha256sums=(
     'SKIP'
     'SKIP'
     'SKIP'
-    'a1c9f36b97c639666ab6a1bd647a08a027e93e3d3cfd6f5af9c36e757599ce81'
 )
 #
 # BEGIN INTERNAL VARIABLES AND FUNCTIONS
@@ -64,9 +62,6 @@ prepare() {
 
   rm -rf projects/compiler-rt
   git clone ${srcdir}/compiler-rt projects/compiler-rt
-
-  # https://llvm.org/bugs/show_bug.cgi?id=24157
-  patch -p2 -i "${srcdir}/llvm_tools_shlib_CMakeLists.patch"
 
   rm -rf "${srcdir}/build"
   mkdir -p "${srcdir}/build"
