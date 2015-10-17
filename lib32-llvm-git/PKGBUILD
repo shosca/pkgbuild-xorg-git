@@ -8,7 +8,7 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git' 'lib32-clang-svn')
-pkgver=r122828.1965754
+pkgver=r122869.576416a
 pkgrel=1
 arch=('x86_64')
 url='http://llvm.org/'
@@ -116,9 +116,9 @@ package_lib32-llvm-git() {
       "lib32-llvm-libs-git"
       'llvm-git'
   )
-  provides=('lib32-llvm')
-  replaces=('lib32-llvm')
-  conflicts=('lib32-llvm')
+  provides=('lib32-llvm' 'lib32-llvm-svn')
+  replaces=('lib32-llvm' 'lib32-llvm-svn')
+  conflicts=('lib32-llvm' 'lib32-llvm-svn')
 
   cd "${srcdir}/build"
 
@@ -162,9 +162,9 @@ package_lib32-llvm-libs-git() {
       'lib32-ncurses'
       'lib32-zlib'
   )
-  provides=('lib32-llvm-libs')
-  replaces=('lib32-llvm-libs')
-  conflicts=('lib32-llvm-libs')
+  provides=('lib32-llvm-libs' 'lib32-llvm-libs-svn')
+  replaces=('lib32-llvm-libs' 'lib32-llvm-libs-svn')
+  conflicts=('lib32-llvm-libs' 'lib32-llvm-libs-svn')
 
   cd "${srcdir}/build"
 
@@ -193,9 +193,9 @@ package_lib32-clang-svn() {
       'clang'
       "lib32-llvm-git"
   )
-  provides=('lib32-clang')
-  replaces=('lib32-clang')
-  conflicts=('lib32-clang')
+  provides=('lib32-clang' 'lib32-clang-svn')
+  replaces=('lib32-clang' 'lib32-clang-svn')
+  conflicts=('lib32-clang' 'lib32-clang-svn')
 
   cd "${srcdir}/build/tools/clang"
 

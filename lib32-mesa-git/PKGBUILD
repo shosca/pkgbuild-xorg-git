@@ -7,7 +7,7 @@ _gitname='mesa'
 
 pkgbase=lib32-mesa-git
 pkgname=('lib32-mesa-vdpau-git' 'lib32-mesa-git' 'lib32-mesa-libgl-git')
-pkgver=r73558.ccbb52a
+pkgver=r73593.c188235
 pkgrel=1
 arch=('x86_64')
 makedepends=('git' 'python2-mako' 'lib32-libxml2' 'lib32-expat' 'lib32-libx11-git'
@@ -113,8 +113,8 @@ package_lib32-mesa-git() {
 package_lib32-mesa-libgl-git(){
   pkgdesc="Mesa 3-D graphics library"
   depends=("lib32-mesa-git")
-  provides=("lib32-libgl")
-  replaces=('lib32-libgl')
+  provides=("lib32-mesa-libgl")
+  replaces=('lib32-mesa-libgl')
 
   install -m755 -d ${pkgdir}/usr/lib32
 

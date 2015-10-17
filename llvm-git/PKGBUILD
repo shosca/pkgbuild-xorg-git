@@ -10,7 +10,7 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 pkgname=(llvm-git llvm-libs-git llvm-ocaml-git lldb-git clang-git clang-analyzer-git clang-tools-extra-git)
-pkgver=r122828.1965754
+pkgver=r122869.576416a
 pkgrel=1
 pkgdesc='Low Level Virtual Machine'
 arch=('i686' 'x86_64')
@@ -154,9 +154,9 @@ build() {
 package_llvm-git() {
   pkgdesc='The LLVM Compiler Infrastructure'
   depends=('llvm-libs-git' 'libedit' 'perl')
-  provides=('llvm')
-  replaces=('llvm')
-  conflicts=('llvm')
+  provides=('llvm' 'llvm-svn')
+  replaces=('llvm' 'llvm-svn')
+  conflicts=('llvm' 'llvm-svn')
 
   cd "${srcdir}/build"
   # Exclude the clang directory, since it'll be installed in a separate package
@@ -198,9 +198,9 @@ package_llvm-git() {
 package_llvm-libs-git() {
   pkgdesc='The LLVM Compiler Infrastructure (runtime libraries)'
   depends=( 'libffi' 'zlib')
-  provides=('llvm-libs')
-  conflicts=('llvm-libs')
-  replaces=('llvm-libs')
+  provides=('llvm-libs' 'llvm-libs-svn')
+  conflicts=('llvm-libs' 'llvm-libs-svn')
+  replaces=('llvm-libs' 'llvm-libs-svn')
 
   cd "${srcdir}/build"
 
@@ -229,9 +229,9 @@ package_llvm-ocaml-git() {
       "ocaml=$(_ocamlver)"
       'ocaml-ctypes'
   )
-  provides=('llvm-ocaml')
-  replaces=('llvm-ocaml')
-  conflicts=('llvm-ocaml')
+  provides=('llvm-ocaml' 'llvm-ocaml-svn')
+  replaces=('llvm-ocaml' 'llvm-ocaml-svn')
+  conflicts=('llvm-ocaml' 'llvm-ocaml-svn')
 
   cd "${srcdir}/build"
 
@@ -273,9 +273,9 @@ package_clang-git() {
   optdepends=(
       'python2: git-clang-format and clang-format-diff.py support'
   )
-  provides=('clang')
-  replaces=('clang')
-  conflicts=('clang')
+  provides=('clang' 'clang-svn')
+  replaces=('clang' 'clang-svn')
+  conflicts=('clang' 'clang-svn')
 
   cd "${srcdir}/build/tools/clang"
 
@@ -303,9 +303,9 @@ package_clang-analyzer-git() {
   pkgdesc='Source code analysis tool for Clang, supporting C, C++, and Objective-C'
   url='http://clang-analyzer.llvm.org/'
   depends=('clang-git' 'python2')
-  provides=('clang-analyzer')
-  replaces=('clang-analyzer')
-  conflicts=('clang-analyzer')
+  provides=('clang-analyzer' 'clang-analyzer-svn')
+  replaces=('clang-analyzer' 'clang-analyzer-svn')
+  conflicts=('clang-analyzer' 'clang-analyzer-svn')
 
   cd "${srcdir}/llvm/tools/clang"
 
@@ -335,9 +335,9 @@ package_clang-tools-extra-git() {
   pkgdesc='Standalone tools for Clang: syntax checking, formatting, refactoring, etc.'
   url='http://clang.llvm.org/docs/ClangTools.html'
   depends=('clang-git')
-  provides=('clang-tools-extra')
-  replaces=('clang-tools-extra')
-  conflicts=('clang-tools-extra')
+  provides=('clang-tools-extra' 'clang-tools-extra-svn')
+  replaces=('clang-tools-extra' 'clang-tools-extra-svn')
+  conflicts=('clang-tools-extra' 'clang-tools-extra-svn')
 
   cd "${srcdir}/build/tools/clang/tools/extra"
 
