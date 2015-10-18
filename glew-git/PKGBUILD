@@ -8,7 +8,7 @@ _gitname="glew"
 
 pkgname=glew-git
 pkgver=r884.06891eb
-pkgrel=5
+pkgrel=6
 pkgdesc="The OpenGL Extension Wrangler Library"
 arch=('i686' 'x86_64')
 url="http://glew.sourceforge.net"
