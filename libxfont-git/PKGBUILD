@@ -5,8 +5,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXfont"
 _gitname="libXfont"
 
 pkgname=libxfont-git
-pkgver=r306.1a73d68
-pkgrel=3
+pkgver=r309.d6877a7
+pkgrel=1
 pkgdesc="X11 font rasterisation library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
