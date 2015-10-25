@@ -10,7 +10,7 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 pkgname=(llvm-git llvm-libs-git llvm-ocaml-git lldb-git clang-git clang-analyzer-git clang-tools-extra-git)
-pkgver=r122986.49d94c2
+pkgver=r123134.1415da8
 pkgrel=0
 pkgdesc='Low Level Virtual Machine'
 arch=('i686' 'x86_64')
