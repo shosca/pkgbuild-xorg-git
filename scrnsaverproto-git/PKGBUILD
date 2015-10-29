@@ -7,7 +7,7 @@ _gitname='scrnsaverproto'
 
 pkgname=scrnsaverproto-git
 pkgver=r58.5cf9455
-pkgrel=3
+pkgrel=4
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

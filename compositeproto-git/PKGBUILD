@@ -7,7 +7,7 @@ _gitname='compositeproto'
 
 pkgname=compositeproto-git
 pkgver=r52.ef261dc
-pkgrel=3
+pkgrel=4
 pkgdesc='X11 composite extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

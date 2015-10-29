@@ -7,7 +7,7 @@ _gitname='fontsproto'
 
 pkgname=fontsproto-git
 pkgver=r95.f900146
-pkgrel=1
+pkgrel=2
 pkgdesc='Xorg FontsProto protocol headers'
 url='http://xorg.freedesktop.org/'
 arch=('any')
