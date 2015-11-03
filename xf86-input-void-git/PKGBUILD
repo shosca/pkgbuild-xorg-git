@@ -7,7 +7,7 @@ _gitname=xf86-input-void
 
 pkgname=xf86-input-void-git
 pkgver=r242.ccf63a6
-pkgrel=22
+pkgrel=23
 pkgdesc="X.Org void Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-void/"
