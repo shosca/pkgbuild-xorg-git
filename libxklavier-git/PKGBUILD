@@ -6,7 +6,7 @@ _gitname='libxklavier'
 
 pkgname=libxklavier-git
 pkgver=r339.65c132a
-pkgrel=7
+pkgrel=8
 pkgdesc="High-level API for X Keyboard Extension"
 arch=('i686' 'x86_64')
 license=('custom')
