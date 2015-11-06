@@ -4,7 +4,7 @@ _gitroot="git://anongit.freedesktop.org/wayland/wayland"
 _gitname="wayland"
 
 pkgname=wayland-git
-pkgver=r1790.4a97cb3
+pkgver=r1793.8bc42fb
 pkgrel=1
 pkgdesc="A modern display server."
 arch=('i686' 'x86_64')
