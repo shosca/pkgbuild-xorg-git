@@ -10,8 +10,8 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 pkgname=(llvm-git llvm-libs-git llvm-ocaml-git lldb-git clang-git clang-analyzer-git clang-tools-extra-git)
-pkgver=r123745.dc09445
-pkgrel=1
+pkgver=r123796.4c37e73
+pkgrel=0
 pkgdesc='Low Level Virtual Machine'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -217,7 +217,7 @@ package_llvm-libs-git() {
 
   # Must have a symlink that corresponds to the output of `llvm-config --version`.
   # Without it, some builds, e.g. Mesa, might fail for "lack of shared libraries".
-  ln -rs "${pkgdir}/usr/lib/libLLVM-3.8.0svn.so" "${pkgdir}/usr/lib/libLLVM-3.8.0git.so"
+  ln -rs "${pkgdir}/usr/lib/libLLVM-3.8svn.so" "${pkgdir}/usr/lib/libLLVM-3.8.0git.so"
 
   _install_license "${srcdir}/${_gitname}/LICENSE.TXT"
 }
@@ -285,6 +285,8 @@ package_clang-git() {
       tools/cmake_install.cmake
 
   make DESTDIR="${pkgdir}" install
+
+  rm -rf ${pkgdir}/usr/bin/scan-{build,view}
 
   # Clean up documentation
   [[ -d "${pkgdir}/usr/share/doc/clang/html/_sources" ]] && \
