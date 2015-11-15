@@ -9,9 +9,9 @@
 _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
-pkgname=(llvm-git llvm-libs-git llvm-ocaml-git lldb-git clang-git clang-analyzer-git clang-tools-extra-git)
-pkgver=r123925.3b6bd9d
-pkgrel=1
+pkgname=(llvm-git llvm-libs-git llvm-ocaml-git lldb-git clang-git clang-analyzer-git clang-compiler-rt-git clang-tools-extra-git)
+pkgver=r123974.fb7bc35
+pkgrel=2
 pkgdesc='Low Level Virtual Machine'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -119,7 +119,6 @@ build() {
   export PKG_CONFIG_PATH='/usr/lib/pkgconfig'
 
   # LLVM_BUILD_LLVM_DYLIB: Build the dynamic runtime libraries (e.g. libLLVM.so).
-  # LLVM_DYLIB_EXPORT_ALL: Export all symbols in the dynamic libs, not just the C API.
   # LLVM_LINK_LLVM_DYLIB:  Link our own tools against the libLLVM dynamic library, too.
   # LLVM_BINUTILS_INCDIR:  Set to binutils' plugin-api.h location in order to build LLVMgold.
   cmake -G 'Unix Makefiles' \
@@ -132,7 +131,6 @@ build() {
         -DFFI_LIBRARY_DIR:PATH="$(pkg-config --variable=libdir libffi)" \
         -DLLVM_BUILD_DOCS:BOOL=OFF \
         -DLLVM_BUILD_LLVM_DYLIB:BOOL=ON \
-        -DLLVM_DYLIB_EXPORT_ALL:BOOL=ON \
         -DLLVM_LINK_LLVM_DYLIB:BOOL=ON \
         -DLLVM_BINUTILS_INCDIR:PATH=/usr/include \
         "../${_gitname}"
@@ -154,15 +152,21 @@ build() {
 
 package_llvm-git() {
   pkgdesc='The LLVM Compiler Infrastructure'
-  depends=('llvm-libs-git' 'libedit' 'perl')
+  depends=('llvm-libs-git' 'perl')
   provides=('llvm' 'llvm-svn')
   replaces=('llvm' 'llvm-svn')
   conflicts=('llvm' 'llvm-svn')
 
   cd "${srcdir}/build"
+
   # Exclude the clang directory, since it'll be installed in a separate package
   sed -i \
       "s|^\([[:blank:]]*include(\"${srcdir}/build/tools/clang/cmake_install.cmake\")\)$|#\1|" \
+      tools/cmake_install.cmake
+
+  # Exclude the lldb directory, since it'll be installed in a separate package
+  sed -i \
+      "s|^\([[:blank:]]*include(\"${srcdir}/build/tools/lldb/cmake_install.cmake\")\)$|#\1|" \
       tools/cmake_install.cmake
 
   make DESTDIR="${pkgdir}" install
@@ -189,8 +193,7 @@ package_llvm-git() {
   fi
 
   # Clean up documentation
-  [[ -d "${pkgdir}/usr/share/doc/llvm/html/_sources" ]] && \
-    rm -rf "${pkgdir}/usr/share/doc/llvm/html/_sources"
+  rm -rf "${pkgdir}/usr/share/doc/llvm/html/_sources"
 
   _install_python_bindings "${srcdir}/llvm/bindings/python/llvm"
 
@@ -199,7 +202,8 @@ package_llvm-git() {
 
 package_llvm-libs-git() {
   pkgdesc='The LLVM Compiler Infrastructure (runtime libraries)'
-  depends=( 'libffi' 'zlib')
+  depends=( 'libffi' 'zlib' 'libedit')
+  groups=('llvm-toolchain-git')
   provides=('llvm-libs' 'llvm-libs-svn')
   conflicts=('llvm-libs' 'llvm-libs-svn')
   replaces=('llvm-libs' 'llvm-libs-svn')
@@ -271,8 +275,12 @@ package_clang-git() {
   url='http://clang.llvm.org/'
   depends=('llvm-git')
   optdepends=(
+      'clang-analyzer-git: source code analysis for Clang, supporting C, C++, and Objective-C'
+      'clang-compiler-rt-git: sanitizer runtimes, builtins, profile library and BlocksRuntime'
+      'clang-tools-extra-git: standalone tools: syntax checking, formatting, refactoring, etc.'
       'python2: git-clang-format and clang-format-diff.py support'
   )
+  groups=('llvm-toolchain-git')
   provides=('clang' 'clang-svn')
   replaces=('clang' 'clang-svn')
   conflicts=('clang' 'clang-svn')
@@ -286,11 +294,53 @@ package_clang-git() {
 
   make DESTDIR="${pkgdir}" install
 
-  rm -rf ${pkgdir}/usr/bin/scan-{build,view}
+  # The Clang Static Analyzer is installed in a separate package
+  # TODO: Probably there's more elegant way to achieve this.
+
+  rm -rf "${srcdir}/clang-analyzer.tmp"
+
+  install -m 0755 -d \
+      "${srcdir}/clang-analyzer.tmp/usr/bin" \
+      "${srcdir}/clang-analyzer.tmp/usr/share/man/man1" \
+      "${srcdir}/clang-analyzer.tmp/usr/share/scan-build" \
+      "${srcdir}/clang-analyzer.tmp/usr/share/scan-view"
+
+  mv \
+      "${pkgdir}/usr/bin/scan-build" \
+      "${pkgdir}/usr/bin/scan-view" \
+      "${pkgdir}/usr/libexec/c++-analyzer" \
+      "${pkgdir}/usr/libexec/ccc-analyzer" \
+      \
+      "${srcdir}/clang-analyzer.tmp/usr/bin/"
+
+  mv \
+      "${pkgdir}/usr/share/man/man1/scan-build.1" \
+      \
+      "${srcdir}/clang-analyzer.tmp/usr/share/man/man1/"
+
+  mv \
+      "${pkgdir}/usr/share/scan-build/scanview.css" \
+      "${pkgdir}/usr/share/scan-build/sorttable.js" \
+      \
+      "${srcdir}/clang-analyzer.tmp/usr/share/scan-build/"
+
+  mv \
+      "${pkgdir}/usr/share/scan-view/FileRadar.scpt" \
+      "${pkgdir}/usr/share/scan-view/GetRadarVersion.scpt" \
+      "${pkgdir}/usr/share/scan-view/Reporter.py" \
+      "${pkgdir}/usr/share/scan-view/ScanView.py" \
+      "${pkgdir}/usr/share/scan-view/bugcatcher.ico" \
+      "${pkgdir}/usr/share/scan-view/startfile.py" \
+      \
+      "${srcdir}/clang-analyzer.tmp/usr/share/scan-view/"
+
+  rmdir \
+      "${pkgdir}/usr/libexec" \
+      "${pkgdir}/usr/share/scan-build" \
+      "${pkgdir}/usr/share/scan-view"
 
   # Clean up documentation
-  [[ -d "${pkgdir}/usr/share/doc/clang/html/_sources" ]] && \
-    rm -r "${pkgdir}/usr/share/doc/clang/html/_sources"
+  #rm -r "${pkgdir}/usr/share/doc/clang/html/_sources"
 
   _fix_python_exec_path \
       "${pkgdir}/usr/bin/git-clang-format" \
@@ -305,38 +355,47 @@ package_clang-analyzer-git() {
   pkgdesc='Source code analysis tool for Clang, supporting C, C++, and Objective-C'
   url='http://clang-analyzer.llvm.org/'
   depends=('clang-git' 'python2')
+  groups=('llvm-toolchain-git')
   provides=('clang-analyzer' 'clang-analyzer-svn')
   replaces=('clang-analyzer' 'clang-analyzer-svn')
   conflicts=('clang-analyzer' 'clang-analyzer-svn')
 
-  cd "${srcdir}/llvm/tools/clang"
+  cd "${srcdir}"
 
-  install -m755 -d "${pkgdir}"/usr/{bin,lib/clang-analyzer}
-  for _tool in scan-{build,view}; do
-      cp -r "tools/${_tool}" "${pkgdir}/usr/lib/clang-analyzer/"
-      ln -s "/usr/lib/clang-analyzer/${_tool}/${_tool}" "${pkgdir}/usr/bin/"
-  done
+  mv "${srcdir}/clang-analyzer.tmp"/* "${pkgdir}"/
 
-  # scan-build looks for clang within the same directory
-  ln -s /usr/bin/clang "${pkgdir}/usr/lib/clang-analyzer/scan-build/"
-
-  # Relocate man page
-  install -m755 -d "${pkgdir}/usr/share/man/man1"
-  mv "${pkgdir}/usr/lib/clang-analyzer/scan-build/scan-build.1" "${pkgdir}/usr/share/man/man1/"
+  sed -i 's|/libexec/|/bin/|' "${pkgdir}/usr/bin/scan-build"
 
   _fix_python_exec_path \
-      "${pkgdir}/usr/lib/clang-analyzer/scan-view/scan-view" \
-      "${pkgdir}/usr/lib/clang-analyzer/scan-build/set-xcode-analyzer"
+      "${pkgdir}/usr/bin/scan-view"
 
   _compile_python_files "${pkgdir}/usr/lib/clang-analyzer"
 
   _install_license "${srcdir}/${_gitname}/LICENSE.TXT"
 }
 
+package_clang-compiler-rt-git() {
+  pkgdesc='The "compiler-rt" set of runtime libraries for Clang and LLVM'
+  url='http://compiler-rt.llvm.org/'
+  depends=("clang-git")
+  groups=('llvm-toolchain-git')
+  provides=('clang-compiler-rt' 'clang-compiler-rt-svn')
+  replaces=('clang-compiler-rt' 'clang-compiler-rt-svn')
+  conflicts=('clang-compiler-rt' 'clang-compiler-rt-svn')
+
+  cd "${srcdir}/build/projects/compiler-rt"
+
+  make DESTDIR="${pkgdir}" install
+
+  _install_license "${srcdir}/${_gitname}/LICENSE.TXT"
+}
+
+
 package_clang-tools-extra-git() {
   pkgdesc='Standalone tools for Clang: syntax checking, formatting, refactoring, etc.'
   url='http://clang.llvm.org/docs/ClangTools.html'
   depends=('clang-git')
+  groups=('llvm-toolchain-git')
   provides=('clang-tools-extra' 'clang-tools-extra-svn')
   replaces=('clang-tools-extra' 'clang-tools-extra-svn')
   conflicts=('clang-tools-extra' 'clang-tools-extra-svn')
