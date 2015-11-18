@@ -4,13 +4,13 @@ _gitroot="git://anongit.freedesktop.org/wayland/wayland"
 _gitname="wayland"
 
 pkgname=wayland-git
-pkgver=r1793.8bc42fb
+pkgver=r1800.f66e2d5
 pkgrel=1
 pkgdesc="A modern display server."
 arch=('i686' 'x86_64')
 url="http://wayland.freedesktop.org"
 license=('MIT')
-depends=('libffi')
+depends=('libffi' 'libxml2')
 makedepends=('git' 'expat' 'doxygen')
 provides=("wayland")
 conflicts=('libwayland' 'wayland')
