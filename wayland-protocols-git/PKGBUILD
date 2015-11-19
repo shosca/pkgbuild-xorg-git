@@ -1,0 +1,40 @@
+# Contributor: Thomas Dziedzic <gostrc@@@gmail>
+# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
+# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+
+_gitroot='git://anongit.freedesktop.org/wayland/wayland-protocols'
+_gitname='wayland-protocols'
+
+pkgname=wayland-protocols-git
+pkgver=r28.7c671d7
+pkgrel=2
+pkgdesc='Wayland protocols not available in the Wayland core protocol'
+url='http://wayland.freedesktop.org/'
+arch=('any')
+license=('custom')
+makedepends=('git')
+provides=('wayland-protocols')
+conflicts=('wayland-protocols')
+replaces=('wayland-protocols')
+source=($_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
+
+# vim: ft=sh syn=sh et

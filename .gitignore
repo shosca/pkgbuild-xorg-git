@@ -59,7 +59,7 @@ Makefile.mk
 */vdpau-driver
 */vdpauinfo
 */videoproto
-*/wayland
+*/wayland*
 */weston
 */xauth
 */xcb-util

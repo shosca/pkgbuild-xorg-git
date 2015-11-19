@@ -195,7 +195,7 @@ xproto-git: xorg-util-macros-git
 
 pixman-git: xorg-util-macros-git
 
-wayland-git: xorg-util-macros-git
+wayland-git: xorg-util-macros-git wayland-protocols-git
 
 libpciaccess-git: xorg-util-macros-git
 
@@ -363,7 +363,7 @@ xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git
 
 xf86-video-fbdev-git: xorg-server-git
 
-weston-git: libinput-git libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git
+weston-git: libinput-git libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git wayland-protocols-git
 
 lib32-libpciaccess-git:
 
