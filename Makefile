@@ -36,6 +36,7 @@ checkchroot:
 			-i -e '/^\[multilib\]/{$$!N; s,#,,}' $(CHROOTPATH64)/root/etc/pacman.conf ; \
 		sudo mkdir -p $(CHROOTPATH64)/root/repo ;\
 		echo "# Added by $$PKG" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
+		echo "COMPRESSXZ=(7z a dummy -txz -si -so)" | sudo tee -a $(CHROOTPATH64)/root/etc/makepkg.conf ; \
 		echo 'LANG="en_US.UTF-8"' | sudo tee -a $(CHROOTPATH64)/root/etc/locale.conf ; \
 		echo 'LANGUAGE="en_US:en"' | sudo tee -a $(CHROOTPATH64)/root/etc/locale.conf ; \
 		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c 'yes | pacman -S gcc-multilib gcc-libs-multilib p7zip' ; \
