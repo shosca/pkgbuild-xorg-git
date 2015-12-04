@@ -6,7 +6,7 @@ _gitroot='git://anongit.freedesktop.org/wayland/wayland-protocols'
 _gitname='wayland-protocols'
 
 pkgname=wayland-protocols-git
-pkgver=r37.3543bb7
+pkgver=r38.da33164
 pkgrel=1
 pkgdesc='Wayland protocols not available in the Wayland core protocol'
 url='http://wayland.freedesktop.org/'
