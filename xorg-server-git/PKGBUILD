@@ -8,7 +8,7 @@ _gitname="xserver"
 
 pkgbase=xorg-server-git
 pkgname=('xorg-server-git' 'xorg-server-xephyr-git' 'xorg-server-xvfb-git' 'xorg-server-xnest-git' 'xorg-server-xwayland-git' 'xorg-server-common-git' 'xorg-server-devel-git')
-pkgver=r15140.19b0249
+pkgver=r15156.8c49c88
 pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
@@ -30,11 +30,13 @@ makedepends=('git' 'bigreqsproto-git' 'presentproto-git' 'compositeproto-git'
 source=($_gitroot
         xvfb-run
         xvfb-run.1
-        10-quirks.conf)
+        10-quirks.conf
+        xfont2.patch)
 sha256sums=('SKIP'
             'ff0156309470fc1d378fd2e104338020a884295e285972cc88e250e031cc35b9'
             '2460adccd3362fefd4cdc5f1c70f332d7b578091fb9167bf88b5f91265bbd776'
-            '94612f5c0d34a3b7152915c2e285c7b462e9d8e38d3539bd551a339498eac166')
+            '94612f5c0d34a3b7152915c2e285c7b462e9d8e38d3539bd551a339498eac166'
+            '0e9ed52e9e23817d2280114e691e3bdd4ff37e158bda7445d64c4ccb120ea523')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -43,6 +45,8 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
+
+  patch -Np1 -i ../xfont2.patch
 
   ./autogen.sh \
       --prefix=/usr \
