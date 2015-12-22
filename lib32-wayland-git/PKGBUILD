@@ -4,7 +4,7 @@ _gitroot="git://anongit.freedesktop.org/wayland/wayland"
 _gitname="wayland"
 
 pkgname=lib32-wayland-git
-pkgver=r1807.87321d0
+pkgver=r1808.225830d
 pkgrel=1
 pkgdesc='A computer display server protocol (32 bit)'
 arch=('x86_64')
