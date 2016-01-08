@@ -4,8 +4,8 @@ DIRS=$(shell ls -d */ | sed -e 's/\///' )
 ARCHNSPAWN=arch-nspawn
 MKARCHROOT=/usr/bin/mkarchroot -C /usr/share/devtools/pacman-multilib.conf
 PKGEXT=pkg.tar.xz
-GITFETCH=git fetch --all -p
-GITCLONE=git clone --mirror
+GITFETCH=git fetch --all -p -q
+GITCLONE=git clone --mirror -q
 CHROOTPATH64=/var/chroot64/$(REPO)
 MAKECHROOTPKG=/usr/bin/makechrootpkg -c -u -r $(CHROOTPATH64)
 
