@@ -7,7 +7,7 @@ _gitname='xproto'
 
 pkgname=xproto-git
 pkgver=r251.edc04f8
-pkgrel=2
+pkgrel=3
 pkgdesc='X11 x extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
 arch=('any')

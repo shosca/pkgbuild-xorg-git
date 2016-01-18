@@ -6,7 +6,7 @@ _gitname="libXfont"
 
 pkgname=libxfont-git
 pkgver=r316.eefc0b0
-pkgrel=1
+pkgrel=2
 pkgdesc="X11 font rasterisation library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
