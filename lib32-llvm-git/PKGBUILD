@@ -8,8 +8,8 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="llvm"
 
 pkgname=('lib32-llvm-git' 'lib32-llvm-libs-git' 'lib32-clang-svn')
-pkgver=r126274.92d091b
-pkgrel=2
+pkgver=r126491.95992a2
+pkgrel=1
 arch=('x86_64')
 url='http://llvm.org/'
 license=('custom:University of Illinois')
