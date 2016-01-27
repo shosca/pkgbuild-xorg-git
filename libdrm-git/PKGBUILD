@@ -6,14 +6,14 @@ _gitroot='git://git.freedesktop.org/git/mesa/drm'
 _gitname='drm'
 
 pkgname=libdrm-git
-pkgver=r5807.798022b
+pkgver=r5812.ff0c9ca
 pkgrel=1
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 url="http://dri.freedesktop.org/"
 license=('MIT')
 depends=('libpciaccess-git' 'libsystemd')
-makedepends=('git' 'xorg-util-macros-git' 'cairo>=1.12.15' 'valgrind')
+makedepends=('git' 'xorg-util-macros-git')
 provides=('libdrm')
 conflicts=('libdrm')
 replaces=('libdrm')
@@ -28,14 +28,10 @@ pkgver() {
 build() {
   cd "${srcdir}/${_gitname}"
 
-  sed -i 's/PKG_CHECK_MODULES(PTHREADSTUBS, pthread-stubs)//' configure.ac
+  sed -i "/pthread-stubs/d" configure.ac
+  autoreconf --force --install
 
-  ./autogen.sh --prefix=/usr \
-      --enable-udev \
-      --enable-intel \
-      --enable-radeon \
-      --enable-nouveau \
-      --enable-vmwgfx
+  ./configure --prefix=/usr --enable-udev
 
   make
 }
