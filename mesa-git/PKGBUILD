@@ -6,7 +6,7 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='mesa'
 
 pkgbase=mesa-git
-pkgver=r75878.19ae5de
+pkgver=r75888.29d09f8
 pkgrel=1
 pkgname=('opencl-mesa-git' 'libva-mesa-driver-git' 'mesa-vdpau-git' 'mesa-git' 'mesa-libgl-git')
 arch=('i686' 'x86_64')
@@ -86,7 +86,7 @@ package_opencl-mesa-git() {
 }
 
 package_libva-mesa-driver-git() {
-  pkgdesc=('VA-API implementation for gallium')
+  pkgdesc='VA-API implementation for gallium'
   depends=('libdrm-git' 'libx11-git' 'llvm-libs-git' 'expat' 'elfutils')
   provides=('libva-mesa-driver')
   conflicts=('libva-mesa-driver')

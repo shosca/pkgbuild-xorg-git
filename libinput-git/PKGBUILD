@@ -4,13 +4,13 @@ _gitroot="git://anongit.freedesktop.org/wayland/libinput"
 _gitname="libinput"
 
 pkgname=libinput-git
-pkgver=r1593.cba2278
+pkgver=r1890.19e1a0b
 pkgrel=1
 pkgdesc="Input device management and event handling library"
 arch=('i686' 'x86_64')
 license=('MIT')
 url="http://wayland.freedesktop.org"
-depends=('mtdev' 'systemd' 'libevdev')
+depends=('mtdev' 'systemd' 'libevdev' 'libwacom')
 makedepends=('git' 'expat' 'doxygen')
 provides=("libinput")
 conflicts=('libinput')
