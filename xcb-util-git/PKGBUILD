@@ -8,7 +8,7 @@ _gitname="util"
 
 pkgname=xcb-util-git
 pkgver=r123.acf790d
-pkgrel=27
+pkgrel=28
 pkgdesc="Utility libraries for XC Binding"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
