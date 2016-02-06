@@ -7,14 +7,14 @@ _gitroot="git://github.com/nigels-com/glew"
 _gitname="glew"
 
 pkgname=glew-git
-pkgver=r922.b3440c0
-pkgrel=3
+pkgver=r942.281e38d
+pkgrel=1
 pkgdesc="The OpenGL Extension Wrangler Library"
 arch=('i686' 'x86_64')
 url="http://glew.sourceforge.net"
 license=('BSD' 'MIT' 'GPL')
 depends=('libxmu-git' 'libxi-git' 'glu-git')
-makedepends=('git' 'wget' 'perl' 'make')
+makedepends=('git' 'wget' 'perl' 'python' 'python2' 'make')
 source=($_gitroot)
 sha256sums=('SKIP')
 provides=('glew')
@@ -29,7 +29,9 @@ pkgver() {
 build() {
   cd "${srcdir}/${_gitname}"
 
+  find -type f -exec sed -i 's/python/python2/g' {} +
   make -j1 extensions
+
   sed -i 's|lib64|lib|' config/Makefile.linux
   sed -i '/^.PHONY: .*\.pc$/d' Makefile
   make -j1
