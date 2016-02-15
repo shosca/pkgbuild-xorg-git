@@ -1,0 +1,42 @@
+# Maintainer: Det <who@cares.com>
+# Contributor: <Eugeny Borisov flekst@gmail.com>
+# Based on [extra]'s xf86-input-evdev
+
+_gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-evdev
+_gitname=repo-xf86-input-evdev
+
+pkgname=xf86-input-evdev
+pkgver=2.10.1.3.r663.g7b0a65d
+pkgrel=22
+pkgdesc="X.Org evdev Input driver - Git version"
+arch=('i686' 'x86_64')
+url="http://cgit.freedesktop.org/xorg/driver/xf86-input-evdev/"
+license=('custom')
+depends=('libevdev' 'mtdev')
+makedepends=('xorg-server-devel' 'git')
+options=('!makeflags')
+groups=('xorg-drivers' 'xorg')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f4-5 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f6)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package(){
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/xf86-input-evdev/COPYING"
+}
+# vim: ft=sh syn=sh et
+

@@ -1,0 +1,41 @@
+# $Id: PKGBUILD 174258 2013-01-03 11:50:21Z jgc $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXcomposite"
+_gitname="repo-libXcomposite"
+
+pkgname=libxcomposite
+pkgver=0.4.4.r72.g514ae7c
+pkgrel=88
+pkgdesc="X11 Composite extension library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libxfixes' 'compositeproto')
+makedepends=('xorg-util-macros' 'git')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+# vim: ft=sh syn=sh et
+

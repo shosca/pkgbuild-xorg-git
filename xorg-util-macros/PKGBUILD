@@ -1,0 +1,41 @@
+# $Id: PKGBUILD 153461 2012-03-14 17:38:45Z andyrtr $
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_gitroot="git://anongit.freedesktop.org/xorg/util/macros"
+_gitname="repo-macros"
+
+pkgname=xorg-util-macros
+pkgver=1.19.0.2.r192.gd7acec2
+pkgrel=3
+pkgdesc="X.Org Autotools macros"
+arch=('any')
+license=('custom')
+url="http://xorg.freedesktop.org/"
+makedepends=('git')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}/${_gitname}"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f3-4 | tr - .)" "$(git rev-list HEAD --count)" "$(git describe --long | cut -d "-" -f5)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/lib"
+  mv "${pkgdir}/usr/share/pkgconfig" "${pkgdir}/usr/lib/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+# vim: ft=sh syn=sh et
+

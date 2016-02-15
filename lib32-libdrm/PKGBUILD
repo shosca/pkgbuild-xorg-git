@@ -1,0 +1,57 @@
+# Arch libdrm Maintainers:
+#Jan de Groot
+#Andreas Radke
+
+_gitroot='git://git.freedesktop.org/git/mesa/drm'
+_gitname='repo-drm'
+
+pkgname=lib32-libdrm
+pkgver=2.4.66.36.r5831.g9b77443
+pkgrel=2
+pkgdesc="Userspace interface to kernel DRM services"
+arch=('x86_64')
+license=('MIT')
+groups=('lib32')
+depends=('lib32-libpciaccess' 'libdrm' 'lib32-systemd')
+makedepends=('gcc-multilib' 'xorg-util-macros' 'git' 'udev')
+options=('!libtool')
+url="http://dri.freedesktop.org/"
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2-3 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  sed -i 's/PKG_CHECK_MODULES(PTHREADSTUBS, pthread-stubs)//' configure.ac
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --enable-udev \
+    --enable-intel \
+    --enable-radeon \
+    --enable-nouveau \
+    --enable-vmwgfx
+
+  make
+}
+
+package() {
+  cd "$srcdir/$_gitname"
+  make DESTDIR="${pkgdir}" install
+
+  rm -rf "${pkgdir}"/usr/{include,share}
+}
+# vim: ft=sh syn=sh et
+

@@ -1,0 +1,176 @@
+# $Id$
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
+
+_gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
+_gitname='repo-mesa'
+
+pkgbase=mesa
+pkgver=11.2.0_devel.r76343.g331f963
+pkgrel=4
+pkgname=('opencl-mesa' 'libva-mesa-driver' 'mesa-vdpau' 'mesa' 'mesa-libgl')
+arch=('i686' 'x86_64')
+makedepends=('git' 'python2-mako' 'libxml2' 'libx11' 'libva' 'glproto' 'libdrm'
+             'dri2proto' 'dri3proto' 'presentproto' 'libclc'
+             'libxshmfence' 'libomxil-bellagio' 'libxxf86vm'
+             'libxdamage' 'libvdpau' 'wayland' 'elfutils'
+             'llvm' 'systemd' 'opencl-headers' 'clang')
+optdepends=('opengl-man-pages: for the OpenGL API man pages'
+            'mesa-vdpau: for accelerated playback'
+            'libva-mesa-driver: for accelerated playback')
+url="http://mesa3d.sourceforge.net"
+license=('custom')
+options=('!libtool')
+source=($_gitname::$_gitroot#branch=master LICENSE)
+sha256sums=('SKIP'
+            '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2')
+
+pkgver() {
+  rm -rf $srcdir/src/$_gitname
+  git clone -q $srcdir/$_gitname $srcdir/src/$_gitname
+  cd "$srcdir/src/$_gitname"
+  printf "%s.r%s.g%s" "$(cat VERSION | tr '-' '_')" "$(git rev-list HEAD --count)" \
+    "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --disable-static \
+    --with-gallium-drivers=i915,ilo,r300,r600,radeonsi,nouveau,svga,swrast,virgl \
+    --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
+    --with-egl-platforms=drm,x11,wayland \
+    --with-clang-libdir=/usr/lib \
+    --with-sha1=libnettle \
+    --enable-texture-float \
+    --enable-llvm-shared-libs \
+    --enable-egl \
+    --enable-gbm \
+    --enable-gallium-llvm \
+    --enable-shared-glapi \
+    --enable-glx \
+    --enable-glx-tls \
+    --enable-dri \
+    --enable-osmesa \
+    --enable-gles1 \
+    --enable-gles2 \
+    --enable-xa \
+    --enable-vdpau \
+    --enable-omx \
+    --enable-nine \
+    --enable-opencl \
+    --enable-opencl-icd
+
+  make
+
+  rm -rf $srcdir/fakeinstall
+  mkdir $srcdir/fakeinstall
+  make DESTDIR=${srcdir}/fakeinstall install
+}
+
+package_opencl-mesa() {
+  pkgdesc="OpenCL support for AMD/ATI Radeon mesa drivers"
+  depends=('expat' 'libdrm' 'elfutils' 'libxfixes' 'libxext' 'libcl' 'libclc' 'clang')
+
+  install -m755 -d ${pkgdir}/etc
+  mv -v ${srcdir}/fakeinstall/etc/OpenCL ${pkgdir}/etc
+
+  install -m755 -d ${pkgdir}/usr/lib/gallium-pipe
+  mv -v ${srcdir}/fakeinstall/usr/lib/lib*OpenCL* ${pkgdir}/usr/lib/
+  mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_{r600,radeonsi}.so ${pkgdir}/usr/lib/gallium-pipe/
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+package_libva-mesa-driver() {
+  pkgdesc='VA-API implementation for gallium'
+  depends=('libdrm' 'libx11' 'llvm-libs' 'expat' 'elfutils')
+
+  install -m755 -d ${pkgdir}/usr/lib/dri
+  mv -v ${srcdir}/fakeinstall/usr/lib/dri/gallium_drv_video* ${pkgdir}/usr/lib/dri
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+package_mesa-vdpau() {
+  pkgdesc="Mesa VDPAU drivers"
+  depends=('libdrm' 'libx11' 'mesa' 'expat' 'elfutils')
+
+  install -m755 -d ${pkgdir}/usr/lib
+  mv -v ${srcdir}/fakeinstall/usr/lib/vdpau ${pkgdir}/usr/lib
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+package_mesa() {
+  pkgdesc="an open-source implementation of the OpenGL specification"
+  depends=('libdrm' 'libvdpau' 'wayland' 'libxshmfence'
+           'libxxf86vm' 'libxdamage' 'systemd' 'llvm-libs')
+  optdepends=('opengl-man-pages: for the OpenGL API man pages')
+  provides=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl'
+            'khrplatform-devel' 'ati-dri' 'intel-dri' 'nouveau-dri' 'svga-dri' 'mesa-dri')
+  conflicts=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl'
+             'khrplatform-devel' 'ati-dri' 'intel-dri' 'nouveau-dri' 'svga-dri' 'mesa-dri')
+  replaces=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel'
+            'ati-dri' 'intel-dri' 'nouveau-dri' 'svga-dri' 'mesa-dri')
+
+  install -m755 -d ${pkgdir}/etc
+  mv -v ${srcdir}/fakeinstall/etc/drirc ${pkgdir}/etc
+
+  install -m755 -d ${pkgdir}/usr/lib/dri
+  mv -v ${srcdir}/fakeinstall/usr/lib/dri/* ${pkgdir}/usr/lib/dri
+
+  mv -v ${srcdir}/fakeinstall/usr/lib/bellagio ${pkgdir}/usr/lib
+  mv -v ${srcdir}/fakeinstall/usr/lib/d3d ${pkgdir}/usr/lib
+  mv -v ${srcdir}/fakeinstall/usr/lib/*.so* ${pkgdir}/usr/lib
+
+  mv -v ${srcdir}/fakeinstall/usr/include ${pkgdir}/usr
+  mv -v ${srcdir}/fakeinstall/usr/lib/pkgconfig ${pkgdir}/usr/lib/
+
+  install -m755 -d ${pkgdir}/usr/lib/mesa
+  # move libgl/EGL/glesv*.so to not conflict with blobs - may break .pc files ?
+  mv -v ${pkgdir}/usr/lib/libGL.so*    ${pkgdir}/usr/lib/mesa/
+  mv -v ${pkgdir}/usr/lib/libEGL.so*   ${pkgdir}/usr/lib/mesa/
+  mv -v ${pkgdir}/usr/lib/libGLES*.so* ${pkgdir}/usr/lib/mesa/
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+package_mesa-libgl() {
+  pkgdesc="Mesa 3-D graphics library"
+  depends=('mesa')
+  provides=('libgl')
+  replaces=('libgl')
+
+  # See FS#26284
+  install -m755 -d "${pkgdir}/usr/lib/xorg/modules/extensions"
+  ln -s libglx.xorg "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so"
+
+  ln -s /usr/lib/mesa/libGL.so.1.2.0 ${pkgdir}/usr/lib/libGL.so.1.2.0
+  ln -s libGL.so.1.2.0               ${pkgdir}/usr/lib/libGL.so.1
+  ln -s libGL.so.1.2.0               ${pkgdir}/usr/lib/libGL.so
+
+  ln -s /usr/lib/mesa/libEGL.so.1.0.0 ${pkgdir}/usr/lib/libEGL.so.1.0.0
+  ln -s libEGL.so.1.0.0               ${pkgdir}/usr/lib/libEGL.so.1
+  ln -s libEGL.so.1.0.0               ${pkgdir}/usr/lib/libEGL.so
+
+  ln -s /usr/lib/mesa/libGLESv1_CM.so.1.1.0 ${pkgdir}/usr/lib/libGLESv1_CM.so.1.1.0
+  ln -s libGLESv1_CM.so.1.1.0               ${pkgdir}/usr/lib/libGLESv1_CM.so.1
+  ln -s libGLESv1_CM.so.1.1.0               ${pkgdir}/usr/lib/libGLESv1_CM.so
+
+  ln -s /usr/lib/mesa/libGLESv2.so.2.0.0 ${pkgdir}/usr/lib/libGLESv2.so.2.0.0
+  ln -s libGLESv2.so.2.0.0               ${pkgdir}/usr/lib/libGLESv2.so.2
+  ln -s libGLESv2.so.2.0.0               ${pkgdir}/usr/lib/libGLESv2.so
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+# vim: ft=sh syn=sh et

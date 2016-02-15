@@ -1,0 +1,42 @@
+# $Id: PKGBUILD 166179 2012-09-05 07:50:49Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_gitroot="git://people.freedesktop.org/~aplattner/libvdpau"
+_gitname="repo-libvdpau"
+
+pkgname=libvdpau
+pkgver=1.1.1.r94.ga21bf7a
+pkgrel=19
+pkgdesc="Nvidia VDPAU library"
+arch=('i686' 'x86_64')
+url='http://cgit.freedesktop.org/~aplattner/libvdpau'
+depends=('gcc-libs' 'libxext')
+makedepends=('libx11' 'git')
+conflicts=('nvidia-utils<190.42-2')
+license=('custom')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+# vim: ft=sh syn=sh et

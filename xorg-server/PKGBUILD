@@ -1,0 +1,224 @@
+# Contributor: FoxBuru <FoxBuru at gmail dot com>
+# Contributor: Det <nimetonmaili@gmail.com>
+# Contributor: SpeedVin <speedvin at archlinux dot us>
+# Based on xorg-server-dev
+
+_gitroot="git://anongit.freedesktop.org/xorg/xserver"
+_gitname="repo-xserver"
+
+pkgbase=xorg-server
+pkgname=('xorg-server' 'xorg-server-xephyr' 'xorg-server-xvfb' 'xorg-server-xnest' 'xorg-server-xwayland' 'xorg-server-common' 'xorg-server-devel')
+pkgver=1.18.0.138.r15223.geddf848
+pkgrel=4
+arch=('i686' 'x86_64')
+license=('custom')
+url="http://xorg.freedesktop.org"
+makedepends=('git' 'bigreqsproto' 'presentproto' 'compositeproto'
+             'dmxproto' 'dri2proto' 'dri3proto' 'fontsproto'
+             'glproto' 'inputproto' 'libdmx' 'libgcrypt'
+             'libpciaccess' 'libx11' 'libxaw' 'libxfont'
+             'libxi' 'libxkbfile' 'libxmu' 'libxrender'
+             'libxres' 'libxtst' 'libxv' 'mesa-libgl' 'pixman'
+             'randrproto' 'recordproto' 'renderproto'
+             'resourceproto' 'scrnsaverproto' 'udev' 'videoproto'
+             'xcmiscproto' 'xextproto' 'xf86dgaproto' 'libepoxy'
+             'xf86driproto' 'xineramaproto' 'xorg-font-util'
+             'xorg-util-macros' 'xorg-xkbcomp' 'xtrans'
+             'xcb-util' 'xcb-util-image' 'xcb-util-wm'
+             'xcb-util-keysyms' 'xcb-util-renderutil'
+             'libxshmfence' 'systemd' 'libedit')
+source=($_gitname::$_gitroot
+        xvfb-run
+        xvfb-run.1
+        10-quirks.conf
+        xfont2.patch)
+sha256sums=('SKIP'
+            'ff0156309470fc1d378fd2e104338020a884295e285972cc88e250e031cc35b9'
+            '2460adccd3362fefd4cdc5f1c70f332d7b578091fb9167bf88b5f91265bbd776'
+            '94612f5c0d34a3b7152915c2e285c7b462e9d8e38d3539bd551a339498eac166'
+            '0e9ed52e9e23817d2280114e691e3bdd4ff37e158bda7445d64c4ccb120ea523')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f3-4 | tr - .)" "$(git rev-list HEAD --count)" "$(git describe --long | cut -d "-" -f5)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  patch -Np1 -i ../xfont2.patch
+
+  ./autogen.sh \
+      --prefix=/usr \
+      --enable-ipv6 \
+      --enable-dri \
+      --enable-dri2 \
+      --enable-dri3 \
+      --enable-glamor \
+      --enable-xvfb \
+      --enable-xnest \
+      --enable-composite \
+      --enable-xcsecurity \
+      --enable-xorg \
+      --enable-xephyr \
+      --enable-xwayland \
+      --enable-glx-tls \
+      --enable-kdrive \
+      --enable-kdrive-evdev \
+      --enable-kdrive-kbd \
+      --enable-kdrive-mouse \
+      --enable-install-setuid \
+      --enable-config-udev \
+      --disable-config-dbus \
+      --enable-record \
+      --disable-xfbdev \
+      --disable-xfake \
+      --disable-static \
+      --disable-dmx \
+      --sysconfdir=/etc/X11 \
+      --localstatedir=/var \
+      --with-xkb-path=/usr/share/X11/xkb \
+      --with-xkb-output=/var/lib/xkb \
+      --with-fontrootdir=/usr/share/fonts \
+      --enable-systemd-logind \
+      --with-systemd-daemon
+
+  make
+
+  # Disable subdirs for make install rule to make splitting easier
+  sed -e 's/^DMX_SUBDIRS =.*/DMX_SUBDIRS =/' \
+      -e 's/^XVFB_SUBDIRS =.*/XVFB_SUBDIRS =/' \
+      -e 's/^XNEST_SUBDIRS =.*/XNEST_SUBDIRS = /' \
+      -e 's/^KDRIVE_SUBDIRS =.*/KDRIVE_SUBDIRS =/' \
+      -e 's/^XWAYLAND_SUBDIRS =.*/XWAYLAND_SUBDIRS =/' \
+      -i hw/Makefile
+}
+
+package_xorg-server-common() {
+  pkgdesc="Xorg server common files - Git ones"
+  depends=('xkeyboard-config' 'xorg-fonts-misc' 'xorg-setxkbmap' 'xorg-xkbcomp')
+
+  cd "${srcdir}/${_gitname}"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}"
+
+  make -C xkb DESTDIR="${pkgdir}" install-data
+
+  install -m755 -d "${pkgdir}/usr/share/man/man1"
+  install -m644 man/Xserver.1 "${pkgdir}/usr/share/man/man1/"
+
+  install -m755 -d "${pkgdir}/usr/lib/xorg"
+  install -m644 dix/protocol.txt "${pkgdir}/usr/lib/xorg/"
+}
+
+package_xorg-server() {
+  pkgdesc="Xorg X server - Git version"
+  depends=('libdrm' 'libgcrypt' 'libpciaccess' 'libxshmfence'
+           'libxau' 'libxdmcp' 'libepoxy' 'libxfont'
+           'pixman' 'udev' 'xorg-server-common'
+           'wayland')
+  backup=('etc/X11/xorg.conf.d/10-evdev.conf' 'etc/X11/xorg.conf.d/10-quirks.conf')
+  for VAR in VIDEODRV XINPUT EXTENSION; do
+    provides+=("X-ABI-${VAR}_VERSION=$(grep -Po "${VAR}_V.*\(\K[^)]*" \
+      $srcdir/$_gitname/hw/xfree86/common/xf86Module.h |& sed 's/, /./')")
+  done
+  provides+=('x-server')
+  conflicts=('glamor-egl' 'xf86-video-modesetting' 'nvidia-utils<=290.10')
+  replaces=('glamor-egl' 'xf86-video-modesetting')
+  groups=('xorg')
+
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  # distro specific files must be installed in /usr/share/X11/xorg.conf.d
+  install -m755 -d "${pkgdir}/etc/X11/xorg.conf.d"
+  # install -m644 "${srcdir}/nvidia-drm-outputclass.conf" "${pkgdir}/usr/share/X11/xorg.conf.d/"
+
+  # Needed for non-mesa drivers, libgl will restore it
+  mv "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so" \
+     "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.xorg"
+
+  rm -rf "${pkgdir}/var"
+
+  rm -f "${pkgdir}/usr/share/man/man1/Xserver.1"
+  rm -f "${pkgdir}/usr/lib/xorg/protocol.txt"
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+
+  rm -rf "${pkgdir}/usr/lib/pkgconfig"
+  rm -rf "${pkgdir}/usr/include"
+  rm -rf "${pkgdir}/usr/share/aclocal"
+}
+
+package_xorg-server-xephyr() {
+  pkgdesc="A nested X server that runs as an X application - Git version"
+  depends=('libgcrypt' 'libgl' 'libxfont' 'libxv' 'pixman' 'xorg-server-common')
+
+  cd "${srcdir}/${_gitname}/hw/kdrive"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
+
+package_xorg-server-xvfb() {
+  pkgdesc="Virtual framebuffer X server - Git version"
+  depends=('libgcrypt' 'libxau' 'libxdmcp' 'libxfont' 'pixman' 'xorg-server-common')
+
+  cd "${srcdir}/${_gitname}/hw/vfb"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 "${srcdir}/xvfb-run" "${pkgdir}/usr/bin/"
+  install -m644 "${srcdir}/xvfb-run.1" "${pkgdir}/usr/share/man/man1/"
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
+
+package_xorg-server-xnest() {
+  pkgdesc="A nested X server that runs as an X application - Git version"
+  depends=('libgcrypt' 'libxext' 'libxfont' 'pixman' 'xorg-server-common')
+
+  cd "${srcdir}/${_gitname}/hw/xnest"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
+
+package_xorg-server-xwayland() {
+  pkgdesc="Xorg Xwayland support"
+  depends=("libxfont" "mesa-libgl" "pixman" "xorg-server-common")
+
+  cd "${srcdir}/${_gitname}/hw/xwayland"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
+
+package_xorg-server-devel() {
+  pkgdesc="Development files for the X.Org X server from Git"
+  depends=('xproto' 'randrproto' 'renderproto'
+    'xextproto' 'inputproto' 'kbproto' 'fontsproto' 'pixman' 'videoproto'
+    'xf86driproto' 'glproto' 'mesa' 'dri2proto' 'dri3proto' 'xineramaproto'
+    'libpciaccess' 'resourceproto' 'scrnsaverproto'
+    'presentproto' 'xorg-util-macros')
+
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  rm -rf "${pkgdir}/usr/bin"
+  rm -rf "${pkgdir}/usr/share/man"
+  rm -rf "${pkgdir}/usr/share/doc"
+  rm -rf "${pkgdir}/usr/share/X11"
+  rm -rf "${pkgdir}/usr/lib/xorg"
+  rm -rf "${pkgdir}/var"
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -sf ../xorg-server-common/COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
+
+# vim: ft=sh syn=sh et
+

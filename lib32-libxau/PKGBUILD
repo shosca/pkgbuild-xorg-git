@@ -1,0 +1,51 @@
+# $Id: PKGBUILD 152650 2012-03-07 19:44:52Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Alexander Baldeck <alexander@archlinux.org>
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXau"
+_gitname="repo-libXau"
+
+pkgname=lib32-libxau
+pkgver=1.0.8.r100.g1e4635b
+pkgrel=18
+pkgdesc="X11 authorisation library"
+arch=('x86_64')
+url="http://xorg.freedesktop.org/"
+depends=('glibc' 'xproto')
+makedepends=('pkgconfig' 'xorg-util-macros' 'git')
+license=('custom')
+options=('!libtool')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --sysconfdir=/etc \
+    --disable-static
+
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  rm -rf "${pkgdir}"/usr/{include,share}
+}
+# vim: ft=sh syn=sh et
+

@@ -1,0 +1,50 @@
+# $Id: PKGBUILD 160615 2012-06-02 21:14:55Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+
+_gitroot="git://anongit.freedesktop.org/xcb/util"
+_gitname="repo-util"
+
+pkgname=xcb-util
+pkgver=0.4.0.0.r123.gacf790d
+pkgrel=29
+pkgdesc="Utility libraries for XC Binding"
+arch=('i686' 'x86_64')
+url="http://xcb.freedesktop.org"
+license=('custom')
+depends=('libxcb')
+makedepends=('gperf' 'xorg-util-macros' 'git')
+source=($_gitname::$_gitroot 'LICENSE')
+sha256sums=('SKIP'
+            'ded299aa179dcf0d885bf89274a4db77a530e03f9f5e7cf1c3c4ef1d60e914b9')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f1-2 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f3)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+  git submodule init && git submodule update
+
+  ./autogen.sh --prefix=/usr --disable-static
+  make
+}
+
+check() {
+  cd "${srcdir}/${_gitname}"
+  make check
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -D -m644 "${srcdir}/LICENSE" \
+    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
+# vim: ft=sh syn=sh et

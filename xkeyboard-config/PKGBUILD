@@ -1,0 +1,50 @@
+# $Id: PKGBUILD 167156 2012-09-26 14:52:42Z andyrtr $
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_gitroot='git://anongit.freedesktop.org/xkeyboard-config'
+_gitname='repo-xkeyboard-config'
+
+pkgname=xkeyboard-config
+pkgver=2.17.0.r1838.g4a48ae3
+pkgrel=7
+pkgdesc="X keyboard configuration files"
+arch=('any')
+license=('custom')
+url="http://www.freedesktop.org/wiki/Software/XKeyboardConfig"
+depends=('xorg-xkbcomp')
+makedepends=('intltool' 'xorg-util-macros' 'git')
+provides=('xkbdata')
+replaces=('xkbdata')
+conflicts=('xkbdata')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f3-4 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f5)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+
+  ./autogen.sh --prefix=/usr \
+      --with-xkb-base=/usr/share/X11/xkb \
+      --with-xkb-rules-symlink=xorg \
+      --enable-compat-rules=yes
+  make
+ }
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  rm -f "${pkgdir}/usr/share/X11/xkb/compiled"
+  install -m755 -d "${pkgdir}/var/lib/xkb"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+# vim: ft=sh syn=sh et

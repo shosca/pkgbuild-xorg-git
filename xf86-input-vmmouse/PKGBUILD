@@ -1,0 +1,45 @@
+# Maintainer: Det <who@cares.com>
+# Contributor: <Eugeny Borisov flekst@gmail.com>
+# Based on [extra]'s xf86-input-vmmouse
+
+_gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-vmmouse
+_gitname=repo-xf86-input-vmmouse
+
+pkgname=xf86-input-vmmouse
+pkgver=13.1.0.2.r132.g8081bdc
+pkgrel=72
+pkgdesc="X.Org vmmouse Input driver - Git version"
+arch=('i686' 'x86_64')
+url="http://cgit.freedesktop.org/xorg/driver/xf86-input-vmmouse/"
+license=('custom')
+depends=('glibc' 'libsystemd' 'sh')
+makedepends=('xorg-server-devel' 'resourceproto' 'scrnsaverproto' 'git')
+groups=('xorg-drivers' 'xorg')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f4-5 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f6)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr \
+    --with-udev-rules-dir=/usr/lib/udev/rules.d
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+  rm -rfv ${pkgdir}/usr/{lib,share}/hal
+}
+# vim: ft=sh syn=sh et
+

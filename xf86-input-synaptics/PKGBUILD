@@ -1,0 +1,49 @@
+# Maintainer: Det <who@cares.com>
+# Contributor: <Eugeny Borisov flekst@gmail.com>
+# Based on [extra]'s xf86-input-synaptics
+
+_gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-synaptics
+_gitname=repo-xf86-input-synaptics
+
+pkgname=xf86-input-synaptics
+pkgver=1.8.0.27.r1474.g0a4cf80
+pkgrel=91
+pkgdesc="X.Org synaptics Input driver - Git version"
+arch=('i686' 'x86_64')
+url="http://cgit.freedesktop.org/xorg/driver/xf86-input-synaptics/"
+license=('custom')
+depends=('mtdev' 'libevdev' 'libxi' 'libxtst')
+makedepends=('xorg-server-devel' 'resourceproto' 'scrnsaverproto' 'git')
+groups=('xorg-drivers' 'xorg')
+conflicts=('xorg-server<1.15.99')
+backup=('etc/X11/xorg.conf.d/10-synaptics.conf')
+source=($_gitname::$_gitroot 10-synaptics.conf)
+sha256sums=('SKIP'
+            'bd506a0545c335faa6da7ec42b3f60f2c09b5ed9e26f03003d6f59be88107ee2')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f4-5 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f6)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --disable-unit-tests
+  make
+}
+
+package(){
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/etc/X11/xorg.conf.d"
+  install -m644 "${srcdir}/10-synaptics.conf" "${pkgdir}/etc/X11/xorg.conf.d/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+
+  rm -rf "${pkgdir}/usr/share/X11"
+}
+
+# vim: ft=sh syn=sh et

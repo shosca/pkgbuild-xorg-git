@@ -1,0 +1,50 @@
+# $Id: PKGBUILD 153609 2012-03-16 17:09:01Z andyrtr $
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXt"
+_gitname="repo-libXt"
+
+pkgname=lib32-libxt
+pkgver=1.1.5.1.r230.ge8e2560
+pkgrel=17
+pkgdesc="X11 toolkit intrinsics library"
+arch=('x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('lib32-libsm' 'lib32-libx11' 'libxt')
+makedepends=('git' 'xorg-util-macros')
+options=('!libtool')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2-3 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --sysconfdir=/etc \
+    --disable-static
+
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  rm -rf "${pkgdir}"/usr/{include,share}
+}
+
+# vim: ft=sh syn=sh et

@@ -1,0 +1,50 @@
+# Maintainer: aboe76 AT gmail DOT com>
+# contribution: EdwardXXIV
+
+_gitroot="git://anongit.freedesktop.org/git/pixman"
+_gitname="repo-pixman"
+
+pkgname=lib32-pixman
+pkgver=0.33.6.8.r2324.g7c6066b
+pkgrel=2
+pkgdesc="The pixel-manipulation library for X and cairo"
+arch=('x86_64')
+url="http://pixman.org/"
+license=('GPL')
+depends=('lib32-pango' 'glibc')
+makedepends=('git' 'autoconf' 'automake' 'libtool' 'pkgconfig')
+options=('!libtool')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2-3 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --disable-gtk \
+    --disable-static
+
+  make
+}
+
+package() {
+  cd "$srcdir/$_gitname"
+  make DESTDIR="${pkgdir}/" install
+
+  rm -rf "${pkgdir}"/usr/{include,share}
+}
+
+# vim: ft=sh syn=sh et

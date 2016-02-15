@@ -1,0 +1,41 @@
+# $Id: PKGBUILD 152793 2012-03-09 16:30:31Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXtst"
+_gitname="repo-libXtst"
+
+pkgname=libxtst
+pkgver=1.2.2.1.r112.g48d2656
+pkgrel=95
+pkgdesc="X11 Testing -- Resource extension library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libxext' 'libxi' 'recordproto' 'inputproto')
+makedepends=('xorg-util-macros' 'git')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2-3 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+# vim: ft=sh syn=sh et

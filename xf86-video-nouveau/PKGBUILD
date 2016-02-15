@@ -1,0 +1,43 @@
+# $Id: PKGBUILD 174803 2013-01-07 18:10:24Z andyrtr $
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
+# Contributor: buddabrod <buddabrod@gmail.com>
+
+_gitroot="git://anongit.freedesktop.org/nouveau/xf86-video-nouveau"
+_gitname="repo-xf86-video-nouveau"
+
+pkgname=xf86-video-nouveau
+pkgver=1.0.12.1.r2444.gb824d36
+pkgrel=27
+pkgdesc="Open Source 2D acceleration driver for nVidia cards"
+arch=('i686' 'x86_64')
+url="http://nouveau.freedesktop.org/"
+license=('GPL')
+depends=('libpciaccess' 'libdrm' 'udev' 'pixman' 'mesa')
+makedepends=('xorg-server-devel' 'xf86driproto' 'git' 'glproto')
+conflicts=('xorg-server<1.15.99')
+groups=('xorg-drivers' 'xorg')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f4-5 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f6)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr
+
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+}
+
+# vim: ft=sh syn=sh et
+

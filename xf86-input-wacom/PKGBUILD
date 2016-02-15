@@ -1,0 +1,41 @@
+# Maintainer: Det <who@cares.com>
+# Contributor: <Eugeny Borisov flekst@gmail.com>
+# Based on [extra]'s xf86-input-wacom
+
+_gitroot=git://git.code.sf.net/p/linuxwacom/xf86-input-wacom
+_gitname=repo-xf86-input-wacom
+
+pkgname=xf86-input-wacom
+pkgver=0.32.0.5.r1874.g3b0c093
+pkgrel=2
+pkgdesc="X.Org wacom Input driver - Git version"
+arch=('i686' 'x86_64')
+url="http://cgit.freedesktop.org/xorg/driver/xf86-input-wacom/"
+license=('custom')
+depends=('libxi' 'libxinerama' 'libxrandr' 'systemd')
+makedepends=('xorg-server-devel' 'resourceproto' 'scrnsaverproto' 'git')
+groups=('xorg-drivers' 'xorg')
+conflicts=('xorg-server<1.15.99')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f4-5 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f6)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package(){
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+}
+
+# vim: ft=sh syn=sh et

@@ -1,0 +1,41 @@
+# Maintainer: Riccardo Berto <riccardobrt@gmail.com>
+# Previous Contributor: vbmithr
+# Contributor: Flamelab <panosfilip at gmail dot com>
+
+_gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-amdgpu'
+_gitname="repo-xf86-video-amdgpu"
+
+pkgname=xf86-video-amdgpu
+pkgver=1.0.0.15.r129.ga3eac85
+pkgrel=13
+pkgdesc="X.org ati video driver"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+depends=('libpciaccess' 'libdrm' 'udev' 'pixman' 'mesa')
+makedepends=('xorg-server-devel' 'xf86driproto' 'git' 'glproto')
+conflicts=('xorg-server<1.15.99')
+license=('custom')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f4-5 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f6)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install 
+}
+
+# vim: ft=sh syn=sh et
+

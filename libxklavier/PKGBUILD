@@ -1,0 +1,39 @@
+# $Id: PKGBUILD 152781 2012-03-09 16:19:36Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_gitroot='git://anongit.freedesktop.org/libxklavier'
+_gitname='repo-libxklavier'
+
+pkgname=libxklavier
+pkgver=5.4.2.r339.g65c132a
+pkgrel=26
+pkgdesc="High-level API for X Keyboard Extension"
+arch=('i686' 'x86_64')
+license=('custom')
+url="http://xorg.freedesktop.org/"
+depends=('glib2' 'libxkbfile' 'libxml2' 'xkeyboard-config' 'libxi' 'iso-codes')
+makedepends=('gtk-doc' 'intltool' 'xorg-util-macros' 'git')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2-3 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --with-xkb-bin-base=/usr/bin \
+    --with-xkb-base=/usr/share/X11/xkb --disable-static --enable-gtk-doc
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+}
+# vim: ft=sh syn=sh et
+

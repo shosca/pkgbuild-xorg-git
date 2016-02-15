@@ -1,0 +1,50 @@
+# Maintainer: Marcel Korpel <marcel[dot]korpel[at]gmail>
+# Contributor: Thomas Dziedzic < gostrc at gmail >
+# Contributor: breakdown <breakdown[at]archlinux[dot]us>
+# Contributor: fs4000 <matthias_dienstbier[at]yahoo[dot]de>
+# Contributor: William Heinbockel <wheinbockel[at]gmail[dot]com>
+
+_gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-intel'
+_gitname='repo-xf86-video-intel'
+
+pkgname=xf86-video-intel
+pkgver=2.99.917.550.r9224.g636b529
+pkgrel=2
+pkgdesc='X.org Intel i810/i830/i915/945G/G965+ video drivers'
+arch=('i686' 'x86_64')
+url='http://intellinuxgraphics.org/'
+license=('custom')
+depends=('libpng' 'mesa' 'libxvmc' 'libpciaccess' 'libdrm' 'dri2proto' 'xcb-util' 'libxfixes' 'libxfont' 'udev')
+makedepends=('git' 'xorg-server-devel' 'libx11' 'xf86driproto' 'glproto' 'resourceproto')
+conflicts=('xorg-server<1.15.99')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f1-2 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f3)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --enable-sna \
+    --enable-kms-only
+
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+
+  make DESTDIR="${pkgdir}" install 
+
+  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
+
+# vim: ft=sh syn=sh et
+

@@ -1,0 +1,50 @@
+# $Id: PKGBUILD 151850 2012-03-03 13:43:52Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libSM"
+_gitname="repo-libSM"
+
+pkgname=lib32-libsm
+pkgver=1.2.2.r147.gb64aa0e
+pkgrel=6
+pkgdesc="X11 Session Management library"
+arch=('x86_64')
+license=('custom')
+url="http://xorg.freedesktop.org/"
+depends=('lib32-libice' 'libsm' 'lib32-util-linux')
+makedepends=('gcc-multilib' 'xorg-util-macros' 'xtrans' 'git')
+options=('!libtool')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --sysconfdir=/etc \
+    --disable-static
+
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  rm -rf "${pkgdir}"/usr/{include,share}
+}
+# vim: ft=sh syn=sh et
+

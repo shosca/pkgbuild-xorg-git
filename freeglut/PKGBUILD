@@ -1,0 +1,47 @@
+# $Id$
+# Maintainer: Eric Belanger <eric@archlinux.org>
+# Contributor: Tom Newsom <Jeepster@gmx.co.uk>
+
+_gitroot="git://github.com/dcnieho/FreeGLUT"
+_gitname="repo-freeglut"
+
+
+pkgname=freeglut
+pkgver=3.0.0.1857.g0d24070
+pkgrel=18
+pkgdesc="Provides functionality for small OpenGL programs"
+arch=('i686' 'x86_64')
+url="http://freeglut.sourceforge.net/"
+license=('MIT')
+depends=('libxi' 'libxrandr')
+makedepends=('mesa' 'glu' 'libxxf86vm' 'git' 'cmake')
+replaces=('glut')
+provides=('glut')
+conflicts=('glut')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  rm -rf $srcdir/src/$_gitname
+  git clone -q $srcdir/$_gitname $srcdir/src/$_gitname
+  cd "$srcdir/src/$_gitname"
+  printf "%s.%s.g%s" "$(awk -F 'MAJOR |MINOR |PATCH |)' \
+                'BEGIN { ORS="." ; i=0  } /set\(VERSION_/ { print $2 ; \
+                i++ ; if (i==2) ORS=""  } END { print "\n"  }' freeglut/freeglut/CMakeLists.txt | tr -d svn)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git rev-parse --short HEAD)"
+  rm -rf $srcdir/src/$_gitname
+}
+
+build() {
+  cd "$srcdir/$_gitname/$pkgname/$pkgname"
+
+  cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+        -DCMAKE_INSTALL_LIBDIR:PATH=/usr/lib .
+  make
+}
+
+package() {
+  cd "$srcdir/$_gitname/$pkgname/$pkgname"
+  make DESTDIR="${pkgdir}" install
+}

@@ -1,0 +1,43 @@
+# $Id$
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-fbdev'
+_gitname='repo-xf86-video-fbdev'
+
+pkgname=xf86-video-fbdev
+pkgver=0.4.4.4.r102.g66e7909
+pkgrel=13
+pkgdesc='X.org framebuffer video driver'
+arch=('i686' 'x86_64')
+url='http://xorg.freedesktop.org/'
+license=('custom')
+depends=('glibc')
+makedepends=('git' 'xorg-server-devel')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f4-5 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f6)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr
+
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+
+  make DESTDIR="${pkgdir}" install 
+
+  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
+
+# vim: ft=sh syn=sh et
+

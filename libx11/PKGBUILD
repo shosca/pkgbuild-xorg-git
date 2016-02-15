@@ -1,0 +1,49 @@
+# $Id: PKGBUILD 160633 2012-06-02 21:43:25Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libX11"
+_gitname="repo-libX11"
+
+pkgname=libx11
+pkgver=1.6.3.r1298.g6d7bb04
+pkgrel=2
+pkgdesc="X11 client-side library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+depends=('libxcb' 'xproto' 'kbproto')
+makedepends=('git' 'xorg-util-macros' 'xextproto' 'xtrans' 'inputproto')
+license=('custom')
+source=($_gitname::$_gitroot
+        xorg.sh
+        xorg.csh)
+
+sha256sums=('SKIP'
+            '1a1b5db0320579958fba24774bae7984a1b1b8c647ac6fbd4d8937178c48ed46'
+            '96c85ccbdcb056540f2e2b6cf48dea067f80260c16957ee401c49cf94cea5894')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --disable-static --disable-xf86bigfont
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/etc/profile.d"
+  install -m755 "${srcdir}/"xorg.{sh,csh} "${pkgdir}/etc/profile.d/"
+
+  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+# vim: ft=sh syn=sh et
+

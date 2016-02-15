@@ -1,0 +1,52 @@
+# Maintainer: dx <dx@dxzone.com.ar>
+# Based on the official cairo package
+
+_gitroot='git://anongit.freedesktop.org/git/cairo'
+_gitname='repo-cairo'
+
+pkgname=cairo
+pkgver=1.15.2.r6.gaf42fc7
+pkgrel=21
+pkgdesc="Cairo vector graphics library (git version)"
+arch=('i686' 'x86_64')
+license=('LGPL' 'MPL')
+url="http://cairographics.org/"
+depends=('libpng' 'libxrender' 'fontconfig' 'pixman' 'glib2' 'sh' 'lzo2'
+         'xcb-util' 'glib2>=2.24.0' 'libedit')
+makedepends=('gtk-doc' 'git' 'mesa-libgl')
+options=('!libtool')
+provides=('cairo-xcb')
+conflicts=('cairo-xcb')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  #https://code.google.com/p/chromium/issues/detail?id=360604
+  export CFLAGS="$CFLAGS -ffat-lto-objects"
+  ./autogen.sh \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --enable-xcb \
+    --enable-tee \
+    --enable-gl \
+    --enable-gles \
+    --enable-egl \
+    --disable-static
+  make
+}
+
+package(){
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+}
+
+# vim: ft=sh syn=sh et
+

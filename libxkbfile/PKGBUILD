@@ -1,0 +1,41 @@
+# $Id: PKGBUILD 152781 2012-03-09 16:19:36Z andyrtr $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_gitroot='git://anongit.freedesktop.org/xorg/lib/libxkbfile'
+_gitname='repo-libxkbfile'
+
+pkgname=libxkbfile
+pkgver=1.0.9.3.r88.g56fa447
+pkgrel=10
+pkgdesc="X11 keyboard file manipulation library"
+arch=('i686' 'x86_64')
+license=('custom')
+url="http://xorg.freedesktop.org/"
+depends=('libx11')
+makedepends=('xorg-util-macros' 'git')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2-3 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static 
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+# vim: ft=sh syn=sh et
+

@@ -1,0 +1,47 @@
+# $Id$
+# Maintainer: Ionut Biru <ibiru@archlinux.org>
+_gitroot="git://anongit.freedesktop.org/vaapi/vdpau-driver"
+_gitname="repo-vdpau-driver"
+
+pkgname=libva-vdpau-driver
+pkgver=0.7.5.1.r388.g3dda0b4
+pkgrel=430
+pkgdesc="VDPAU backend for VA API"
+arch=('i686' 'x86_64')
+url="http://freedesktop.org/wiki/Software/vaapi"
+license=('GPL')
+depends=('libva' 'libvdpau')
+makedepends=('mesa' 'git')
+source=($_gitname::$_gitroot buildfix.patch)
+sha256sums=('SKIP'
+            '0b94e4bdf34b50508df31c7b244b87521857b20b037f88ef9a94221e1ef2a2aa')
+
+pkgver() {
+  rm -rf $srcdir/src/$_gitname
+  git clone -q $srcdir/$_gitname $srcdir/src/$_gitname
+  cd "$srcdir/src/$_gitname"
+  printf "%s.%s.%s.%s.r%s.g%s" \
+    "$(grep "m4_define(\[vdpau_video_major_version\]" configure.ac | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(grep "m4_define(\[vdpau_video_minor_version\]" configure.ac | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(grep "m4_define(\[vdpau_video_micro_version\]" configure.ac | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(grep "m4_define(\[vdpau_video_pre_version\]" configure.ac | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  patch -Np1 -i ../buildfix.patch
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m644 -D COPYING "${pkgdir}"/usr/share/licenses/${pkgname}/COPYING
+}
+# vim:set ts=2 sw=2 et:

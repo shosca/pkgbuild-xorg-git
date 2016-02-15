@@ -1,0 +1,38 @@
+# Maintainer: Joel Teichroeb <joel@teichroeb.net>
+
+_gitroot="git://anongit.freedesktop.org/wayland/libinput"
+_gitname="repo-libinput"
+
+pkgname=libinput
+pkgver=1.1.901.31.r1921.g197bad1
+pkgrel=2
+pkgdesc="Input device management and event handling library"
+arch=('i686' 'x86_64')
+license=('MIT')
+url="http://wayland.freedesktop.org"
+depends=('mtdev' 'systemd' 'libevdev' 'libwacom')
+makedepends=('git' 'expat' 'doxygen')
+options=('!libtool')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f1-2 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f3)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+}
+
+# vim: ft=sh syn=sh et

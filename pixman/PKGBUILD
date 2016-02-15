@@ -1,0 +1,48 @@
+# Maintainer: aboe76 AT gmail DOT com>
+# contribution: EdwardXXIV
+
+_gitroot="git://anongit.freedesktop.org/git/pixman"
+_gitname="repo-pixman"
+
+pkgname=pixman
+pkgver=0.35.1.r2324.g7c6066b
+pkgrel=1
+pkgdesc="The pixel-manipulation library for X and cairo"
+arch=('i686' 'x86_64')
+url="http://pixman.org/"
+license=('GPL')
+depends=('glibc')
+makedepends=('git' 'autoconf' 'automake' 'libtool' 'pkgconfig')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  rm -rf $srcdir/src/$_gitname
+  git clone -q $srcdir/$_gitname $srcdir/src/$_gitname
+  cd "$srcdir/src/$_gitname"
+  printf "%s.%s.%s.r%s.g%s" \
+    "$(grep "m4_define(\[pixman_major\]" configure.ac | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(grep "m4_define(\[pixman_minor\]" configure.ac | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(grep "m4_define(\[pixman_micro\]" configure.ac | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --disable-gtk \
+    --disable-static
+  make
+}
+
+package() {
+  cd "$srcdir/$_gitname"
+  make DESTDIR="${pkgdir}/" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+# vim: ft=sh syn=sh et

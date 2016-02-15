@@ -1,0 +1,41 @@
+# $Id: $
+# Maintainer: Jan de Groot
+
+_gitroot="git://anongit.freedesktop.org/libevdev"
+_gitname="repo-libevdev"
+
+
+pkgname=libevdev
+pkgver=1.4.6.r526.gbf8e6b2
+pkgrel=2
+pkgdesc="Wrapper library for evdev devices"
+arch=('i686' 'x86_64')
+url="http://www.freedesktop.org/wiki/Software/libevdev/"
+license=(custom:X11)
+depends=('glibc')
+makedepends=('git' 'python')
+source=($_gitname::$_gitroot fix-ui-get-sysname.patch)
+sha256sums=('SKIP'
+            'fff1d056fdb9e378c33e9ca08a49e14cc67ce9f97ea80f0b809c058441411129')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  patch -Np1 -i ../fix-ui-get-sysname.patch
+
+  ./autogen.sh --prefix=/usr --disable-static --disable-gcov
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}

@@ -1,0 +1,42 @@
+# $Id: PKGBUILD 198256 2013-10-30 13:45:51Z allan $
+# Maintainer : Ionut Biru <ibiru@archlinux.org>
+
+_gitroot="git://anongit.freedesktop.org/vaapi/libva"
+_gitname="repo-libva"
+
+pkgname=libva
+pkgver=1.6.2.r1136.g1f026de
+pkgrel=7
+pkgdesc="Video Acceleration (VA) API for Linux"
+arch=('i686' 'x86_64')
+url="http://freedesktop.org/wiki/Software/vaapi"
+license=('MIT')
+depends=('mesa-libgl' 'libdrm' 'libxfixes')
+makedepends=('gcc-multilib' 'git' 'mesa-libgl')
+optdepends=('libva-vdpau-driver: vdpau back-end for nvidia'
+            'libva-intel-driver: back-end for intel cards')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  # git describe is broken for libva
+  printf "%s.r%s.%s" "1.6.2" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -m644 -D COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
+
+# vim:set ts=2 sw=2 et:

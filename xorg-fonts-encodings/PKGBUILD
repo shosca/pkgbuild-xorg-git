@@ -1,0 +1,44 @@
+# $Id: PKGBUILD 152267 2012-03-06 08:39:49Z allan $
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_gitroot='git://git.freedesktop.org/git/xorg/font/encodings'
+_gitname='repo-encodings'
+
+pkgname=xorg-fonts-encodings
+pkgver=1.0.4.5.r60.g11ca3cf
+pkgrel=16
+pkgdesc="X.org font encoding files"
+arch=('any')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+makedepends=('xorg-mkfontscale' 'xorg-util-macros' 'xorg-font-util' 'git')
+groups=('xorg-fonts' 'xorg')
+options=(!makeflags)
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2-3 | tr - .)" "$(git rev-list HEAD --count)" "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+
+  # regenerate encodngs file not to include non-compressed versions
+  cd ${pkgdir}/usr/share/fonts/encodings/large
+  mkfontscale -b -s -l -n -r -p /usr/share/fonts/encodings/large -e . .
+  cd ${pkgdir}/usr/share/fonts/encodings/
+  mkfontscale -b -s -l -n -r -p /usr/share/fonts/encodings -e . -e large .
+}
+
+# vim: ft=sh syn=sh et

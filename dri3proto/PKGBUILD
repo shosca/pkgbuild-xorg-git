@@ -1,0 +1,38 @@
+# Contributor: Thomas Dziedzic <gostrc@@@gmail>
+# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
+# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+
+_gitroot='git://git.freedesktop.org/git/xorg/proto/dri3proto'
+_gitname='repo-dri3proto'
+
+pkgname=dri3proto
+pkgver=1.0.7.r23.g91df0f8
+pkgrel=6
+pkgdesc='X11 DRI3 extension wire protocol.'
+url='http://xorg.freedesktop.org/'
+arch=('any')
+license=('custom')
+makedepends=('xorg-util-macros' 'git')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2-3 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+}
+
+# vim: ft=sh syn=sh et

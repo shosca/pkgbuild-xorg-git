@@ -1,0 +1,49 @@
+# Maintainer: josephgbr <rafael.f.f1@gmail.com>
+
+_gitroot="git://anongit.freedesktop.org/wayland/wayland"
+_gitname="repo-wayland"
+
+pkgname=lib32-wayland
+pkgver=1.9.93.1.r1847.gbf34ac7
+pkgrel=4
+pkgdesc='A computer display server protocol (32 bit)'
+arch=('x86_64')
+url='http://wayland.freedesktop.org'
+license=('MIT')
+depends=('lib32-libffi' 'lib32-libxml2' 'wayland')
+makedepends=('git' 'gcc-multilib' 'lib32-expat')
+options=(!libtool)
+conflicts=('lib32-libwayland')
+replaces=('lib32-libwayland')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f1-2 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f3)"
+}
+
+build() {  
+  export CC="gcc -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+  
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh \
+    --prefix=/usr \
+    --disable-static \
+    --libdir=/usr/lib32 \
+    --disable-documentation
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+  rm -rf "${pkgdir}"/usr/{bin,include,share}
+  install -Dm 644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
+
+# vim:set ts=2 sw=2 et:

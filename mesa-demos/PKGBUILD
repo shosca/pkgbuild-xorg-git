@@ -1,0 +1,38 @@
+# Maintainer: Perry3D <perry3d@gmail.com>
+
+_gitroot="git://anongit.freedesktop.org/mesa/demos"
+_gitname="repo-demos"
+
+pkgname=mesa-demos
+pkgver=8.3.0.8.r6024.g37c85e6
+pkgrel=11
+pkgdesc="The mesa demos (glxinfo, glxgears, ...), built from the git master branch."
+arch=('i686' 'x86_64')
+url="http://mesa3d.org/"
+license=('LGPL')
+depends=('mesa-libgl' 'glew' 'freeglut')
+makedepends=('git')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f3-4 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f5)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --disable-egl
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+
+  make DESTDIR="${pkgdir}" install
+}
+
+# vim: ft=sh syn=sh et

@@ -1,0 +1,40 @@
+# $Id: PKGBUILD 186889 2013-05-31 14:07:54Z andyrtr $
+# Maintainer: AndyRTR <andyrtr@archlinux.org>
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Alexander Baldeck <alexander@archlinux.org>
+
+_gitroot="git://anongit.freedesktop.org/xorg/lib/libXxf86dga"
+_gitname="repo-libXxf86dga"
+
+pkgname=libxxf86dga
+pkgver=1.1.4.1.r83.g7fad129
+pkgrel=87
+pkgdesc="X11 Direct Graphics Access extension library"
+arch=('i686' 'x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libxext' 'xf86dgaproto')
+makedepends=('xorg-util-macros' 'git')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2-3 | tr - .)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git describe --long | cut -d "-" -f4)"
+}
+
+build() {
+  cd "${srcdir}/${_gitname}"
+
+  ./autogen.sh --prefix=/usr --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${_gitname}"
+  make DESTDIR="${pkgdir}" install
+
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}

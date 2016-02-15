@@ -8,6 +8,7 @@ GITFETCH=git fetch --all -p -q
 GITCLONE=git clone --mirror -q
 CHROOTPATH64=/var/chroot64/$(REPO)
 MAKECHROOTPKG=/usr/bin/makechrootpkg -c -u -r $(CHROOTPATH64)
+LOCKFILE=$(CHROOTPATH64)/sync.lock
 
 TARGETS=$(addsuffix /built, $(DIRS))
 PULL_TARGETS=$(addsuffix -pull, $(DIRS))
@@ -27,67 +28,87 @@ reset: clean
 	sudo rm -f */built ; \
 	sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=0/" $(PWD)/**/PKGBUILD ; \
 
-checkchroot:
+checkchroot: emptyrepo recreaterepo syncrepos
+
+buildchroot:
 	@if [ ! -d $(CHROOTPATH64) ]; then \
 		echo "Creating working chroot at $(CHROOTPATH64)/root" ; \
 		sudo mkdir -p $(CHROOTPATH64) ;\
 		[[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]] && sudo $(MKARCHROOT) $(CHROOTPATH64)/root base-devel ; \
-		sudo sed -i -e '/^#\[multilib\]/ s,#,,' \
-			-i -e '/^\[multilib\]/{$$!N; s,#,,}' $(CHROOTPATH64)/root/etc/pacman.conf ; \
-		sudo mkdir -p $(CHROOTPATH64)/root/repo ;\
-		echo "# Added by $$PKG" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
-		echo "COMPRESSXZ=(7z a dummy -txz -si -so)" | sudo tee -a $(CHROOTPATH64)/root/etc/makepkg.conf ; \
-		echo 'LANG="en_US.UTF-8"' | sudo tee -a $(CHROOTPATH64)/root/etc/locale.conf ; \
-		echo 'LANGUAGE="en_US:en"' | sudo tee -a $(CHROOTPATH64)/root/etc/locale.conf ; \
-		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c 'yes | pacman -S gcc-multilib gcc-libs-multilib p7zip' ; \
-		sudo bsdtar -czf $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz -T /dev/null ; \
-		sudo ln -sf $(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/$(REPO).db ; \
-		echo "[$(REPO)]" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
-		echo "SigLevel = Never" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
-		echo "Server = file:///repo" | sudo tee -a $(CHROOTPATH64)/root/etc/pacman.conf ; \
+		$(MAKE) installdeps ; \
 	fi ; \
-	$(MAKE) recreaterepo ; \
 
-resetchroot:
-	sudo rm -rf $(CHROOTPATH64) && $(MAKE) checkchroot
+configchroot: buildchroot emptyrepo
+	@sudo cp $(PWD)/pacman.conf $(CHROOTPATH64)/root/etc/pacman.conf ;\
+	sudo cp $(PWD)/makepkg.conf $(CHROOTPATH64)/root/etc/makepkg.conf ;\
+	sudo cp $(PWD)/locale.conf $(CHROOTPATH64)/root/etc/locale.conf ;\
 
-recreaterepo:
+emptyrepo: buildchroot
+	@sudo mkdir -p $(CHROOTPATH64)/root/repo/ ; \
+	sudo bsdtar -czf $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz -T /dev/null ; \
+	sudo ln -sf $(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/$(REPO).db ; \
+
+installdeps: buildchroot syncrepos
+	@sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c 'pacman -Sy ; yes | pacman -S gcc-multilib gcc-libs-multilib p7zip' ; \
+
+recreaterepo: buildchroot emptyrepo
 	@echo "Recreating working repo $(REPO)" ; \
+	if [[ -f $(LOCKFILE) ]]; then \
+		while [[ -f $(LOCKFILE) ]]; do sleep 3; done \
+	fi ; \
+	sudo touch $(LOCKFILE) ; \
+	sudo mkdir -p $(CHROOTPATH64)/root/repo ;\
+	sudo cp $(PWD)/pacman.conf $(CHROOTPATH64)/root/etc/pacman.conf ;\
 	if ls */*.$(PKGEXT) &> /dev/null ; then \
 		sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
 		sudo cp -f */*.$(PKGEXT) /var/cache/pacman/pkg ; \
 		sudo repo-add $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
 	fi ; \
-	sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root pacman -Syyu --noconfirm ; \
+	sudo rm $(LOCKFILE) ; \
+
+syncrepos: buildchroot recreaterepo
+	@if [[ -f $(LOCKFILE) ]]; then \
+		while [[ -f $(LOCKFILE) ]]; do sleep 3; done \
+	fi ; \
+	sudo touch $(LOCKFILE) ; \
+	sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root pacman -Syu --noconfirm ; \
+	sudo rm $(LOCKFILE) ; \
+
+resetchroot:
+	sudo rm -rf $(CHROOTPATH64) && $(MAKE) checkchroot
+
 
 build: $(DIRS)
 
-test:
+check:
 	@echo "REPO    : $(REPO)" ; \
 	echo "DIRS    : $(DIRS)" ; \
 	echo "PKGEXT  : $(PKGEXT)" ; \
 	echo "GITFETCH: $(GITFETCH)" ; \
-	echo "GITCLONE: $(GITCLONE)"
+	echo "GITCLONE: $(GITCLONE)" ; \
+	for d in $(DIRS) ; do \
+		[[ -f $$d/built ]] || echo $$d ; \
+	done
 
 %/built:
 	@_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
 	cd $* ; \
 	rm -f *.log ; \
-	mkdir -p tmp ; mv *$(PKGEXT) tmp ; \
+	mkdir -p $(PWD)/$*/tmp ; mv $(PWD)/$*/*$(PKGEXT) $(PWD)/$*/tmp ; \
 	sudo $(MAKECHROOTPKG) -l $* ; \
 	if ! ls *.$(PKGEXT) &> /dev/null ; then \
-		mv tmp/*.$(PKGEXT) . && rm -rf tmp ; \
+		mv $(PWD)/$*/tmp/*.$(PKGEXT) $(PWD)/$*/ && rm -rf $(PWD)/$*/tmp ; \
 		exit 1 ; \
 	fi ; \
-	rm -rf tmp ; \
+	rm -rf $(PWD)/$*/tmp ; \
 	if [ -f $(PWD)/$*/$$_gitname/HEAD ]; then \
 		cd $(PWD)/$*/$$_gitname ; git log -1 | head -n1 > $(PWD)/$*/built ; \
 	else \
 		touch $(PWD)/$*/built ; \
 	fi ; \
 	cd $(PWD) ; \
-	$(MAKE) recreaterepo ; \
-	rm -f $(addsuffix /built, $(shell grep ' $*' Makefile | cut -d':' -f1)) ; \
+	rm -f $(addsuffix /built, $(shell grep ' $* ' Makefile | cut -d':' -f1)) ; \
+	echo "$(addsuffix /built, $(shell grep ' $* ' Makefile | cut -d':' -f1))" ; \
 
 $(DIRS): checkchroot
 	@if [ ! -f $(PWD)/$@/built ]; then \
@@ -105,18 +126,22 @@ gitpull: $(PULL_TARGETS)
 %-pull:
 	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$*/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
 	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
-	for f in $(PWD)/$*/*/HEAD; do \
-		cd $$(dirname $$f) && $(GITFETCH) ; \
-	done ; \
-	if [ -f $(PWD)/$*/$$_gitname/HEAD ]; then \
-		cd $(PWD)/$*/$$_gitname && \
-		if [ -f $(PWD)/$*/built ] && [ "$$(cat $(PWD)/$*/built)" != "$$(git log -1 | head -n1)" ]; then \
-			rm -f $(PWD)/$*/built ; \
-			$(MAKE) -s -C $(PWD) $*-ver ; \
-			$(MAKE) -s -C $(PWD) $*-rel ; \
-		fi ; \
-		cd $(PWD) ; \
-	fi
+	if [ ! -z "$$_gitroot" ] ; then \
+	  if [ -f $(PWD)/$*/$$_gitname/HEAD ]; then \
+		  for f in $(PWD)/$*/*/HEAD; do \
+			  cd $$(dirname $$f) && $(GITFETCH) ; \
+		  done ; \
+		  cd $(PWD)/$*/$$_gitname && \
+		  if [ -f $(PWD)/$*/built ] && [ "$$(cat $(PWD)/$*/built)" != "$$(git log -1 | head -n1)" ]; then \
+			  rm -f $(PWD)/$*/built ; \
+			  $(MAKE) -s -C $(PWD) $*-ver ; \
+			  $(MAKE) -s -C $(PWD) $*-rel ; \
+		  fi ; \
+	  else \
+		  git clone --bare $$_gitroot $(PWD)/$*/$$_gitname ; \
+	  fi ; \
+	fi ; \
+	cd $(PWD)
 
 vers: $(VER_TARGETS)
 
@@ -136,275 +161,275 @@ updateshas: $(SHA_TARGETS)
 
 -include Makefile.mk
 
-libomxil-bellagio-git:
+libomxil-bellagio: syncrepos
 
-xorg-util-macros-git:
+xorg-util-macros: syncrepos
 
-bigreqsproto-git: xorg-util-macros-git
+bigreqsproto: xorg-util-macros syncrepos
 
-compositeproto-git: xorg-util-macros-git
+compositeproto: xorg-util-macros syncrepos
 
-damageproto-git: xorg-util-macros-git
+damageproto: xorg-util-macros syncrepos
 
-presentproto-git: xorg-util-macros-git
+presentproto: xorg-util-macros syncrepos
 
-dmxproto-git: xorg-util-macros-git
+dmxproto: xorg-util-macros syncrepos
 
-dri2proto-git: xorg-util-macros-git
+dri2proto: xorg-util-macros syncrepos
 
-dri3proto-git: xorg-util-macros-git
+dri3proto: xorg-util-macros syncrepos
 
-fixesproto-git: xorg-util-macros-git xproto-git xextproto-git
+fixesproto: xorg-util-macros xproto xextproto syncrepos
 
-fontsproto-git: xorg-util-macros-git
+fontsproto: xorg-util-macros syncrepos
 
-glproto-git: xorg-util-macros-git
+glproto: xorg-util-macros syncrepos
 
-inputproto-git: xorg-util-macros-git
+inputproto: xorg-util-macros syncrepos
 
-kbproto-git: xorg-util-macros-git
+kbproto: xorg-util-macros syncrepos
 
-randrproto-git: xorg-util-macros-git
+randrproto: xorg-util-macros syncrepos
 
-recordproto-git: xorg-util-macros-git
+recordproto: xorg-util-macros syncrepos
 
-renderproto-git: xorg-util-macros-git
+renderproto: xorg-util-macros syncrepos
 
-resourceproto-git: xorg-util-macros-git
+resourceproto: xorg-util-macros syncrepos
 
-scrnsaverproto-git: xorg-util-macros-git
+scrnsaverproto: xorg-util-macros syncrepos
 
-videoproto-git: xorg-util-macros-git
+videoproto: xorg-util-macros syncrepos
 
-xcb-proto-git: xorg-util-macros-git
+xcb-proto: xorg-util-macros syncrepos
 
-xcmiscproto-git: xorg-util-macros-git
+xcmiscproto: xorg-util-macros syncrepos
 
-xextproto-git: xorg-util-macros-git
+xextproto: xorg-util-macros syncrepos
 
-xf86dgaproto-git: xorg-util-macros-git
+xf86dgaproto: xorg-util-macros syncrepos
 
-xf86driproto-git: xorg-util-macros-git
+xf86driproto: xorg-util-macros syncrepos
 
-xf86vidmodeproto-git: xorg-util-macros-git
+xf86vidmodeproto: xorg-util-macros syncrepos
 
-xineramaproto-git: xorg-util-macros-git
+xineramaproto: xorg-util-macros syncrepos
 
-xproto-git: xorg-util-macros-git
+xproto: xorg-util-macros syncrepos
 
-pixman-git: xorg-util-macros-git
+pixman: xorg-util-macros syncrepos
 
-wayland-git: xorg-util-macros-git wayland-protocols-git
+wayland: xorg-util-macros wayland-protocols syncrepos
 
-libpciaccess-git: xorg-util-macros-git
+libpciaccess: xorg-util-macros syncrepos
 
-libshmfence-git: xorg-util-macros-git
+libshmfence: xorg-util-macros syncrepos
 
-libdrm-git: libpciaccess-git xorg-util-macros-git
+libdrm: libpciaccess xorg-util-macros syncrepos
 
-libfontenc-git: xproto-git xorg-font-util-git
+libfontenc: xproto xorg-font-util syncrepos
 
-libxdmcp-git: xproto-git
+libxdmcp: xproto syncrepos
 
-libxau-git: xproto-git
+libxau: xproto syncrepos
 
-libxcb-git: xcb-proto-git libxdmcp-git libxau-git
+libxcb: xcb-proto libxdmcp libxau syncrepos
 
-libx11-git: xproto-git kbproto-git xextproto-git xtrans-git inputproto-git libxcb-git
+libx11: xproto kbproto xextproto xtrans inputproto libxcb syncrepos
 
-xcb-util-git: xproto-git libxcb-git 
+xcb-util: xproto libxcb syncrepos
 
-xcb-util-image-git: xcb-util-git
+xcb-util-image: xcb-util syncrepos
 
-xcb-util-keysyms-git: xcb-util-git
+xcb-util-keysyms: xcb-util syncrepos
 
-xcb-util-wm-git: xcb-util-git
+xcb-util-wm: xcb-util syncrepos
 
-xcb-util-renderutil-git: xcb-util-git
+xcb-util-renderutil: xcb-util syncrepos
 
-libxext-git: xextproto-git libx11-git
+libxext: xextproto libx11 syncrepos
 
-libxrender-git: renderproto-git libx11-git
+libxrender: renderproto libx11 syncrepos
 
-libxrandr-git: randrproto-git libxext-git libxrender-git
+libxrandr: randrproto libxext libxrender syncrepos
 
-libxi-git: inputproto-git libxext-git
+libxi: inputproto libxext syncrepos
 
-libxtst-git: recordproto-git inputproto-git libxi-git
+libxtst: recordproto inputproto libxi syncrepos
 
-libice-git: xproto-git xtrans-git
+libice: xproto xtrans syncrepos
 
-libsm-git: libice-git xtrans-git xorg-util-macros-git
+libsm: libice xtrans xorg-util-macros syncrepos
 
-libxt-git: libx11-git libsm-git
+libxt: libx11 libsm syncrepos
 
-libxmu-git: libxext-git libxt-git
+libxmu: libxext libxt syncrepos
 
-libxpm-git: libxt-git libxext-git
+libxpm: libxt libxext syncrepos
 
-libxaw-git: libxmu-git libxpm-git
+libxaw: libxmu libxpm syncrepos
 
-libxres-git: resourceproto-git damageproto-git compositeproto-git scrnsaverproto-git libxext-git
+libxres: resourceproto damageproto compositeproto scrnsaverproto libxext syncrepos
 
-libdmx-git: dmxproto-git libxext-git
+libdmx: dmxproto libxext syncrepos
 
-libxfixes-git: fixesproto-git libx11-git
+libxfixes: fixesproto libx11 syncrepos
 
-libxdamage-git: damageproto-git libxfixes-git
+libxdamage: damageproto libxfixes syncrepos
 
-libxcomposite-git: compositeproto-git libxfixes-git
+libxcomposite: compositeproto libxfixes syncrepos
 
-libxxf86vm-git: xf86vidmodeproto-git libxext-git
+libxxf86vm: xf86vidmodeproto libxext syncrepos
 
-libxxf86dga-git: xf86dgaproto-git libxext-git
+libxxf86dga: xf86dgaproto libxext syncrepos
 
-libxv-git: videoproto-git libxext-git
+libxv: videoproto libxext syncrepos
 
-libxvmc-git: libxv-git
+libxvmc: libxv syncrepos
 
-libvdpau-git: libx11-git libxext-git
+libvdpau: libx11 libxext syncrepos
 
-vdpauinfo-git: libvdpau-git
+vdpauinfo: libvdpau syncrepos
 
-libva-git: libdrm-git libxfixes-git
+libva: libdrm libxfixes syncrepos
 
-libva-intel-driver-git: libva-git
+libva-intel-driver: libva syncrepos
 
-libva-vdpau-driver-git: libva-git libvdpau-git mesa-git
+libva-vdpau-driver: libva libvdpau mesa syncrepos
 
-libxcursor-git: libxfixes-git libxrender-git
+libxcursor: libxfixes libxrender syncrepos
 
-libxfont-git: xproto-git fontsproto-git libfontenc-git xtrans-git
+libxfont: xproto fontsproto libfontenc xtrans syncrepos
 
-libxkbfile-git: libx11-git
+libxkbfile: libx11 syncrepos
 
-freerdp-git: libxinerama-git libxcursor-git libxkbfile-git wayland-git
+freerdp: libxinerama libxcursor libxkbfile wayland syncrepos
 
-cairo-git: libxrender-git pixman-git xcb-util-git mesa-git
+cairo: libxrender pixman xcb-util mesa syncrepos
 
-libclc-git: llvm-git
+libclc: llvm syncrepos
 
-libepoxy-git: mesa-git xorg-util-macros-git
+libepoxy: mesa xorg-util-macros syncrepos
 
-libxkbcommon-git: xkeyboard-config-git
+libxkbcommon: xkeyboard-config syncrepos
 
-mesa-git: glproto-git libdrm-git llvm-git libclc-git libxfixes-git libvdpau-git libxdamage-git libxxf86vm-git libxvmc-git wayland-git libomxil-bellagio-git libxshmfence-git dri2proto-git dri3proto-git presentproto-git
+mesa: glproto libdrm llvm libclc libxfixes libvdpau libxdamage libxxf86vm libxvmc wayland libomxil-bellagio libxshmfence dri2proto dri3proto presentproto syncrepos
 
-glu-git: mesa-git
+glu: mesa syncrepos
 
-glew-git: libxmu-git glu-git
+glew: libxmu glu syncrepos
 
-freeglut-git: libxi-git libxrandr-git mesa-git glu-git libxxf86vm-git
+freeglut: libxi libxrandr mesa glu libxxf86vm syncrepos
 
-mesa-demos-git: mesa-git glew-git freeglut-git
+mesa-demos: mesa glew freeglut syncrepos
 
-xorg-font-util-git: xorg-util-macros-git
+xorg-font-util: xorg-util-macros syncrepos
 
-xorg-setxkbmap-git: libxkbfile-git xorg-util-macros-git
+xorg-setxkbmap: libxkbfile xorg-util-macros syncrepos
 
-xorg-server-git: bigreqsproto-git presentproto-git compositeproto-git dmxproto-git dri2proto-git dri3proto-git fontsproto-git glproto-git inputproto-git randrproto-git recordproto-git renderproto-git resourceproto-git scrnsaverproto-git videoproto-git xcmiscproto-git xextproto-git xf86dgaproto-git xf86driproto-git xineramaproto-git libdmx-git libdrm-git libpciaccess-git libx11-git libxau-git libxaw-git libxdmcp-git libxext-git libxfixes-git libxfont-git libxi-git libxkbfile-git libxmu-git libxrender-git libxres-git libxtst-git libxv-git libepoxy-git mesa-git pixman-git xkeyboard-config-git xorg-font-util-git xorg-setxkbmap-git xorg-util-macros-git xorg-xkbcomp-git xtrans-git wayland-git xcb-util-image-git xcb-util-wm-git xcb-util-keysyms-git xcb-util-renderutil-git libxshmfence-git
+xorg-server: bigreqsproto presentproto compositeproto dmxproto dri2proto dri3proto fontsproto glproto inputproto randrproto recordproto renderproto resourceproto scrnsaverproto videoproto xcmiscproto xextproto xf86dgaproto xf86driproto xineramaproto libdmx libdrm libpciaccess libx11 libxau libxaw libxdmcp libxext libxfixes libxfont libxi libxkbfile libxmu libxrender libxres libxtst libxv libepoxy mesa pixman xkeyboard-config xorg-font-util xorg-setxkbmap xorg-util-macros xorg-xkbcomp xtrans wayland xcb-util-image xcb-util-wm xcb-util-keysyms xcb-util-renderutil libxshmfence syncrepos
 
-xorg-xauth-git: libxmu-git
+xorg-xauth: libxmu syncrepos
 
-xorg-xhost-git: libxmu-git
+xorg-xhost: libxmu syncrepos
 
-xorg-xrdb-git: libxmu-git
+xorg-xrdb: libxmu syncrepos
 
-xorg-xrandr-git: libxrandr-git libx11-git
+xorg-xrandr: libxrandr libx11 syncrepos
 
-xorg-xprop-git: libx11-git
+xorg-xprop: libx11 syncrepos
 
-xorg-xev-git: libx11-git libxrandr-git xproto-git
+xorg-xev: libx11 libxrandr xproto syncrepos
 
-xorg-xset-git: libxmu-git xorg-util-macros-git
+xorg-xset: libxmu xorg-util-macros syncrepos
 
-xorg-mkfontscale-git: libfontenc-git xproto-git
+xorg-mkfontscale: libfontenc xproto syncrepos
 
-xorg-xwininfo-git: libxcb-git libx11-git
+xorg-xwininfo: libxcb libx11 syncrepos
 
-xorg-bdftopcf-git: libxfont-git xproto-git
+xorg-bdftopcf: libxfont xproto syncrepos
 
-xorg-xmessage-git: libxaw-git
+xorg-xmessage: libxaw syncrepos
 
-xorg-fonts-encodings-git: xorg-mkfontscale-git xorg-util-macros-git xorg-font-util-git
+xorg-fonts-encodings: xorg-mkfontscale xorg-util-macros xorg-font-util syncrepos
 
-xf86-input-evdev-git: xorg-server-git libevdev-git libxi-git libxtst-git resourceproto-git scrnsaverproto-git
+xf86-input-evdev: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto syncrepos
 
-xf86-input-libinput-git: xorg-server-git libinput-git libxi-git libxtst-git resourceproto-git scrnsaverproto-git
+xf86-input-libinput: xorg-server libinput libxi libxtst resourceproto scrnsaverproto syncrepos
 
-xf86-input-synaptics-git: xorg-server-git libevdev-git libxi-git libxtst-git resourceproto-git scrnsaverproto-git
+xf86-input-synaptics: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto syncrepos
 
-xf86-input-joystick-git: xorg-server-git resourceproto-git scrnsaverproto-git
+xf86-input-joystick: xorg-server resourceproto scrnsaverproto syncrepos
 
-xf86-input-keyboard-git: xorg-server-git resourceproto-git scrnsaverproto-git
+xf86-input-keyboard: xorg-server resourceproto scrnsaverproto syncrepos
 
-xf86-input-mouse-git: xorg-server-git resourceproto-git scrnsaverproto-git
+xf86-input-mouse: xorg-server resourceproto scrnsaverproto syncrepos
 
-xf86-input-vmmouse-git: xorg-server-git resourceproto-git scrnsaverproto-git
+xf86-input-vmmouse: xorg-server resourceproto scrnsaverproto syncrepos
 
-xf86-input-void-git: xorg-server-git resourceproto-git scrnsaverproto-git
+xf86-input-void: xorg-server resourceproto scrnsaverproto syncrepos
 
-xf86-input-wacom-git: xorg-server-git libevdev-git libxi-git libxtst-git resourceproto-git scrnsaverproto-git
+xf86-input-wacom: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto syncrepos
 
-xf86-video-ati-git: xorg-server-git mesa-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
+xf86-video-ati: xorg-server mesa libdrm libpciaccess pixman xf86driproto glproto syncrepos
 
-xf86-video-amdgpu-git: xorg-server-git mesa-git libdrm-git libpciaccess-git pixman-git xf86driproto-git glproto-git
+xf86-video-amdgpu: xorg-server mesa libdrm libpciaccess pixman xf86driproto glproto syncrepos
 
-radeontop-git:
+radeontop: syncrepos
 
-xkeyboard-config-git: kbproto-git xcb-proto-git xproto-git libx11-git libxau-git libxcb-git libxdmcp-git libxkbfile-git xorg-xkbcomp-git
+xkeyboard-config: kbproto xcb-proto xproto libx11 libxau libxcb libxdmcp libxkbfile xorg-xkbcomp syncrepos
 
-libxklavier-git: libxi-git xkeyboard-config-git
+libxklavier: libxi xkeyboard-config syncrepos
 
-xf86-video-intel-git: xorg-server-git mesa-git libxvmc-git libpciaccess-git libdrm-git dri2proto-git dri3proto-git libxfixes-git libx11-git xf86driproto-git glproto-git resourceproto-git xcb-util-git
+xf86-video-intel: xorg-server mesa libxvmc libpciaccess libdrm dri2proto dri3proto libxfixes libx11 xf86driproto glproto resourceproto xcb-util syncrepos
 
-xf86-video-nouveau-git: libdrm-git mesa-git xorg-server-git
+xf86-video-nouveau: libdrm mesa xorg-server syncrepos
 
-xf86-video-fbdev-git: xorg-server-git
+xf86-video-fbdev: xorg-server syncrepos
 
-weston-git: libinput-git libxkbcommon-git wayland-git mesa-git cairo-git libxcursor-git pixman-git glu-git wayland-protocols-git
+weston: libinput libxkbcommon wayland mesa cairo libxcursor pixman glu wayland-protocols syncrepos
 
-lib32-libpciaccess-git:
+lib32-libpciaccess:syncrepos
 
-lib32-pixman-git: pixman-git
+lib32-pixman: pixman syncrepos
 
-lib32-libxdmcp-git: libxdmcp-git
+lib32-libxdmcp: libxdmcp syncrepos
 
-lib32-libice-git: libice-git
+lib32-libice: libice syncrepos
 
-lib32-libxau-git: libxau-git
+lib32-libxau: libxau syncrepos
 
-lib32-libxcb-git: libxcb-git lib32-libxdmcp-git  lib32-libxau-git
+lib32-libxcb: libxcb lib32-libxdmcp  lib32-libxau syncrepos
 
-lib32-libx11-git: libx11-git lib32-libxcb-git
+lib32-libx11: libx11 lib32-libxcb syncrepos
 
-lib32-libxrender-git: libxrender-git lib32-libx11-git
+lib32-libxrender: libxrender lib32-libx11 syncrepos
 
-lib32-libxext-git: libxext-git lib32-libx11-git
+lib32-libxext: libxext lib32-libx11 syncrepos
 
-lib32-libxv-git: libxv-git lib32-libxext-git
+lib32-libxv: libxv lib32-libxext syncrepos
 
-lib32-libxvmc-git: libxvmc-git lib32-libxv-git
+lib32-libxvmc: libxvmc lib32-libxv syncrepos
 
-lib32-libvdpau-git: libvdpau-git lib32-libx11-git
+lib32-libvdpau: libvdpau lib32-libx11 syncrepos
 
-lib32-libxxf86vm-git: libxxf86vm-git lib32-libxext-git
+lib32-libxxf86vm: libxxf86vm lib32-libxext syncrepos
 
-lib32-libxfixes-git: libxfixes-git lib32-libx11-git
+lib32-libxfixes: libxfixes lib32-libx11 syncrepos
 
-lib32-libxdamage-git: libxdamage-git lib32-libxfixes-git
+lib32-libxdamage: libxdamage lib32-libxfixes syncrepos
 
-lib32-libsm-git: libsm-git lib32-libice-git
+lib32-libsm: libsm lib32-libice syncrepos
 
-lib32-libxt-git: libxt-git lib32-libsm-git lib32-libx11-git
+lib32-libxt: libxt lib32-libsm lib32-libx11 syncrepos
 
-lib32-wayland-git: wayland-git
+lib32-wayland: wayland syncrepos
 
-lib32-libdrm-git: libdrm-git lib32-libpciaccess-git
+lib32-libdrm: libdrm lib32-libpciaccess syncrepos
 
-lib32-mesa-git: glproto-git lib32-libxshmfence-git lib32-libdrm-git lib32-llvm-git lib32-libxvmc-git lib32-libvdpau-git lib32-libxxf86vm-git lib32-libxdamage-git lib32-libx11-git lib32-libxt-git lib32-wayland-git mesa-git lib32-libxshmfence-git
+lib32-mesa: glproto lib32-libxshmfence lib32-libdrm lib32-llvm lib32-libxvmc lib32-libvdpau lib32-libxxf86vm lib32-libxdamage lib32-libx11 lib32-libxt lib32-wayland mesa lib32-libxshmfence syncrepos
 
-lib32-llvm-git: llvm-git
+lib32-llvm: llvm syncrepos
 
-lib32-libxshmfence-git: libxshmfence-git
+lib32-libxshmfence: libxshmfence syncrepos
 
