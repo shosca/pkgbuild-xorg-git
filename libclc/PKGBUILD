@@ -4,8 +4,8 @@ _gitroot='http://llvm.org/git/libclc.git'
 _gitname=repo-libclc
 
 pkgname=libclc
-pkgver=0.2.0+292+03d52f1
-pkgrel=3
+pkgver=0.2.0.292.r03d52f1.g
+pkgrel=4
 pkgdesc="Library requirements of the OpenCL C programming language"
 arch=('i686' 'x86_64')
 url="http://libclc.llvm.org/"
@@ -16,7 +16,12 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
-  printf "0.2.0+%s+%s" "$(git rev-list --count HEAD)" "$(git describe --always)"
+  printf "%s.%s.%s.%s.r%s.g%s" \
+    "$(git archive --remote=$(pwd) HEAD configure.py | tar -xO | grep -e '^version_major' | tr -d ';' | cut -d' ' -f 3)" \
+    "$(git archive --remote=$(pwd) HEAD configure.py | tar -xO | grep -e '^version_minor' | tr -d ';' | cut -d' ' -f 3)" \
+    "$(git archive --remote=$(pwd) HEAD configure.py | tar -xO | grep -e '^version_patch' | tr -d ';' | cut -d' ' -f 3)" \
+    "$(git rev-list HEAD --count)" \
+    "$(git rev-parse --short HEAD)"
 }
 
 build() {

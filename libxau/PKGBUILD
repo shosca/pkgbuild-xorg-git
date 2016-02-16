@@ -6,7 +6,7 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXau"
 _gitname="repo-libXau"
 
 pkgname=libxau
-pkgver=1.0.8.r100.g1e4635b
+pkgver=1.0.8.r100.1e4635b
 pkgrel=18
 pkgdesc="X11 authorisation library"
 arch=('x86_64')
@@ -19,9 +19,10 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
-  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2 | tr - .)" \
+  printf "%s.r%s.%s" \
+    "$(git describe --long | cut -d "-" -f2 | tr - .)" \
     "$(git rev-list HEAD --count)" \
-    "$(git describe --long | cut -d "-" -f4)"
+    "$(git rev-parse --short HEAD)"
 }
 
 build() {

@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/nouveau/xf86-video-nouveau"
 _gitname="repo-xf86-video-nouveau"
 
 pkgname=xf86-video-nouveau
-pkgver=1.0.12.1.r2444.gb824d36
-pkgrel=27
+pkgver=1.0.12.r2444.gb824d36
+pkgrel=28
 pkgdesc="Open Source 2D acceleration driver for nVidia cards"
 arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
@@ -21,9 +21,11 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
-  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f4-5 | tr - .)" \
+  printf "%s.r%s.g%s" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | \
+        sed -e '/AC_INIT/,/xf86-video-nouveau/!d' | tr '[]{}(),' ' ' | tr '\n' ' ' | tr -s ' ' | cut -d' ' -f3)" \
     "$(git rev-list HEAD --count)" \
-    "$(git describe --long | cut -d "-" -f6)"
+    "$(git rev-parse --short HEAD)"
 }
 
 build() {

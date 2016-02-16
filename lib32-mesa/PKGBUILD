@@ -7,8 +7,8 @@ _gitname='repo-mesa'
 
 pkgbase=lib32-mesa
 pkgname=('lib32-mesa-vdpau' 'lib32-mesa' 'lib32-mesa-libgl')
-pkgver=11.2.0_devel.r76343.g331f963
-pkgrel=4
+pkgver=11.2.0_devel.r76348.g00a1bd1
+pkgrel=1
 arch=('x86_64')
 makedepends=('git' 'python2-mako' 'lib32-libxml2' 'lib32-expat' 'lib32-libx11'
              'glproto' 'lib32-libdrm' 'dri2proto' 'dri3proto'
@@ -23,10 +23,10 @@ source=($_gitname::$_gitroot LICENSE)
 sha256sums=('SKIP'
             '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2')
 pkgver() {
-  rm -rf $srcdir/src/$_gitname
-  git clone -q $srcdir/$_gitname $srcdir/src/$_gitname
-  cd "$srcdir/src/$_gitname"
-  printf "%s.r%s.g%s" "$(cat VERSION | tr '-' '_')" "$(git rev-list HEAD --count)" \
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.g%s" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD VERSION | tar -xO | tr '-' '_')" \
+    "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
 }
 

@@ -6,8 +6,8 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='repo-mesa'
 
 pkgbase=mesa
-pkgver=11.2.0_devel.r76343.g331f963
-pkgrel=4
+pkgver=11.2.0_devel.r76348.g00a1bd1
+pkgrel=1
 pkgname=('opencl-mesa' 'libva-mesa-driver' 'mesa-vdpau' 'mesa' 'mesa-libgl')
 arch=('i686' 'x86_64')
 makedepends=('git' 'python2-mako' 'libxml2' 'libx11' 'libva' 'glproto' 'libdrm'
@@ -26,10 +26,10 @@ sha256sums=('SKIP'
             '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2')
 
 pkgver() {
-  rm -rf $srcdir/src/$_gitname
-  git clone -q $srcdir/$_gitname $srcdir/src/$_gitname
-  cd "$srcdir/src/$_gitname"
-  printf "%s.r%s.g%s" "$(cat VERSION | tr '-' '_')" "$(git rev-list HEAD --count)" \
+  cd "$srcdir/$_gitname"
+  printf "%s.r%s.g%s" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD VERSION | tar -xO | tr '-' '_')" \
+    "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
 }
 

@@ -6,7 +6,7 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/fixesproto'
 _gitname='repo-fixesproto'
 
 pkgname=fixesproto
-pkgver=5.0.6.r53.gd6d910b
+pkgver=5.0.6.r53.g
 pkgrel=4
 pkgdesc='X11 fixes extention protocol specification and header files'
 url='http://xorg.freedesktop.org/'
@@ -19,9 +19,10 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
-  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f2-3 | tr - .)" \
+  printf "%s.r%s.g%r" \
+    "$(git describe --long | cut -d "-" -f2-3 | tr - .)" \
     "$(git rev-list HEAD --count)" \
-    "$(git describe --long | cut -d "-" -f4)"
+    "$(git rev-parse --short HEAD)"
 }
 
 build() {

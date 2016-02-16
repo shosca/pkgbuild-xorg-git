@@ -10,8 +10,8 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="repo-llvm"
 
 pkgname=(llvm llvm-libs llvm-ocaml lldb clang clang-analyzer clang-compiler-rt clang-tools-extra)
-pkgver=3.9.0.r127695.g3c5ec72
-pkgrel=2
+pkgver=3.9.0.r127731.g849184d
+pkgrel=1
 pkgdesc='Low Level Virtual Machine'
 arch=('i686' 'x86_64')
 url="http://llvm.org"
@@ -84,12 +84,11 @@ _install_license() {
 }
 
 pkgver() {
-  rm -rf $srcdir/src/$_gitname
-  git clone -q $srcdir/$_gitname $srcdir/src/$_gitname
-  cd "$srcdir/src/$_gitname"
-  printf "%s.r%s.g%s" "$(awk -F 'MAJOR |MINOR |PATCH |SUFFIX |)' \
-                'BEGIN { ORS="." ; i=0  } /set\(LLVM_VERSION_/ { print $2 ; \
-                i++ ; if (i==2) ORS=""  } END { print "\n"  }' CMakeLists.txt | tr -d svn)" \
+  cd "$srcdir/$_gitname"
+  printf "%s.%s.%s.r%s.g%s" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD CMakeLists.txt | tar -xO | grep 'set(LLVM_VERSION_MAJOR' | tr -s ' ' | tr -d '[]()' | cut -d' ' -f3)" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD CMakeLists.txt | tar -xO | grep 'set(LLVM_VERSION_MINOR' | tr -s ' ' | tr -d '[]()' | cut -d' ' -f3)" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD CMakeLists.txt | tar -xO | grep 'set(LLVM_VERSION_PATCH' | tr -s ' ' | tr -d '[]()' | cut -d' ' -f3)" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
 

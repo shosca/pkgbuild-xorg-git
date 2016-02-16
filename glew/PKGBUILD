@@ -7,8 +7,8 @@ _gitroot="git://github.com/nigels-com/glew"
 _gitname="repo-glew"
 
 pkgname=glew
-pkgver=1.13.0.67.r942.g281e38d
-pkgrel=8
+pkgver=2.0.0.67.r942.g281e38d
+pkgrel=9
 pkgdesc="The OpenGL Extension Wrangler Library"
 arch=('i686' 'x86_64')
 url="http://glew.sourceforge.net"
@@ -20,9 +20,13 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
-  printf "%s.r%s.%s" "$(git describe --tags | cut -d "-" -f2-3 | tr - .)" \
+  printf "%s.%s.%s.%s.r%s.g%s" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD config/version| tar -xO | grep 'GLEW_MAJOR = ' | cut -d' ' -f3)" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD config/version| tar -xO | grep 'GLEW_MINOR = ' | cut -d' ' -f3)" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD config/version| tar -xO | grep 'GLEW_MICRO = ' | cut -d' ' -f3)" \
+    "$(git rev-list  $(git rev-list --tags --no-walk --max-count=1)..HEAD --count)" \
     "$(git rev-list HEAD --count)" \
-    "$(git describe --tags | cut -d "-" -f4)"
+    "$(git rev-parse --short HEAD)"
 }
 
 build() {

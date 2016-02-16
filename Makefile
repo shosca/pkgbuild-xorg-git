@@ -4,8 +4,8 @@ DIRS=$(shell ls -d */ | sed -e 's/\///' )
 ARCHNSPAWN=arch-nspawn
 MKARCHROOT=/usr/bin/mkarchroot -C /usr/share/devtools/pacman-multilib.conf
 PKGEXT=pkg.tar.xz
-GITFETCH=git fetch --all -p -q
-GITCLONE=git clone --mirror -q
+GITFETCH=git remote update --prune
+GITCLONE=git clone --mirror
 CHROOTPATH64=/var/chroot64/$(REPO)
 MAKECHROOTPKG=/usr/bin/makechrootpkg -c -u -r $(CHROOTPATH64)
 LOCKFILE=$(CHROOTPATH64)/sync.lock
@@ -138,7 +138,7 @@ gitpull: $(PULL_TARGETS)
 			  $(MAKE) -s -C $(PWD) $*-rel ; \
 		  fi ; \
 	  else \
-		  git clone --bare $$_gitroot $(PWD)/$*/$$_gitname ; \
+		  $(GITCLONE) $$_gitroot $(PWD)/$*/$$_gitname ; \
 	  fi ; \
 	fi ; \
 	cd $(PWD)
@@ -346,8 +346,6 @@ xorg-xset: libxmu xorg-util-macros syncrepos
 xorg-mkfontscale: libfontenc xproto syncrepos
 
 xorg-xwininfo: libxcb libx11 syncrepos
-
-xorg-bdftopcf: libxfont xproto syncrepos
 
 xorg-xmessage: libxaw syncrepos
 

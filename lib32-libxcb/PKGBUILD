@@ -6,7 +6,7 @@ _gitroot="git://anongit.freedesktop.org/xcb/libxcb"
 _gitname="repo-libxcb"
 
 pkgname=lib32-libxcb
-pkgver=1.11.65.r652.g095353f
+pkgver=1.11.90.65.r652.g095353f
 pkgrel=2
 pkgdesc="X11 client-side library"
 arch=('x86_64')
@@ -20,9 +20,12 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
-  printf "%s.r%s.%s" "$(git describe --tags | cut -d "-" -f1-2 | tr - .)" \
+  printf "%s.%s.r%s.g%s" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | \
+        sed -e '/AC_INIT/,/libxcb/!d' | tr '[]{}(),' ' ' | tr '\n' ' ' | tr -s ' ' | cut -d' ' -f3)" \
+    "$(git rev-list $(git rev-list --tags --no-walk --max-count=1)..HEAD --count)" \
     "$(git rev-list HEAD --count)" \
-    "$(git describe --tags | cut -d "-" -f3)"
+    "$(git rev-parse --short HEAD)"
 }
 
 build() {
@@ -33,7 +36,7 @@ build() {
   export CC="gcc -m32"
   export CXX="g++ -m32"
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-  export PYTHON=/usr/bin/python2 
+  export PYTHON=/usr/bin/python2
 
   ./autogen.sh \
     --prefix=/usr \

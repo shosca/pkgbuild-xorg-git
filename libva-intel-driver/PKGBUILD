@@ -6,7 +6,7 @@ _gitname="repo-intel-driver"
 
 pkgname=libva-intel-driver
 pkgver=1.6.3.1.r1626.gf6fe842
-pkgrel=8
+pkgrel=9
 pkgdesc='VA-API implementation for Intel G45 and HD Graphics family'
 arch=('i686' 'x86_64')
 url='http://freedesktop.org/wiki/Software/vaapi'
@@ -17,14 +17,16 @@ source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
 pkgver() {
-  rm -rf $srcdir/src/$_gitname
-  git clone -q $srcdir/$_gitname $srcdir/src/$_gitname
-  cd "$srcdir/src/$_gitname"
+  cd "$srcdir/$_gitname"
   printf "%s.%s.%s.%s.r%s.g%s" \
-    "$(grep "m4_define(\[intel_driver_major_version\]" configure.ac | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
-    "$(grep "m4_define(\[intel_driver_minor_version\]" configure.ac | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
-    "$(grep "m4_define(\[intel_driver_micro_version\]" configure.ac | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
-    "$(grep "m4_define(\[intel_driver_pre_version\]" configure.ac | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | \
+            grep "m4_define(\[intel_driver_major_version\]" | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | \
+            grep "m4_define(\[intel_driver_minor_version\]" | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | \
+            grep "m4_define(\[intel_driver_micro_version\]" | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | \
+            grep "m4_define(\[intel_driver_pre_version\]" | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
 }

@@ -6,8 +6,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-amdgpu'
 _gitname="repo-xf86-video-amdgpu"
 
 pkgname=xf86-video-amdgpu
-pkgver=1.0.0.15.r129.ga3eac85
-pkgrel=13
+pkgver=1.0.99.r129.ga3eac85
+pkgrel=14
 pkgdesc="X.org ati video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -20,9 +20,11 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
-  printf "%s.r%s.%s" "$(git describe --long | cut -d "-" -f4-5 | tr - .)" \
+  printf "%s.r%s.g%s" \
+    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | \
+        sed -e '/AC_INIT/,/xf86-video-amdgpu/!d' | tr '[]{}(),' ' ' | tr '\n' ' ' | tr -s ' ' | cut -d' ' -f3)" \
     "$(git rev-list HEAD --count)" \
-    "$(git describe --long | cut -d "-" -f6)"
+    "$(git rev-parse --short HEAD)"
 }
 
 build() {
