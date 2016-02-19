@@ -69,10 +69,11 @@ recreaterepo: buildchroot emptyrepo
 syncrepos: buildchroot recreaterepo
 	@if [[ -f $(LOCKFILE) ]]; then \
 		while [[ -f $(LOCKFILE) ]]; do sleep 3; done \
+	else \
+		sudo touch $(LOCKFILE) ; \
+		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root pacman -Syu --noconfirm ; \
+		sudo rm $(LOCKFILE) ; \
 	fi ; \
-	sudo touch $(LOCKFILE) ; \
-	sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root pacman -Syu --noconfirm ; \
-	sudo rm $(LOCKFILE) ; \
 
 resetchroot:
 	sudo rm -rf $(CHROOTPATH64) && $(MAKE) checkchroot
@@ -87,7 +88,10 @@ check:
 	echo "GITFETCH: $(GITFETCH)" ; \
 	echo "GITCLONE: $(GITCLONE)" ; \
 	for d in $(DIRS) ; do \
-		[[ -f $$d/built ]] || echo $$d ; \
+		if [[ ! -f $$d/built ]]; then \
+			_newpkgver=$$(bash -c "source $$d/PKGBUILD ; srcdir="$$(pwd)/$$d" pkgver ;") ; \
+			echo "$$d: $$_newpkgver" ; \
+		fi \
 	done
 
 %/built:
@@ -108,7 +112,6 @@ check:
 	fi ; \
 	cd $(PWD) ; \
 	rm -f $(addsuffix /built, $(shell grep ' $* ' Makefile | cut -d':' -f1)) ; \
-	echo "$(addsuffix /built, $(shell grep ' $* ' Makefile | cut -d':' -f1))" ; \
 
 $(DIRS): checkchroot
 	@if [ ! -f $(PWD)/$@/built ]; then \
@@ -139,6 +142,7 @@ gitpull: $(PULL_TARGETS)
 		  fi ; \
 	  else \
 		  $(GITCLONE) $$_gitroot $(PWD)/$*/$$_gitname ; \
+		  rm -f $(PWD)/$*/built ; \
 	  fi ; \
 	fi ; \
 	cd $(PWD)
@@ -147,7 +151,7 @@ vers: $(VER_TARGETS)
 
 %-ver:
 	@cd $(PWD)/$* ; \
-	_newpkgver=$$(bash -c "source PKGBUILD ; export srcdir=$$(pwd) ; pkgver") ; \
+	_newpkgver=$$(bash -c "source PKGBUILD ; srcdir=$$(pwd) pkgver ;") ; \
 	sed --follow-symlinks -i "s/^pkgver=[^ ]*/pkgver=$$_newpkgver/" PKGBUILD ; \
 	echo "$*: $$_newpkgver"
 

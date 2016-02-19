@@ -8,8 +8,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-intel'
 _gitname='repo-xf86-video-intel'
 
 pkgname=xf86-video-intel
-pkgver=2.99.917.r9224.g636b529
-pkgrel=3
+pkgver=2.99.917.r9230.g0532031
+pkgrel=1
 pkgdesc='X.org Intel i810/i830/i915/945G/G965+ video drivers'
 arch=('i686' 'x86_64')
 url='http://intellinuxgraphics.org/'

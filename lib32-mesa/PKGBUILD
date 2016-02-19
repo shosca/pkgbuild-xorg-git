@@ -7,7 +7,7 @@ _gitname='repo-mesa'
 
 pkgbase=lib32-mesa
 pkgname=('lib32-mesa-vdpau' 'lib32-mesa' 'lib32-mesa-libgl')
-pkgver=11.2.0_devel.r76348.g00a1bd1
+pkgver=11.2.0_devel.r76396.g0bba5ca
 pkgrel=1
 arch=('x86_64')
 makedepends=('git' 'python2-mako' 'lib32-libxml2' 'lib32-expat' 'lib32-libx11'

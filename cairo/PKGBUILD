@@ -6,14 +6,14 @@ _gitname='repo-cairo'
 
 pkgname=cairo
 pkgver=1.15.2.6.r11308.gaf42fc7
-pkgrel=22
+pkgrel=23
 pkgdesc="Cairo vector graphics library (git version)"
 arch=('i686' 'x86_64')
 license=('LGPL' 'MPL')
 url="http://cairographics.org/"
-depends=('libpng' 'libxrender' 'fontconfig' 'pixman' 'glib2' 'sh' 'lzo2'
-         'xcb-util' 'glib2>=2.24.0' 'libedit')
-makedepends=('gtk-doc' 'git' 'mesa-libgl')
+depends=('libpng' 'libxrender' 'libxext' 'fontconfig' 'pixman>=0.28.0' 'glib2' 'mesa' 'libgl' 'lzo'
+         'xcb-util' 'glib2' 'libedit')
+makedepends=('gtk-doc' 'git' 'mesa-libgl' 'librsvg' 'gtk2' 'poppler-glib' 'libspectre' 'gtk-doc' 'valgrind')
 options=('!libtool')
 provides=('cairo-xcb')
 conflicts=('cairo-xcb')
