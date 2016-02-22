@@ -5,10 +5,9 @@
 _gitroot="git://github.com/dcnieho/FreeGLUT"
 _gitname="repo-freeglut"
 
-
 pkgname=freeglut
-pkgver=3.0.0.r1857.g0d24070
-pkgrel=20
+pkgver=3.0.0.r1861.gc59188a
+pkgrel=1
 pkgdesc="Provides functionality for small OpenGL programs"
 arch=('i686' 'x86_64')
 url="http://freeglut.sourceforge.net/"
@@ -24,9 +23,9 @@ sha256sums=('SKIP')
 pkgver() {
   cd "$srcdir/$_gitname"
   printf "%s.%s.%s.r%s.g%s" \
-    "$(git archive --remote=$srcdir/$_gitname HEAD freeglut/freeglut/CMakeLists.txt | tar -xO | grep 'set(VERSION_MAJOR' | tr -s ' ' | tr -d '[]()' | cut -d' ' -f2)" \
-    "$(git archive --remote=$srcdir/$_gitname HEAD freeglut/freeglut/CMakeLists.txt | tar -xO | grep 'set(VERSION_MINOR' | tr -s ' ' | tr -d '[]()' | cut -d' ' -f2)" \
-    "$(git archive --remote=$srcdir/$_gitname HEAD freeglut/freeglut/CMakeLists.txt | tar -xO | grep 'set(VERSION_PATCH' | tr -s ' ' | tr -d '[]()' | cut -d' ' -f2)" \
+    "$(git show HEAD:freeglut/freeglut/CMakeLists.txt | grep 'set(VERSION_MAJOR' | tr -s ' ' | tr -d '[]()' | cut -d' ' -f2)" \
+    "$(git show HEAD:freeglut/freeglut/CMakeLists.txt | grep 'set(VERSION_MINOR' | tr -s ' ' | tr -d '[]()' | cut -d' ' -f2)" \
+    "$(git show HEAD:freeglut/freeglut/CMakeLists.txt | grep 'set(VERSION_PATCH' | tr -s ' ' | tr -d '[]()' | cut -d' ' -f2)" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
 }

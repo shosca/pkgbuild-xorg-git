@@ -6,13 +6,13 @@ _gitname='repo-libxklavier'
 
 pkgname=libxklavier
 pkgver=5.4.2.r339.g65c132a
-pkgrel=27
+pkgrel=28
 pkgdesc="High-level API for X Keyboard Extension"
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('glib2' 'libxkbfile' 'libxml2' 'xkeyboard-config' 'libxi' 'iso-codes')
-makedepends=('gtk-doc' 'intltool' 'xorg-util-macros' 'git')
+makedepends=('gtk-doc' 'vala' 'gobject-introspection' 'intltool' 'xorg-util-macros' 'git')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -27,7 +27,8 @@ build() {
   cd "${srcdir}/${_gitname}"
 
   ./autogen.sh --prefix=/usr --with-xkb-bin-base=/usr/bin \
-    --with-xkb-base=/usr/share/X11/xkb --disable-static --enable-gtk-doc
+    --with-xkb-base=/usr/share/X11/xkb --disable-static --enable-gtk-doc \
+    --enable-vala --enable-introspection
   make
 }
 

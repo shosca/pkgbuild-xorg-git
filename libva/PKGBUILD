@@ -22,8 +22,8 @@ pkgver() {
   cd "$srcdir/$_gitname"
   # git describe is broken for libva
   printf "%s.%s.%s.r%s.%s" \
-    "$(($(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | grep 'm4_define(\[va_api_major_version\]' | tr -d '[](),' | cut -d' ' -f2)+1))" \
-    "$(($(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | grep 'm4_define(\[va_api_minor_version\]' | tr -d '[](),' | cut -d' ' -f2)-32))" \
+    "$(($(git show HEAD:configure.ac | grep 'm4_define(\[va_api_major_version\]' | tr -d '[](),' | cut -d' ' -f2)+1))" \
+    "$(($(git show HEAD:configure.ac | grep 'm4_define(\[va_api_minor_version\]' | tr -d '[](),' | cut -d' ' -f2)-32))" \
     "3" \
     "$(git rev-list HEAD --count)" \
     "$(git describe --long | cut -d "-" -f4)"

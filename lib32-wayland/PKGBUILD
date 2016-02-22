@@ -4,7 +4,7 @@ _gitroot="git://anongit.freedesktop.org/wayland/wayland"
 _gitname="repo-wayland"
 
 pkgname=lib32-wayland
-pkgver=...6.r1854.g8f2da5e
+pkgver=1.10.90.8.r1856.gcde251a
 pkgrel=1
 pkgdesc='A computer display server protocol (32 bit)'
 arch=('x86_64')
@@ -21,9 +21,9 @@ sha256sums=('SKIP')
 pkgver() {
   cd "$srcdir/$_gitname"
   printf "%s.%s.%s.%s.r%s.g%s" \
-    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | grep "m4_define(\[wayland_major\]" | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
-    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | grep "m4_define(\[wayland_minor\]" | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
-    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | grep "m4_define(\[wayland_micro\]" | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(git show HEAD:configure.ac | grep 'm4_define(\[wayland_major' | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(git show HEAD:configure.ac | grep 'm4_define(\[wayland_minor' | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(git show HEAD:configure.ac | grep 'm4_define(\[wayland_micro' | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
     "$(git rev-list $(git rev-list --tags --no-walk --max-count=1)..HEAD --count)" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"

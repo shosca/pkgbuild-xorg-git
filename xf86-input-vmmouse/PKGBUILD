@@ -7,7 +7,7 @@ _gitname=repo-xf86-input-vmmouse
 
 pkgname=xf86-input-vmmouse
 pkgver=13.1.0.2.r132.g8081bdc
-pkgrel=74
+pkgrel=75
 pkgdesc="X.Org vmmouse Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-vmmouse/"

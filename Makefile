@@ -7,7 +7,7 @@ PKGEXT=pkg.tar.xz
 GITFETCH=git remote update --prune
 GITCLONE=git clone --mirror
 CHROOTPATH64=/var/chroot64/$(REPO)
-MAKECHROOTPKG=/usr/bin/makechrootpkg -c -u -r $(CHROOTPATH64)
+MAKECHROOTPKG=OPTIND=--holdver /usr/bin/makechrootpkg -c -u -r $(CHROOTPATH64)
 LOCKFILE=$(CHROOTPATH64)/sync.lock
 
 TARGETS=$(addsuffix /built, $(DIRS))
@@ -370,6 +370,8 @@ xf86-input-mouse: xorg-server resourceproto scrnsaverproto syncrepos
 xf86-input-vmmouse: xorg-server resourceproto scrnsaverproto syncrepos
 
 xf86-input-void: xorg-server resourceproto scrnsaverproto syncrepos
+
+xf86-input-vesa: xorg-server resourceproto scrnsaverproto syncrepos
 
 xf86-input-wacom: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto syncrepos
 

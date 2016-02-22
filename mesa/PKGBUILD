@@ -6,7 +6,7 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='repo-mesa'
 
 pkgbase=mesa
-pkgver=11.2.0_devel.r76396.g0bba5ca
+pkgver=11.2.0.1978.r76542.gff360a5
 pkgrel=1
 pkgname=('opencl-mesa' 'libva-mesa-driver' 'mesa-vdpau' 'mesa' 'mesa-libgl')
 arch=('i686' 'x86_64')
@@ -27,8 +27,9 @@ sha256sums=('SKIP'
 
 pkgver() {
   cd "$srcdir/$_gitname"
-  printf "%s.r%s.g%s" \
-    "$(git archive --remote=$srcdir/$_gitname HEAD VERSION | tar -xO | tr '-' '_')" \
+  printf "%s.%s.r%s.g%s" \
+    "$(git show HEAD:VERSION | cut -d'-' -f1)" \
+    "$(git rev-list $(git rev-list --tags --no-walk --max-count=1)..HEAD --count)" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
 }

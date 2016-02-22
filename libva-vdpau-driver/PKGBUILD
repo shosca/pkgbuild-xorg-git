@@ -5,7 +5,7 @@ _gitname="repo-vdpau-driver"
 
 pkgname=libva-vdpau-driver
 pkgver=0.7.5.1.r388.g3dda0b4
-pkgrel=432
+pkgrel=433
 pkgdesc="VDPAU backend for VA API"
 arch=('i686' 'x86_64')
 url="http://freedesktop.org/wiki/Software/vaapi"
@@ -19,14 +19,10 @@ sha256sums=('SKIP'
 pkgver() {
   cd "$srcdir/$_gitname"
   printf "%s.%s.%s.%s.r%s.g%s" \
-    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | \
-            grep "m4_define(\[vdpau_video_major_version\]" | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
-    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | \
-            grep "m4_define(\[vdpau_video_minor_version\]" | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
-    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | \
-            grep "m4_define(\[vdpau_video_micro_version\]" | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
-    "$(git archive --remote=$srcdir/$_gitname HEAD configure.ac | tar -xO | \
-            grep "m4_define(\[vdpau_video_pre_version\]" | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(git show HEAD:configure.ac | grep 'm4_define(\[vdpau_video_major' | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(git show HEAD:configure.ac | grep 'm4_define(\[vdpau_video_minor' | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(git show HEAD:configure.ac | grep 'm4_define(\[vdpau_video_micro' | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
+    "$(git show HEAD:configure.ac | grep 'm4_define(\[vdpau_video_pre' | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
 }
