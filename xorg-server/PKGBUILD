@@ -8,8 +8,8 @@ _gitname="repo-xserver"
 
 pkgbase=xorg-server
 pkgname=('xorg-server' 'xorg-server-xephyr' 'xorg-server-xvfb' 'xorg-server-xnest' 'xorg-server-xwayland' 'xorg-server-common' 'xorg-server-devel')
-pkgver=1.18.99.1.139.r15224.gdbe8d03
-pkgrel=3
+pkgver=1.18.99.1.144.r15229.g0461bca
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
