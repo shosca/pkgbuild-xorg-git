@@ -110,8 +110,6 @@ check:
 	else \
 		touch $(PWD)/$*/built ; \
 	fi ; \
-	cd $(PWD) ; \
-	rm -f $(addsuffix /built, $(shell grep ' $* ' Makefile | cut -d':' -f1)) ; \
 
 $(DIRS): checkchroot
 	@if [ ! -f $(PWD)/$@/built ]; then \
@@ -130,20 +128,26 @@ gitpull: $(PULL_TARGETS)
 	@_gitroot=$$(grep -R '^_gitroot' $(PWD)/$*/PKGBUILD | sed -e 's/_gitroot=//' -e "s/'//g" -e 's/"//g') && \
 	_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \
 	if [ ! -z "$$_gitroot" ] ; then \
-	  if [ -f $(PWD)/$*/$$_gitname/HEAD ]; then \
-		  for f in $(PWD)/$*/*/HEAD; do \
-			  cd $$(dirname $$f) && $(GITFETCH) ; \
-		  done ; \
-		  cd $(PWD)/$*/$$_gitname && \
-		  if [ -f $(PWD)/$*/built ] && [ "$$(cat $(PWD)/$*/built)" != "$$(git log -1 | head -n1)" ]; then \
-			  rm -f $(PWD)/$*/built ; \
-			  $(MAKE) -s -C $(PWD) $*-ver ; \
-			  $(MAKE) -s -C $(PWD) $*-rel ; \
-		  fi ; \
-	  else \
-		  $(GITCLONE) $$_gitroot $(PWD)/$*/$$_gitname ; \
-		  rm -f $(PWD)/$*/built ; \
-	  fi ; \
+		if [ -f $(PWD)/$*/$$_gitname/HEAD ]; then \
+			for f in $(PWD)/$*/*/HEAD; do \
+				cd $$(dirname $$f) && $(GITFETCH) ; \
+			done ; \
+			cd $(PWD)/$*/$$_gitname && \
+			if [ -f $(PWD)/$*/built ] && [ "$$(cat $(PWD)/$*/built)" != "$$(git log -1 | head -n1)" ]; then \
+				$(MAKE) -s -C $(PWD) $*-ver ; \
+				$(MAKE) -s -C $(PWD) $*-rel ; \
+				rm -f $(PWD)/$*/built ; \
+				for dep in $$(grep ' $* ' $(PWD)/Makefile | cut -d':' -f1) ; do \
+					rm -f $(PWD)/$$dep/built ; \
+				done ; \
+			fi ; \
+		else \
+			$(GITCLONE) $$_gitroot $(PWD)/$*/$$_gitname ; \
+			rm -f $(PWD)/$*/built ; \
+			for dep in $$(grep ' $* ' $(PWD)/Makefile | cut -d':' -f1) ; do \
+				rm -f $(PWD)/$$dep/built ; \
+			done ; \
+		fi ; \
 	fi ; \
 	cd $(PWD)
 
