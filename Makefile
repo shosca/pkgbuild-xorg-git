@@ -7,8 +7,10 @@ PKGEXT=pkg.tar.xz
 GITFETCH=git remote update --prune
 GITCLONE=git clone --mirror
 CHROOTPATH64=/var/chroot64/$(REPO)
-MAKECHROOTPKG=OPTIND=--holdver /usr/bin/makechrootpkg -c -u -r $(CHROOTPATH64)
+MAKECHROOTPKG=OPTIND="--holdver --nocolor --noprogressbar" /usr/bin/makechrootpkg -c -u -r $(CHROOTPATH64)
 LOCKFILE=$(CHROOTPATH64)/sync.lock
+PACMAN=pacman -q --noconfirm
+REPOADD=repo-add -n --nocolor -R
 
 TARGETS=$(addsuffix /built, $(DIRS))
 PULL_TARGETS=$(addsuffix -pull, $(DIRS))
@@ -32,10 +34,14 @@ checkchroot: emptyrepo recreaterepo syncrepos
 
 buildchroot:
 	@if [ ! -d $(CHROOTPATH64) ]; then \
-		echo "Creating working chroot at $(CHROOTPATH64)/root" ; \
-		sudo mkdir -p $(CHROOTPATH64) ;\
-		[[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]] && sudo $(MKARCHROOT) $(CHROOTPATH64)/root base-devel ; \
-		$(MAKE) installdeps ; \
+		if [[ -f $(LOCKFILE) ]]; then \
+			while [[ -f $(LOCKFILE) ]]; do sleep 3; done \
+		else \
+			echo "Creating working chroot at $(CHROOTPATH64)/root" ; \
+			sudo mkdir -p $(CHROOTPATH64) ;\
+			[[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]] && sudo $(MKARCHROOT) $(CHROOTPATH64)/root base-devel ; \
+			$(MAKE) installdeps ; \
+		fi ; \
 	fi ; \
 
 configchroot: buildchroot emptyrepo
@@ -49,7 +55,7 @@ emptyrepo: buildchroot
 	sudo ln -sf $(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/$(REPO).db ; \
 
 installdeps: buildchroot syncrepos
-	@sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c 'pacman -Sy ; yes | pacman -S gcc-multilib gcc-libs-multilib p7zip' ; \
+	@sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c '$(PACMAN) -Sy ; yes | pacman -S gcc-multilib gcc-libs-multilib p7zip' ; \
 
 recreaterepo: buildchroot emptyrepo
 	@echo "Recreating working repo $(REPO)" ; \
@@ -62,7 +68,7 @@ recreaterepo: buildchroot emptyrepo
 	if ls */*.$(PKGEXT) &> /dev/null ; then \
 		sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
 		sudo cp -f */*.$(PKGEXT) /var/cache/pacman/pkg ; \
-		sudo repo-add $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
+		sudo $(REPOADD) $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
 	fi ; \
 	sudo rm $(LOCKFILE) ; \
 
@@ -71,7 +77,7 @@ syncrepos: buildchroot recreaterepo
 		while [[ -f $(LOCKFILE) ]]; do sleep 3; done \
 	else \
 		sudo touch $(LOCKFILE) ; \
-		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root pacman -Syu --noconfirm ; \
+		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root $(PACMAN) -Syu ; \
 		sudo rm $(LOCKFILE) ; \
 	fi ; \
 
