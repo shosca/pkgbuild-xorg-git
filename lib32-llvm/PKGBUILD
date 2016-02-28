@@ -8,8 +8,8 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="repo-llvm"
 
 pkgname=('lib32-llvm' 'lib32-llvm-libs' 'lib32-clang')
-pkgver=3.9.0.r128190.g7b1b31d
-pkgrel=1
+pkgver=3.9.0.r128268.gf4f0450
+pkgrel=2
 arch=('x86_64')
 url='http://llvm.org/'
 license=('custom:University of Illinois')
@@ -184,6 +184,9 @@ package_lib32-llvm-libs() {
   # Must have a symlink that corresponds to the output of `llvm-config --version`.
   # Without it, some builds, e.g. Mesa, might fail for "lack of shared libraries".
   ln -rs "${pkgdir}/usr/lib32/libLLVM-3.9svn.so" "${pkgdir}/usr/lib32/libLLVM-3.9.0git.so"
+
+  rm -rf "${pkgdir}/usr/include"
+  rm -rf "${pkgdir}/usr/include"
 
   _install_license
 }
