@@ -9,7 +9,7 @@ GITCLONE=git clone --mirror
 CHROOTPATH64=/var/chroot64/$(REPO)
 MAKECHROOTPKG=OPTIND="--holdver --nocolor --noprogressbar" /usr/bin/makechrootpkg -c -u -r $(CHROOTPATH64)
 LOCKFILE=$(CHROOTPATH64)/sync.lock
-PACMAN=pacman -q --noconfirm
+PACMAN=pacman -q
 REPOADD=repo-add -n --nocolor -R
 
 TARGETS=$(addsuffix /built, $(DIRS))

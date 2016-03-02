@@ -6,7 +6,7 @@ _gitname="repo-weston"
 
 pkgname=weston
 pkgver=1.10.0.9.r5093.gc25f72d
-pkgrel=4
+pkgrel=5
 pkgdesc="Reference implementation of a Wayland compositor"
 arch=('i686' 'x86_64')
 url="http://wayland.freedesktop.org"

@@ -5,7 +5,7 @@ _gitname="repo-wayland"
 
 pkgname=wayland
 pkgver=1.10.90.10.r1858.g5646236
-pkgrel=1
+pkgrel=2
 pkgdesc="A modern display server."
 arch=('i686' 'x86_64')
 url="http://wayland.freedesktop.org"
