@@ -6,7 +6,7 @@ _gitname="repo-libXfixes"
 
 pkgname=lib32-libxfixes
 pkgver=5.0.1.r74.g1702cdf
-pkgrel=88
+pkgrel=89
 pkgdesc="X11 miscellaneous 'fixes' extension library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
