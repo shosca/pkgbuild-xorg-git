@@ -135,11 +135,11 @@ gitpull: $(PULL_TARGETS)
 			if [ -f $(PWD)/$*/built ] && [ "$$(cat $(PWD)/$*/built)" != "$$(git log -1 | head -n1)" ]; then \
 				$(MAKE) -s -C $(PWD) $*-ver ; \
 				$(MAKE) -s -C $(PWD) $*-rel ; \
-				$(MAKE) $*-deps ; \
+				$(MAKE) -s -C $(PWD) $*-deps ; \
 			fi ; \
 		else \
 			$(GITCLONE) $$_gitroot $(PWD)/$*/$$_gitname ; \
-			$(MAKE) $*-deps ; \
+			$(MAKE) -s -C $(PWD) $*-deps ; \
 		fi ; \
 	fi ; \
 	cd $(PWD)
