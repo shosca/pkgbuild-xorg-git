@@ -58,17 +58,16 @@ recreaterepo: buildchroot emptyrepo
 	@echo "Recreating working repo $(REPO)" ; \
 	sudo cp $(PWD)/pacman.conf $(CHROOTPATH64)/root/etc/pacman.conf ;\
 	if ls */*.$(PKGEXT) &> /dev/null ; then \
-		sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
-		sudo cp -f */*.$(PKGEXT) /var/cache/pacman/pkg ; \
+		flock $(LOCKFILE) sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
+		flock $(LOCKFILE) sudo cp -f */*.$(PKGEXT) /var/cache/pacman/pkg ; \
 		flock $(LOCKFILE) sudo $(REPOADD) $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
-	fi ; \
-	sudo rm $(LOCKFILE) ; \
+	fi ;
 
 syncrepos: buildchroot recreaterepo
 	flock $(LOCKFILE) sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c 'yes | $(PACMAN) -Syu '
 
 resetchroot:
-	sudo rm -rf $(CHROOTPATH64) && $(MAKE) checkchroot
+	flock $(LOCKFILE) sudo rm -rf $(CHROOTPATH64) && $(MAKE) checkchroot
 
 
 build: $(DIRS)
@@ -107,7 +106,7 @@ check:
 %-deps:
 	@rm -f $(PWD)/$*/built ; \
 	for dep in $$(grep ' $* ' $(PWD)/Makefile | cut -d':' -f1) ; do \
-		$(MAKE) $$dep-deps ; \
+		$(MAKE) -s -C $(PWD) $$dep-deps ; \
 	done ; \
 
 $(DIRS): checkchroot

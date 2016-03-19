@@ -7,7 +7,7 @@ _gitname="repo-xf86-video-amdgpu"
 
 pkgname=xf86-video-amdgpu
 pkgver=1.0.99.18.r132.ga36bbfd
-pkgrel=17
+pkgrel=18
 pkgdesc="X.org ati video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
