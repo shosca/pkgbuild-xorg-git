@@ -4,8 +4,8 @@ _gitroot="git://cgit.freedesktop.org/mesa/glu/"
 _gitname="repo-glu"
 
 pkgname=glu
-pkgver=9.0.198.0692115
-pkgrel=24
+pkgver=9.0.0.2.r198.g0692115
+pkgrel=25
 pkgdesc="GL utility library for mesa builds from git after 2012-08-31"
 arch=('i686' 'x86_64')
 url="http://mesa.freedesktop.org/"
@@ -17,9 +17,11 @@ source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
-  printf "%s.%s.%s" \
-    "$(git describe --long | cut -d "-" -f2 | cut -d'.' -f1-2 | tr - .)" \
+  cd "${srcdir}/${_gitname}"
+  printf "%s.%s.r%s.g%s" \
+    "$(git show HEAD:configure.ac | grep -Pzo 'AC_INIT\((?s)(.*?)\)' \
+      | tr '[](),\n' ' ' | tr -s ' ' | cut -d' ' -f 3)" \
+    "$(git rev-list $(git rev-list --tags --no-walk --max-count=1)..HEAD --count)" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
 }

@@ -8,8 +8,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-intel'
 _gitname='repo-xf86-video-intel'
 
 pkgname=xf86-video-intel
-pkgver=2.99.917.r9253.g74cd4d0
-pkgrel=5
+pkgver=2.99.917.590.r9264.g094924f
+pkgrel=6
 pkgdesc='X.org Intel i810/i830/i915/945G/G965+ video drivers'
 arch=('i686' 'x86_64')
 url='http://intellinuxgraphics.org/'
@@ -22,8 +22,10 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
-  printf "%s.r%s.g%s" \
-    "$(git show HEAD:configure.ac | sed -e '/AC_INIT/,/xf86-video-intel/!d' | tr '[]{}(),\n' ' ' | tr -s ' ' | cut -d' ' -f3)" \
+  printf "%s.%s.r%s.g%s" \
+    "$(git show HEAD:configure.ac | grep -Pzo 'AC_INIT\((?s)(.*?)\)' \
+      | tr '[](),\n' ' ' | tr -s ' ' | cut -d' ' -f 3)" \
+    "$(git rev-list $(git rev-list --tags --no-walk --max-count=1)..HEAD --count)" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
 }

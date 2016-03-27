@@ -8,8 +8,8 @@ _gitname="repo-xserver"
 
 pkgbase=xorg-server
 pkgname=('xorg-server' 'xorg-server-xephyr' 'xorg-server-xvfb' 'xorg-server-xnest' 'xorg-server-xwayland' 'xorg-server-common' 'xorg-server-devel')
-pkgver=1.18.99.1.247.r15332.ga288cf5
-pkgrel=5
+pkgver=1.18.99.1.249.r15334.g3b38510
+pkgrel=6
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -41,7 +41,8 @@ sha256sums=('SKIP'
 pkgver() {
   cd "$srcdir/$_gitname"
   printf "%s.%s.r%s.g%s" \
-    "$(git show HEAD:configure.ac | sed -e '/AC_INIT/,/xorg-server/!d' | tr '[]{}(),\n' ' ' | tr -s ' ' | cut -d' ' -f3)" \
+    "$(git show HEAD:configure.ac | grep -Pzo 'AC_INIT\((?s)(.*?)\)' \
+      | tr '[](),\n' ' ' | tr -s ' ' | cut -d' ' -f 3)" \
     "$(git rev-list $(git rev-list --tags --no-walk --max-count=1)..HEAD --count)" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"

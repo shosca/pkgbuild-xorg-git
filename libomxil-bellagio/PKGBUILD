@@ -15,11 +15,10 @@ source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
 pkgver() {
-  rm -rf $srcdir/src/$_gitname
-  git clone -q $srcdir/$_gitname $srcdir/src/$_gitname
   cd "$srcdir/src/$_gitname"
   printf "%s.r%s.g%s" \
-    "$(grep "OpenMAX Bellagio" configure.ac | tr -d '[](),' | cut -d' ' -f 3)" \
+    "$(git show HEAD:configure.ac | grep -Pzo 'AC_INIT\((?s)(.*?)\)' \
+      | tr '[](),\n' ' ' | tr -s ' ' | cut -d' ' -f 4)" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
 }

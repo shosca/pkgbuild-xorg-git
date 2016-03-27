@@ -218,6 +218,8 @@ xproto: xorg-util-macros syncrepos
 
 pixman: xorg-util-macros syncrepos
 
+wayland-protocols: syncrepos
+
 wayland: xorg-util-macros wayland-protocols syncrepos
 
 libpciaccess: xorg-util-macros syncrepos
@@ -245,6 +247,8 @@ xcb-util-keysyms: xcb-util syncrepos
 xcb-util-wm: xcb-util syncrepos
 
 xcb-util-renderutil: xcb-util syncrepos
+
+llvm: syncrepos
 
 libxext: xextproto libx11 syncrepos
 
@@ -300,7 +304,15 @@ libxcursor: libxfixes libxrender syncrepos
 
 libxfont: xproto fontsproto libfontenc xtrans syncrepos
 
+libxinerama: libxext xineramaproto syncrepos
+
 libxkbfile: libx11 syncrepos
+
+libxshmfence: xproto syncrepos
+
+libevdev: syncrepos
+
+libinput: libevdev syncrepos
 
 freerdp: libxinerama libxcursor libxkbfile wayland syncrepos
 
@@ -332,6 +344,8 @@ xorg-xauth: libxmu syncrepos
 
 xorg-xhost: libxmu syncrepos
 
+xorg-xkbcomp: libxkbfile syncrepos
+
 xorg-xrdb: libxmu syncrepos
 
 xorg-xrandr: libxrandr libx11 syncrepos
@@ -347,6 +361,8 @@ xorg-mkfontscale: libfontenc xproto syncrepos
 xorg-xwininfo: libxcb libx11 syncrepos
 
 xorg-xmessage: libxaw syncrepos
+
+xorg-fonts-alias: syncrepos
 
 xorg-fonts-encodings: xorg-mkfontscale xorg-util-macros xorg-font-util syncrepos
 
@@ -376,6 +392,8 @@ xf86-video-amdgpu: xorg-server mesa libdrm libpciaccess pixman xf86driproto glpr
 
 radeontop: syncrepos
 
+xtrans: syncrepos
+
 xkeyboard-config: kbproto xcb-proto xproto libx11 libxau libxcb libxdmcp libxkbfile xorg-xkbcomp syncrepos
 
 libxklavier: libxi xkeyboard-config syncrepos
@@ -385,6 +403,8 @@ xf86-video-intel: xorg-server mesa libxvmc libpciaccess libdrm dri2proto dri3pro
 xf86-video-nouveau: libdrm mesa xorg-server syncrepos
 
 xf86-video-fbdev: xorg-server syncrepos
+
+xf86-video-vesa: xorg-server syncrepos
 
 weston: libinput libxkbcommon wayland mesa cairo libxcursor pixman glu wayland-protocols syncrepos
 

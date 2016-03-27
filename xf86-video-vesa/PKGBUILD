@@ -5,7 +5,7 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-vesa'
 _gitname='repo-xf86-video-vesa'
 
 pkgname=xf86-video-vesa
-pkgver=2.3.4.r149.g2792ba7
+pkgver=2.3.4.1.r149.g2792ba7
 pkgrel=2
 pkgdesc='X.org vesa video driver'
 arch=('i686' 'x86_64')
@@ -18,8 +18,10 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
-  printf "%s.r%s.g%s" \
-    "$(git show HEAD:configure.ac | sed -e '/AC_INIT/,/xf86-video-vesa/!d' | tr '[]{}(),\n' ' ' | tr -s ' ' | cut -d' ' -f3)" \
+  printf "%s.%s.r%s.g%s" \
+    "$(git show HEAD:configure.ac | grep -Pzo 'AC_INIT\((?s)(.*?)\)' \
+      | tr '[](),\n' ' ' | tr -s ' ' | cut -d' ' -f 3)" \
+    "$(git rev-list $(git rev-list --tags --no-walk --max-count=1)..HEAD --count)" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
 }
@@ -41,4 +43,3 @@ package() {
 }
 
 # vim: ft=sh syn=sh et
-

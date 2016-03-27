@@ -6,7 +6,7 @@ _gitname='repo-cairo'
 
 pkgname=cairo
 pkgver=1.15.2.8.r11310.g72c9a02
-pkgrel=7
+pkgrel=8
 pkgdesc="Cairo vector graphics library (git version)"
 arch=('i686' 'x86_64')
 license=('LGPL' 'MPL')
@@ -21,9 +21,11 @@ source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
-  printf "%s.r%s.g%s" \
-    "$(git describe --long | cut -d "-" -f1-2 | tr - .)" \
+  cd "${srcdir}/${_gitname}"
+  printf "%s.%s.r%s.g%s" \
+    "$(git show HEAD:cairo-version.h | grep 'CAIRO_VERSION_M' \
+      | sed -e ':a;N;$!ba;s/\n/./g;s/[^0-9.]*//g;s/\.\.\+//g')" \
+    "$(git rev-list $(git rev-list --tags --no-walk --max-count=1)..HEAD --count)" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
 }

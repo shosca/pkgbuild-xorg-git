@@ -8,7 +8,7 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="repo-llvm"
 
 pkgname=('lib32-llvm' 'lib32-llvm-libs' 'lib32-clang')
-pkgver=3.9.0.r129077.g02b7dd6
+pkgver=3.9.0.r129315.g68e74bd
 pkgrel=1
 arch=('x86_64')
 url='http://llvm.org/'
@@ -51,9 +51,9 @@ _install_license() {
 pkgver() {
   cd "$srcdir/$_gitname"
   printf "%s.%s.%s.r%s.g%s" \
-    "$(git show HEAD:CMakeLists.txt | grep 'set(LLVM_VERSION_MAJOR' | tr -s ' ' | tr -d '[]()' | cut -d' ' -f3)" \
-    "$(git show HEAD:CMakeLists.txt | grep 'set(LLVM_VERSION_MINOR' | tr -s ' ' | tr -d '[]()' | cut -d' ' -f3)" \
-    "$(git show HEAD:CMakeLists.txt | grep 'set(LLVM_VERSION_PATCH' | tr -s ' ' | tr -d '[]()' | cut -d' ' -f3)" \
+    "$(git show HEAD:CMakeLists.txt | grep 'set(LLVM_VERSION_MAJOR' | sed -e 's/[^0-9]*//g')" \
+    "$(git show HEAD:CMakeLists.txt | grep 'set(LLVM_VERSION_MINOR' | sed -e 's/[^0-9]*//g')" \
+    "$(git show HEAD:CMakeLists.txt | grep 'set(LLVM_VERSION_PATCH' | sed -e 's/[^0-9]*//g')" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
 }
