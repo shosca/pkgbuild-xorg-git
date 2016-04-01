@@ -17,7 +17,7 @@ PULL_TARGETS=$(addsuffix -pull, $(DIRS))
 VER_TARGETS=$(addsuffix -ver, $(DIRS))
 SHA_TARGETS=$(addsuffix -sha, $(DIRS))
 
-.PHONY: $(DIRS) checkchroot
+.PHONY: $(DIRS) syncrepos
 
 all:
 	$(MAKE) gitpull
@@ -30,44 +30,58 @@ reset: clean
 	sudo rm -f */built ; \
 	sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=0/" $(PWD)/**/PKGBUILD ; \
 
-checkchroot: emptyrepo recreaterepo syncrepos
-
 buildchroot:
 	@sudo mkdir -p $(CHROOTPATH64) ;\
 	if [[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]]; then \
-		flock $(LOCKFILE) sudo $(MKARCHROOT) $(CHROOTPATH64)/root base-devel ; \
-		$(MAKE) installdeps ; \
+		( \
+			flock -x 200 ; \
+			sudo $(MKARCHROOT) $(CHROOTPATH64)/root base-devel ; \
+			$(MAKE) installdeps ; \
+		) 200>$(LOCKFILE) ; \
 	fi ; \
 	sudo mkdir -p $(CHROOTPATH64)/root/repo ;\
 
-configchroot: buildchroot emptyrepo
-	@sudo cp $(PWD)/pacman.conf $(CHROOTPATH64)/root/etc/pacman.conf ;\
+configchroot: buildchroot
+	@$(MAKE) emptyrepo ; \
+	sudo cp $(PWD)/pacman.conf $(CHROOTPATH64)/root/etc/pacman.conf ;\
 	sudo cp $(PWD)/makepkg.conf $(CHROOTPATH64)/root/etc/makepkg.conf ;\
 	sudo cp $(PWD)/locale.conf $(CHROOTPATH64)/root/etc/locale.conf ;\
 
 emptyrepo: buildchroot
 	@if [[ ! -f $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz ]]; then \
-		flock $(LOCKFILE) sudo bsdtar -czf $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz -T /dev/null ; \
+	( \
+		flock -x 200 ; \
+		sudo bsdtar -czf $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz -T /dev/null ; \
 		sudo ln -sf $(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/$(REPO).db ; \
+	) 200>$(LOCKFILE) ; \
 	fi ; \
 
-installdeps: buildchroot emptyrepo
-	flock $(LOCKFILE) sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c '$(PACMAN) -Sy ; yes | $(PACMAN) -S gcc-multilib gcc-libs-multilib p7zip'
+installdeps:
+	sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c '$(PACMAN) -Sy ; yes | $(PACMAN) -S gcc-multilib gcc-libs-multilib p7zip' ; \
 
-recreaterepo: buildchroot emptyrepo
-	@sudo cp $(PWD)/pacman.conf $(CHROOTPATH64)/root/etc/pacman.conf ;\
+recreaterepo: buildchroot
+	@$(MAKE) emptyrepo ; \
+	sudo cp $(PWD)/pacman.conf $(CHROOTPATH64)/root/etc/pacman.conf ;\
 	if ls */*.$(PKGEXT) &> /dev/null ; then \
-		flock $(LOCKFILE) sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
-		flock $(LOCKFILE) sudo cp -f */*.$(PKGEXT) /var/cache/pacman/pkg ; \
-		flock $(LOCKFILE) sudo $(REPOADD) $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
+	( \
+		flock -x 200 ; \
+		sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
+		sudo cp -f */*.$(PKGEXT) /var/cache/pacman/pkg/ ; \
+		sudo $(REPOADD) $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
+	) 200>$(LOCKFILE) ; \
 	fi ;
 
-syncrepos: buildchroot recreaterepo
-	flock $(LOCKFILE) sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c 'yes | $(PACMAN) -Syu '
+syncrepos: recreaterepo
+	( \
+		flock -x 200 ; \
+		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c 'yes | $(PACMAN) -Syu ' ; \
+	) 200>$(LOCKFILE) ; \
 
 resetchroot:
-	flock $(LOCKFILE) sudo rm -rf $(CHROOTPATH64) && $(MAKE) checkchroot
-
+	( \
+		flock -x 200 ; \
+		sudo rm -rf $(CHROOTPATH64)
+	) 200>$(LOCKFILE) ; \
 
 build: $(DIRS)
 
@@ -95,6 +109,7 @@ check:
 		mv $(PWD)/$*/tmp/*.$(PKGEXT) $(PWD)/$*/ && rm -rf $(PWD)/$*/tmp ; \
 		exit 1 ; \
 	fi ; \
+	sudo rm -rf $(CHROOTPATH64)/$* ; \
 	rm -rf $(PWD)/$*/tmp ; \
 	if [ -f $(PWD)/$*/$$_gitname/HEAD ]; then \
 		cd $(PWD)/$*/$$_gitname ; git log -1 | head -n1 > $(PWD)/$*/built ; \
@@ -108,7 +123,7 @@ check:
 		$(MAKE) -s -C $(PWD) $$dep-deps ; \
 	done ; \
 
-$(DIRS): checkchroot
+$(DIRS): syncrepos
 	@if [ ! -f $(PWD)/$@/built ]; then \
 		_pkgrel=$$(grep -R '^pkgrel' $(PWD)/$@/PKGBUILD | sed -e 's/pkgrel=//' -e "s/'//g" -e 's/"//g') && \
 		sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=$$(($$_pkgrel+1))/" $(PWD)/$@/PKGBUILD ; \
@@ -117,7 +132,6 @@ $(DIRS): checkchroot
 			exit 1 ; \
 		fi ; \
 	fi ; \
-	sudo rm -rf $(CHROOTPATH64)/$@
 
 gitpull: $(PULL_TARGETS)
 
