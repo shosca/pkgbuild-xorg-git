@@ -16,29 +16,30 @@ TARGETS=$(addsuffix /built, $(DIRS))
 PULL_TARGETS=$(addsuffix -pull, $(DIRS))
 VER_TARGETS=$(addsuffix -ver, $(DIRS))
 SHA_TARGETS=$(addsuffix -sha, $(DIRS))
+INFO_TARGETS=$(addsuffix -info, $(DIRS))
 
 .PHONY: $(DIRS) syncrepos
 
 all:
-	$(MAKE) gitpull
+	@$(MAKE) gitpull
 	$(MAKE) build
 
 clean:
-	sudo rm -rf */*.log */pkg */src */logpipe* $(CHROOTPATH64)
+	@sudo rm -rf */*.log */pkg */src */logpipe* $(CHROOTPATH64)
 
 reset: clean
-	sudo rm -f */built ; \
+	@sudo rm -f */built ; \
 	sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=0/" $(PWD)/**/PKGBUILD ; \
 
 buildchroot:
-	@sudo mkdir -p $(CHROOTPATH64) ;\
-	if [[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]]; then \
-		( \
-			flock -x 200 ; \
+	@sudo mkdir -p $(CHROOTPATH64) ; \
+	( \
+		flock -x 200 ; \
+		if [[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]]; then \
 			sudo $(MKARCHROOT) $(CHROOTPATH64)/root base-devel ; \
 			$(MAKE) installdeps ; \
-		) 200>$(LOCKFILE) ; \
-	fi ; \
+		fi ; \
+	) 200>$(LOCKFILE) ; \
 	sudo mkdir -p $(CHROOTPATH64)/root/repo ;\
 
 configchroot: buildchroot
@@ -48,13 +49,13 @@ configchroot: buildchroot
 	sudo cp $(PWD)/locale.conf $(CHROOTPATH64)/root/etc/locale.conf ;\
 
 emptyrepo: buildchroot
-	@if [[ ! -f $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz ]]; then \
-	( \
+	@( \
 		flock -x 200 ; \
-		sudo bsdtar -czf $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz -T /dev/null ; \
-		sudo ln -sf $(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/$(REPO).db ; \
+		if [[ ! -f $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz ]]; then \
+			sudo bsdtar -czf $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz -T /dev/null ; \
+			sudo ln -sf $(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/$(REPO).db ; \
+		fi ; \
 	) 200>$(LOCKFILE) ; \
-	fi ; \
 
 installdeps:
 	sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c '$(PACMAN) -Sy ; yes | $(PACMAN) -S gcc-multilib gcc-libs-multilib p7zip' ; \
@@ -62,14 +63,14 @@ installdeps:
 recreaterepo: buildchroot
 	@$(MAKE) emptyrepo ; \
 	sudo cp $(PWD)/pacman.conf $(CHROOTPATH64)/root/etc/pacman.conf ;\
-	if ls */*.$(PKGEXT) &> /dev/null ; then \
 	( \
 		flock -x 200 ; \
-		sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
-		sudo cp -f */*.$(PKGEXT) /var/cache/pacman/pkg/ ; \
-		sudo $(REPOADD) $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
+		if ls */*.$(PKGEXT) &> /dev/null ; then \
+			sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
+			sudo cp -f */*.$(PKGEXT) /var/cache/pacman/pkg/ ; \
+			sudo $(REPOADD) $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
+		fi ; \
 	) 200>$(LOCKFILE) ; \
-	fi ;
 
 syncrepos: recreaterepo
 	( \
@@ -98,6 +99,14 @@ check:
 			echo "$$d: $$_newpkgver-$$_pkgrel" ; \
 		fi \
 	done
+
+info: $(INFO_TARGETS)
+
+%-info:
+	@cd $(PWD)/$* ; \
+	makepkg --printsrcinfo | grep depends | while read p; do \
+		echo "$*: $$p" ; \
+	done ; \
 
 %/built:
 	@_gitname=$$(grep -R '^_gitname' $(PWD)/$*/PKGBUILD | sed -e 's/_gitname=//' -e "s/'//g" -e 's/"//g') && \

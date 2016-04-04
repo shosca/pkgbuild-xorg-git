@@ -6,8 +6,8 @@ _gitroot='git://anongit.freedesktop.org/xkeyboard-config'
 _gitname='repo-xkeyboard-config'
 
 pkgname=xkeyboard-config
-pkgver=2.17.1.r1839.g85845be
-pkgrel=4
+pkgver=2.17.6.r1844.g9f0f6e9
+pkgrel=1
 pkgdesc="X keyboard configuration files"
 arch=('any')
 license=('custom')
