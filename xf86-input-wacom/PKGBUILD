@@ -7,7 +7,7 @@ _gitname=repo-xf86-input-wacom
 
 pkgname=xf86-input-wacom
 pkgver=0.32.0.5.r1874.g3b0c093
-pkgrel=17
+pkgrel=18
 pkgdesc="X.Org wacom Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-wacom/"

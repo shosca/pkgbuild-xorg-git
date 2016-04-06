@@ -6,7 +6,7 @@ _gitname="repo-libXi"
 
 pkgname=libxi
 pkgver=1.7.6.0.r476.g2286282
-pkgrel=12
+pkgrel=13
 pkgdesc="X11 Input extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"

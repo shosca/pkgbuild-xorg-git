@@ -6,7 +6,7 @@ _gitname="repo-xhost"
 
 pkgname=xorg-xhost
 pkgver=1.0.7.1.r88.g991e4a8
-pkgrel=31
+pkgrel=32
 pkgdesc="Server access control program for X"
 arch=('i686' 'x86_64')
 license=('custom')
