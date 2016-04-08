@@ -7,7 +7,7 @@ _gitname=repo-xf86-input-void
 
 pkgname=xf86-input-void
 pkgver=1.4.1.0.r89.gaad3902
-pkgrel=88
+pkgrel=89
 pkgdesc="X.Org void Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-void/"
