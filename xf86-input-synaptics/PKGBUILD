@@ -7,7 +7,7 @@ _gitname=repo-xf86-input-synaptics
 
 pkgname=xf86-input-synaptics
 pkgver=1.8.99.27.r1474.g0a4cf80
-pkgrel=108
+pkgrel=109
 pkgdesc="X.Org synaptics Input driver - Git version"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/xorg/driver/xf86-input-synaptics/"
