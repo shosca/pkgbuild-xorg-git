@@ -5,12 +5,12 @@ _gitname=repo-libclc
 
 pkgname=libclc
 pkgver=0.2.0.r298.g20d977a
-pkgrel=2
+pkgrel=3
 pkgdesc="Library requirements of the OpenCL C programming language"
 arch=('i686' 'x86_64')
 url="http://libclc.llvm.org/"
 license=('MIT')
-makedepends=('clang' 'git' 'python2')
+makedepends=('clang' 'llvm' 'git' 'python2')
 source=($_gitname::git+$_gitroot)
 sha256sums=('SKIP')
 

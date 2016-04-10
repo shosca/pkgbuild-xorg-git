@@ -17,6 +17,7 @@ PULL_TARGETS=$(addsuffix -pull, $(DIRS))
 VER_TARGETS=$(addsuffix -ver, $(DIRS))
 SHA_TARGETS=$(addsuffix -sha, $(DIRS))
 INFO_TARGETS=$(addsuffix -info, $(DIRS))
+BUILD_TARGETS=$(addsuffix -build, $(DIRS))
 
 .PHONY: $(DIRS) syncrepos
 
@@ -32,57 +33,30 @@ reset: clean
 	sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=0/" $(PWD)/**/PKGBUILD ; \
 
 buildchroot:
-	@sudo mkdir -p $(CHROOTPATH64) ; \
+	@if [[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]]; then \
 	( \
 		flock -x 200 ; \
-		if [[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]]; then \
-			sudo $(MKARCHROOT) $(CHROOTPATH64)/root base-devel ; \
-			$(MAKE) installdeps ; \
-		fi ; \
+		sudo mkdir -p $(CHROOTPATH64); \
+		sudo rm -rf $(CHROOTPATH64)/root; \
+		sudo $(MKARCHROOT) $(CHROOTPATH64)/root base-devel ; \
+		sudo cp $(PWD)/pacman.conf $(CHROOTPATH64)/root/etc/pacman.conf ;\
+		sudo cp $(PWD)/makepkg.conf $(CHROOTPATH64)/root/etc/makepkg.conf ;\
+		sudo cp $(PWD)/locale.conf $(CHROOTPATH64)/root/etc/locale.conf ;\
+		echo "MAKEFLAGS='-j$(grep processor /proc/cpuinfo | wc -l)'" | sudo tee -a $(CHROOTPATH64)/root/etc/makepkg.conf ;\
+		sudo mkdir -p $(CHROOTPATH64)/root/repo ;\
+		sudo bsdtar -czf $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz -T /dev/null ; \
+		sudo ln -sf $(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/$(REPO).db ; \
+		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c 'yes | $(PACMAN) -Syu ; yes | $(PACMAN) -S gcc-multilib gcc-libs-multilib p7zip' ; \
+		echo 'builduser ALL = NOPASSWD: /usr/bin/pacman' | sudo tee -a $(CHROOTPATH64)/root/etc/sudoers.d/builduser ; \
+		echo 'builduser:x:1000:100:builduser:/:/usr/bin/nologin\n' | sudo tee -a $(CHROOTPATH64)/root/etc/passwd ; \
+		sudo mkdir -p $(CHROOTPATH64)/root/build; \
 	) 200>$(LOCKFILE) ; \
-	sudo mkdir -p $(CHROOTPATH64)/root/repo ;\
+	fi ; \
 
-configchroot: buildchroot
-	@$(MAKE) emptyrepo ; \
-	sudo cp $(PWD)/pacman.conf $(CHROOTPATH64)/root/etc/pacman.conf ;\
-	sudo cp $(PWD)/makepkg.conf $(CHROOTPATH64)/root/etc/makepkg.conf ;\
-	sudo cp $(PWD)/locale.conf $(CHROOTPATH64)/root/etc/locale.conf ;\
-
-emptyrepo: buildchroot
-	@( \
-		flock -x 200 ; \
-		if [[ ! -f $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz ]]; then \
-			sudo bsdtar -czf $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz -T /dev/null ; \
-			sudo ln -sf $(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/$(REPO).db ; \
-		fi ; \
-	) 200>$(LOCKFILE) ; \
-
-installdeps:
-	sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c '$(PACMAN) -Sy ; yes | $(PACMAN) -S gcc-multilib gcc-libs-multilib p7zip' ; \
-
-recreaterepo: buildchroot
-	@$(MAKE) emptyrepo ; \
-	sudo cp $(PWD)/pacman.conf $(CHROOTPATH64)/root/etc/pacman.conf ;\
-	( \
-		flock -x 200 ; \
-		if ls */*.$(PKGEXT) &> /dev/null ; then \
-			sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/root/repo ; \
-			sudo cp -f */*.$(PKGEXT) /var/cache/pacman/pkg/ ; \
-			sudo $(REPOADD) $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/*.$(PKGEXT) ; \
-		fi ; \
-	) 200>$(LOCKFILE) ; \
-
-syncrepos: recreaterepo
-	( \
-		flock -x 200 ; \
-		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c 'yes | $(PACMAN) -Syu ' ; \
-	) 200>$(LOCKFILE) ; \
+syncrepos:
 
 resetchroot:
-	( \
-		flock -x 200 ; \
-		sudo rm -rf $(CHROOTPATH64)
-	) 200>$(LOCKFILE) ; \
+	sudo rm -rf $(CHROOTPATH64)
 
 build: $(DIRS)
 
@@ -113,7 +87,7 @@ info: $(INFO_TARGETS)
 	cd $* ; \
 	rm -f *.log ; \
 	mkdir -p $(PWD)/$*/tmp ; mv $(PWD)/$*/*$(PKGEXT) $(PWD)/$*/tmp ; \
-	sudo $(MAKECHROOTPKG) -l $* ; \
+	$(MAKE) -C $(PWD) $*-build ; \
 	if ! ls *.$(PKGEXT) &> /dev/null ; then \
 		mv $(PWD)/$*/tmp/*.$(PKGEXT) $(PWD)/$*/ && rm -rf $(PWD)/$*/tmp ; \
 		exit 1 ; \
@@ -125,6 +99,25 @@ info: $(INFO_TARGETS)
 	else \
 		touch $(PWD)/$*/built ; \
 	fi ; \
+
+%-chroot: buildchroot
+	@sudo rsync -a --delete -q -W -x $(CHROOTPATH64)/root/* $(CHROOTPATH64)/$* ; \
+
+%-sync: %-chroot
+	@if ls */*.$(PKGEXT) &> /dev/null ; then \
+		( \
+			flock -x 200 ; \
+			sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/$*/repo ; \
+		) 200>$(LOCKFILE) ; \
+		sudo $(REPOADD) $(CHROOTPATH64)/$*/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/$*/repo/*.$(PKGEXT) ; \
+	fi ; \
+
+%-build: %-sync
+	sudo mkdir -p $(CHROOTPATH64)/$*/build ; \
+	sudo rsync -a --delete -q -W -x $(PWD)/$* $(CHROOTPATH64)/$*/build/ ; \
+	sudo systemd-nspawn -q -D $(CHROOTPATH64)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg --noconfirm --holdver --nocolor --noprogressbar -sf'; \
+	cp $(CHROOTPATH64)/$*/build/$*/*.$(PKGEXT) $(PWD)/$*/
+	sudo rm -rf $(CHROOTPATH64)/$* $(CHROOTPATH64)/$*.lock ; \
 
 %-deps:
 	@rm -f $(PWD)/$*/built ; \
