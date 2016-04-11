@@ -1,4 +1,5 @@
-# $Id: PKGBUILD 141648 2011-11-01 09:57:08Z pierre $
+# $Id$
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot='git://git.freedesktop.org/git/xorg/font/alias'
@@ -28,7 +29,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --with-fontrootdir=/usr/share/fonts
   make
 }
@@ -36,6 +36,7 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
+  install -Dm644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
 # vim: ft=sh syn=sh et

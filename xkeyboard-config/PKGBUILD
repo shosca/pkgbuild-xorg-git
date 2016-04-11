@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 167156 2012-09-26 14:52:42Z andyrtr $
+# $Id$
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
@@ -9,11 +9,10 @@ pkgname=xkeyboard-config
 pkgver=2.17.6.r1844.g9f0f6e9
 pkgrel=2
 pkgdesc="X keyboard configuration files"
-arch=('any')
+arch=(any)
 license=('custom')
 url="http://www.freedesktop.org/wiki/Software/XKeyboardConfig"
-depends=('xorg-xkbcomp')
-makedepends=('intltool' 'xorg-util-macros' 'git')
+makedepends=('git' 'intltool' 'xorg-util-macros' 'xorg-xkbcomp' 'libxslt')
 provides=('xkbdata')
 replaces=('xkbdata')
 conflicts=('xkbdata')
@@ -32,8 +31,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-
   ./autogen.sh --prefix=/usr \
       --with-xkb-base=/usr/share/X11/xkb \
       --with-xkb-rules-symlink=xorg \
@@ -45,6 +42,7 @@ package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
   rm -f "${pkgdir}/usr/share/X11/xkb/compiled"
+
   install -m755 -d "${pkgdir}/var/lib/xkb"
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"

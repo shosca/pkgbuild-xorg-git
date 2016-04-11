@@ -1,4 +1,5 @@
-# $Id: PKGBUILD 152773 2012-03-09 16:10:15Z andyrtr $
+# $Id$
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXext"
@@ -12,7 +13,7 @@ arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libx11' 'xextproto')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,7 +29,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
   make
 }
@@ -40,5 +40,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

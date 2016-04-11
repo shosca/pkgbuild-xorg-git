@@ -1,6 +1,5 @@
-# Maintainer: Det <who@cares.com>
-# Contributor: <Eugeny Borisov flekst@gmail.com>
-# Based on [extra]'s xf86-input-vmmouse
+# $Id$
+# Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-vmmouse
 _gitname=repo-xf86-input-vmmouse
@@ -8,12 +7,13 @@ _gitname=repo-xf86-input-vmmouse
 pkgname=xf86-input-vmmouse
 pkgver=13.1.0.2.r132.g8081bdc
 pkgrel=90
-pkgdesc="X.Org vmmouse Input driver - Git version"
-arch=('i686' 'x86_64')
-url="http://cgit.freedesktop.org/xorg/driver/xf86-input-vmmouse/"
+pkgdesc="X.org VMWare Mouse input driver"
+arch=(i686 x86_64)
 license=('custom')
+url="http://xorg.freedesktop.org/"
 depends=('glibc' 'libsystemd' 'sh')
-makedepends=('xorg-server-devel' 'resourceproto' 'scrnsaverproto' 'git')
+makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=22.1' 'resourceproto' 'scrnsaverproto')
+conflicts=('xorg-server<1.18.98' 'X-ABI-XINPUT_VERSION<22.1' 'X-ABI-XINPUT_VERSION>=23')
 groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -30,7 +30,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr \
     --with-udev-rules-dir=/usr/lib/udev/rules.d
   make
@@ -39,10 +38,9 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
   rm -rfv ${pkgdir}/usr/{lib,share}/hal
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

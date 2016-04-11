@@ -1,6 +1,6 @@
-# Contributor: Thomas Dziedzic <gostrc@@@gmail>
-# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
-# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+# $Id$
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Serkan Hosca <serkan@hosca.com>
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/bigreqsproto'
 _gitname='repo-bigreqsproto'
@@ -8,11 +8,11 @@ _gitname='repo-bigreqsproto'
 pkgname=bigreqsproto
 pkgver=1.1.2.4.r57.g869dca1
 pkgrel=6
-pkgdesc='X11 DRI extension wire protocol.'
-url='http://xorg.freedesktop.org/'
-arch=('any')
+pkgdesc="X11 Big Requests extension wire protocol"
+arch=(any)
+url="http://xorg.freedesktop.org/"
 license=('custom')
-makedepends=('xorg-util-macros' 'git' 'xmlto' 'docbook-xml')
+makedepends=('git' 'xorg-util-macros' 'xmlto' 'docbook-xml')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -36,6 +36,7 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
+
   install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 

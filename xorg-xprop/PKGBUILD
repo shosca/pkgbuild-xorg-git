@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 130748 2011-07-07 22:27:50Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/app/xprop"
@@ -8,11 +8,11 @@ pkgname=xorg-xprop
 pkgver=1.2.2.8.r94.gfa732ad
 pkgrel=20
 pkgdesc="Property displayer for X"
-arch=('i686' 'x86_64')
+arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libx11')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 groups=('xorg-apps' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -29,7 +29,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }
@@ -42,4 +41,3 @@ package() {
 }
 
 # vim: ft=sh syn=sh et
-

@@ -1,6 +1,5 @@
-# Maintainer: Det <who@cares.com>
-# Contributor: <Eugeny Borisov flekst@gmail.com>
-# Based on [extra]'s xf86-input-void
+# $Id$
+#Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-void
 _gitname=repo-xf86-input-void
@@ -8,12 +7,13 @@ _gitname=repo-xf86-input-void
 pkgname=xf86-input-void
 pkgver=1.4.1.0.r89.gaad3902
 pkgrel=91
-pkgdesc="X.Org void Input driver - Git version"
-arch=('i686' 'x86_64')
-url="http://cgit.freedesktop.org/xorg/driver/xf86-input-void/"
+pkgdesc="X.org void input driver"
+arch=(i686 x86_64)
 license=('custom')
+url="http://xorg.freedesktop.org/"
 depends=('glibc')
-makedepends=('xorg-server-devel' 'resourceproto' 'scrnsaverproto' 'git')
+makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=22.1' 'resourceproto' 'scrnsaverproto')
+conflicts=('xorg-server<1.18.98' 'X-ABI-XINPUT_VERSION<22.1' 'X-ABI-XINPUT_VERSION>=23')
 groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -30,14 +30,17 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }
 
 package(){
   cd "${srcdir}/${_gitname}"
-  make DESTDIR="${pkgdir}" install
-}
-# vim: ft=sh syn=sh et
 
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+# vim: ft=sh syn=sh et

@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 152783 2012-03-09 16:22:06Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXpm"
@@ -12,7 +12,7 @@ arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('libxt' 'libxext')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,7 +28,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
   make
 }

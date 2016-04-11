@@ -1,6 +1,6 @@
-# Contributor: Thomas Dziedzic <gostrc@@@gmail>
-# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
-# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+# $Id$
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Serkan Hosca <serkan@hosca.com>
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/damageproto'
 _gitname='repo-damageproto'
@@ -8,12 +8,12 @@ _gitname='repo-damageproto'
 pkgname=damageproto
 pkgver=1.2.1.5.r39.gd6f17be
 pkgrel=4
-pkgdesc='X11 damage extention protocol specification and header files'
-url='http://xorg.freedesktop.org/'
-arch=('any')
+pkgdesc="X11 Damage extension wire protocol"
+arch=(any)
+url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('xproto' 'fixesproto')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -29,16 +29,17 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
+
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 # vim: ft=sh syn=sh et
-

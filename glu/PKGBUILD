@@ -1,4 +1,7 @@
-# Maintainer: Christoph Haag <haagch at studi.informatik.uni-stuttgart.de>
+# $Id$
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
+# Contributor: Laurent Carlier <lordheavym@gmail.com>
+# Contributor: Serkan Hosca <serkan@hosca.com>
 
 _gitroot="git://cgit.freedesktop.org/mesa/glu/"
 _gitname="repo-glu"
@@ -6,13 +9,12 @@ _gitname="repo-glu"
 pkgname=glu
 pkgver=9.0.0.2.r198.g0692115
 pkgrel=33
-pkgdesc="GL utility library for mesa builds from git after 2012-08-31"
+pkgdesc="Mesa OpenGL Utility library"
 arch=('i686' 'x86_64')
-url="http://mesa.freedesktop.org/"
+url="http://cgit.freedesktop.org/mesa/glu/"
 license=('LGPL')
-depends=('mesa-libgl' 'gcc-libs')
-makedepends=('git' 'libedit')
-options=(!libtool)
+depends=('libgl')
+makedepends=('git')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,8 +30,8 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
+  ./autogen.sh --prefix=/usr --disable-static
 
-  ./autogen.sh --prefix=/usr
   make
 }
 
@@ -39,4 +41,3 @@ package() {
 }
 
 # vim: ft=sh syn=sh et
-

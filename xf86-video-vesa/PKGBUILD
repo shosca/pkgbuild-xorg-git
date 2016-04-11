@@ -9,10 +9,12 @@ pkgver=2.3.4.1.r149.g2792ba7
 pkgrel=9
 pkgdesc='X.org vesa video driver'
 arch=('i686' 'x86_64')
-url='http://xorg.freedesktop.org/'
 license=('custom')
+url="http://xorg.freedesktop.org/"
 depends=('glibc')
-makedepends=('git' 'xorg-server-devel')
+makedepends=('git' 'xorg-server-devel' 'X-ABI-VIDEODRV_VERSION=20')
+conflicts=('xorg-server<1.16' 'X-ABI-VIDEODRV_VERSION<20' 'X-ABI-VIDEODRV_VERSION>=21')
+groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,18 +30,15 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
-
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
-
   make DESTDIR="${pkgdir}" install 
-
-  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 # vim: ft=sh syn=sh et

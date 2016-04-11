@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 154150 2012-03-23 19:14:18Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/app/xhost"
@@ -9,10 +9,10 @@ pkgver=1.0.7.1.r88.g991e4a8
 pkgrel=32
 pkgdesc="Server access control program for X"
 arch=('i686' 'x86_64')
-license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libx11' 'xtrans' 'libxmu')
-makedepends=('xorg-util-macros' 'git')
+license=('custom')
+depends=('libx11' 'libxmu')
+makedepends=('git' 'xorg-util-macros')
 groups=('xorg-apps' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -29,7 +29,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }
@@ -37,9 +36,7 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 # vim: ft=sh syn=sh et
-

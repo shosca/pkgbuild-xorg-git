@@ -1,4 +1,7 @@
-# Maintainer: Joel Teichroeb <joel@teichroeb.net>
+# $Id$
+# Maintainer: Tom Gundersen <teg@jklm.no>
+# Maintainer: Sébastien Luttringer <seblu@archlinux.org>
+# Contributor: Joel Teichroeb <joel@teichroeb.net>
 
 _gitroot="git://anongit.freedesktop.org/wayland/wayland"
 _gitname="repo-wayland"
@@ -6,14 +9,12 @@ _gitname="repo-wayland"
 pkgname=wayland
 pkgver=1.10.90.24.r1872.gae78dcb
 pkgrel=1
-pkgdesc="A modern display server."
+pkgdesc='A computer display server protocol'
 arch=('i686' 'x86_64')
-url="http://wayland.freedesktop.org"
+url='http://wayland.freedesktop.org'
 license=('MIT')
-depends=('libffi' 'libxml2' 'wayland-protocols')
-makedepends=('git' 'expat' 'doxygen')
-conflicts=('libwayland')
-replaces=('libwayland')
+depends=('glibc' 'libffi' 'expat' 'libxml2')
+makedepends=('git' 'doxygen' 'xmlto' 'graphviz' 'docbook-xsl')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -34,7 +35,8 @@ pkgver() {
 build() {
   cd "${srcdir}/${_gitname}"
 
-  ./autogen.sh --prefix=/usr \
+  ./autogen.sh \
+    --prefix=/usr \
     --disable-static \
     --disable-documentation
   make

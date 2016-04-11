@@ -1,5 +1,6 @@
-# $Id: PKGBUILD 198256 2013-10-30 13:45:51Z allan $
-# Maintainer : Ionut Biru <ibiru@archlinux.org>
+# $Id$
+# Maintainer: Ionut Biru <ibiru@archlinux.org>
+# Maintainer: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/vaapi/libva"
 _gitname="repo-libva"
@@ -7,15 +8,15 @@ _gitname="repo-libva"
 pkgname=libva
 pkgver=1.7.3.r1157.g2339d10
 pkgrel=5
-pkgdesc="Video Acceleration (VA) API for Linux"
+pkgdesc='Video Acceleration (VA) API for Linux'
 arch=('i686' 'x86_64')
 url="http://freedesktop.org/wiki/Software/vaapi"
 license=('MIT')
-depends=('mesa-libgl' 'libdrm' 'libxfixes')
-makedepends=('gcc-multilib' 'git' 'mesa-libgl')
-optdepends=('libva-vdpau-driver: vdpau back-end for nvidia'
-            'libva-intel-driver: back-end for intel cards')
-source=($_gitname::$_gitroot)
+depends=('libgl' 'libdrm' 'libxfixes')
+makedepends=('git' 'mesa')
+optdepends=('libva-vdpau-driver: backend for Nvidia and AMD cards'
+            'libva-intel-driver: backend for Intel cards')
+source=("$_gitname::$_gitroot")
 sha256sums=('SKIP')
 
 pkgver() {
@@ -30,15 +31,15 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
+  ./autogen.sh --prefix=/usr
 
-  ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
-  make DESTDIR="${pkgdir}" install
-  install -m644 -D COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  make DESTDIR="$pkgdir" install
+  install -Dm644 COPYING "$pkgdir"/usr/share/licenses/$pkgname/COPYING
 }
 
 # vim:set ts=2 sw=2 et:

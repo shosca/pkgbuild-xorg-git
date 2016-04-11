@@ -1,6 +1,5 @@
-# Contributor: Thomas Dziedzic <gostrc@@@gmail>
-# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
-# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+# $Id$
+#Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/videoproto'
 _gitname='repo-videoproto'
@@ -8,11 +7,11 @@ _gitname='repo-videoproto'
 pkgname=videoproto
 pkgver=2.3.3.0.r49.g65e7449
 pkgrel=1
-pkgdesc='X11 composite extention protocol specification and header files'
-url='http://xorg.freedesktop.org/'
+pkgdesc="X11 Video extension wire protocol"
 arch=('any')
+url="http://xorg.freedesktop.org/"
 license=('custom')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,7 +27,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }
@@ -36,6 +34,6 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 # vim: ft=sh syn=sh et

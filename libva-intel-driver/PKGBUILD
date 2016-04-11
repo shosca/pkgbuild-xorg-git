@@ -1,5 +1,6 @@
-# $Id: PKGBUILD 202383 2013-12-21 14:15:26Z bpiotrowski $
-# Maintainer : Ionut Biru <ibiru@archlinux.org>
+# $Id$
+# Maintainer: Ionut Biru <ibiru@archlinux.org>
+# Maintainer: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/vaapi/intel-driver"
 _gitname="repo-intel-driver"
@@ -13,6 +14,7 @@ url='http://freedesktop.org/wiki/Software/vaapi'
 license=('MIT')
 depends=('libva')
 makedepends=('git')
+replaces=('libva-driver-intel')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -25,6 +27,14 @@ pkgver() {
     "$(git show HEAD:configure.ac | grep 'm4_define(\[intel_driver_pre' | sed -e 's/m4_//g;s/\s+//g;s/[^0-9]*//g')" \
     "$(git rev-list HEAD --count)" \
     "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "${srcdir}/${_gitname}"
+
+  # Only relevant if intel-gpu-tools is installed,
+  # since then the shaders will be recompiled
+  sed -i '1s/python$/&2/' src/shaders/gpp.py
 }
 
 build() {

@@ -1,4 +1,5 @@
-# $Id: PKGBUILD 152803 2012-03-09 17:01:00Z andyrtr $
+# $Id$
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
 #Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libdmx"
@@ -12,7 +13,7 @@ arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('dmxproto' 'libxext')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,8 +29,8 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --disable-static
+
   make
 }
 

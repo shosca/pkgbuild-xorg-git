@@ -1,19 +1,22 @@
-# Maintainer: Perry3D <perry3d@gmail.com>
+# $Id$
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/mesa/demos"
 _gitname="repo-demos"
 
-pkgname=mesa-demos
+pkgname='mesa-demos'
 pkgver=8.3.0.10.r6026.g3e718db
 pkgrel=38
-pkgdesc="The mesa demos (glxinfo, glxgears, ...), built from the git master branch."
 arch=('i686' 'x86_64')
-url="http://mesa3d.org/"
-license=('LGPL')
-depends=('mesa-libgl' 'glew' 'freeglut')
+pkgdesc="Mesa demos and tools"
+url="http://mesa3d.sourceforge.net"
+license=('custom')
+depends=('libgl' 'glew' 'freeglut')
 makedepends=('git')
-source=($_gitname::$_gitroot)
-sha256sums=('SKIP')
+source=($_gitname::$_gitroot LICENSE)
+sha256sums=('SKIP'
+            '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -27,15 +30,16 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  ./autogen.sh --prefix=/usr --disable-egl
+  ./autogen.sh --prefix=/usr \
+    --with-system-data-files=/usr/share/mesa-demos
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
-
   make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/mesa-demos"
+  install -m755 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/mesa-demos/"
 }
 
 # vim: ft=sh syn=sh et

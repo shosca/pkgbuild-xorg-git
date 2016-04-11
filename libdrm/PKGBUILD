@@ -1,6 +1,5 @@
-# Arch libdrm Maintainers:
-#Jan de Groot
-#Andreas Radke
+# $Id$
+# Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot='git://git.freedesktop.org/git/mesa/drm'
 _gitname='repo-drm'
@@ -10,10 +9,12 @@ pkgver=2.4.67.18.r5850.g65ea85d
 pkgrel=1
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
+license=('custom')
+depends=('glibc' 'libpciaccess')
+makedepends=('git' 'valgrind' 'xorg-util-macros' 'libxslt' 'docbook-xsl')
+checkdepends=('cairo')
+replaces=('libdrm-new' 'libdrm-nouveau')
 url="http://dri.freedesktop.org/"
-license=('MIT')
-depends=('libpciaccess' 'libsystemd')
-makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -27,20 +28,29 @@ pkgver() {
     "$(git rev-parse --short HEAD)"
 }
 
-build() {
+prepare() {
   cd "${srcdir}/${_gitname}"
 
+  # pthread is useless in Linux
   sed -i "/pthread-stubs/d" configure.ac
   autoreconf --force --install
 
-  ./configure --prefix=/usr --enable-udev
+}
 
+build() {
+  cd "${srcdir}/${_gitname}"
+  ./configure --prefix=/usr --enable-udev
   make
+}
+
+check() {
+  cd "$srcdir/$_gitname"
+  make -k check
 }
 
 package() {
   cd "$srcdir/$_gitname"
-  make DESTDIR="${pkgdir}" install
+  make DESTDIR="$pkgdir" install
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

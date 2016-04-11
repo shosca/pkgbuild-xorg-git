@@ -1,6 +1,6 @@
-# $Id: PKGBUILD 151743 2012-03-01 23:01:51Z bisson $
-# Contributor: Jan de Groot <jgc@archlinux.org>
+# $Id$
 # Maintainer: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/font/util"
 _gitname="repo-util"
@@ -12,13 +12,14 @@ pkgdesc='X.Org font utilities'
 url='http://xorg.freedesktop.org/'
 arch=('i686' 'x86_64')
 license=('custom')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
+source=($_gitname::$_gitroot)
+sha256sums=('SKIP')
+
 replaces=('font-util')
 provides=('font-util')
 conflicts=('font-util')
 groups=('xorg-fonts' 'xorg')
-source=($_gitname::$_gitroot)
-sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -32,12 +33,12 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh \
       --prefix=/usr \
       --mandir=/usr/share/man \
       --with-mapdir=/usr/share/fonts/util \
       --with-fontrootdir=/usr/share/fonts \
+
 
   make
 }

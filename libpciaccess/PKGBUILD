@@ -13,7 +13,7 @@ arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('glibc')
-makedepends=('git' 'pkgconfig' 'xorg-util-macros')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 

@@ -1,5 +1,7 @@
-# Maintainer: aboe76 AT gmail DOT com>
-# contribution: EdwardXXIV
+# $Id$
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
+# Contributor: Alexander Baldeck <alexander@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/git/pixman"
 _gitname="repo-pixman"
@@ -8,11 +10,11 @@ pkgname=pixman
 pkgver=0.35.1.7.r2324.g7c6066b
 pkgrel=1
 pkgdesc="The pixel-manipulation library for X and cairo"
-arch=('i686' 'x86_64')
-url="http://pixman.org/"
-license=('GPL')
+arch=(i686 x86_64)
+url="http://xorg.freedesktop.org"
+license=('custom')
 depends=('glibc')
-makedepends=('git' 'autoconf' 'automake' 'libtool' 'pkgconfig')
+makedepends=('git')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -29,17 +31,18 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  ./autogen.sh \
-    --prefix=/usr \
-    --disable-gtk \
-    --disable-static
+  ./autogen.sh --prefix=/usr --disable-static
   make
+}
+
+check() {
+  cd "$srcdir/$_gitname"
+  make check
 }
 
 package() {
   cd "$srcdir/$_gitname"
-  make DESTDIR="${pkgdir}/" install
+  make DESTDIR="${pkgdir}" install
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

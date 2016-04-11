@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 154150 2012-03-23 19:14:18Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/app/xrdb"
@@ -7,12 +7,14 @@ _gitname="repo-xrdb"
 pkgname=xorg-xrdb
 pkgver=1.1.0.12.r100.g3ae3e2f
 pkgrel=24
-pkgdesc="X.Org authorization settings program"
+pkgdesc="X server resource database utility"
 arch=('i686' 'x86_64')
-license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libxmu' 'mcpp')
-makedepends=('xorg-util-macros' 'git')
+license=('custom')
+depends=('libx11' 'libxmu')
+makedepends=('git' 'xorg-util-macros')
+optdepends=('gcc: for preprocessing'
+            'mcpp: a lightweight alternative for preprocessing')
 groups=('xorg-apps' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -29,17 +31,14 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  ./autogen.sh --prefix=/usr
+  ./autogen.sh --prefix=/usr --with-cpp=/usr/bin/cpp,/usr/bin/mcpp
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 # vim: ft=sh syn=sh et
-

@@ -1,6 +1,6 @@
-# Contributor: Thomas Dziedzic <gostrc@@@gmail>
-# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
-# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+# $Id$
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Serkan Hosca <serkan@hosca.com>
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/compositeproto'
 _gitname='repo-compositeproto'
@@ -8,12 +8,12 @@ _gitname='repo-compositeproto'
 pkgname=compositeproto
 pkgver=0.4.2.4.r52.gef261dc
 pkgrel=6
-pkgdesc='X11 composite extention protocol specification and header files'
-url='http://xorg.freedesktop.org/'
+pkgdesc="X11 Composite extension wire protocol"
 arch=('any')
+url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('fixesproto')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -29,14 +29,15 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
+
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
+
   install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 

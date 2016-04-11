@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 175089 2013-01-13 09:51:21Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/app/xmessage"
@@ -8,11 +8,11 @@ pkgname=xorg-xmessage
 pkgver=1.0.4.3.r67.g2ded896
 pkgrel=85
 pkgdesc="Display a message or query in a window"
-arch=('i686' 'x86_64')
+arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libxaw')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,7 +28,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }

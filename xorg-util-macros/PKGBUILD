@@ -1,5 +1,6 @@
-# $Id: PKGBUILD 153461 2012-03-14 17:38:45Z andyrtr $
-#Maintainer: Jan de Groot <jgc@archlinux.org>
+# $Id$
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
+# Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/util/macros"
 _gitname="repo-macros"
@@ -8,7 +9,7 @@ pkgname=xorg-util-macros
 pkgver=1.19.0.2.r192.gd7acec2
 pkgrel=3
 pkgdesc="X.Org Autotools macros"
-arch=('any')
+arch=(any)
 license=('custom')
 url="http://xorg.freedesktop.org/"
 makedepends=('git')
@@ -27,7 +28,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }
@@ -43,4 +43,3 @@ package() {
 }
 
 # vim: ft=sh syn=sh et
-

@@ -1,6 +1,5 @@
-# Contributor: Thomas Dziedzic <gostrc@@@gmail>
-# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
-# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+# $Id$
+#Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/scrnsaverproto'
 _gitname='repo-scrnsaverproto'
@@ -8,11 +7,11 @@ _gitname='repo-scrnsaverproto'
 pkgname=scrnsaverproto
 pkgver=1.2.2.3.r58.g5cf9455
 pkgrel=7
-pkgdesc='X11 composite extention protocol specification and header files'
-url='http://xorg.freedesktop.org/'
+pkgdesc="X11 Screen Saver extension wire protocol"
 arch=('any')
 license=('custom')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
+url="http://xorg.freedesktop.org/"
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,7 +27,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }
@@ -36,8 +34,7 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
-
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 # vim: ft=sh syn=sh et

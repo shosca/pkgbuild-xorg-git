@@ -1,4 +1,5 @@
-# $Id: PKGBUILD 154150 2012-03-23 19:14:18Z andyrtr $
+# $Id$
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/app/xauth"
@@ -8,11 +9,11 @@ pkgname=xorg-xauth
 pkgver=1.0.9.6.r115.ga64ca3a
 pkgrel=32
 pkgdesc="X.Org authorization settings program"
-arch=('i686' 'x86_64')
+arch=(i686 x86_64)
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('libxmu')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 groups=('xorg-apps' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -29,7 +30,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }
@@ -42,4 +42,3 @@ package() {
 }
 
 # vim: ft=sh syn=sh et
-

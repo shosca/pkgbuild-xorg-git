@@ -1,6 +1,5 @@
-# Contributor: Thomas Dziedzic <gostrc@@@gmail>
-# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
-# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+# $Id$
+# Maintainer: AndyRTR <andyrtr@archlinux.org>
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/presentproto'
 _gitname='repo-presentproto'
@@ -8,9 +7,9 @@ _gitname='repo-presentproto'
 pkgname=presentproto
 pkgver=1.0.11.r21.gef84007
 pkgrel=6
-pkgdesc='X11 present extention protocol specification and header files'
-url='http://xorg.freedesktop.org/'
+pkgdesc="X11 Present protocol specification"
 arch=('any')
+url="http://xorg.freedesktop.org/"
 license=('custom')
 makedepends=('xorg-util-macros' 'git')
 source=($_gitname::$_gitroot)
@@ -28,7 +27,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }

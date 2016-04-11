@@ -1,5 +1,6 @@
-# Maintainer: Joel Teichroeb <joel@teichroeb.net>
-# Contributor: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+# $Id$
+# Maintainer: Sébastien Luttringer
+# Contributor: Joel Teichroeb <joel@teichroeb.net>
 
 _gitroot="git://anongit.freedesktop.org/wayland/weston"
 _gitname="repo-weston"
@@ -7,14 +8,12 @@ _gitname="repo-weston"
 pkgname=weston
 pkgver=1.10.90.70.r5154.g94cb06a
 pkgrel=13
-pkgdesc="Reference implementation of a Wayland compositor"
+pkgdesc='Reference implementation of a Wayland compositor'
 arch=('i686' 'x86_64')
 url="http://wayland.freedesktop.org"
 license=('MIT')
-depends=('libxkbcommon' 'wayland' 'mesa' 'cairo' 'libunwind'
-         'poppler-glib' 'mtdev' 'libinput' 'libxcursor' 'pixman'
-         'glu' 'freerdp' 'libice')
-makedepends=('git')
+depends=('wayland' 'libxkbcommon' 'libinput' 'libunwind' 'poppler-glib' 'mtdev' 'libxcursor' 'glu' 'pango' 'colord')
+makedepends=('git' 'wayland-protocols')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -39,12 +38,7 @@ build() {
     --prefix=/usr \
     --libexecdir=/usr/lib/weston \
     --enable-libinput-backend \
-    --enable-xwayland \
-    --enable-rdp-compositor \
-    --disable-static \
-    --disable-setuid-install \
-    --disable-android-compositor
-
+    --enable-demo-clients-install
   make
 }
 

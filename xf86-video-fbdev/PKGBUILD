@@ -7,12 +7,14 @@ _gitname='repo-xf86-video-fbdev'
 pkgname=xf86-video-fbdev
 pkgver=0.4.4.4.r102.g66e7909
 pkgrel=31
-pkgdesc='X.org framebuffer video driver'
-arch=('i686' 'x86_64')
-url='http://xorg.freedesktop.org/'
+pkgdesc="X.org framebuffer video driver"
+arch=(i686 x86_64)
 license=('custom')
+url="http://xorg.freedesktop.org/"
 depends=('glibc')
-makedepends=('git' 'xorg-server-devel')
+makedepends=('git' 'xorg-server-devel' 'X-ABI-VIDEODRV_VERSION=20')
+conflicts=('xorg-server<1.18.98' 'X-ABI-VIDEODRV_VERSION<20' 'X-ABI-VIDEODRV_VERSION>=21')
+groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,19 +30,15 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
-
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
-
   make DESTDIR="${pkgdir}" install 
-
-  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 # vim: ft=sh syn=sh et
-

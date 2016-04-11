@@ -1,6 +1,5 @@
-# Maintainer: Riccardo Berto <riccardobrt@gmail.com>
-# Previous Contributor: vbmithr
-# Contributor: Flamelab <panosfilip at gmail dot com>
+# $Id$
+# Maintainer: Laurent Carlier <lordheavym@gmail.com>
 
 _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-amdgpu'
 _gitname="repo-xf86-video-amdgpu"
@@ -8,13 +7,14 @@ _gitname="repo-xf86-video-amdgpu"
 pkgname=xf86-video-amdgpu
 pkgver=1.0.99.45.r159.gb2a2e11
 pkgrel=28
-pkgdesc="X.org ati video driver"
+pkgdesc="X.org amdgpu video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
-depends=('libpciaccess' 'libdrm' 'udev' 'pixman' 'mesa')
-makedepends=('xorg-server-devel' 'xf86driproto' 'git' 'glproto')
-conflicts=('xorg-server<1.15.99')
 license=('custom')
+depends=('libdrm' 'systemd' 'mesa-dri')
+makedepends=('git' 'xorg-server-devel' 'X-ABI-VIDEODRV_VERSION=20')
+conflicts=('xorg-server<1.18.98' 'X-ABI-VIDEODRV_VERSION<20' 'X-ABI-VIDEODRV_VERSION>=21')
+groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -31,13 +31,17 @@ pkgver() {
 build() {
   cd "${srcdir}/${_gitname}"
 
-  ./autogen.sh --prefix=/usr
+  ./autogen.sh --prefix=/usr \
+    --enable-glamor
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
+
   make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 # vim: ft=sh syn=sh et

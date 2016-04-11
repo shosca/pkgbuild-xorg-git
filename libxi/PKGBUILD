@@ -1,4 +1,5 @@
-# $Id: PKGBUILD 158868 2012-05-12 16:25:29Z andyrtr $
+# $Id$
+# Maintainer: AndyRTR <andyrtr@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXi"
@@ -10,8 +11,8 @@ pkgrel=13
 pkgdesc="X11 Input extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org"
-depends=('libxext' 'libxfixes' 'inputproto')
-makedepends=('pkgconfig' 'xorg-util-macros' 'git')
+depends=('libxext' 'inputproto')
+makedepends=('git' 'xorg-util-macros' 'libxfixes')
 license=('custom')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -28,7 +29,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
   make
 }
@@ -40,5 +40,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

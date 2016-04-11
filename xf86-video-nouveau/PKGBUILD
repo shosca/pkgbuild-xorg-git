@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 174803 2013-01-07 18:10:24Z andyrtr $
+# $Id$
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Contributor: buddabrod <buddabrod@gmail.com>
 
@@ -12,10 +12,11 @@ pkgdesc="Open Source 2D acceleration driver for nVidia cards"
 arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
 license=('GPL')
-depends=('libpciaccess' 'libdrm' 'udev' 'pixman' 'mesa')
-makedepends=('xorg-server-devel' 'xf86driproto' 'git' 'glproto')
-conflicts=('xorg-server<1.15.99')
+depends=('libdrm' 'systemd' 'mesa-dri')
+makedepends=('xorg-server-devel' 'X-ABI-VIDEODRV_VERSION=20' 'git')
+conflicts=('xorg-server<1.16' 'X-ABI-VIDEODRV_VERSION<20' 'X-ABI-VIDEODRV_VERSION>=21')
 groups=('xorg-drivers' 'xorg')
+install=$pkgname.install
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -31,9 +32,7 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
-
   make
 }
 
@@ -43,4 +42,3 @@ package() {
 }
 
 # vim: ft=sh syn=sh et
-

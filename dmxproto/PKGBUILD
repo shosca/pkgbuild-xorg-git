@@ -1,6 +1,6 @@
-# Contributor: Thomas Dziedzic <gostrc@@@gmail>
-# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
-# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+# $Id$
+#Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Serkan Hosca <serkan@hosca.com>
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/dmxproto'
 _gitname='repo-dmxproto'
@@ -8,9 +8,10 @@ _gitname='repo-dmxproto'
 pkgname=dmxproto
 pkgver=2.3.1.2.r37.g395f6fc
 pkgrel=6
-pkgdesc='Xorg DMXProto protocol headers'
-url='http://xorg.freedesktop.org/'
+pkgdesc="X11 Distributed Multihead X extension wire protocol"
 arch=('any')
+makedepends=('git' 'xorg-util-macros')
+url="http://xorg.freedesktop.org/"
 license=('custom')
 makedepends=('xorg-util-macros' 'git')
 source=($_gitname::$_gitroot)
@@ -28,15 +29,17 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
+
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 # vim: ft=sh syn=sh et

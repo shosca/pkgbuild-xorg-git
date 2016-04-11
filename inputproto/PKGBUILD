@@ -1,5 +1,7 @@
-# Maintainer: kfgz <kfgz at interia pl>
-# Contributor: Cilyan Olowen <gaknar at gmail dot com>
+# $Id$
+# Maintainer: AndyRTR <andyrtr@archlinux.org>
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Serkan Hosca <serkan@hosca.com>
 
 _gitroot="git://git.freedesktop.org/git/xorg/proto/inputproto"
 _gitname="repo-inputproto"
@@ -7,11 +9,11 @@ _gitname="repo-inputproto"
 pkgname=inputproto
 pkgver=2.3.2.0.r395.g6946d49
 pkgrel=1
-pkgdesc="X11 input extension wire protocol"
-arch=('i686' 'x86_64')
-url="http://xorg.freedesktop.org/"
+pkgdesc="X11 Input extension wire protocol"
+arch=(any)
 license=('custom')
-makedepends=('xorg-util-macros' 'git')
+url="http://xorg.freedesktop.org/"
+makedepends=('git' 'xorg-util-macros' 'asciidoc')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -35,10 +37,9 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  install -m755 -d "${pkgdir}"/usr/share/licenses/${pkgname}
-  install -m644 "${srcdir}"/${_gitname-build}/COPYING \
-                "${pkgdir}"/usr/share/licenses/${pkgname}/
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 # vim: ft=sh syn=sh et
-

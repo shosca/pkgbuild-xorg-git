@@ -1,20 +1,20 @@
-# Maintainer: Det <who@cares.com>
-# Contributor: <Eugeny Borisov flekst@gmail.com>
-# Based on [extra]'s xf86-input-evdev
+# $Id$
+# Maintainer: Laurent Carlier <lordheavym@gmail.com>
 
 _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-libinput
 _gitname=repo-xf86-input-libinput
 
 pkgname=xf86-input-libinput
-pkgver=0.17.0.4.r162.g5e7ee73
+pkgver=0.18.0.1.r164.g602bb8e
 pkgrel=17
-pkgdesc="X.Org libinput driver - Git version"
+pkgdesc="Generic input driver for the X.Org server based on libinput"
 arch=('i686' 'x86_64')
-url="http://cgit.freedesktop.org/xorg/driver/xf86-input-libinput/"
 license=('custom')
-depends=('libinput')
-makedepends=('xorg-server-devel' 'git')
-options=('!makeflags')
+url="http://xorg.freedesktop.org/"
+depends=('libinput>=1.2.0')
+makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=22.1' 'libxi' 'libx11' 'resourceproto' 'scrnsaverproto')
+provides=('xf86-input-driver')
+conflicts=('xorg-server<1.18.98' 'X-ABI-XINPUT_VERSION<22' 'X-ABI-XINPUT_VERSION>=23')
 groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -33,17 +33,18 @@ build() {
   cd "${srcdir}/${_gitname}"
 
   autoreconf -vif
-  ./configure --prefix=/usr
+  ./configure --prefix=/usr \
+    --disable-static
   make
 }
 
-package(){
+package() {
   cd "${srcdir}/${_gitname}"
+
   make DESTDIR="${pkgdir}" install
 
-  install -m755 -d ${pkgdir}/etc/X11/xorg.conf.d
-  install -m644 conf/90-libinput.conf ${pkgdir}/etc/X11/xorg.conf.d/
-  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

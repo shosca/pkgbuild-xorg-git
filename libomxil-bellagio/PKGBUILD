@@ -1,4 +1,6 @@
-# Maintainer: Joni Lapilainen <joni.lapilainen@gmail.com>
+# $Id$
+# Maintainer: Laurent Carlier <lordheavym@gmail.com>
+# Contributor: Fly-away <flyaaway@gmail.com>
 
 _gitroot="git://omxil.git.sourceforge.net/gitroot/omxil/omxil"
 _gitname="repo-omxil"
@@ -7,10 +9,11 @@ pkgname=libomxil-bellagio
 pkgver=0.9.3.r708.gf2c7fd9
 pkgrel=3
 pkgdesc="An opensource implementation of the OpenMAX Integration Layer API"
-arch=('arm' 'armv7h' 'i686' 'x86_64')
+arch=('i686' 'x86_64')
 url="http://omxil.sourceforge.net"
 license=('LGPL')
-makedepends=('doxygen' 'git')
+depends=('glibc')
+makedepends=('git')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -23,12 +26,16 @@ pkgver() {
     "$(git rev-parse --short HEAD)"
 }
 
+prepare() {
+  cd "$srcdir/$_gitname"
+  autoreconf -fiv
+}
+
 build() {
   cd "$srcdir/$_gitname"
 
-  autoreconf -i -f
   sed -i 's/ -Werror//g' configure
-  ./configure --prefix=/usr
+  ./configure --prefix=/usr --disable-static --docdir=/usr/share/doc/${pkgname}
 
   make -j1
 }

@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 160621 2012-06-02 21:15:05Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
@@ -12,7 +12,7 @@ pkgdesc="Utility libraries for XC Binding - client and window-manager helpers fo
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"
 license=('custom')
-depends=('libxcb')
+depends=('libxcb>=1.7')
 makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot 'LICENSE')
 sha256sums=('SKIP'
@@ -30,7 +30,7 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-  git submodule init && git submodule update
+  git submodule update --init --recursive
 
   ./autogen.sh --prefix=/usr --disable-static
   make

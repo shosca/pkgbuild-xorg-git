@@ -1,4 +1,5 @@
-# $Id: PKGBUILD 152795 2012-03-09 16:32:25Z andyrtr $
+# $Id$
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXv"
@@ -12,7 +13,7 @@ arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('libxext' 'videoproto')
-makedepends=('pkgconfig' 'xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,7 +29,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --disable-static 
   make
 }
@@ -42,4 +42,3 @@ package() {
 }
 
 # vim: ft=sh syn=sh et
-

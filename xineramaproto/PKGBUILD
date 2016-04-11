@@ -1,6 +1,5 @@
-# Contributor: Thomas Dziedzic <gostrc@@@gmail>
-# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
-# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+# $Id$
+#Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/xineramaproto'
 _gitname='repo-xineramaproto'
@@ -8,11 +7,11 @@ _gitname='repo-xineramaproto'
 pkgname=xineramaproto
 pkgver=1.2.1.4.r48.g441b8d8
 pkgrel=6
-pkgdesc='X11 composite extention protocol specification and header files'
-url='http://xorg.freedesktop.org/'
+pkgdesc="X11 Xinerama extension wire protocol"
 arch=('any')
+url="http://xorg.freedesktop.org/"
 license=('custom')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,7 +27,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }
@@ -36,7 +34,7 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 # vim: ft=sh syn=sh et

@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 165113 2012-08-11 08:21:35Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
@@ -13,8 +13,8 @@ pkgdesc="X11 RandR extension library"
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('libxext' 'libxrender' 'randrproto')
-makedepends=('xorg-util-macros' 'git')
+depends=('libxext' 'libxrender' 'randrproto>=1.5.0')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -30,7 +30,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --sysconfdir=/etc
   make
 }
@@ -42,5 +41,5 @@ package() {
   install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

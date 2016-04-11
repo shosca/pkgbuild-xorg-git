@@ -1,6 +1,5 @@
-# Contributor: Thomas Dziedzic <gostrc@@@gmail>
-# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
-# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+# $Id$
+#Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/xextproto'
 _gitname='repo-xextproto'
@@ -8,11 +7,11 @@ _gitname='repo-xextproto'
 pkgname=xextproto
 pkgver=7.3.0.0.r138.g66afec3
 pkgrel=7
-pkgdesc='X11 composite extention protocol specification and header files'
-url='http://xorg.freedesktop.org/'
+pkgdesc="X11 various extension wire protocol"
 arch=('any')
 license=('custom')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xmlto' 'xorg-util-macros' 'docbook-xsl')
+url="http://xorg.freedesktop.org/"
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,15 +27,15 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
+
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 # vim: ft=sh syn=sh et

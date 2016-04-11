@@ -1,5 +1,6 @@
-# $Id: PKGBUILD 154156 2012-03-23 20:01:59Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
 _gitroot='git://anongit.freedesktop.org/xorg/app/xkbcomp'
 _gitname='repo-xkbcomp'
@@ -8,11 +9,11 @@ pkgname=xorg-xkbcomp
 pkgver=1.3.1.2.r162.g8995ac5
 pkgrel=5
 pkgdesc="X Keyboard description compiler"
-arch=('i686' 'x86_64')
+arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libxkbfile')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 groups=('xorg-apps' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -29,7 +30,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }
@@ -42,4 +42,3 @@ package() {
 }
 
 # vim: ft=sh syn=sh et
-

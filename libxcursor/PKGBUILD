@@ -13,9 +13,13 @@ arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libxfixes' 'libxrender')
-makedepends=('xorg-util-macros' 'git')
-source=($_gitname::$_gitroot)
-sha256sums=('SKIP')
+optdepends=('gnome-themes-standard: fallback icon theme')
+makedepends=('git' 'xorg-util-macros')
+backup=(usr/share/icons/default/index.theme)
+source=($_gitname::$_gitroot
+        index.theme)
+sha256sums=('SKIP'
+            '9e2707bc3466b848a70687ae34b505930b9c260a49b3d2f014145e70c4cddcd6')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -29,7 +33,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
   make
 }
@@ -38,9 +41,11 @@ package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
 
+  install -m755 -d "${pkgdir}/usr/share/icons/default"
+  install -m644 "$srcdir"/index.theme "${pkgdir}/usr/share/icons/default/"
+
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 # vim: ft=sh syn=sh et
-

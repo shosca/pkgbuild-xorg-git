@@ -1,6 +1,5 @@
-# Contributor: Thomas Dziedzic <gostrc@@@gmail>
-# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
-# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+# $Id$
+#Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/xf86vidmodeproto'
 _gitname='repo-xf86vidmodeproto'
@@ -8,11 +7,11 @@ _gitname='repo-xf86vidmodeproto'
 pkgname=xf86vidmodeproto
 pkgver=2.3.1.3.r42.gc4ef27e
 pkgrel=6
-pkgdesc='X11 xf86vidmode extention protocol specification and header files'
-url='http://xorg.freedesktop.org/'
+pkgdesc="X11 Video Mode extension wire protocol"
 arch=('any')
+url="http://xorg.freedesktop.org/"
 license=('custom')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,7 +27,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }
@@ -36,7 +34,7 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 # vim: ft=sh syn=sh et

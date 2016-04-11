@@ -1,5 +1,6 @@
-# $Id: PKGBUILD 152801 2012-03-09 16:38:21Z andyrtr $
-#Maintainer: Jan de Groot <jgc@archlinux.org>
+# $Id$
+# Maintainer: AndyRTR <andyrtr@archlinux.org>
+# Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXxf86vm"
 _gitname="repo-libXxf86vm"
@@ -12,7 +13,7 @@ arch=('x86_64' 'i686')
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('libxext' 'xf86vidmodeproto')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,7 +29,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --disable-static
   make
 }

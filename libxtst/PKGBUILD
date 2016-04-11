@@ -1,4 +1,5 @@
-# $Id: PKGBUILD 152793 2012-03-09 16:30:31Z andyrtr $
+# $Id$
+# Maintainer: AndyRTR <andyrtr@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXtst"
@@ -11,8 +12,8 @@ pkgdesc="X11 Testing -- Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxext' 'libxi' 'recordproto' 'inputproto')
-makedepends=('xorg-util-macros' 'git')
+depends=('libxext' 'libxi' 'recordproto' 'inputproto' 'libxfixes')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,7 +29,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --disable-static
   make
 }

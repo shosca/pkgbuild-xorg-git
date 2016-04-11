@@ -7,7 +7,6 @@ PKGEXT=pkg.tar.xz
 GITFETCH=git remote update --prune
 GITCLONE=git clone --mirror
 CHROOTPATH64=/var/chroot64/$(REPO)
-MAKECHROOTPKG=OPTIND="--holdver --nocolor --noprogressbar" /usr/bin/makechrootpkg -c -u -r $(CHROOTPATH64)
 LOCKFILE=/tmp/$(REPO)-sync.lock
 PACMAN=pacman -q
 REPOADD=repo-add -n --nocolor -R
@@ -19,7 +18,7 @@ SHA_TARGETS=$(addsuffix -sha, $(DIRS))
 INFO_TARGETS=$(addsuffix -info, $(DIRS))
 BUILD_TARGETS=$(addsuffix -build, $(DIRS))
 
-.PHONY: $(DIRS) syncrepos
+.PHONY: $(DIRS) chroot
 
 all:
 	@$(MAKE) gitpull
@@ -32,7 +31,7 @@ reset: clean
 	@sudo rm -f */built ; \
 	sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=0/" $(PWD)/**/PKGBUILD ; \
 
-buildchroot:
+chroot:
 	@if [[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]]; then \
 	( \
 		flock -x 200 ; \
@@ -42,18 +41,16 @@ buildchroot:
 		sudo cp $(PWD)/pacman.conf $(CHROOTPATH64)/root/etc/pacman.conf ;\
 		sudo cp $(PWD)/makepkg.conf $(CHROOTPATH64)/root/etc/makepkg.conf ;\
 		sudo cp $(PWD)/locale.conf $(CHROOTPATH64)/root/etc/locale.conf ;\
-		echo "MAKEFLAGS='-j$(grep processor /proc/cpuinfo | wc -l)'" | sudo tee -a $(CHROOTPATH64)/root/etc/makepkg.conf ;\
+		echo "MAKEFLAGS='-j$$(grep processor /proc/cpuinfo | wc -l)'" | sudo tee -a $(CHROOTPATH64)/root/etc/makepkg.conf ;\
 		sudo mkdir -p $(CHROOTPATH64)/root/repo ;\
 		sudo bsdtar -czf $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz -T /dev/null ; \
 		sudo ln -sf $(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/$(REPO).db ; \
-		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c 'yes | $(PACMAN) -Syu ; yes | $(PACMAN) -S gcc-multilib gcc-libs-multilib p7zip' ; \
+		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c 'yes | $(PACMAN) -Syu ; yes | $(PACMAN) -S gcc-multilib gcc-libs-multilib p7zip && chmod 777 /tmp' ; \
 		echo 'builduser ALL = NOPASSWD: /usr/bin/pacman' | sudo tee -a $(CHROOTPATH64)/root/etc/sudoers.d/builduser ; \
 		echo 'builduser:x:1000:100:builduser:/:/usr/bin/nologin\n' | sudo tee -a $(CHROOTPATH64)/root/etc/passwd ; \
 		sudo mkdir -p $(CHROOTPATH64)/root/build; \
 	) 200>$(LOCKFILE) ; \
 	fi ; \
-
-syncrepos:
 
 resetchroot:
 	sudo rm -rf $(CHROOTPATH64)
@@ -100,7 +97,7 @@ info: $(INFO_TARGETS)
 		touch $(PWD)/$*/built ; \
 	fi ; \
 
-%-chroot: buildchroot
+%-chroot: chroot
 	@sudo rsync -a --delete -q -W -x $(CHROOTPATH64)/root/* $(CHROOTPATH64)/$* ; \
 
 %-sync: %-chroot
@@ -113,11 +110,10 @@ info: $(INFO_TARGETS)
 	fi ; \
 
 %-build: %-sync
-	sudo mkdir -p $(CHROOTPATH64)/$*/build ; \
+	@sudo mkdir -p $(CHROOTPATH64)/$*/build ; \
 	sudo rsync -a --delete -q -W -x $(PWD)/$* $(CHROOTPATH64)/$*/build/ ; \
-	sudo systemd-nspawn -q -D $(CHROOTPATH64)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg --noconfirm --holdver --nocolor --noprogressbar -sf'; \
+	sudo systemd-nspawn -q -D $(CHROOTPATH64)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg --noconfirm --holdver --nocolor -sf'; \
 	cp $(CHROOTPATH64)/$*/build/$*/*.$(PKGEXT) $(PWD)/$*/
-	sudo rm -rf $(CHROOTPATH64)/$* $(CHROOTPATH64)/$*.lock ; \
 
 %-deps:
 	@rm -f $(PWD)/$*/built ; \
@@ -125,7 +121,7 @@ info: $(INFO_TARGETS)
 		$(MAKE) -s -C $(PWD) $$dep-deps ; \
 	done ; \
 
-$(DIRS): syncrepos
+$(DIRS): chroot
 	@if [ ! -f $(PWD)/$@/built ]; then \
 		_pkgrel=$$(grep -R '^pkgrel' $(PWD)/$@/PKGBUILD | sed -e 's/pkgrel=//' -e "s/'//g" -e 's/"//g') && \
 		sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=$$(($$_pkgrel+1))/" $(PWD)/$@/PKGBUILD ; \
@@ -134,6 +130,7 @@ $(DIRS): syncrepos
 			exit 1 ; \
 		fi ; \
 	fi ; \
+	sudo rm -rf $(CHROOTPATH64)/$* $(CHROOTPATH64)/$*.lock ; \
 
 gitpull: $(PULL_TARGETS)
 
@@ -176,295 +173,295 @@ updateshas: $(SHA_TARGETS)
 
 -include Makefile.mk
 
-libomxil-bellagio: syncrepos
+libomxil-bellagio: chroot
 
-xorg-util-macros: syncrepos
+xorg-util-macros: chroot
 
-bigreqsproto: xorg-util-macros syncrepos
+bigreqsproto: xorg-util-macros chroot
 
-compositeproto: xorg-util-macros syncrepos
+compositeproto: xorg-util-macros chroot
 
-damageproto: xorg-util-macros syncrepos
+damageproto: xorg-util-macros chroot
 
-presentproto: xorg-util-macros syncrepos
+presentproto: xorg-util-macros chroot
 
-dmxproto: xorg-util-macros syncrepos
+dmxproto: xorg-util-macros chroot
 
-dri2proto: xorg-util-macros syncrepos
+dri2proto: xorg-util-macros chroot
 
-dri3proto: xorg-util-macros syncrepos
+dri3proto: xorg-util-macros chroot
 
-fixesproto: xorg-util-macros xproto xextproto syncrepos
+fixesproto: xorg-util-macros xproto xextproto chroot
 
-fontsproto: xorg-util-macros syncrepos
+fontsproto: xorg-util-macros chroot
 
-glproto: xorg-util-macros syncrepos
+glproto: xorg-util-macros chroot
 
-inputproto: xorg-util-macros syncrepos
+inputproto: xorg-util-macros chroot
 
-kbproto: xorg-util-macros syncrepos
+kbproto: xorg-util-macros chroot
 
-randrproto: xorg-util-macros syncrepos
+randrproto: xorg-util-macros chroot
 
-recordproto: xorg-util-macros syncrepos
+recordproto: xorg-util-macros chroot
 
-renderproto: xorg-util-macros syncrepos
+renderproto: xorg-util-macros chroot
 
-resourceproto: xorg-util-macros syncrepos
+resourceproto: xorg-util-macros chroot
 
-scrnsaverproto: xorg-util-macros syncrepos
+scrnsaverproto: xorg-util-macros chroot
 
-videoproto: xorg-util-macros syncrepos
+videoproto: xorg-util-macros chroot
 
-xcb-proto: xorg-util-macros syncrepos
+xcb-proto: xorg-util-macros chroot
 
-xcmiscproto: xorg-util-macros syncrepos
+xcmiscproto: xorg-util-macros chroot
 
-xextproto: xorg-util-macros syncrepos
+xextproto: xorg-util-macros chroot
 
-xf86dgaproto: xorg-util-macros syncrepos
+xf86dgaproto: xorg-util-macros chroot
 
-xf86driproto: xorg-util-macros syncrepos
+xf86driproto: xorg-util-macros chroot
 
-xf86vidmodeproto: xorg-util-macros syncrepos
+xf86vidmodeproto: xorg-util-macros chroot
 
-xineramaproto: xorg-util-macros syncrepos
+xineramaproto: xorg-util-macros chroot
 
-xproto: xorg-util-macros syncrepos
+xproto: xorg-util-macros chroot
 
-pixman: xorg-util-macros syncrepos
+pixman: xorg-util-macros chroot
 
-wayland-protocols: syncrepos
+wayland-protocols: chroot
 
-wayland: xorg-util-macros wayland-protocols syncrepos
+wayland: xorg-util-macros wayland-protocols chroot
 
-libpciaccess: xorg-util-macros syncrepos
+libpciaccess: xorg-util-macros chroot
 
-libshmfence: xorg-util-macros syncrepos
+libshmfence: xorg-util-macros chroot
 
-libdrm: libpciaccess xorg-util-macros syncrepos
+libdrm: libpciaccess xorg-util-macros chroot
 
-libfontenc: xproto xorg-font-util syncrepos
+libfontenc: xproto xorg-font-util chroot
 
-libxdmcp: xproto syncrepos
+libxdmcp: xproto chroot
 
-libxau: xproto syncrepos
+libxau: xproto chroot
 
-libxcb: xcb-proto libxdmcp libxau syncrepos
+libxcb: xcb-proto libxdmcp libxau chroot
 
-libx11: xproto kbproto xextproto xtrans inputproto libxcb syncrepos
+libx11: xproto kbproto xextproto xtrans inputproto libxcb chroot
 
-xcb-util: xproto libxcb syncrepos
+xcb-util: xproto libxcb chroot
 
-xcb-util-image: xcb-util syncrepos
+xcb-util-image: xcb-util chroot
 
-xcb-util-keysyms: xcb-util syncrepos
+xcb-util-keysyms: xcb-util chroot
 
-xcb-util-wm: xcb-util syncrepos
+xcb-util-wm: xcb-util chroot
 
-xcb-util-renderutil: xcb-util syncrepos
+xcb-util-renderutil: xcb-util chroot
 
-llvm: syncrepos
+llvm: chroot
 
-libxext: xextproto libx11 syncrepos
+libxext: xextproto libx11 chroot
 
-libxrender: renderproto libx11 syncrepos
+libxrender: renderproto libx11 chroot
 
-libxrandr: randrproto libxext libxrender syncrepos
+libxrandr: randrproto libxext libxrender chroot
 
-libxi: inputproto libxext syncrepos
+libxi: inputproto libxext chroot
 
-libxtst: recordproto inputproto libxi syncrepos
+libxtst: recordproto inputproto libxi chroot
 
-libice: xproto xtrans syncrepos
+libice: xproto xtrans chroot
 
-libsm: libice xtrans xorg-util-macros syncrepos
+libsm: libice xtrans xorg-util-macros chroot
 
-libxt: libx11 libsm syncrepos
+libxt: libx11 libsm chroot
 
-libxmu: libxext libxt syncrepos
+libxmu: libxext libxt chroot
 
-libxpm: libxt libxext syncrepos
+libxpm: libxt libxext chroot
 
-libxaw: libxmu libxpm syncrepos
+libxaw: libxmu libxpm chroot
 
-libxres: resourceproto damageproto compositeproto scrnsaverproto libxext syncrepos
+libxres: resourceproto damageproto compositeproto scrnsaverproto libxext chroot
 
-libdmx: dmxproto libxext syncrepos
+libdmx: dmxproto libxext chroot
 
-libxfixes: fixesproto libx11 syncrepos
+libxfixes: fixesproto libx11 chroot
 
-libxdamage: damageproto libxfixes syncrepos
+libxdamage: damageproto libxfixes chroot
 
-libxcomposite: compositeproto libxfixes syncrepos
+libxcomposite: compositeproto libxfixes chroot
 
-libxxf86vm: xf86vidmodeproto libxext syncrepos
+libxxf86vm: xf86vidmodeproto libxext chroot
 
-libxxf86dga: xf86dgaproto libxext syncrepos
+libxxf86dga: xf86dgaproto libxext chroot
 
-libxv: videoproto libxext syncrepos
+libxv: videoproto libxext chroot
 
-libxvmc: libxv syncrepos
+libxvmc: libxv chroot
 
-libvdpau: libx11 libxext syncrepos
+libvdpau: libx11 libxext chroot
 
-vdpauinfo: libvdpau syncrepos
+vdpauinfo: libvdpau chroot
 
-libva: libdrm libxfixes syncrepos
+libva: libdrm libxfixes chroot
 
-libva-intel-driver: libva syncrepos
+libva-intel-driver: libva chroot
 
-libva-vdpau-driver: libva libvdpau mesa syncrepos
+libva-vdpau-driver: libva libvdpau mesa chroot
 
-libxcursor: libxfixes libxrender syncrepos
+libxcursor: libxfixes libxrender chroot
 
-libxfont: xproto fontsproto libfontenc xtrans syncrepos
+libxfont: xproto fontsproto libfontenc xtrans chroot
 
-libxinerama: libxext xineramaproto syncrepos
+libxinerama: libxext xineramaproto chroot
 
-libxkbfile: libx11 syncrepos
+libxkbfile: libx11 chroot
 
-libxshmfence: xproto syncrepos
+libxshmfence: xproto chroot
 
-libevdev: syncrepos
+libevdev: chroot
 
-libinput: libevdev syncrepos
+libinput: libevdev chroot
 
-freerdp: libxinerama libxcursor libxkbfile wayland syncrepos
+freerdp: libxinerama libxcursor libxkbfile wayland chroot
 
-cairo: libxrender pixman xcb-util mesa syncrepos
+cairo: libxrender pixman xcb-util mesa chroot
 
-libclc: llvm syncrepos
+libclc: llvm chroot
 
-libepoxy: mesa xorg-util-macros syncrepos
+libepoxy: mesa xorg-util-macros chroot
 
-libxkbcommon: xkeyboard-config syncrepos
+libxkbcommon: xkeyboard-config chroot
 
-mesa: glproto libdrm llvm libclc libxfixes libvdpau libxdamage libxxf86vm libxvmc wayland libomxil-bellagio libxshmfence dri2proto dri3proto presentproto syncrepos
+mesa: glproto libdrm llvm libclc libxfixes libvdpau libxdamage libxxf86vm libxvmc wayland libomxil-bellagio libxshmfence dri2proto dri3proto presentproto chroot
 
-glu: mesa syncrepos
+glu: mesa chroot
 
-glew: libxmu glu syncrepos
+glew: libxmu glu chroot
 
-freeglut: libxi libxrandr mesa glu libxxf86vm syncrepos
+freeglut: libxi libxrandr mesa glu libxxf86vm chroot
 
-mesa-demos: mesa glew freeglut syncrepos
+mesa-demos: mesa glew freeglut chroot
 
-xorg-font-util: xorg-util-macros syncrepos
+xorg-font-util: xorg-util-macros chroot
 
-xorg-setxkbmap: libxkbfile xorg-util-macros syncrepos
+xorg-setxkbmap: libxkbfile xorg-util-macros chroot
 
-xorg-server: bigreqsproto presentproto compositeproto dmxproto dri2proto dri3proto fontsproto glproto inputproto randrproto recordproto renderproto resourceproto scrnsaverproto videoproto xcmiscproto xextproto xf86dgaproto xf86driproto xineramaproto libdmx libdrm libpciaccess libx11 libxau libxaw libxdmcp libxext libxfixes libxfont libxi libxkbfile libxmu libxrender libxres libxtst libxv libepoxy mesa pixman xkeyboard-config xorg-font-util xorg-setxkbmap xorg-util-macros xorg-xkbcomp xtrans wayland xcb-util-image xcb-util-wm xcb-util-keysyms xcb-util-renderutil libxshmfence syncrepos
+xorg-server: bigreqsproto presentproto compositeproto dmxproto dri2proto dri3proto fontsproto glproto inputproto randrproto recordproto renderproto resourceproto scrnsaverproto videoproto xcmiscproto xextproto xf86dgaproto xf86driproto xineramaproto libdmx libdrm libpciaccess libx11 libxau libxaw libxdmcp libxext libxfixes libxfont libxi libxkbfile libxmu libxrender libxres libxtst libxv libepoxy mesa pixman xkeyboard-config xorg-font-util xorg-setxkbmap xorg-util-macros xorg-xkbcomp xtrans wayland xcb-util-image xcb-util-wm xcb-util-keysyms xcb-util-renderutil libxshmfence chroot
 
-xorg-xauth: libxmu syncrepos
+xorg-xauth: libxmu chroot
 
-xorg-xhost: libxmu syncrepos
+xorg-xhost: libxmu chroot
 
-xorg-xkbcomp: libxkbfile syncrepos
+xorg-xkbcomp: libxkbfile chroot
 
-xorg-xrdb: libxmu syncrepos
+xorg-xrdb: libxmu chroot
 
-xorg-xrandr: libxrandr libx11 syncrepos
+xorg-xrandr: libxrandr libx11 chroot
 
-xorg-xprop: libx11 syncrepos
+xorg-xprop: libx11 chroot
 
-xorg-xev: libx11 libxrandr xproto syncrepos
+xorg-xev: libx11 libxrandr xproto chroot
 
-xorg-xset: libxmu xorg-util-macros syncrepos
+xorg-xset: libxmu xorg-util-macros chroot
 
-xorg-mkfontscale: libfontenc xproto syncrepos
+xorg-mkfontscale: libfontenc xproto chroot
 
-xorg-xwininfo: libxcb libx11 syncrepos
+xorg-xwininfo: libxcb libx11 chroot
 
-xorg-xmessage: libxaw syncrepos
+xorg-xmessage: libxaw chroot
 
-xorg-fonts-alias: syncrepos
+xorg-fonts-alias: chroot
 
-xorg-fonts-encodings: xorg-mkfontscale xorg-util-macros xorg-font-util syncrepos
+xorg-fonts-encodings: xorg-mkfontscale xorg-util-macros xorg-font-util chroot
 
-xf86-input-evdev: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto syncrepos
+xf86-input-evdev: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto chroot
 
-xf86-input-libinput: xorg-server libinput libxi libxtst resourceproto scrnsaverproto syncrepos
+xf86-input-libinput: xorg-server libinput libxi libxtst resourceproto scrnsaverproto chroot
 
-xf86-input-synaptics: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto syncrepos
+xf86-input-synaptics: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto chroot
 
-xf86-input-joystick: xorg-server resourceproto scrnsaverproto syncrepos
+xf86-input-joystick: xorg-server resourceproto scrnsaverproto chroot
 
-xf86-input-keyboard: xorg-server resourceproto scrnsaverproto syncrepos
+xf86-input-keyboard: xorg-server resourceproto scrnsaverproto chroot
 
-xf86-input-mouse: xorg-server resourceproto scrnsaverproto syncrepos
+xf86-input-mouse: xorg-server resourceproto scrnsaverproto chroot
 
-xf86-input-vmmouse: xorg-server resourceproto scrnsaverproto syncrepos
+xf86-input-vmmouse: xorg-server resourceproto scrnsaverproto chroot
 
-xf86-input-void: xorg-server resourceproto scrnsaverproto syncrepos
+xf86-input-void: xorg-server resourceproto scrnsaverproto chroot
 
-xf86-input-vesa: xorg-server resourceproto scrnsaverproto syncrepos
+xf86-input-vesa: xorg-server resourceproto scrnsaverproto chroot
 
-xf86-input-wacom: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto syncrepos
+xf86-input-wacom: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto chroot
 
-xf86-video-ati: xorg-server mesa libdrm libpciaccess pixman xf86driproto glproto syncrepos
+xf86-video-ati: xorg-server mesa libdrm libpciaccess pixman xf86driproto glproto chroot
 
-xf86-video-amdgpu: xorg-server mesa libdrm libpciaccess pixman xf86driproto glproto syncrepos
+xf86-video-amdgpu: xorg-server mesa libdrm libpciaccess pixman xf86driproto glproto chroot
 
-radeontop: syncrepos
+radeontop: chroot
 
-xtrans: syncrepos
+xtrans: chroot
 
-xkeyboard-config: kbproto xcb-proto xproto libx11 libxau libxcb libxdmcp libxkbfile xorg-xkbcomp syncrepos
+xkeyboard-config: kbproto xcb-proto xproto libx11 libxau libxcb libxdmcp libxkbfile xorg-xkbcomp chroot
 
-libxklavier: libxi xkeyboard-config syncrepos
+libxklavier: libxi xkeyboard-config chroot
 
-xf86-video-intel: xorg-server mesa libxvmc libpciaccess libdrm dri2proto dri3proto libxfixes libx11 xf86driproto glproto resourceproto xcb-util syncrepos
+xf86-video-intel: xorg-server mesa libxvmc libpciaccess libdrm dri2proto dri3proto libxfixes libx11 xf86driproto glproto resourceproto xcb-util chroot
 
-xf86-video-nouveau: libdrm mesa xorg-server syncrepos
+xf86-video-nouveau: libdrm mesa xorg-server chroot
 
-xf86-video-fbdev: xorg-server syncrepos
+xf86-video-fbdev: xorg-server chroot
 
-xf86-video-vesa: xorg-server syncrepos
+xf86-video-vesa: xorg-server chroot
 
-weston: libinput libxkbcommon wayland mesa cairo libxcursor pixman glu wayland-protocols syncrepos
+weston: libinput libxkbcommon wayland mesa cairo libxcursor pixman glu wayland-protocols chroot
 
-lib32-libpciaccess:syncrepos
+lib32-libpciaccess:chroot
 
-lib32-pixman: pixman syncrepos
+lib32-pixman: pixman chroot
 
-lib32-libxdmcp: libxdmcp syncrepos
+lib32-libxdmcp: libxdmcp chroot
 
-lib32-libice: libice syncrepos
+lib32-libice: libice chroot
 
-lib32-libxau: libxau syncrepos
+lib32-libxau: libxau chroot
 
-lib32-libxcb: libxcb lib32-libxdmcp  lib32-libxau syncrepos
+lib32-libxcb: libxcb lib32-libxdmcp  lib32-libxau chroot
 
-lib32-libx11: libx11 lib32-libxcb syncrepos
+lib32-libx11: libx11 lib32-libxcb chroot
 
-lib32-libxrender: libxrender lib32-libx11 syncrepos
+lib32-libxrender: libxrender lib32-libx11 chroot
 
-lib32-libxext: libxext lib32-libx11 syncrepos
+lib32-libxext: libxext lib32-libx11 chroot
 
-lib32-libxv: libxv lib32-libxext syncrepos
+lib32-libxv: libxv lib32-libxext chroot
 
-lib32-libxvmc: libxvmc lib32-libxv syncrepos
+lib32-libxvmc: libxvmc lib32-libxv chroot
 
-lib32-libvdpau: libvdpau lib32-libx11 syncrepos
+lib32-libvdpau: libvdpau lib32-libx11 chroot
 
-lib32-libxxf86vm: libxxf86vm lib32-libxext syncrepos
+lib32-libxxf86vm: libxxf86vm lib32-libxext chroot
 
-lib32-libxfixes: libxfixes lib32-libx11 syncrepos
+lib32-libxfixes: libxfixes lib32-libx11 chroot
 
-lib32-libxdamage: libxdamage lib32-libxfixes syncrepos
+lib32-libxdamage: libxdamage lib32-libxfixes chroot
 
-lib32-libsm: libsm lib32-libice syncrepos
+lib32-libsm: libsm lib32-libice chroot
 
-lib32-libxt: libxt lib32-libsm lib32-libx11 syncrepos
+lib32-libxt: libxt lib32-libsm lib32-libx11 chroot
 
-lib32-wayland: wayland syncrepos
+lib32-wayland: wayland chroot
 
-lib32-libdrm: libdrm lib32-libpciaccess syncrepos
+lib32-libdrm: libdrm lib32-libpciaccess chroot
 
-lib32-mesa: glproto lib32-libxshmfence lib32-libdrm lib32-llvm lib32-libxvmc lib32-libvdpau lib32-libxxf86vm lib32-libxdamage lib32-libx11 lib32-libxt lib32-wayland mesa lib32-libxshmfence syncrepos
+lib32-mesa: glproto lib32-libxshmfence lib32-libdrm lib32-llvm lib32-libxvmc lib32-libvdpau lib32-libxxf86vm lib32-libxdamage lib32-libx11 lib32-libxt lib32-wayland mesa lib32-libxshmfence chroot
 
-lib32-llvm: llvm syncrepos
+lib32-llvm: llvm chroot
 
-lib32-libxshmfence: libxshmfence syncrepos
+lib32-libxshmfence: libxshmfence chroot
 

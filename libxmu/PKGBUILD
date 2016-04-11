@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 152301 2012-03-06 15:00:25Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXmu"
@@ -11,7 +11,7 @@ pkgdesc="X11 miscellaneous micro-utility library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 depends=('libxext' 'libxt')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 license=('custom')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -28,7 +28,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
   make
 }
@@ -40,5 +39,5 @@ package() {
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

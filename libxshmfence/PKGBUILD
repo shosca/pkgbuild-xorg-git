@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 158868 2012-05-12 16:25:29Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libxshmfence"
@@ -7,11 +7,12 @@ _gitname="repo-libxshmfence"
 pkgname=libxshmfence
 pkgver=1.2.0.r26.gfe2d6db
 pkgrel=2
-pkgdesc="X11 shared memory fences using futexes"
+pkgdesc="a library that exposes a event API on top of Linux futexes"
 arch=('i686' 'x86_64')
-url="http://xorg.freedesktop.org"
-depends=('xproto')
-makedepends=('pkgconfig' 'xorg-util-macros' 'git')
+url="http://xorg.freedesktop.org/"
+license=('GPL')
+depends=('glibc')
+makedepends=('git' 'xorg-util-macros' 'xproto')
 license=('custom')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -38,6 +39,7 @@ package() {
   make DESTDIR="${pkgdir}" install
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

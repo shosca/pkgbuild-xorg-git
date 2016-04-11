@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 166179 2012-09-05 07:50:49Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://people.freedesktop.org/~aplattner/libvdpau"
@@ -8,11 +8,10 @@ pkgname=libvdpau
 pkgver=1.1.1.3.r94.ga21bf7a
 pkgrel=24
 pkgdesc="Nvidia VDPAU library"
-arch=('i686' 'x86_64')
+arch=(i686 x86_64)
 url='http://cgit.freedesktop.org/~aplattner/libvdpau'
 depends=('gcc-libs' 'libxext')
-makedepends=('libx11' 'git')
-conflicts=('nvidia-utils<190.42-2')
+makedepends=('git')
 license=('custom')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -29,8 +28,8 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --sysconfdir=/etc
+
   make
 }
 

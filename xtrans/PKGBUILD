@@ -1,4 +1,5 @@
-# $Id: PKGBUILD 154130 2012-03-23 17:11:54Z andyrtr $
+# $Id$
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libxtrans"
@@ -11,7 +12,7 @@ pkgdesc="X transport library"
 arch=('any')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 options=(!emptydirs)
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -28,7 +29,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }
@@ -36,7 +36,9 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
+
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+
   install -m755 -d "${pkgdir}/usr/lib"
   mv "${pkgdir}/usr/share/pkgconfig" "${pkgdir}/usr/lib/pkgconfig"
 }

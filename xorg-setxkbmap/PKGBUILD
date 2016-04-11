@@ -1,6 +1,6 @@
-# $Id: PKGBUILD 154148 2012-03-23 17:34:14Z andyrtr $
-# Contributor: Jan de Groot <jgc@archlinux.org>
+# $Id$
 # Maintainer: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/app/setxkbmap"
 _gitname="repo-setxkbmap"
@@ -13,7 +13,7 @@ url='http://xorg.freedesktop.org/'
 license=('custom')
 arch=('i686' 'x86_64')
 depends=('libxkbfile')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 groups=('xorg-apps' 'xorg')
@@ -30,7 +30,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }

@@ -1,20 +1,25 @@
-# Maintainer: Joel Teichroeb <joel@teichroeb.net>
+# $Id$
+# Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+# Contributor: Daniel Micay <danielmicay@gmail.com>
+# Contributor: Mladen Pejakovic <pejakm@gmail.com>
 
 _gitroot="git://github.com/xkbcommon/libxkbcommon.git"
 _gitname="repo-libxkbcommon"
 
 pkgbase=libxkbcommon
-pkgname=('libxkbcommon' 'libxkbcommon-x11')
+pkgname=(libxkbcommon libxkbcommon-x11)
 pkgver=0.6.1.0.r1574.g03f5d36
 pkgrel=1
-pkgdesc="A library to handle keyboard descriptions."
+pkgdesc="Keyboard handling library using XKB data"
+arch=(i686 x86_64)
 url="http://xkbcommon.org/"
-arch=('i686' 'x86_64')
-license=('custom')
-depends=('xkeyboard-config')
-makedepends=('git' 'doxygen' 'xorg-util-macros' 'libxcb')
-source=($_gitname::$_gitroot)
-sha256sums=('SKIP')
+license=(custom)
+depends=(xkeyboard-config glibc)
+checkdepends=(xorg-server-xvfb xorg-xauth libgl)
+makedepends=(git libxcb doxygen xorg-util-macros)
+source=("$_gitname::$_gitroot" LICENSE)
+sha256sums=('SKIP'
+            '41489198d8b7cef9e0fd80f37d501d68cfcee7bec079ac7f5d26a0f552a1ca19')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -32,25 +37,34 @@ prepare() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  ./autogen.sh --prefix=/usr
+  ./autogen.sh --prefix=/usr --disable-static
   make
+}
+
+check() {
+  cd "${srcdir}/${_gitname}"
+  make -k check
 }
 
 package_libxkbcommon() {
   cd "${srcdir}/${_gitname}"
-  make DESTDIR="${pkgdir}" install
+  make DESTDIR="$pkgdir" install
+  install -Dm644 ../LICENSE "$pkgdir/usr/share/licenses/libxkbcommon/LICENSE"
 
-  mv "${pkgdir}"/usr/lib/*x11* "$srcdir/x11/usr/lib"
-  mv "${pkgdir}"/usr/lib/pkgconfig/*x11* "$srcdir/x11/usr/lib/pkgconfig"
-  mv "${pkgdir}"/usr/include/xkbcommon/*x11* "$srcdir/x11/usr/include/xkbcommon"
+### Split libxkbcommon-x11
+
+  mv "$pkgdir"/usr/lib/*x11* "$srcdir/x11/usr/lib"
+  mv "$pkgdir"/usr/lib/pkgconfig/*x11* "$srcdir/x11/usr/lib/pkgconfig"
+  mv "$pkgdir"/usr/include/xkbcommon/*x11* "$srcdir/x11/usr/include/xkbcommon"
 }
 
 package_libxkbcommon-x11() {
   pkgdesc="Keyboard handling library using XKB data for X11 XCB clients"
-  depends=('libxkbcommon' 'libxcb')
+  depends=(libxkbcommon libxcb)
 
-  mv x11/* "${pkgdir}"
+  mv x11/* "$pkgdir"
+
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/libxkbcommon-x11/LICENSE"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

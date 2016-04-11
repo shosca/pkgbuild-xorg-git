@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 174256 2013-01-03 11:42:05Z jgc $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXdamage"
@@ -11,8 +11,8 @@ pkgdesc="X11 damaged region extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxfixes' 'damageproto')
-makedepends=('pkg-config' 'xorg-util-macros' 'git')
+depends=('libxfixes>=4.0.4' 'damageproto>=1.2.0')
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,7 +28,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
   make
 }
@@ -38,5 +37,5 @@ package() {
   make DESTDIR="${pkgdir}" install
   install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

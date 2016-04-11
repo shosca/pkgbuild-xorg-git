@@ -1,6 +1,5 @@
-# Maintainer: Riccardo Berto <riccardobrt@gmail.com>
-# Previous Contributor: vbmithr
-# Contributor: Flamelab <panosfilip at gmail dot com>
+# $Id$
+# Maintainer: Laurent Carlier <lordheavym@gmail.com>
 
 _gitroot='git://github.com/anholt/libepoxy'
 _gitname='repo-libepoxy'
@@ -9,11 +8,11 @@ pkgname=libepoxy
 pkgver=1.3.1.2.r244.g8bbc0d4
 pkgrel=139
 pkgdesc="Epoxy is a library for handling OpenGL function pointer management for you"
+url="https://github.com/anholt/libepoxy"
 arch=('i686' 'x86_64')
-url="http://xorg.freedesktop.org/"
-depends=('libx11' 'mesa')
-makedepends=('git' 'xorg-util-macros' 'python2')
-license=('custom')
+license=(MIT)
+depends=('glibc')
+makedepends=('git' 'xorg-util-macros' 'python' 'mesa-libgl')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -40,7 +39,8 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
+
+  install -Dm644 COPYING ${pkgdir}/usr/share/licenses/${pkgname}/COPYING
 }
 
 # vim: ft=sh syn=sh et
-

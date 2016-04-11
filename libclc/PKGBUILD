@@ -1,4 +1,5 @@
-# Maintainer: Armin K. <krejzi at email dot com>
+# $Id$
+# Maintainer: Laurent Carlier <lordheavym@gmail.com>
 
 _gitroot='http://llvm.org/git/libclc.git'
 _gitname=repo-libclc
@@ -7,10 +8,11 @@ pkgname=libclc
 pkgver=0.2.0.r298.g20d977a
 pkgrel=3
 pkgdesc="Library requirements of the OpenCL C programming language"
-arch=('i686' 'x86_64')
+arch=('any')
 url="http://libclc.llvm.org/"
 license=('MIT')
-makedepends=('clang' 'llvm' 'git' 'python2')
+makedepends=('clang' 'llvm' 'python2' 'git')
+options=('staticlibs')
 source=($_gitname::git+$_gitroot)
 sha256sums=('SKIP')
 
@@ -26,9 +28,8 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-  /usr/bin/python2 ./configure.py \
-    --prefix=/usr \
-    --with-llvm-config=/usr/bin/llvm-config
+  python2 ./configure.py --prefix=/usr
+
   sed -i 's/ python / python2 /' Makefile
   make
 }

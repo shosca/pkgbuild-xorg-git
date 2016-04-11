@@ -1,6 +1,7 @@
-# Contributor: Thomas Dziedzic <gostrc@@@gmail>
-# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
-# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+# $Id$
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Serkan Hosca <serkan@hosca.com>
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/dri2proto'
 _gitname='repo-dri2proto'
@@ -8,11 +9,11 @@ _gitname='repo-dri2proto'
 pkgname=dri2proto
 pkgver=2.8.4.r50.gb118dfb
 pkgrel=4
-pkgdesc='X11 DRI extension wire protocol.'
-url='http://xorg.freedesktop.org/'
-arch=('any')
+pkgdesc="X11 DRI protocol"
+arch=(any)
 license=('custom')
-makedepends=('xorg-util-macros' 'git')
+url="http://xorg.freedesktop.org/"
+makedepends=('git' 'xorg-util-macros')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,15 +29,16 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
+
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 # vim: ft=sh syn=sh et

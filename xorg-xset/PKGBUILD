@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 134284 2011-08-02 18:56:04Z jgc $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/app/xset"
@@ -8,11 +8,11 @@ pkgname=xorg-xset
 pkgver=1.2.3.4.r110.ge435972
 pkgrel=32
 pkgdesc="User preference utility for X"
-arch=('i686' 'x86_64')
+arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libxmu')
-makedepends=('xorg-util-macros' 'git')
+makedepends=('git' 'xorg-util-macros')
 groups=('xorg-apps' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -29,7 +29,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --without-fontcache --without-xf86misc
   make
 }

@@ -1,9 +1,8 @@
-# $Id: $
-# Maintainer: Jan de Groot
+# $Id$
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/libevdev"
 _gitname="repo-libevdev"
-
 
 pkgname=libevdev
 pkgver=1.4.6.3.r529.g5ea0a27
@@ -13,10 +12,9 @@ arch=('i686' 'x86_64')
 url="http://www.freedesktop.org/wiki/Software/libevdev/"
 license=(custom:X11)
 depends=('glibc')
-makedepends=('git' 'python')
-source=($_gitname::$_gitroot fix-ui-get-sysname.patch)
-sha256sums=('SKIP'
-            'fff1d056fdb9e378c33e9ca08a49e14cc67ce9f97ea80f0b809c058441411129')
+makedepends=('git' 'python2' 'check' 'valgrind' 'doxygen')
+source=("$_gitname::$_gitroot")
+sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -30,10 +28,8 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
+  ./autogen.sh --prefix=/usr --disable-static
 
-  patch -Np1 -i ../fix-ui-get-sysname.patch
-
-  ./autogen.sh --prefix=/usr --disable-static --disable-gcov
   make
 }
 

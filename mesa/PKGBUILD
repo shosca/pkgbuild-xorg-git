@@ -6,21 +6,15 @@ _gitroot='git://anongit.freedesktop.org/git/mesa/mesa'
 _gitname='repo-mesa'
 
 pkgbase=mesa
+pkgname=('opencl-mesa' 'libva-mesa-driver' 'mesa-vdpau' 'mesa' 'mesa-libgl')
 pkgver=11.3.0.1073.r77616.g30b818d
 pkgrel=2
-pkgname=('opencl-mesa' 'libva-mesa-driver' 'mesa-vdpau' 'mesa' 'mesa-libgl')
 arch=('i686' 'x86_64')
-makedepends=('git' 'python2-mako' 'libxml2' 'libx11' 'libva' 'glproto' 'libdrm'
-             'dri2proto' 'dri3proto' 'presentproto' 'libclc'
-             'libxshmfence' 'libomxil-bellagio' 'libxxf86vm'
-             'libxdamage' 'libvdpau' 'wayland' 'elfutils'
-             'llvm' 'systemd' 'opencl-headers' 'clang')
-optdepends=('opengl-man-pages: for the OpenGL API man pages'
-            'mesa-vdpau: for accelerated playback'
-            'libva-mesa-driver: for accelerated playback')
+makedepends=('python2-mako' 'libxml2' 'libx11' 'glproto' 'libdrm' 'dri2proto' 'dri3proto' 'presentproto' 
+             'libxshmfence' 'libxxf86vm' 'libxdamage' 'libvdpau' 'libva' 'wayland' 'elfutils' 'llvm'
+             'systemd' 'libomxil-bellagio' 'libgcrypt' 'libclc' 'clang' 'git')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
-options=('!libtool')
 source=($_gitname::$_gitroot#branch=master LICENSE)
 sha256sums=('SKIP'
             '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2')
@@ -34,19 +28,25 @@ pkgver() {
     "$(git rev-parse --short HEAD)"
 }
 
+prepare() {
+  cd "${srcdir}/${_gitname}"
+
+  # Fix detection of libLLVM when built with CMake
+  autoreconf -vfi
+  sed -i 's/LLVM_SO_NAME=.*/LLVM_SO_NAME=LLVM/' configure
+}
+
 build() {
   cd "${srcdir}/${_gitname}"
 
-  ./autogen.sh \
-    --prefix=/usr \
+  # --disable-static \
+  ./configure --prefix=/usr \
     --sysconfdir=/etc \
-    --disable-static \
+    --with-dri-driverdir=/usr/lib/xorg/modules/dri \
     --with-gallium-drivers=i915,ilo,r300,r600,radeonsi,nouveau,svga,swrast,virgl \
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
-    --with-egl-platforms=drm,x11,wayland \
-    --with-clang-libdir=/usr/lib \
-    --with-sha1=libnettle \
-    --enable-texture-float \
+    --with-egl-platforms=x11,drm,wayland \
+    --with-sha1=libgcrypt \
     --enable-llvm-shared-libs \
     --enable-egl \
     --enable-gbm \
@@ -58,12 +58,13 @@ build() {
     --enable-osmesa \
     --enable-gles1 \
     --enable-gles2 \
+    --enable-texture-float \
     --enable-xa \
     --enable-vdpau \
     --enable-omx \
     --enable-nine \
-    --enable-opencl \
-    --enable-opencl-icd
+    --enable-opencl --enable-opencl-icd \
+    --with-clang-libdir=/usr/lib
 
   make
 
@@ -74,50 +75,53 @@ build() {
 
 package_opencl-mesa() {
   pkgdesc="OpenCL support for AMD/ATI Radeon mesa drivers"
-  depends=('expat' 'libdrm' 'elfutils' 'libxfixes' 'libxext' 'libcl' 'libclc' 'clang')
+  depends=('expat' 'libdrm' 'elfutils' 'libxfixes' 'libxext' 'opencl-icd-loader' 'libclc' 'clang')
+  optdepends=('opencl-headers: headers necessary for OpenCL development')
 
   install -m755 -d ${pkgdir}/etc
-  mv -v ${srcdir}/fakeinstall/etc/OpenCL ${pkgdir}/etc
+  cp -rv ${srcdir}/fakeinstall/etc/OpenCL ${pkgdir}/etc/
 
   install -m755 -d ${pkgdir}/usr/lib/gallium-pipe
-  mv -v ${srcdir}/fakeinstall/usr/lib/lib*OpenCL* ${pkgdir}/usr/lib/
-  mv -v ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_{r600,radeonsi}.so ${pkgdir}/usr/lib/gallium-pipe/
+  cp -rv ${srcdir}/fakeinstall/usr/lib/lib*OpenCL* ${pkgdir}/usr/lib/
+  cp -rv ${srcdir}/fakeinstall/usr/lib/gallium-pipe/pipe_{r600,radeonsi}.so ${pkgdir}/usr/lib/gallium-pipe/
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/opencl-mesa"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/opencl-mesa/"
 }
 
 package_libva-mesa-driver() {
   pkgdesc='VA-API implementation for gallium'
   depends=('libdrm' 'libx11' 'llvm-libs' 'expat' 'elfutils')
 
-  install -m755 -d ${pkgdir}/usr/lib/dri
-  mv -v ${srcdir}/fakeinstall/usr/lib/dri/gallium_drv_video* ${pkgdir}/usr/lib/dri
+  install -m755 -d ${pkgdir}/usr/lib
+  cp -rv ${srcdir}/fakeinstall/usr/lib/dri ${pkgdir}/usr/lib
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/libva-mesa-driver"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libva-mesa-driver/"
 }
 
 package_mesa-vdpau() {
   pkgdesc="Mesa VDPAU drivers"
-  depends=('libdrm' 'libx11' 'mesa' 'expat' 'elfutils')
+  depends=('libdrm' 'libx11' 'llvm-libs' 'expat' 'elfutils')
 
   install -m755 -d ${pkgdir}/usr/lib
-  mv -v ${srcdir}/fakeinstall/usr/lib/vdpau ${pkgdir}/usr/lib
+  cp -rv ${srcdir}/fakeinstall/usr/lib/vdpau ${pkgdir}/usr/lib
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/mesa-vdpau"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/mesa-vdpau/"
 }
 
 package_mesa() {
   pkgdesc="an open-source implementation of the OpenGL specification"
-  depends=('libdrm' 'libvdpau' 'wayland' 'libxshmfence'
-           'libxxf86vm' 'libxdamage' 'systemd' 'llvm-libs')
-  optdepends=('opengl-man-pages: for the OpenGL API man pages')
-  provides=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl'
-            'khrplatform-devel' 'ati-dri' 'intel-dri' 'nouveau-dri' 'svga-dri' 'mesa-dri')
-  conflicts=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl'
-             'khrplatform-devel' 'ati-dri' 'intel-dri' 'nouveau-dri' 'svga-dri' 'mesa-dri')
+  depends=('libdrm' 'wayland' 'libxxf86vm' 'libxdamage' 'libxshmfence' 'systemd' 'elfutils' 
+           'libomxil-bellagio' 'expat' 'libgcrypt' 'libtxc_dxtn' 'llvm-libs')
+  optdepends=('opengl-man-pages: for the OpenGL API man pages'
+              'mesa-vdpau: for accelerated video playback'
+              'libva-mesa-driver: for accelerated video playback')
+  provides=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel'
+            'ati-dri' 'intel-dri' 'nouveau-dri' 'svga-dri' 'mesa-dri')
+  conflicts=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel'
+             'ati-dri' 'intel-dri' 'nouveau-dri' 'svga-dri' 'mesa-dri')
   replaces=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel'
             'ati-dri' 'intel-dri' 'nouveau-dri' 'svga-dri' 'mesa-dri')
 

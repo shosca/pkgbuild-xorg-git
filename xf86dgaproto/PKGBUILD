@@ -1,6 +1,6 @@
-# Contributor: Thomas Dziedzic <gostrc@@@gmail>
-# Contributor: Antti "Tera" Oja <antti.bofh@@@gmail.com>
-# Contributor: JiÅ™Ã­ ZÃ¡revÃºcky <zarevucky.jiri@@@gmail.com>
+# $Id$
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Alexander Baldeck <alexander@archlinux.org>
 
 _gitroot='git://git.freedesktop.org/git/xorg/proto/xf86dgaproto'
 _gitname='repo-xf86dgaproto'
@@ -8,9 +8,9 @@ _gitname='repo-xf86dgaproto'
 pkgname=xf86dgaproto
 pkgver=2.1.12.r45.g199f7ae
 pkgrel=6
-pkgdesc='X11 composite extention protocol specification and header files'
-url='http://xorg.freedesktop.org/'
+pkgdesc="X11 Direct Graphics Access extension wire protocol"
 arch=('any')
+url="http://xorg.freedesktop.org/"
 license=('custom')
 makedepends=('xorg-util-macros' 'git')
 source=($_gitname::$_gitroot)
@@ -28,7 +28,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }
@@ -36,7 +35,7 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
-  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 # vim: ft=sh syn=sh et

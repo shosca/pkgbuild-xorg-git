@@ -1,5 +1,5 @@
-# $Id: PKGBUILD 168377 2012-10-09 16:18:36Z andyrtr $
-# Maintainer: Alexander Baldeck <alexander@archlinux.org>
+# $Id$
+# Maintainer: Andreas Radke <andyrtr@archlinux.org>
 # Contributor: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xcb/proto"
@@ -9,10 +9,10 @@ pkgname=xcb-proto
 pkgver=1.11.115.r470.g2ba8cdb
 pkgrel=3
 pkgdesc="XML-XCB protocol descriptions"
-arch=('any')
+arch=(any)
 url="http://xcb.freedesktop.org/"
 license=('custom')
-makedepends=('python2' 'libxml2' 'git')
+makedepends=('git' 'python' 'libxml2')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,15 +28,15 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
-  PYTHON=/usr/bin/python2 ./autogen.sh --prefix=/usr
+  ./autogen.sh --prefix=/usr
   make
 }
 
 package() {
   cd "${srcdir}/${_gitname}"
-  make DESTDIR="${pkgdir}" install
-  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}"
+  make DESTDIR="$pkgdir" install
+  install -m755 -d "$pkgdir/usr/share/licenses/$pkgname"
+  install -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname"
 }
+
 # vim: ft=sh syn=sh et

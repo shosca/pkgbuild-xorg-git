@@ -1,5 +1,6 @@
-# $Id: PKGBUILD 152781 2012-03-09 16:19:36Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Arjan Timmerman <arjan@archlinux.org>
 
 _gitroot='git://anongit.freedesktop.org/libxklavier'
 _gitname='repo-libxklavier'
@@ -8,11 +9,12 @@ pkgname=libxklavier
 pkgver=5.4.2.r339.g65c132a
 pkgrel=31
 pkgdesc="High-level API for X Keyboard Extension"
-arch=('i686' 'x86_64')
-license=('custom')
-url="http://xorg.freedesktop.org/"
+arch=(i686 x86_64)
+license=('LGPL')
 depends=('glib2' 'libxkbfile' 'libxml2' 'xkeyboard-config' 'libxi' 'iso-codes')
-makedepends=('gtk-doc' 'vala' 'gobject-introspection' 'intltool' 'xorg-util-macros' 'git')
+makedepends=('git' 'gobject-introspection' 'vala' 'intltool' 'gtk-doc' 'libxfixes')
+options=('!emptydirs')
+url="http://gswitchit.sourceforge.net"
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -28,7 +30,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr --with-xkb-bin-base=/usr/bin \
     --with-xkb-base=/usr/share/X11/xkb --disable-static --enable-gtk-doc \
     --enable-vala --enable-introspection
@@ -37,7 +38,7 @@ build() {
 
 package() {
   cd "${srcdir}/${_gitname}"
-  make DESTDIR="${pkgdir}" install
+  make DESTDIR="$pkgdir" install
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

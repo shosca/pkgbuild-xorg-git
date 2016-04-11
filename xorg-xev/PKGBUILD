@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 150821 2012-02-23 07:20:15Z andyrtr $
+# $Id$
 # Contributor: Jan de Groot <jgc@archlinux.org>
 # Maintainer: Gaetan Bisson <bisson@archlinux.org>
 
@@ -13,10 +13,10 @@ url='http://xorg.freedesktop.org/'
 arch=('i686' 'x86_64')
 license=('custom')
 depends=('libx11' 'libxrandr')
-makedepends=('xorg-util-macros' 'xproto' 'git')
-groups=('xorg-apps' 'xorg')
+makedepends=('git' 'xorg-util-macros' 'xproto')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
+groups=('xorg-apps' 'xorg')
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -30,7 +30,6 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-
   ./autogen.sh --prefix=/usr
   make
 }
@@ -38,6 +37,7 @@ build() {
 package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
 
 # vim: ft=sh syn=sh et
