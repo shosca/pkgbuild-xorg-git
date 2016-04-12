@@ -9,7 +9,7 @@ _gitname="repo-xserver"
 pkgbase=xorg-server
 pkgname=('xorg-server' 'xorg-server-xephyr' 'xorg-server-xdmx' 'xorg-server-xvfb' 'xorg-server-xnest' 'xorg-server-xwayland' 'xorg-server-common' 'xorg-server-devel')
 pkgver=1.18.99.1.249.r15334.g3b38510
-pkgrel=13
+pkgrel=15
 arch=('i686' 'x86_64')
 license=('custom')
 groups=('xorg')
@@ -119,11 +119,15 @@ package_xorg-server() {
   depends=(libepoxy libxdmcp libxfont libpciaccess libdrm pixman libgcrypt libxau xorg-server-common libxshmfence libgl xf86-input-driver)
   # see xorg-server-*/hw/xfree86/common/xf86Module.h for ABI versions - we provide major numbers that drivers can depend on
   # and /usr/lib/pkgconfig/xorg-server.pc in xorg-server-devel pkg
-  for VAR in VIDEODRV XINPUT EXTENSION; do
-    provides+=("X-ABI-${VAR}_VERSION=$(grep -Po "${VAR}_V.*\(\K[^)]*" \
-      $srcdir/$_gitname/hw/xfree86/common/xf86Module.h |& sed 's/, /./')")
-  done
-  provides+=('x-server')
+  provides=(
+    'x-server'
+    "X-ABI-VIDEO_VERSION=$(git --git-dir=$_gitname show HEAD:hw/xfree86/common/xf86Module.h \
+      | grep VIDEODRV_V | sed -e 's/[^0-9,]//g;s/,/./g')"
+    "X-ABI-XINPUT_VERSION=$(git --git-dir=$_gitname show HEAD:hw/xfree86/common/xf86Module.h \
+      | grep XINPUT_V | sed -e 's/[^0-9,]//g;s/,/./g')"
+    "X-ABI-EXTENSION_VERSION=$(git --git-dir=$_gitname show HEAD:hw/xfree86/common/xf86Module.h \
+      | grep EXTENSION_V | sed -e 's/[^0-9,]//g;s/,/./g')"
+  )
   replaces=('glamor-egl' 'xf86-video-modesetting')
   install=xorg-server.install
 
@@ -216,7 +220,6 @@ package_xorg-server-devel() {
            fontsproto pixman videoproto xf86driproto glproto 
            mesa dri2proto dri3proto xineramaproto libpciaccess
            resourceproto scrnsaverproto presentproto
-           # not technically required but almost every Xorg pkg needs it to build
            xorg-util-macros)
 
   cd "${srcdir}/${_gitname}"

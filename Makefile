@@ -33,8 +33,6 @@ reset: clean
 
 chroot:
 	@if [[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]]; then \
-	( \
-		flock -x 200 ; \
 		sudo mkdir -p $(CHROOTPATH64); \
 		sudo rm -rf $(CHROOTPATH64)/root; \
 		sudo $(MKARCHROOT) $(CHROOTPATH64)/root base-devel ; \
@@ -49,11 +47,7 @@ chroot:
 		echo 'builduser ALL = NOPASSWD: /usr/bin/pacman' | sudo tee -a $(CHROOTPATH64)/root/etc/sudoers.d/builduser ; \
 		echo 'builduser:x:1000:100:builduser:/:/usr/bin/nologin\n' | sudo tee -a $(CHROOTPATH64)/root/etc/passwd ; \
 		sudo mkdir -p $(CHROOTPATH64)/root/build; \
-	) 200>$(LOCKFILE) ; \
 	fi ; \
-
-resetchroot:
-	sudo rm -rf $(CHROOTPATH64)
 
 build: $(DIRS)
 
@@ -98,10 +92,12 @@ info: $(INFO_TARGETS)
 	fi ; \
 
 %-chroot: chroot
-	@sudo rsync -a --delete -q -W -x $(CHROOTPATH64)/root/* $(CHROOTPATH64)/$* ; \
+	@echo "==> Setting up chroot for [$*]" ; \
+	sudo rsync -a --delete -q -W -x $(CHROOTPATH64)/root/* $(CHROOTPATH64)/$* ; \
 
 %-sync: %-chroot
-	@if ls */*.$(PKGEXT) &> /dev/null ; then \
+	@echo "==> Syncing packages for [$*]" ; \
+	if ls */*.$(PKGEXT) &> /dev/null ; then \
 		( \
 			flock -x 200 ; \
 			sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/$*/repo ; \
@@ -110,7 +106,8 @@ info: $(INFO_TARGETS)
 	fi ; \
 
 %-build: %-sync
-	@sudo mkdir -p $(CHROOTPATH64)/$*/build ; \
+	@echo "==> Building [$*]" ; \
+	sudo mkdir -p $(CHROOTPATH64)/$*/build ; \
 	sudo rsync -a --delete -q -W -x $(PWD)/$* $(CHROOTPATH64)/$*/build/ ; \
 	sudo systemd-nspawn -q -D $(CHROOTPATH64)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg --noconfirm --holdver --nocolor -sf'; \
 	cp $(CHROOTPATH64)/$*/build/$*/*.$(PKGEXT) $(PWD)/$*/
@@ -122,7 +119,8 @@ info: $(INFO_TARGETS)
 	done ; \
 
 $(DIRS): chroot
-	@if [ ! -f $(PWD)/$@/built ]; then \
+	@echo "==> Checking [$@]" ; \
+	if [ ! -f $(PWD)/$@/built ]; then \
 		_pkgrel=$$(grep -R '^pkgrel' $(PWD)/$@/PKGBUILD | sed -e 's/pkgrel=//' -e "s/'//g" -e 's/"//g') && \
 		sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=$$(($$_pkgrel+1))/" $(PWD)/$@/PKGBUILD ; \
 		if ! $(MAKE) $@/built ; then \
@@ -130,7 +128,7 @@ $(DIRS): chroot
 			exit 1 ; \
 		fi ; \
 	fi ; \
-	sudo rm -rf $(CHROOTPATH64)/$* $(CHROOTPATH64)/$*.lock ; \
+	sudo rm -rf $(CHROOTPATH64)/$@ $(CHROOTPATH64)/$@.lock ; \
 
 gitpull: $(PULL_TARGETS)
 

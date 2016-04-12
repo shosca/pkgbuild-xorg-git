@@ -9,13 +9,13 @@ _gitname=repo-xf86-input-wacom
 
 pkgname=xf86-input-wacom
 pkgver=0.32.0.5.r1874.g3b0c093
-pkgrel=21
+pkgrel=23
 pkgdesc="X.Org Wacom tablet driver"
 arch=(i686 x86_64)
 url="http://linuxwacom.sourceforge.net/"
 license=(GPL)
 depends=(libxi libxinerama libxrandr systemd)
-makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=22.1' 'resourceproto' 'scrnsaverproto')
+makedepends=('git' 'xorg-server-devel>1.1.8.98' 'resourceproto' 'scrnsaverproto')
 conflicts=('xorg-server<1.18.98' 'X-ABI-XINPUT_VERSION<22.1' 'X-ABI-XINPUT_VERSION>=23')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')

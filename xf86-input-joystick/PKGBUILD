@@ -6,13 +6,13 @@ _gitname=repo-xf86-input-joystick
 
 pkgname=xf86-input-joystick
 pkgver=1.6.2.4.r282.gbaf8bd4
-pkgrel=90
+pkgrel=92
 pkgdesc="X.Org Joystick input driver"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('glibc')
-makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=22.1' 'resourceproto' 'scrnsaverproto')
+makedepends=('git' 'xorg-server-devel>1.18.98' 'resourceproto' 'scrnsaverproto')
 conflicts=('xorg-server<1.18.98' 'X-ABI-XINPUT_VERSION<22.1' 'X-ABI-XINPUT_VERSION>=23')
 groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot 50-joystick.conf)

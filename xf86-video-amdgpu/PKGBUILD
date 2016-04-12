@@ -6,14 +6,14 @@ _gitname="repo-xf86-video-amdgpu"
 
 pkgname=xf86-video-amdgpu
 pkgver=1.0.99.45.r159.gb2a2e11
-pkgrel=28
+pkgrel=30
 pkgdesc="X.org amdgpu video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('libdrm' 'systemd' 'mesa-dri')
-makedepends=('git' 'xorg-server-devel' 'X-ABI-VIDEODRV_VERSION=20')
-conflicts=('xorg-server<1.18.98' 'X-ABI-VIDEODRV_VERSION<20' 'X-ABI-VIDEODRV_VERSION>=21')
+makedepends=('git' 'xorg-server-devel>1.18.98' 'mesa-libgl' 'xf86-input-libinput')
+conflicts=('xorg-server<1.18.98' 'X-ABI-VIDEODRV_VERSION<21' 'X-ABI-VIDEODRV_VERSION>=22')
 groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')

@@ -7,14 +7,14 @@ _gitname="repo-xf86-video-nouveau"
 
 pkgname=xf86-video-nouveau
 pkgver=1.0.12.1.r2444.gb824d36
-pkgrel=56
+pkgrel=58
 pkgdesc="Open Source 2D acceleration driver for nVidia cards"
 arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
 license=('GPL')
 depends=('libdrm' 'systemd' 'mesa-dri')
-makedepends=('xorg-server-devel' 'X-ABI-VIDEODRV_VERSION=20' 'git')
-conflicts=('xorg-server<1.16' 'X-ABI-VIDEODRV_VERSION<20' 'X-ABI-VIDEODRV_VERSION>=21')
+makedepends=('xorg-server-devel>1.18.98' 'git')
+conflicts=('xorg-server<1.18.98' 'X-ABI-VIDEODRV_VERSION<21' 'X-ABI-VIDEODRV_VERSION>=22')
 groups=('xorg-drivers' 'xorg')
 install=$pkgname.install
 source=($_gitname::$_gitroot)
