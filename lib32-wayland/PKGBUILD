@@ -4,17 +4,15 @@ _gitroot="git://anongit.freedesktop.org/wayland/wayland"
 _gitname="repo-wayland"
 
 pkgname=lib32-wayland
+_pkgbasename=${pkgname:6}
 pkgver=1.10.90.24.r1872.gae78dcb
-pkgrel=1
+pkgrel=3
 pkgdesc='A computer display server protocol (32 bit)'
 arch=('x86_64')
 url='http://wayland.freedesktop.org'
 license=('MIT')
-depends=('lib32-libffi' 'lib32-libxml2' 'wayland')
-makedepends=('git' 'gcc-multilib' 'lib32-expat')
-options=(!libtool)
-conflicts=('lib32-libwayland')
-replaces=('lib32-libwayland')
+depends=('lib32-glibc' 'lib32-libffi' 'lib32-expat' 'lib32-libxml2' 'wayland')
+makedepends=('git' 'gcc-multilib')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -45,9 +43,12 @@ build() {
 
 package() {
   cd "${srcdir}/${_gitname}"
+
   make DESTDIR="${pkgdir}" install
   rm -rf "${pkgdir}"/usr/{bin,include,share}
-  install -Dm 644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+
+  install -dm 755 "${pkgdir}"/usr/share/licenses
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
 }
 
 # vim:set ts=2 sw=2 et:

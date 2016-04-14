@@ -1,18 +1,19 @@
-# $Id: PKGBUILD 152795 2012-03-09 16:32:25Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXv"
 _gitname="repo-libXv"
 
 pkgname=lib32-libxv
+_pkgbasename=${pkgname:6}
 pkgver=1.0.10.1.r105.gcf8cc32
-pkgrel=66
-pkgdesc="X11 Video extension library"
+pkgrel=67
+pkgdesc="X11 Video extension library (32-bit)"
 arch=('x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('lib32-libxext' 'libxv')
-makedepends=('pkgconfig' 'xorg-util-macros' 'git')
+depends=('lib32-libxext' $_pkgbasename)
+makedepends=(git gcc-multilib xorg-util-macros)
 options=('!libtool')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -45,8 +46,9 @@ package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
 
-  rm -rf "${pkgdir}"/usr/{include,share}
+  rm -rf "${pkgdir}"/usr/{include,share,bin}
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
 }
 
 # vim: ft=sh syn=sh et
-

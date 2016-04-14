@@ -1,18 +1,19 @@
-# $Id: PKGBUILD 151848 2012-03-03 13:42:06Z andyrtr $
+# $Id$
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libICE"
+_pkgbasename=${pkgname:6}
 _gitname="repo-libICE"
 
 pkgname=lib32-libice
 pkgver=1.0.9.3.r145.gb1720ed
-pkgrel=9
-pkgdesc="X11 Inter-Client Exchange library"
-arch=('x86_64')
+pkgrel=10
+pkgdesc="X11 Inter-Client Exchange library (32-bit)"
+arch=(x86_64)
 url="http://xorg.freedesktop.org/"
-depends=('lib32-glibc' 'libice' 'xproto')
-makedepends=('gcc-multilib' 'pkgconfig' 'xorg-util-macros' 'xtrans' 'git')
+depends=('lib32-glibc' $_pkgbasename 'xproto')
+makedepends=('gcc-multilib' 'xorg-util-macros' 'xtrans' 'git')
 options=('!libtool')
 license=('custom')
 source=($_gitname::$_gitroot)
@@ -49,6 +50,9 @@ package() {
   make DESTDIR="${pkgdir}" install
 
   rm -rf "${pkgdir}"/usr/{include,share}
-}
-# vim: ft=sh syn=sh et
 
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
+}
+
+# vim: ft=sh syn=sh et

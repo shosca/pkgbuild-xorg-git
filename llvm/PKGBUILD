@@ -13,12 +13,12 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="repo-llvm"
 
 pkgname=(llvm llvm-libs llvm-ocaml lldb clang clang-analyzer clang-tools-extra)
-pkgver=3.9.0.r130106.g586f018
+pkgver=3.9.0.r130207.gf5cccc3
 pkgrel=1
 arch=('i686' 'x86_64')
 url="http://llvm.org/"
 license=('custom:University of Illinois/NCSA Open Source License')
-makedepends=('git' 'cmake' 'libffi' 'python2' "ocaml" 'python-sphinx'
+makedepends=('git' 'cmake' 'libffi' 'python2' "ocaml" 'python-sphinx' 'python2-sphinx'
              'ocaml-ctypes' 'ocaml-findlib' 'libedit' 'swig' 'chrpath')
 options=('staticlibs')
 source=($_gitname::git+$_gitroot

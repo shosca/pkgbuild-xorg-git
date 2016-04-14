@@ -5,14 +5,15 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXdamage"
 _gitname="repo-libXdamage"
 
 pkgname=lib32-libxdamage
+_pkgbasename=${pkgname:6}
 pkgver=1.1.4.4.r58.g41cc41d
-pkgrel=90
-pkgdesc="X11 damaged region extension library"
-arch=('x86_64')
+pkgrel=91
+pkgdesc="X11 damaged region extension library (32-bit)"
+arch=(x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('lib32-libxfixes' 'libxdamage')
-makedepends=('pkg-config' 'xorg-util-macros' 'git')
+depends=('lib32-libxfixes' $_pkgbasename)
+makedepends=('xorg-util-macros' 'git')
 options=('!libtool')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -47,7 +48,9 @@ package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
 
-  rm -rf "${pkgdir}"/usr/{include,share}
+  rm -rf "${pkgdir}"/usr/{include,share,bin}
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

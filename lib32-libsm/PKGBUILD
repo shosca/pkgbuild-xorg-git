@@ -1,18 +1,19 @@
-# $Id: PKGBUILD 151850 2012-03-03 13:43:52Z andyrtr $
+# $Id$
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libSM"
 _gitname="repo-libSM"
 
 pkgname=lib32-libsm
+_pkgbasename=${pkgname:6}
 pkgver=1.2.2.4.r147.gb64aa0e
-pkgrel=6
-pkgdesc="X11 Session Management library"
+pkgrel=7
+pkgdesc="X11 Session Management library (32-bit)"
 arch=('x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
-depends=('lib32-libice' 'libsm' 'lib32-util-linux')
-makedepends=('gcc-multilib' 'xorg-util-macros' 'xtrans' 'git')
+depends=('lib32-libice' $_pkgbasename 'lib32-util-linux')
+makedepends=('git' 'xorg-util-macros' 'xtrans' 'gcc-multilib')
 options=('!libtool')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -48,6 +49,9 @@ package() {
   make DESTDIR="${pkgdir}" install
 
   rm -rf "${pkgdir}"/usr/{include,share}
-}
-# vim: ft=sh syn=sh et
 
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname" 
+}
+
+# vim: ft=sh syn=sh et

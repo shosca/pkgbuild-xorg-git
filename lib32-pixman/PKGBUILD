@@ -5,15 +5,15 @@ _gitroot="git://anongit.freedesktop.org/git/pixman"
 _gitname="repo-pixman"
 
 pkgname=lib32-pixman
+_pkgbasename=${pkgname:6}
 pkgver=0.35.1.7.r2324.g7c6066b
-pkgrel=2
-pkgdesc="The pixel-manipulation library for X and cairo"
+pkgrel=3
+pkgdesc="Pixman library (32-bit)"
 arch=('x86_64')
-url="http://pixman.org/"
-license=('GPL')
-depends=('lib32-pango' 'glibc')
-makedepends=('git' 'autoconf' 'automake' 'libtool' 'pkgconfig')
-options=('!libtool')
+url="http://xorg.freedesktop.org"
+license=('custom')
+depends=('lib32-glibc' $_pkgbasename)
+makedepends=(git gcc-multilib)
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
@@ -46,9 +46,11 @@ build() {
 
 package() {
   cd "$srcdir/$_gitname"
-  make DESTDIR="${pkgdir}/" install
+  make DESTDIR="${pkgdir}" install
 
   rm -rf "${pkgdir}"/usr/{include,share}
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
 }
 
 # vim: ft=sh syn=sh et

@@ -27,7 +27,7 @@ all:
 clean:
 	@sudo rm -rf */*.log */pkg */src */logpipe* $(CHROOTPATH64)
 
-reset: clean
+resetall: clean
 	@sudo rm -f */built ; \
 	sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=0/" $(PWD)/**/PKGBUILD ; \
 
@@ -98,19 +98,16 @@ info: $(INFO_TARGETS)
 %-sync: %-chroot
 	@echo "==> Syncing packages for [$*]" ; \
 	if ls */*.$(PKGEXT) &> /dev/null ; then \
-		( \
-			flock -x 200 ; \
-			sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/$*/repo ; \
-		) 200>$(LOCKFILE) ; \
-		sudo $(REPOADD) $(CHROOTPATH64)/$*/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/$*/repo/*.$(PKGEXT) ; \
+		sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/$*/repo ; \
+		sudo $(REPOADD) $(CHROOTPATH64)/$*/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/$*/repo/*.$(PKGEXT) > /dev/null 2>&1 ; \
 	fi ; \
 
 %-build: %-sync
 	@echo "==> Building [$*]" ; \
 	sudo mkdir -p $(CHROOTPATH64)/$*/build ; \
 	sudo rsync -a --delete -q -W -x $(PWD)/$* $(CHROOTPATH64)/$*/build/ ; \
-	sudo systemd-nspawn -q -D $(CHROOTPATH64)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg --noconfirm --holdver --nocolor -sf'; \
-	cp $(CHROOTPATH64)/$*/build/$*/*.$(PKGEXT) $(PWD)/$*/
+	sudo systemd-nspawn -q -D $(CHROOTPATH64)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg -L --noconfirm --holdver --nocolor -sf '; \
+	cp $(CHROOTPATH64)/$*/build/$*/*.$(PKGEXT) $(CHROOTPATH64)/$*/build/$*/*.log $(PWD)/$*/
 
 %-deps:
 	@rm -f $(PWD)/$*/built ; \

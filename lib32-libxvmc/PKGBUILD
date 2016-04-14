@@ -5,14 +5,15 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXvMC"
 _gitname="repo-libXvMC"
 
 pkgname=lib32-libxvmc
+_pkgbasename=${pkgname:6}
 pkgver=1.0.9.0.r91.gab0d289
-pkgrel=36
-pkgdesc="X11 Video Motion Compensation extension library"
+pkgrel=37
+pkgdesc="X11 Video Motion Compensation extension library (32-bit)"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('lib32-libxv' 'libxvmc')
-makedepends=('pkgconfig' 'xorg-util-macros' 'git')
+depends=('lib32-libxv' $_pkgbasename)
+makedepends=(git gcc-multilib xorg-util-macros)
 options=('!libtool')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -47,8 +48,9 @@ package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR=${pkgdir} install
 
-  rm -rf "${pkgdir}"/usr/{include,share}
+  rm -rf "${pkgdir}"/usr/{include,share,bin}
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
 }
 
 # vim: ft=sh syn=sh et
-

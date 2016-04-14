@@ -1,29 +1,26 @@
-# Maintainer: Thomas Dziedzic < gostrc at gmail >
-# Contributor: Roberto Alsina <ralsina@kde.org>
+# $Id$
+# Maintainer: Evangelos Foutras <foutrelis@gmail.com>
+# Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
+# Contributor: Sebastian Nowicki <sebnow@gmail.com>
+# Contributor: Devin Cofer <ranguvar{AT]archlinux[DOT}us>
+# Contributor: Tobias Kieslich <tobias@justdreams.de>
+# Contributor: Geoffroy Carrier <geoffroy.carrier@aur.archlinux.org>
 # Contributor: Tomas Lindquist Olsen <tomas@famolsen.dk>
-# Contributor: Anders Bergh <anders@archlinuxppc.org>
-# Contributor: Tomas Wilhelmsson <tomas.wilhelmsson@gmail.com>
+# Contributor: Roberto Alsina <ralsina@kde.org>
+# Contributor: Gerardo Exequiel Pozzi <vmlinuz386@yahoo.com.ar>
 
 _gitroot="http://llvm.org/git/llvm"
 _gitname="repo-llvm"
 
 pkgname=('lib32-llvm' 'lib32-llvm-libs' 'lib32-clang')
-pkgver=3.9.0.r130106.g586f018
+pkgver=3.9.0.r130207.gf5cccc3
 pkgrel=1
 arch=('x86_64')
-url='http://llvm.org/'
-license=('custom:University of Illinois')
-makedepends=(
-    'cmake'
-    'gcc-multilib'
-    'lib32-zlib'
-    'lib32-libffi'
-    'lib32-libxml2'
-    'python2'
-    'git'
-)
-# this is always the latest svn so debug info can be useful
-options=('staticlibs' '!strip')
+url="http://llvm.org/"
+license=('custom:University of Illinois/NCSA Open Source License')
+makedepends=('git' 'cmake' 'lib32-libffi' 'lib32-zlib' 'python2' 'gcc-multilib'
+             'lib32-libxml2')
+options=('staticlibs')
 source=($_gitname::git+$_gitroot
         repo-clang::git+http://llvm.org/git/clang.git
         repo-compiler-rt::git+http://llvm.org/git/compiler-rt.git
@@ -33,20 +30,6 @@ sha256sums=(
     'SKIP'
     'SKIP'
 )
-#
-# BEGIN INTERNAL VARIABLES AND FUNCTIONS
-#
-
-# Install the license file for a package
-# Arguments: NONE
-_install_license() {
-    install -D -m 0644 "${srcdir}/${_gitname}/LICENSE.TXT" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-}
-
-#
-# END INTERNAL VARIABLES AND FUNCTIONS
-#
-
 
 pkgver() {
   cd "$srcdir/$_gitname"
@@ -67,149 +50,117 @@ prepare() {
   rm -rf projects/compiler-rt
   git clone ${srcdir}/repo-compiler-rt projects/compiler-rt
 
-  rm -rf "${srcdir}/build"
-  mkdir -p "${srcdir}/build"
+  mkdir -p build
 }
 
 build() {
-  cd "${srcdir}/build"
+  cd "$srcdir/$_gitname/build"
 
-  export PKG_CONFIG_PATH='/usr/lib32/pkgconfig'
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
-  # LLVM_BUILD_LLVM_DYLIB: Build the dynamic runtime libraries (e.g. libLLVM.so).
-  # LLVM_DYLIB_EXPORT_ALL: Export all symbols in the dynamic libs, not just the C API.
-  # LLVM_LINK_LLVM_DYLIB:  Link our own tools against the libLLVM dynamic library, too.
-  # LLVM_BINUTILS_INCDIR:  Set to binutils' plugin-api.h location in order to build LLVMgold.
-  # LLVM_TARGET_ARCH:      Theoretically, LLVM_BUILD_32_BITS should be used instead, which
-  #                        would also make CMAKE_C{,XX}_FLAGS redundant, but that option
-  #                        makes linking fail, because of incompatible architectures.
-  cmake -G 'Unix Makefiles' \
-      -DCMAKE_BUILD_TYPE:STRING=Release \
-      -DCMAKE_INSTALL_PREFIX:PATH=/usr \
-      -DLLVM_LIBDIR_SUFFIX:STRING=32 \
-      -DCMAKE_C_FLAGS:STRING=-m32 \
-      -DCMAKE_CXX_FLAGS:STRING=-m32 \
-      -DLLVM_APPEND_VC_REV:BOOL=ON \
-      -DLLVM_ENABLE_RTTI:BOOL=ON \
-      -DLLVM_TARGET_ARCH:STRING=i386 \
-      -DLLVM_ENABLE_FFI:BOOL=ON \
-      -DFFI_INCLUDE_DIR:PATH="$(pkg-config --variable=includedir libffi)" \
-      -DFFI_LIBRARY_DIR:PATH="$(pkg-config --variable=libdir libffi)" \
-      -DLLVM_BUILD_DOCS:BOOL=OFF \
-      -DLLVM_BUILD_LLVM_DYLIB:BOOL=ON \
-      -DLLVM_DYLIB_EXPORT_ALL:BOOL=ON \
-      -DLLVM_LINK_LLVM_DYLIB:BOOL=ON \
-      -DLLVM_BINUTILS_INCDIR:PATH=/usr/include \
-      "../${_gitname}"
-
-  # Must run this target independently, or else docs/cmake_install.cmake will fail.
-  #
-  # NOTICE: We don't need the documentation for the multilib package, but running
-  # this target is still required if ocaml-{ctypes,findlib} happen to be installed.
-  # While it's always a good idea to build the packages in a clean chroot, let's be
-  # a bit more user friendly (and reduce the number of complaints).
-  [[ $(pacman -Qq ocaml-{ctypes,findlib} 2>/dev/null | wc -l) -eq 2 ]] && make ocaml_doc
+  cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLLVM_LIBDIR_SUFFIX=32 \
+    -DCMAKE_C_FLAGS:STRING=-m32 \
+    -DCMAKE_CXX_FLAGS:STRING=-m32 \
+    -DLLVM_TARGET_ARCH:STRING=i686 \
+    -DLLVM_DEFAULT_TARGET_TRIPLE="i686-unknown-linux-gnu" \
+    -DLLVM_BUILD_LLVM_DYLIB=ON \
+    -DLLVM_DYLIB_EXPORT_ALL=ON \
+    -DLLVM_LINK_LLVM_DYLIB=ON \
+    -DLLVM_ENABLE_RTTI=ON \
+    -DLLVM_ENABLE_FFI=ON \
+    -DLLVM_BUILD_DOCS=OFF \
+    -DLLVM_ENABLE_SPHINX=OFF \
+    -DLLVM_ENABLE_DOXYGEN=OFF \
+    -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
+    -DLLVM_BINUTILS_INCDIR=/usr/include \
+    ..
 
   make
+
+  # Disable automatic installation of components that go into subpackages
+  sed -i '/\(clang\|lldb\)\/cmake_install.cmake/d' tools/cmake_install.cmake
+  sed -i '/extra\/cmake_install.cmake/d' tools/clang/tools/cmake_install.cmake
+  sed -i '/compiler-rt\/cmake_install.cmake/d' projects/cmake_install.cmake
 }
 
 package_lib32-llvm() {
-  pkgdesc='The LLVM Compiler Infrastructure (32-bit)'
-  depends=(
-      'lib32-llvm-libs'
-      'llvm'
-  )
+  pkgdesc="Low Level Virtual Machine (32-bit)"
+  depends=('lib32-llvm-libs' 'llvm')
   provides=('lib32-llvm-svn')
   replaces=('lib32-llvm-svn')
   conflicts=('lib32-llvm-svn')
 
-  cd "${srcdir}/build"
+  cd "$srcdir/$_gitname"
 
-  # Exclude the clang directory, since it'll be installed in a separate package
-  sed -i \
-      "s|^\([[:blank:]]*include(\"${srcdir}/build/tools/clang/cmake_install.cmake\")\)$|#\1|" \
-      tools/cmake_install.cmake
+  make -C build DESTDIR="$pkgdir" install
 
-  make DESTDIR="${pkgdir}" install
+  # The runtime library goes into lib32-llvm-libs
+  mv "$pkgdir"/usr/lib32/lib{LLVM,LLVM-*,LTO}.so* "$srcdir"
+  mv -f "$pkgdir"/usr/lib32/{LLVMgold,BugpointPasses}.so "$srcdir"
 
-  # The runtime libraries get installed in llvm-libs-svn
-  rm -f "${pkgdir}"/usr/lib32/lib{LLVM,LTO}.so{,.*}
-  rm -f "${pkgdir}"/usr/lib32/libLLVM-*
-  mv -f "${pkgdir}"/usr/lib32/{BugpointPasses,LLVMgold}.so "${srcdir}/"
+  # Fix permissions of static libs
+  chmod -x "$pkgdir"/usr/lib32/*.a
 
-  # Clang libraries go to a separate package
-  rm -rf "${srcdir}/clang"
-  mv "${pkgdir}/usr/lib32/clang" "${srcdir}/clang"
+  mv "$pkgdir/usr/bin/llvm-config" "$pkgdir/usr/lib32/llvm-config"
+  mv "$pkgdir/usr/include/llvm/Config/llvm-config.h" \
+    "$pkgdir/usr/lib32/llvm-config-32.h"
 
   # Get rid of example Hello transformation
-  rm -f "${pkgdir}"/usr/lib32/*LLVMHello.*
+  rm "$pkgdir"/usr/lib32/*LLVMHello.*
 
-  # Remove all bits that we don't need in multilib
-  mv "${pkgdir}/usr/bin/llvm-config" "${srcdir}"
-  mv "${pkgdir}/usr/include/llvm/Config/llvm-config.h" "${srcdir}"
+  rm -rf "$pkgdir"/usr/{bin,include,share/{doc,man,llvm}}
 
-  rm -rf "${pkgdir}/usr/"{bin,lib,docs,include,share}
+  # Needed for multilib (https://bugs.archlinux.org/task/29951)
+  # Header stub is taken from Fedora
+  install -d "$pkgdir/usr/include/llvm/Config"
+  mv "$pkgdir/usr/lib32/llvm-config-32.h" "$pkgdir/usr/include/llvm/Config/"
 
-  install -m755 -d "${pkgdir}/usr/bin"
-  mv "${srcdir}/llvm-config" "${pkgdir}/usr/bin/llvm-config32"
-  install -m755 -d "${pkgdir}/usr/include/llvm/Config"
-  mv "${srcdir}/llvm-config.h" "${pkgdir}/usr/include/llvm/Config/llvm-config-32.h"
+  mkdir "$pkgdir"/usr/bin
+  mv "$pkgdir/usr/lib32/llvm-config" "$pkgdir/usr/bin/llvm-config32"
 
-  _install_license
+  install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
 
 package_lib32-llvm-libs() {
-  pkgdesc='The LLVM Compiler Infrastructure (runtime libraries, 32-bit)'
-  depends=(
-      'lib32-gcc-libs'
-      'lib32-libffi'
-      'lib32-ncurses'
-      'lib32-zlib'
-  )
+  pkgdesc="Low Level Virtual Machine (runtime library)(32-bit) "
+  depends=('lib32-libffi' 'lib32-zlib' 'lib32-ncurses' 'lib32-gcc-libs')
   provides=('lib32-llvm-libs-svn')
   replaces=('lib32-llvm-libs-svn')
   conflicts=('lib32-llvm-libs-svn')
 
-  cd "${srcdir}/build"
+  install -d "$pkgdir/usr/lib32"
 
-  make DESTDIR="${pkgdir}" install-{LLVM,LTO}
+  cp -P \
+    "$srcdir"/lib{LLVM,LLVM-*,LTO}.so* \
+    "$srcdir"/{LLVMgold,BugpointPasses}.so \
+    "$pkgdir/usr/lib32/"
 
-  # Moved from the lib32-llvm package here
-  mv "${srcdir}"/{BugpointPasses,LLVMgold}.so "${pkgdir}/usr/lib32/"
+  # Symlink LLVMgold.so from /usr/lib/bfd-plugins
+  # https://bugs.archlinux.org/task/28479
+  install -d "$pkgdir/usr/lib32/bfd-plugins"
+  ln -s ../LLVMgold.so "$pkgdir/usr/lib32/bfd-plugins/LLVMgold.so"
 
-  # Ref: http://llvm.org/docs/GoldPlugin.html
-  install -m755 -d "${pkgdir}/usr/lib32/bfd-plugins"
-  ln -s {/usr/lib32,"${pkgdir}/usr/lib32/bfd-plugins"}/LLVMgold.so
-
-  # Must have a symlink that corresponds to the output of `llvm-config --version`.
-  # Without it, some builds, e.g. Mesa, might fail for "lack of shared libraries".
-  ln -rs "${pkgdir}/usr/lib32/libLLVM-3.9svn.so" "${pkgdir}/usr/lib32/libLLVM-3.9.0git.so"
-
-  rm -rf "${pkgdir}/usr/include"
-  rm -rf "${pkgdir}/usr/include"
-
-  _install_license
+  install -Dm644 $_gitname/LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
 
 package_lib32-clang() {
-  pkgdesc='C language family frontend for LLVM (32-bit)'
-  url='http://clang.llvm.org/'
-  depends=(
-      'clang'
-      'lib32-llvm'
-  )
+  pkgdesc="C language family frontend for LLVM"
+  url="http://clang.llvm.org/"
+  depends=("lib32-llvm=$pkgver-$pkgrel" 'clang' 'gcc-multilib')
   provides=('lib32-clang-svn')
   replaces=('lib32-clang-svn')
   conflicts=('lib32-clang-svn')
 
-  cd "${srcdir}/build/tools/clang"
+  cd "$srcdir/$_gitname"
 
-  make DESTDIR="${pkgdir}" install
+  make -C build/tools/clang DESTDIR="$pkgdir" install
 
-  # Remove all bits that we don't need in multilib
-  rm -rf "${pkgdir}"/usr/{bin,include,share/clang}
+  rm -r "$pkgdir"/usr/{bin,include,share}
 
-  _install_license
+  install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

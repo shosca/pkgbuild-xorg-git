@@ -5,14 +5,15 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXrender"
 _gitname="repo-libXrender"
 
 pkgname=lib32-libxrender
+_pkgbasename=${pkgname:6}
 pkgver=0.9.9.1.r76.gb2df5bc
-pkgrel=32
-pkgdesc="X Rendering Extension client library"
+pkgrel=33
+pkgdesc="X Rendering Extension client library (32-bit)"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('lib32-libx11' 'libxrender')
-makedepends=('git' 'xorg-util-macros' 'pkgconfig')
+depends=('lib32-libx11' $_pkgbasename)
+makedepends=(git gcc-multilib xorg-util-macros)
 options=('!libtool')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -44,11 +45,11 @@ build() {
 
 package() {
   cd "${srcdir}/${_gitname}"
-  make DESTDIR=${pkgdir} install
-  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 
-  rm -rf "${pkgdir}"/usr/{include,share}
+  make DESTDIR=${pkgdir} install
+  rm -rf "${pkgdir}"/usr/{include,share,bin}
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
 }
 
 # vim: ft=sh syn=sh et
-

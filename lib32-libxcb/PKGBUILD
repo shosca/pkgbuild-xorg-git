@@ -1,19 +1,21 @@
-# $Id: PKGBUILD 174025 2013-01-01 19:16:09Z andyrtr $
-# Maintainer: Jan de Groot <jgc@archlinux.org>
-# Contributor: Alexander Baldeck <alexander@archlinux.org>
+# $Id$
+# Maintainer: Alexander Baldeck <alexander@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xcb/libxcb"
 _gitname="repo-libxcb"
 
 pkgname=lib32-libxcb
+_pkgbasename=${pkgname:6}
 pkgver=1.11.90.65.r652.g095353f
-pkgrel=2
-pkgdesc="X11 client-side library"
-arch=('x86_64')
+pkgrel=3
+pkgdesc="X11 client-side library (32-bit)"
+arch=(x86_64)
 url="http://xcb.freedesktop.org/"
-depends=('xcb-proto' 'libxcb' 'lib32-libxdmcp' 'lib32-libxau')
+depends=('lib32-libxdmcp' 'lib32-libxau' $_pkgbasename)
 makedepends=('gcc-multilib' 'pkgconfig' 'libxslt' 'python2' 'xorg-util-macros' 'git')
-options=('!libtool')
+makedepends=('git' 'libxslt' 'python2' 'xorg-util-macros' 'gcc-multilib'
+             'autoconf')
 license=('custom')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -36,7 +38,6 @@ build() {
   export CC="gcc -m32"
   export CXX="g++ -m32"
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-  export PYTHON=/usr/bin/python2
 
   ./autogen.sh \
     --prefix=/usr \
@@ -52,6 +53,8 @@ package() {
   make DESTDIR="${pkgdir}" install
 
   rm -rf "${pkgdir}"/usr/{include,share}
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

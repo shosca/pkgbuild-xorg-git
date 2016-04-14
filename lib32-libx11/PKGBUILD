@@ -5,12 +5,13 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libX11"
 _gitname="repo-libX11"
 
 pkgname=lib32-libx11
+_pkgbasename=${pkgname:6}
 pkgver=1.6.3.39.r1300.g3129c75
-pkgrel=3
+pkgrel=4
 pkgdesc="X11 client-side library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
-depends=('lib32-libxcb' 'libx11')
+depends=('lib32-libxcb' $_pkgbasename)
 makedepends=('xorg-util-macros' 'xextproto' 'xtrans' 'inputproto' 'git')
 options=('!libtool')
 license=('custom')
@@ -49,6 +50,8 @@ package() {
   make DESTDIR="${pkgdir}" install
 
   rm -rf "${pkgdir}"/usr/{include,share}
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
 }
 # vim: ft=sh syn=sh et
 

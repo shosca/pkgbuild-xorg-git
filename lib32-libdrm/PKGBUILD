@@ -6,15 +6,14 @@ _gitroot='git://git.freedesktop.org/git/mesa/drm'
 _gitname='repo-drm'
 
 pkgname=lib32-libdrm
-pkgver=2.4.67.18.r5850.g65ea85d
-pkgrel=1
-pkgdesc="Userspace interface to kernel DRM services"
-arch=('x86_64')
-license=('MIT')
-groups=('lib32')
-depends=('lib32-libpciaccess' 'libdrm' 'lib32-systemd')
-makedepends=('gcc-multilib' 'xorg-util-macros' 'git' 'udev')
-options=('!libtool')
+_pkgbasename=${pkgname:6}
+pkgver=2.4.67.25.r5857.gcc9a53f
+pkgrel=2
+pkgdesc="Userspace interface to kernel DRM services (32-bit)"
+arch=(x86_64)
+license=('custom')
+depends=('lib32-libpciaccess' $_pkgbasename)
+makedepends=(git gcc-multilib xorg-util-macros valgrind-multilib)
 url="http://dri.freedesktop.org/"
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -36,16 +35,12 @@ build() {
   export CXX="g++ -m32"
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
-  sed -i 's/PKG_CHECK_MODULES(PTHREADSTUBS, pthread-stubs)//' configure.ac
+  # pthread is useless in Linux
+  sed -i "/pthread-stubs/d" configure.ac
 
-  ./autogen.sh \
-    --prefix=/usr \
+  ./autogen.sh --prefix=/usr \
     --libdir=/usr/lib32 \
-    --enable-udev \
-    --enable-intel \
-    --enable-radeon \
-    --enable-nouveau \
-    --enable-vmwgfx
+    --enable-udev
 
   make
 }
@@ -54,7 +49,9 @@ package() {
   cd "$srcdir/$_gitname"
   make DESTDIR="${pkgdir}" install
 
-  rm -rf "${pkgdir}"/usr/{include,share}
+  rm -rf "${pkgdir}"/usr/{include,share,bin}
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

@@ -1,18 +1,19 @@
-# $Id: PKGBUILD 152771 2012-03-09 16:07:19Z andyrtr $
-#Maintainer: Jan de Groot <jgc@archlinux.org>
+# $Id$
+# Contributor: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXdmcp"
 _gitname="repo-libXdmcp"
 
 pkgname=lib32-libxdmcp
+_pkgbasename=${pkgname:6}
 pkgver=1.1.2.2.r111.g5021b93
-pkgrel=3
-pkgdesc="X11 Display Manager Control Protocol library"
-arch=('x86_64')
+pkgrel=4
+pkgdesc="X11 Display Manager Control Protocol library (32-bit)"
+arch=(x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('libxdmcp' 'xproto' 'glibc')
-makedepends=('gcc-multilib' 'xorg-util-macros' 'git')
+depends=('lib32-glibc' $_pkgbasename)
+makedepends=('git' 'xorg-util-macros' 'gcc-multilib')
 options=('!libtool')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -48,6 +49,8 @@ package() {
   make DESTDIR="${pkgdir}" install
 
   rm -rf "${pkgdir}"/usr/{include,share}
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname" 
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

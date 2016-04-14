@@ -6,13 +6,14 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXau"
 _gitname="repo-libXau"
 
 pkgname=lib32-libxau
+_pkgbasename=${pkgname:6}
 pkgver=1.0.8.3.r100.g1e4635b
-pkgrel=18
+pkgrel=19
 pkgdesc="X11 authorisation library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
-depends=('glibc' 'xproto')
-makedepends=('pkgconfig' 'xorg-util-macros' 'git')
+depends=($_pkgbasename)
+makedepends=(git gcc-multilib xorg-util-macros)
 license=('custom')
 options=('!libtool')
 source=($_gitname::$_gitroot)
@@ -49,6 +50,8 @@ package() {
   make DESTDIR="${pkgdir}" install
 
   rm -rf "${pkgdir}"/usr/{include,share}
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et

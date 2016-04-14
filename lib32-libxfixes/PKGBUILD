@@ -5,14 +5,15 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXfixes"
 _gitname="repo-libXfixes"
 
 pkgname=lib32-libxfixes
+_pkgbasename=${pkgname:6}
 pkgver=5.0.1.1.r74.g1702cdf
-pkgrel=91
-pkgdesc="X11 miscellaneous 'fixes' extension library"
+pkgrel=92
+pkgdesc="X11 miscellaneous 'fixes' extension library (32-bit)"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"
 license=('custom')
-depends=('lib32-libx11' 'fixesproto')
-makedepends=('xorg-util-macros' 'git')
+depends=('lib32-libx11' $_pkgbasename)
+makedepends=(git gcc-multilib xorg-util-macros)
 options=('!libtool')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
@@ -47,7 +48,9 @@ package() {
   cd "${srcdir}/${_gitname}"
   make DESTDIR="${pkgdir}" install
 
-  rm -rf "${pkgdir}"/usr/{include,share}
+  rm -rf "${pkgdir}"/usr/{include,share,bin}
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
 }
-# vim: ft=sh syn=sh et
 
+# vim: ft=sh syn=sh et
