@@ -106,7 +106,7 @@ info: $(INFO_TARGETS)
 	@echo "==> Building [$*]" ; \
 	sudo mkdir -p $(CHROOTPATH64)/$*/build ; \
 	sudo rsync -a --delete -q -W -x $(PWD)/$* $(CHROOTPATH64)/$*/build/ ; \
-	sudo systemd-nspawn -q -D $(CHROOTPATH64)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg -L --noconfirm --holdver --nocolor -sf '; \
+	sudo systemd-nspawn -q -D $(CHROOTPATH64)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg -L --noconfirm --holdver --nocolor -sf > /dev/null'; \
 	cp $(CHROOTPATH64)/$*/build/$*/*.$(PKGEXT) $(CHROOTPATH64)/$*/build/$*/*.log $(PWD)/$*/
 
 %-deps:
