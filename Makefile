@@ -116,8 +116,7 @@ info: $(INFO_TARGETS)
 	done ; \
 
 $(DIRS): chroot
-	@echo "==> Checking [$@]" ; \
-	if [ ! -f $(PWD)/$@/built ]; then \
+	@if [ ! -f $(PWD)/$@/built ]; then \
 		_pkgrel=$$(grep -R '^pkgrel' $(PWD)/$@/PKGBUILD | sed -e 's/pkgrel=//' -e "s/'//g" -e 's/"//g') && \
 		sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=$$(($$_pkgrel+1))/" $(PWD)/$@/PKGBUILD ; \
 		if ! $(MAKE) $@/built ; then \
