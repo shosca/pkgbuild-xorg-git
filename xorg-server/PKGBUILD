@@ -6,6 +6,10 @@
 _gitroot="git://anongit.freedesktop.org/xorg/xserver"
 _gitname="repo-xserver"
 
+VIDEODRV_VERSION=$(git --git-dir=$_gitname show HEAD:hw/xfree86/common/xf86Module.h | grep VIDEODRV_V | sed -e 's/[^0-9,]//g;s/,/./g')
+XINPUT_VERSION=$(git --git-dir=$_gitname show HEAD:hw/xfree86/common/xf86Module.h | grep XINPUT_V | sed -e 's/[^0-9,]//g;s/,/./g')
+EXTENSION_VERSION=$(git --git-dir=$_gitname show HEAD:hw/xfree86/common/xf86Module.h | grep EXTENSION_V | sed -e 's/[^0-9,]//g;s/,/./g')
+
 pkgbase=xorg-server
 pkgname=('xorg-server' 'xorg-server-xephyr' 'xorg-server-xdmx' 'xorg-server-xvfb' 'xorg-server-xnest' 'xorg-server-xwayland' 'xorg-server-common' 'xorg-server-devel')
 pkgver=1.18.99.1.249.r15334.g3b38510
@@ -121,12 +125,9 @@ package_xorg-server() {
   # and /usr/lib/pkgconfig/xorg-server.pc in xorg-server-devel pkg
   provides=(
     'x-server'
-    "X-ABI-VIDEODRV_VERSION=$(git --git-dir=$_gitname show HEAD:hw/xfree86/common/xf86Module.h \
-      | grep VIDEODRV_V | sed -e 's/[^0-9,]//g;s/,/./g')"
-    "X-ABI-XINPUT_VERSION=$(git --git-dir=$_gitname show HEAD:hw/xfree86/common/xf86Module.h \
-      | grep XINPUT_V | sed -e 's/[^0-9,]//g;s/,/./g')"
-    "X-ABI-EXTENSION_VERSION=$(git --git-dir=$_gitname show HEAD:hw/xfree86/common/xf86Module.h \
-      | grep EXTENSION_V | sed -e 's/[^0-9,]//g;s/,/./g')"
+    "X-ABI-VIDEODRV_VERSION=$VIDEODRV_VERSION"
+    "X-ABI-XINPUT_VERSION=$XINPUT_VERSION"
+    "X-ABI-EXTENSION_VERSION=$EXTENSION_VERSION"
   )
   replaces=('glamor-egl' 'xf86-video-modesetting')
   install=xorg-server.install
