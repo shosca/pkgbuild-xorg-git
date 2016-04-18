@@ -6,7 +6,7 @@ _gitname="repo-xmessage"
 
 pkgname=xorg-xmessage
 pkgver=1.0.4.3.r67.g2ded896
-pkgrel=85
+pkgrel=86
 pkgdesc="Display a message or query in a window"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
@@ -17,7 +17,7 @@ source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
+  cd "$_gitname"
   printf "%s.%s.r%s.g%s" \
     "$(git show HEAD:configure.ac | grep -Pzo 'AC_INIT\((?s)(.*?)\)' \
       | sed -e ':a;N;$!ba;s/\n//g;s/[^0-9.]*//g;s/\.\.\+//g;s/\s+//g')" \

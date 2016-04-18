@@ -17,7 +17,7 @@ source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
+  cd "$_gitname"
   printf "%s.%s.%s.%s.r%s.g%s" \
     "$(git show HEAD:configure.ac | grep 'm4_define(\[wayland_major' | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
     "$(git show HEAD:configure.ac | grep 'm4_define(\[wayland_minor' | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
@@ -30,7 +30,7 @@ pkgver() {
 build() {  
   export CC="gcc -m32"
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-  
+
   cd "${srcdir}/${_gitname}"
 
   ./autogen.sh \

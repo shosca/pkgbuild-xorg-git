@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/wayland/weston"
 _gitname="repo-weston"
 
 pkgname=weston
-pkgver=1.10.90.70.r5154.g94cb06a
-pkgrel=17
+pkgver=1.10.90.89.r5173.gaff703e
+pkgrel=2
 pkgdesc='Reference implementation of a Wayland compositor'
 arch=('i686' 'x86_64')
 url="http://wayland.freedesktop.org"
@@ -18,7 +18,7 @@ source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
+  cd "$_gitname"
   printf "%s.%s.%s.%s.r%s.g%s" \
     "$(git show HEAD:configure.ac | grep 'm4_define(\[weston_major' \
         | sed -e 's/m4_//g;s/[^0-9]*//g')" \

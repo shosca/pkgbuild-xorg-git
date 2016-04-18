@@ -7,8 +7,8 @@ _gitname='repo-mesa'
 
 pkgbase=mesa
 pkgname=('opencl-mesa' 'libva-mesa-driver' 'mesa-vdpau' 'mesa' 'mesa-libgl')
-pkgver=11.3.0.3704.r80247.gf30f6e2
-pkgrel=3
+pkgver=11.3.0.5692.r80256.ga998e49
+pkgrel=1
 arch=('i686' 'x86_64')
 makedepends=('python2-mako' 'libxml2' 'libx11' 'glproto' 'libdrm' 'dri2proto' 'dri3proto' 'presentproto' 
              'libxshmfence' 'libxxf86vm' 'libxdamage' 'libvdpau' 'libva' 'wayland' 'elfutils' 'llvm'
@@ -21,7 +21,7 @@ sha256sums=('SKIP'
             '746a97cd1aabc88780c10103656b605f00e7b50a60ff86906b46c2b91cfdbb4a')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
+  cd "$_gitname"
   printf "%s.%s.r%s.g%s" \
     "$(git show HEAD:VERSION | cut -d'-' -f1)" \
     "$(git rev-list $(git rev-list --tags --no-walk --max-count=1)..HEAD --count)" \

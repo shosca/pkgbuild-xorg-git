@@ -5,7 +5,7 @@ _gitname="repo-vdpau-driver"
 
 pkgname=libva-vdpau-driver
 pkgver=0.7.5.1.r388.g3dda0b4
-pkgrel=462
+pkgrel=465
 pkgdesc="VDPAU backend for VA API"
 arch=('i686' 'x86_64')
 url="http://freedesktop.org/wiki/Software/vaapi"
@@ -23,7 +23,7 @@ sha256sums=('SKIP'
             '1ae32b8e5cca1717be4a63f09e8c6bd84a3e9b712b933816cdb32bb315dbda98')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
+  cd "$_gitname"
   printf "%s.%s.%s.%s.r%s.g%s" \
     "$(git show HEAD:configure.ac | grep 'm4_define(\[vdpau_video_major' | sed -e 's/m4_//g;s/\s+//g;s/[^0-9]*//g')" \
     "$(git show HEAD:configure.ac | grep 'm4_define(\[vdpau_video_minor' | sed -e 's/m4_//g;s/\s+//g;s/[^0-9]*//g')" \

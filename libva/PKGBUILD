@@ -20,7 +20,7 @@ source=("$_gitname::$_gitroot")
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
+  cd "$_gitname"
   printf "%s.%s.%s.r%s.%s" \
     "$(($(git show HEAD:configure.ac | grep 'm4_define(\[va_api_major_version\]' | tr -d '[](),' | cut -d' ' -f2)+1))" \
     "$(($(git show HEAD:configure.ac | grep 'm4_define(\[va_api_minor_version\]' | tr -d '[](),' | cut -d' ' -f2)-32))" \

@@ -7,8 +7,8 @@ _gitname='repo-mesa'
 
 pkgbase=lib32-mesa
 pkgname=('lib32-mesa-vdpau' 'lib32-mesa' 'lib32-mesa-libgl')
-pkgver=11.3.0.3704.r80247.gf30f6e2
-pkgrel=2
+pkgver=11.3.0.5692.r80256.ga998e49
+pkgrel=1
 arch=('x86_64')
 makedepends=('git' 'python2-mako' 'lib32-libxml2' 'lib32-expat' 'lib32-libx11' 'glproto' 'lib32-libdrm' 'dri2proto' 'dri3proto' 'presentproto'
              'lib32-libxshmfence' 'lib32-libxxf86vm' 'lib32-libxdamage' 'gcc-multilib' 'lib32-elfutils' 'lib32-llvm' 'lib32-systemd'
@@ -21,7 +21,7 @@ sha256sums=('SKIP'
             '746a97cd1aabc88780c10103656b605f00e7b50a60ff86906b46c2b91cfdbb4a')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
+  cd "$_gitname"
   printf "%s.%s.r%s.g%s" \
     "$(git show HEAD:VERSION | cut -d'-' -f1)" \
     "$(git rev-list $(git rev-list --tags --no-walk --max-count=1)..HEAD --count)" \

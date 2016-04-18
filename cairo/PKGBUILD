@@ -7,8 +7,8 @@ _gitroot='git://anongit.freedesktop.org/git/cairo'
 _gitname='repo-cairo'
 
 pkgname=cairo
-pkgver=1.15.2.12.r11314.g747cab7
-pkgrel=11
+pkgver=1.15.2.15.r11317.g00a36e4
+pkgrel=14
 pkgdesc="Cairo vector graphics library"
 arch=(i686 x86_64)
 license=('LGPL' 'MPL')
@@ -24,7 +24,7 @@ source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "${srcdir}/${_gitname}"
+  cd "${_gitname}"
   printf "%s.%s.r%s.g%s" \
     "$(git show HEAD:cairo-version.h | grep 'CAIRO_VERSION_M' \
       | sed -e ':a;N;$!ba;s/\n/./g;s/[^0-9.]*//g;s/\.\.\+//g')" \

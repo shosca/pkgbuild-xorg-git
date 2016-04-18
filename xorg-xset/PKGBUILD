@@ -6,7 +6,7 @@ _gitname="repo-xset"
 
 pkgname=xorg-xset
 pkgver=1.2.3.4.r110.ge435972
-pkgrel=32
+pkgrel=33
 pkgdesc="User preference utility for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
@@ -18,7 +18,7 @@ source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
+  cd "$_gitname"
   printf "%s.%s.r%s.g%s" \
     "$(git show HEAD:configure.ac | grep -Pzo 'AC_INIT\((?s)(.*?)\)' \
       | sed -e ':a;N;$!ba;s/\n//g;s/[^0-9.]*//g;s/\.\.\+//g;s/\s+//g')" \

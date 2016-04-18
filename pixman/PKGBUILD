@@ -19,7 +19,7 @@ source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
+  cd "$_gitname"
   printf "%s.%s.%s.%s.r%s.g%s" \
     "$(git show HEAD:configure.ac | grep "m4_define(\[pixman_major\]" | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \
     "$(git show HEAD:configure.ac | grep "m4_define(\[pixman_minor\]" | tr -d '[]()' | tr -s ' ' | cut -d' ' -f2)" \

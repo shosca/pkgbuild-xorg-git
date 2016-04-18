@@ -6,7 +6,7 @@ _gitname="repo-xhost"
 
 pkgname=xorg-xhost
 pkgver=1.0.7.1.r88.g991e4a8
-pkgrel=32
+pkgrel=33
 pkgdesc="Server access control program for X"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -18,7 +18,7 @@ source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
+  cd "$_gitname"
   printf "%s.%s.r%s.g%s" \
     "$(git show HEAD:configure.ac | grep -Pzo 'AC_INIT\((?s)(.*?)\)' \
       | sed -e ':a;N;$!ba;s/\n//g;s/[^0-9.]*//g;s/\.\.\+//g;s/\s+//g')" \

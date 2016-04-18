@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/vaapi/intel-driver"
 _gitname="repo-intel-driver"
 
 pkgname=libva-intel-driver
-pkgver=1.7.1.1.r1658.g759e44d
-pkgrel=6
+pkgver=1.7.1.1.r1661.g2c1bec0
+pkgrel=7
 pkgdesc='VA-API implementation for Intel G45 and HD Graphics family'
 arch=('i686' 'x86_64')
 url='http://freedesktop.org/wiki/Software/vaapi'
@@ -19,7 +19,7 @@ source=($_gitname::$_gitroot)
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
+  cd "$_gitname"
   printf "%s.%s.%s.%s.r%s.g%s" \
     "$(git show HEAD:configure.ac | grep 'm4_define(\[intel_driver_major' | sed -e 's/m4_//g;s/\s+//g;s/[^0-9]*//g')" \
     "$(git show HEAD:configure.ac | grep 'm4_define(\[intel_driver_minor' | sed -e 's/m4_//g;s/\s+//g;s/[^0-9]*//g')" \
