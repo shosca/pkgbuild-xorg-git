@@ -15,6 +15,7 @@ PULL_TARGETS=$(addsuffix -pull, $(DIRS))
 SHA_TARGETS=$(addsuffix -sha, $(DIRS))
 INFO_TARGETS=$(addsuffix -info, $(DIRS))
 BUILD_TARGETS=$(addsuffix -build, $(DIRS))
+CHECKVER_TARGETS=$(addsuffix -checkver, $(DIRS))
 
 .PHONY: $(DIRS) chroot
 
@@ -96,6 +97,7 @@ info: $(INFO_TARGETS)
 	fi ; \
 	for pkgname in $$_pkgnames; do \
 		if ! ls $(CHROOTPATH64)/$*/build/$*/$$pkgname-*$$_pkgver-$$_pkgrel-*$(PKGEXT) 1> /dev/null 2>&1; then \
+			echo "==> Could not find $(CHROOTPATH64)/$*/build/$*/$$pkgname-*$$_pkgver-$$_pkgrel-*$(PKGEXT)" ; \
 			rm -f $(PWD)/$*/*.$(PKGEXT) ; \
 			mv $(PWD)/$*/tmp/*.$(PKGEXT) $(PWD)/$*/ && rm -rf $(PWD)/$*/tmp ; \
 			exit 1; \
@@ -159,6 +161,8 @@ gitpull: $(PULL_TARGETS)
 			fi ; \
 		done ; \
 	fi ; \
+
+checkvers: $(CHECKVER_TARGETS)
 
 %-checkver:
 	@_pkgver=$$(bash -c "cd $(PWD)/$* ; source PKGBUILD ; if type -t pkgver | grep -q '^function$$' 2>/dev/null ; then pkgver ; fi") ; \

@@ -7,7 +7,7 @@ _gitname="repo-omxil"
 
 pkgname=libomxil-bellagio
 pkgver=0.9.3.r708.gf2c7fd9
-pkgrel=3
+pkgrel=6
 pkgdesc="An opensource implementation of the OpenMAX Integration Layer API"
 arch=('i686' 'x86_64')
 url="http://omxil.sourceforge.net"
@@ -38,11 +38,14 @@ build() {
   ./configure --prefix=/usr --disable-static --docdir=/usr/share/doc/${pkgname}
 
   make -j1
+
+  rm -rf "${srcdir}/fakeinstall"
+  make DESTDIR="${srcdir}/fakeinstall" install
 }
 
 package() {
   cd "$srcdir/$_gitname"
 
-  make DESTDIR="${pkgdir}" install
+  cp -rv ${srcdir}/fakeinstall/usr  ${pkgdir}
 }
 

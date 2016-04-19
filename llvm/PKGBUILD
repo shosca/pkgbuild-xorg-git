@@ -13,7 +13,7 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="repo-llvm"
 
 pkgname=(llvm llvm-libs llvm-ocaml lldb clang clang-analyzer clang-tools-extra)
-pkgver=3.9.0.r130353.gd6634d6
+pkgver=3.9.0.r130400.g19c0ba5
 pkgrel=0
 arch=('i686' 'x86_64')
 url="http://llvm.org/"
@@ -64,7 +64,6 @@ prepare() {
   rm -rf projects/compiler-rt && git clone ${srcdir}/repo-compiler-rt projects/compiler-rt
 
   rm -rf tools/lldb && git clone ${srcdir}/repo-lldb tools/lldb
-
 
   mkdir -p build
 }
