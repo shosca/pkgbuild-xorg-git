@@ -9,7 +9,7 @@ _gitname=repo-xf86-input-synaptics
 
 pkgname=xf86-input-synaptics
 pkgver=1.8.99.27.r1474.g0a4cf80
-pkgrel=118
+pkgrel=119
 pkgdesc="Synaptics driver for notebook touchpads"
 arch=('i686' 'x86_64')
 license=('MIT')

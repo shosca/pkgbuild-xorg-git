@@ -13,8 +13,8 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="repo-llvm"
 
 pkgname=(llvm llvm-libs llvm-ocaml lldb clang clang-analyzer clang-tools-extra)
-pkgver=3.9.0.r130414.g82f54f8
-pkgrel=0
+pkgver=3.9.0.r130477.g53fd688
+pkgrel=1
 arch=('i686' 'x86_64')
 url="http://llvm.org/"
 license=('custom:University of Illinois/NCSA Open Source License')
@@ -66,6 +66,8 @@ prepare() {
   rm -rf tools/lldb && git clone ${srcdir}/repo-lldb tools/lldb
 
   mkdir -p build
+
+  touch tools/lldb/unittests/SymbolFile/PDB/Inputs/test-pdb-types.exe
 }
 
 build() {

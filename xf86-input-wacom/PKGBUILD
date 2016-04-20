@@ -9,7 +9,7 @@ _gitname=repo-xf86-input-wacom
 
 pkgname=xf86-input-wacom
 pkgver=0.32.0.6.r1875.g044e17d
-pkgrel=29
+pkgrel=30
 pkgdesc="X.Org Wacom tablet driver"
 arch=(i686 x86_64)
 url="http://linuxwacom.sourceforge.net/"
