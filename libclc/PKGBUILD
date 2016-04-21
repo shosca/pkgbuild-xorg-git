@@ -6,7 +6,7 @@ _gitname=repo-libclc
 
 pkgname=libclc
 pkgver=0.2.0.r299.gfea4078
-pkgrel=7
+pkgrel=9
 pkgdesc="Library requirements of the OpenCL C programming language"
 arch=('any')
 url="http://libclc.llvm.org/"

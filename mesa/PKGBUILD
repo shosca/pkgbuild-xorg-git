@@ -7,7 +7,7 @@ _gitname='repo-mesa'
 
 pkgbase=mesa
 pkgname=('opencl-mesa' 'libva-mesa-driver' 'mesa-vdpau' 'mesa' 'mesa-libgl')
-pkgver=11.3.0.5784.r80348.g4fa3d35
+pkgver=11.3.0.5881.r80445.g81c1c48
 pkgrel=1
 arch=('i686' 'x86_64')
 makedepends=('python2-mako' 'libxml2' 'libx11' 'glproto' 'libdrm' 'dri2proto' 'dri3proto' 'presentproto' 
