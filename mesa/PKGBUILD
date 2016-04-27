@@ -7,7 +7,7 @@ _gitname='repo-mesa'
 
 pkgbase=mesa
 pkgname=('opencl-mesa' 'libva-mesa-driver' 'mesa-vdpau' 'mesa' 'mesa-libgl')
-pkgver=11.3.0.6030.r80594.g514c5b5
+pkgver=11.3.0.6124.r80688.g7d25ed7
 pkgrel=1
 arch=('i686' 'x86_64')
 makedepends=('python2-mako' 'libxml2' 'libx11' 'glproto' 'libdrm' 'dri2proto' 'dri3proto' 'presentproto' 
@@ -15,10 +15,9 @@ makedepends=('python2-mako' 'libxml2' 'libx11' 'glproto' 'libdrm' 'dri2proto' 'd
              'systemd' 'libomxil-bellagio' 'libgcrypt' 'libclc' 'clang' 'git' 'python3')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
-source=($_gitname::$_gitroot#branch=master LICENSE fix-intel-vulkan-icd-destdir.patch)
+source=($_gitname::$_gitroot#branch=master LICENSE)
 sha256sums=('SKIP'
-            '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2'
-            '746a97cd1aabc88780c10103656b605f00e7b50a60ff86906b46c2b91cfdbb4a')
+            '7fdc119cf53c8ca65396ea73f6d10af641ba41ea1dd2bd44a824726e01c8b3f2')
 
 pkgver() {
   cd "$_gitname"
@@ -31,8 +30,6 @@ pkgver() {
 
 prepare() {
   cd "${srcdir}/${_gitname}"
-
-  patch -Np1 -i ../fix-intel-vulkan-icd-destdir.patch
 
   # Fix detection of libLLVM when built with CMake
   autoreconf -vfi
