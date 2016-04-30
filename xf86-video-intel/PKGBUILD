@@ -7,7 +7,7 @@ _gitname='repo-xf86-video-intel'
 
 pkgname=xf86-video-intel
 pkgver=2.99.917.640.r9314.gbca4e0e
-pkgrel=4
+pkgrel=5
 epoch=1
 arch=(i686 x86_64)
 url="https://01.org/linuxgraphics"
