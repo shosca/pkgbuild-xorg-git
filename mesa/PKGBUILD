@@ -7,7 +7,7 @@ _gitname='repo-mesa'
 
 pkgbase=mesa
 pkgname=('opencl-mesa' 'libva-mesa-driver' 'mesa-vdpau' 'mesa' 'mesa-libgl')
-pkgver=11.3.0.6267.r80831.g5343551
+pkgver=11.3.0.6508.r81072.g742bc53
 pkgrel=1
 arch=('i686' 'x86_64')
 makedepends=('python2-mako' 'libxml2' 'libx11' 'glproto' 'libdrm' 'dri2proto' 'dri3proto' 'presentproto' 
@@ -39,9 +39,9 @@ prepare() {
 build() {
   cd "${srcdir}/${_gitname}"
 
+  #--with-vulkan-drivers=intel \
   ./configure --prefix=/usr \
     --sysconfdir=/etc \
-    --with-vulkan-drivers=intel \
     --with-gallium-drivers=i915,ilo,r300,r600,radeonsi,nouveau,svga,swrast,virgl \
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
     --with-egl-platforms=x11,drm,wayland \
@@ -126,13 +126,13 @@ package_mesa() {
 
   install -m755 -d ${pkgdir}/etc
   cp -rv ${srcdir}/fakeinstall/etc/drirc ${pkgdir}/etc
-  cp -rv ${srcdir}/fakeinstall/etc/vulkan ${pkgdir}/etc
+  #cp -rv ${srcdir}/fakeinstall/etc/vulkan ${pkgdir}/etc
 
   install -m755 -d ${pkgdir}/usr/lib/dri
   # ati-dri, nouveau-dri, intel-dri, svga-dri, swrast
   cp -rv ${srcdir}/fakeinstall/usr/lib/dri/*_dri.so* ${pkgdir}/usr/lib/dri
 
-  cp -rv ${srcdir}/fakeinstall/usr/lib/libvulkan*.so* ${pkgdir}/usr/lib
+  #cp -rv ${srcdir}/fakeinstall/usr/lib/libvulkan*.so* ${pkgdir}/usr/lib
   cp -rv ${srcdir}/fakeinstall/usr/lib/bellagio  ${pkgdir}/usr/lib
   cp -rv ${srcdir}/fakeinstall/usr/lib/d3d  ${pkgdir}/usr/lib
   cp -rv ${srcdir}/fakeinstall/usr/lib/lib{gbm,glapi}.so* ${pkgdir}/usr/lib/

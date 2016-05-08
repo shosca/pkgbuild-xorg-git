@@ -8,7 +8,7 @@ _gitname="repo-libxcb"
 
 pkgname=libxcb
 pkgver=1.11.90.65.r652.g095353f
-pkgrel=2
+pkgrel=4
 pkgdesc="X11 client-side library"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org/"

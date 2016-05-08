@@ -6,7 +6,7 @@ _gitname='repo-drm'
 
 pkgname=libdrm
 pkgver=2.4.68.0.r5860.gfc09c5a
-pkgrel=1
+pkgrel=2
 pkgdesc="Userspace interface to kernel DRM services"
 arch=('i686' 'x86_64')
 license=('custom')

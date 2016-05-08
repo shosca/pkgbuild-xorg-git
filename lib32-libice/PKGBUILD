@@ -8,7 +8,7 @@ _gitname="repo-libICE"
 
 pkgname=lib32-libice
 pkgver=1.0.9.3.r145.gb1720ed
-pkgrel=11
+pkgrel=12
 pkgdesc="X11 Inter-Client Exchange library (32-bit)"
 arch=(x86_64)
 url="http://xorg.freedesktop.org/"

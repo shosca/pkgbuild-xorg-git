@@ -7,7 +7,7 @@ _gitname="repo-mkfontscale"
 
 pkgname=xorg-mkfontscale
 pkgver=1.1.2.0.r106.g87d628f
-pkgrel=13
+pkgrel=14
 pkgdesc="Create an index of scalable font files for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

@@ -7,7 +7,7 @@ _gitname="repo-util-keysyms"
 
 pkgname=xcb-util-keysyms
 pkgver=0.4.0.0.r67.g0e51ee5
-pkgrel=30
+pkgrel=32
 pkgdesc="Utility libraries for XC Binding - Standard X key constants and conversion to/from keycodes"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"

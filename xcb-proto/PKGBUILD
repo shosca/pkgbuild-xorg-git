@@ -7,7 +7,7 @@ _gitname="repo-proto"
 
 pkgname=xcb-proto
 pkgver=1.11.115.r470.g2ba8cdb
-pkgrel=3
+pkgrel=4
 pkgdesc="XML-XCB protocol descriptions"
 arch=(any)
 url="http://xcb.freedesktop.org/"

@@ -7,8 +7,8 @@ _gitname="repo-libpciaccess"
 
 pkgname=lib32-libpciaccess
 _pkgbasename=${pkgname:6}
-pkgver=0.13.4.7.r291.gc1de5dc
-pkgrel=3
+pkgver=0.13.4.9.r293.g201d1a7
+pkgrel=1
 pkgdesc="X11 PCI access library (32-bit"
 arch=(x86_64)
 license=('custom')
