@@ -12,7 +12,7 @@ EXTENSION_VERSION=$(git --git-dir=$_gitname show HEAD:hw/xfree86/common/xf86Modu
 
 pkgbase=xorg-server
 pkgname=('xorg-server' 'xorg-server-xephyr' 'xorg-server-xdmx' 'xorg-server-xvfb' 'xorg-server-xnest' 'xorg-server-xwayland' 'xorg-server-common' 'xorg-server-devel')
-pkgver=1.18.99.1.317.r15402.g7f04946
+pkgver=1.18.99.1.318.r15403.g140c2f1
 pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
