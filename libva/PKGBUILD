@@ -6,7 +6,7 @@ _gitroot="git://anongit.freedesktop.org/vaapi/libva"
 _gitname="repo-libva"
 
 pkgname=libva
-pkgver=1.7.3.r1164.g888a75c
+pkgver=1.7.3.r1165.g1251f59
 pkgrel=1
 pkgdesc='Video Acceleration (VA) API for Linux'
 arch=('i686' 'x86_64')
