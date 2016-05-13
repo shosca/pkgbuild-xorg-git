@@ -7,7 +7,7 @@ _gitname=repo-xf86-input-evdev
 
 pkgname=xf86-input-evdev
 pkgver=2.10.2.0.r665.gf12eca9
-pkgrel=6
+pkgrel=7
 pkgdesc="X.org evdev input driver"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
