@@ -6,7 +6,7 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/xproto'
 _gitname='repo-xproto'
 
 pkgname=xproto
-pkgver=7.0.28.3.r252.gde30673
+pkgver=7.0.29.0.r253.g3e975a3
 pkgrel=1
 pkgdesc="X11 core wire protocol and auxiliary headers"
 arch=(any)

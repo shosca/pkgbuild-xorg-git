@@ -6,7 +6,7 @@ _gitname="repo-xprop"
 
 pkgname=xorg-xprop
 pkgver=1.2.2.8.r94.gfa732ad
-pkgrel=21
+pkgrel=22
 pkgdesc="Property displayer for X"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
