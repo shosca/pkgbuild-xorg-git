@@ -12,8 +12,8 @@ EXTENSION_VERSION=$(git --git-dir=$_gitname show HEAD:hw/xfree86/common/xf86Modu
 
 pkgbase=xorg-server
 pkgname=('xorg-server' 'xorg-server-xephyr' 'xorg-server-xdmx' 'xorg-server-xvfb' 'xorg-server-xnest' 'xorg-server-xwayland' 'xorg-server-common' 'xorg-server-devel')
-pkgver=1.18.99.1.325.r15410.g2fbf5c2
-pkgrel=2
+pkgver=1.18.99.1.349.r15434.g8b9b438
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
 groups=('xorg')
@@ -24,15 +24,17 @@ makedepends=('git' 'pixman' 'libx11' 'mesa' 'mesa-libgl' 'xf86driproto' 'xcmiscp
              'xf86dgaproto' 'libxmu' 'libxrender' 'libxi' 'dmxproto' 'libxaw' 'libdmx' 'libxtst' 'libxres'
              'xorg-xkbcomp' 'xorg-util-macros' 'xorg-font-util' 'glproto' 'dri2proto' 'libgcrypt' 'libepoxy'
              'xcb-util' 'xcb-util-image' 'xcb-util-renderutil' 'xcb-util-wm' 'xcb-util-keysyms' 'dri3proto'
-             'libxshmfence' 'libunwind')
+             'libxshmfence' 'libunwind' 'libpthread-stubs')
 source=($_gitname::$_gitroot
         xvfb-run
         xvfb-run.1
-        xfont2.patch)
+        xfont2.patch
+        ax_pthread.m4)
 sha256sums=('SKIP'
             'ff0156309470fc1d378fd2e104338020a884295e285972cc88e250e031cc35b9'
             '2460adccd3362fefd4cdc5f1c70f332d7b578091fb9167bf88b5f91265bbd776'
-            '0e9ed52e9e23817d2280114e691e3bdd4ff37e158bda7445d64c4ccb120ea523')
+            '0e9ed52e9e23817d2280114e691e3bdd4ff37e158bda7445d64c4ccb120ea523'
+            '49d05fe1a3dfe2f4f4e4dc76db2ab4c391b26d2e221baf4b1be3a3769fb80703')
 
 pkgver() {
   cd "$_gitname"
@@ -47,46 +49,48 @@ pkgver() {
 prepare() {
   cd "${srcdir}/${_gitname}"
   patch -Np1 -i ../xfont2.patch
+  cp ../ax_pthread.m4 m4/ax_pthread.m4
   autoreconf -vfi
 }
 
 build() {
   cd "${srcdir}/${_gitname}"
   ./configure --prefix=/usr \
-      --enable-ipv6 \
+      --disable-install-setuid \
+      --disable-static \
+      --disable-xfake \
+      --disable-xfbdev \
+      --enable-composite \
+      --enable-config-udev \
+      --enable-config-udev-kms \
+      --enable-dmx \
       --enable-dri \
       --enable-dri2 \
       --enable-dri3 \
-      --enable-dmx \
-      --enable-xvfb \
-      --enable-xnest \
-      --enable-composite \
-      --enable-xcsecurity \
-      --enable-libunwind \
-      --enable-xorg \
-      --enable-xephyr \
       --enable-glamor \
-      --enable-xwayland \
+      --enable-input-thread \
+      --enable-ipv6 \
       --enable-kdrive \
       --enable-kdrive-kbd \
       --enable-kdrive-mouse \
-      --enable-config-udev \
-      --enable-config-udev-kms \
-      --enable-systemd-logind \
-      --with-systemd-daemon \
-      --enable-suid-wrapper \
-      --disable-install-setuid \
+      --enable-libunwind \
       --enable-record \
-      --disable-xfbdev \
-      --disable-xfake \
-      --disable-static \
+      --enable-suid-wrapper \
+      --enable-systemd-logind \
+      --enable-xcsecurity \
+      --enable-xephyr \
+      --enable-xnest \
+      --enable-xorg \
+      --enable-xvfb \
+      --enable-xwayland \
       --libexecdir=/usr/lib/xorg-server \
-      --sysconfdir=/etc \
       --localstatedir=/var \
-      --with-xkb-path=/usr/share/X11/xkb \
-      --with-xkb-output=/var/lib/xkb \
+      --sysconfdir=/etc \
       --with-fontrootdir=/usr/share/fonts \
-      --with-sha1=libgcrypt
+      --with-sha1=libgcrypt \
+      --with-systemd-daemon \
+      --with-xkb-output=/var/lib/xkb \
+      --with-xkb-path=/usr/share/X11/xkb \
 
 #      --without-dtrace \
 #      --disable-linux-acpi --disable-linux-apm \

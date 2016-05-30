@@ -284,6 +284,8 @@ libpciaccess: xorg-util-macros chroot
 
 libshmfence: xorg-util-macros chroot
 
+libpthread-stubs: chroot
+
 libdrm: libpciaccess xorg-util-macros chroot
 
 libfontenc: xproto xorg-font-util chroot
@@ -382,7 +384,7 @@ libepoxy: mesa xorg-util-macros chroot
 
 libxkbcommon: xkeyboard-config chroot
 
-mesa: glproto libdrm llvm libclc libxfixes libvdpau libxdamage libxxf86vm libxvmc wayland libomxil-bellagio libxshmfence dri2proto dri3proto presentproto chroot
+mesa: glproto libdrm llvm libclc libxfixes libvdpau libxdamage libxxf86vm libxvmc wayland libomxil-bellagio libxshmfence dri2proto dri3proto presentproto libpthread-stubs chroot
 
 glu: mesa chroot
 
@@ -504,9 +506,10 @@ lib32-wayland: wayland chroot
 
 lib32-libdrm: libdrm lib32-libpciaccess chroot
 
-lib32-mesa: glproto lib32-libxshmfence lib32-libdrm lib32-llvm lib32-libxvmc lib32-libvdpau lib32-libxxf86vm lib32-libxdamage lib32-libx11 lib32-libxt lib32-wayland mesa lib32-libxshmfence chroot
+lib32-mesa: glproto lib32-libxshmfence lib32-libdrm lib32-llvm lib32-libxvmc lib32-libvdpau lib32-libxxf86vm lib32-libxdamage lib32-libx11 lib32-libxt lib32-wayland mesa lib32-libxshmfence lib32-libpthread-stubs chroot
 
 lib32-llvm: llvm chroot
 
 lib32-libxshmfence: libxshmfence chroot
 
+lib32-libpthread-stubs: libpthread-stubs chroot

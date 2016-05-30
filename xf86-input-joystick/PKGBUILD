@@ -6,7 +6,7 @@ _gitname=repo-xf86-input-joystick
 
 pkgname=xf86-input-joystick
 pkgver=1.6.2.4.r282.gbaf8bd4
-pkgrel=116
+pkgrel=117
 pkgdesc="X.Org Joystick input driver"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
@@ -31,7 +31,8 @@ pkgver() {
 
 build() {
   cd "${srcdir}/${_gitname}"
-  ./autogen.sh --prefix=/usr
+  ./autogen.sh --prefix=/usr \
+    --disable-selective-werror
   make
 }
 

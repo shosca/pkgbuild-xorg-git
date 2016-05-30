@@ -7,12 +7,12 @@ _gitname='repo-mesa'
 
 pkgbase=mesa
 pkgname=('opencl-mesa' 'libva-mesa-driver' 'mesa-vdpau' 'mesa' 'mesa-libgl')
-pkgver=11.3.0.4954.r81497.g877a802
+pkgver=11.3.0.5504.r82047.g7398a32
 pkgrel=1
 arch=('i686' 'x86_64')
 makedepends=('python2-mako' 'libxml2' 'libx11' 'glproto' 'libdrm' 'dri2proto' 'dri3proto' 'presentproto' 
              'libxshmfence' 'libxxf86vm' 'libxdamage' 'libvdpau' 'libva' 'wayland' 'elfutils' 'llvm'
-             'systemd' 'libomxil-bellagio' 'libgcrypt' 'libclc' 'clang' 'git' 'python3')
+             'systemd' 'libomxil-bellagio' 'libgcrypt' 'libclc' 'clang' 'git' 'python3' 'libpthread-stubs')
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 source=($_gitname::$_gitroot#branch=master LICENSE)
@@ -39,11 +39,11 @@ prepare() {
 build() {
   cd "${srcdir}/${_gitname}"
 
-  #--with-vulkan-drivers=intel \
   ./configure --prefix=/usr \
     --sysconfdir=/etc \
     --with-gallium-drivers=i915,ilo,r300,r600,radeonsi,nouveau,svga,swrast,virgl \
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
+    --with-vulkan-drivers=intel \
     --with-egl-platforms=x11,drm,wayland \
     --with-sha1=libgcrypt \
     --enable-llvm-shared-libs \
@@ -126,13 +126,13 @@ package_mesa() {
 
   install -m755 -d ${pkgdir}/etc
   cp -rv ${srcdir}/fakeinstall/etc/drirc ${pkgdir}/etc
-  #cp -rv ${srcdir}/fakeinstall/etc/vulkan ${pkgdir}/etc
+  cp -rv ${srcdir}/fakeinstall/etc/vulkan ${pkgdir}/etc
 
   install -m755 -d ${pkgdir}/usr/lib/dri
   # ati-dri, nouveau-dri, intel-dri, svga-dri, swrast
   cp -rv ${srcdir}/fakeinstall/usr/lib/dri/*_dri.so* ${pkgdir}/usr/lib/dri
 
-  #cp -rv ${srcdir}/fakeinstall/usr/lib/libvulkan*.so* ${pkgdir}/usr/lib
+  cp -rv ${srcdir}/fakeinstall/usr/lib/libvulkan*.so* ${pkgdir}/usr/lib
   cp -rv ${srcdir}/fakeinstall/usr/lib/bellagio  ${pkgdir}/usr/lib
   cp -rv ${srcdir}/fakeinstall/usr/lib/d3d  ${pkgdir}/usr/lib
   cp -rv ${srcdir}/fakeinstall/usr/lib/lib{gbm,glapi}.so* ${pkgdir}/usr/lib/
