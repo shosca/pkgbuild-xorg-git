@@ -9,14 +9,14 @@ _gitname=repo-xf86-input-synaptics
 
 pkgname=xf86-input-synaptics
 pkgver=1.8.99.1.2.r1478.g59e5db0
-pkgrel=2
+pkgrel=3
 pkgdesc="Synaptics driver for notebook touchpads"
 arch=('i686' 'x86_64')
 license=('MIT')
 url="http://xorg.freedesktop.org/"
 depends=('libxtst' 'mtdev' 'libevdev')
-makedepends=('git' 'xorg-server-devel>=1.18.98' 'libxi' 'libx11' 'resourceproto' 'scrnsaverproto')
-conflicts=('xorg-server<1.18.98' 'X-ABI-XINPUT_VERSION<22.1' 'X-ABI-XINPUT_VERSION>=23')
+makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=23.1' 'libxi' 'libx11' 'resourceproto' 'scrnsaverproto')
+conflicts=('X-ABI-XINPUT_VERSION<23.1')
 replaces=('synaptics')
 provides=('synaptics')
 conflicts=('synaptics')

@@ -6,15 +6,15 @@ _gitname=repo-xf86-input-libinput
 
 pkgname=xf86-input-libinput
 pkgver=0.19.0.6.r172.g289de5b
-pkgrel=1
+pkgrel=2
 pkgdesc="Generic input driver for the X.Org server based on libinput"
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('libinput>=1.2.0')
-makedepends=('git' 'xorg-server-devel>1.18.98' 'libxi' 'libx11' 'resourceproto' 'scrnsaverproto')
+makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=23.1' 'libxi' 'libx11' 'resourceproto' 'scrnsaverproto')
 provides=('xf86-input-driver')
-conflicts=('xorg-server<1.18.98' 'X-ABI-XINPUT_VERSION<22.1' 'X-ABI-XINPUT_VERSION>=23')
+conflicts=('X-ABI-XINPUT_VERSION<23.1')
 groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')

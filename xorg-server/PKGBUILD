@@ -13,7 +13,7 @@ EXTENSION_VERSION=$(git --git-dir=$_gitname show HEAD:hw/xfree86/common/xf86Modu
 pkgbase=xorg-server
 pkgname=('xorg-server' 'xorg-server-xephyr' 'xorg-server-xdmx' 'xorg-server-xvfb' 'xorg-server-xnest' 'xorg-server-xwayland' 'xorg-server-common' 'xorg-server-devel')
 pkgver=1.18.99.1.357.r15442.g28b2c88
-pkgrel=1
+pkgrel=3
 arch=('i686' 'x86_64')
 license=('custom')
 groups=('xorg')
@@ -126,7 +126,7 @@ package_xorg-server-common() {
 
 package_xorg-server() {
   pkgdesc="Xorg X server - Git version"
-  depends=(libepoxy libxdmcp libxfont libpciaccess libdrm pixman libgcrypt libxau xorg-server-common libxshmfence libgl xf86-input-driver)
+  depends=(libepoxy libxdmcp libxfont libpciaccess libdrm pixman libgcrypt libxau xorg-server-common libxshmfence libgl)
   # see xorg-server-*/hw/xfree86/common/xf86Module.h for ABI versions - we provide major numbers that drivers can depend on
   # and /usr/lib/pkgconfig/xorg-server.pc in xorg-server-devel pkg
   provides=(
