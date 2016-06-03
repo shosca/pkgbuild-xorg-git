@@ -6,8 +6,8 @@ _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-evdev
 _gitname=repo-xf86-input-evdev
 
 pkgname=xf86-input-evdev
-pkgver=2.10.2.1.r666.g9a6952d
-pkgrel=4
+pkgver=2.10.3.2.r669.g7b1267f
+pkgrel=1
 pkgdesc="X.org evdev input driver"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

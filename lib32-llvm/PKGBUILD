@@ -13,8 +13,8 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="repo-llvm"
 
 pkgname=('lib32-llvm' 'lib32-llvm-libs' 'lib32-clang')
-pkgver=3.9.0.r132847.ga8a5e74
-pkgrel=1
+pkgver=3.9.0.r133058.g81cccc9
+pkgrel=0
 arch=('x86_64')
 url="http://llvm.org/"
 license=('custom:University of Illinois/NCSA Open Source License')
@@ -59,7 +59,7 @@ build() {
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
   cmake \
-    -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLLVM_LIBDIR_SUFFIX=32 \
     -DCMAKE_C_FLAGS:STRING=-m32 \
@@ -75,6 +75,7 @@ build() {
     -DLLVM_ENABLE_SPHINX=OFF \
     -DLLVM_ENABLE_DOXYGEN=OFF \
     -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
+    -DFFI_LIB_DIR=$(pkg-config --variable=libdir libffi) \
     -DLLVM_BINUTILS_INCDIR=/usr/include \
     ..
 

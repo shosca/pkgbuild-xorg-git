@@ -7,7 +7,7 @@ _gitname="repo-xauth"
 
 pkgname=xorg-xauth
 pkgver=1.0.9.6.r115.ga64ca3a
-pkgrel=38
+pkgrel=39
 pkgdesc="X.Org authorization settings program"
 arch=(i686 x86_64)
 license=('custom')

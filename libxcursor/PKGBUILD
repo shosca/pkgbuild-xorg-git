@@ -7,7 +7,7 @@ _gitname="repo-libXcursor"
 
 pkgname=libxcursor
 pkgver=1.1.14.5.r107.g897213f
-pkgrel=37
+pkgrel=38
 pkgdesc="X cursor management library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

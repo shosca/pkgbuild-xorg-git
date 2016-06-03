@@ -6,7 +6,7 @@ _gitname="repo-xrdb"
 
 pkgname=xorg-xrdb
 pkgver=1.1.0.12.r100.g3ae3e2f
-pkgrel=30
+pkgrel=31
 pkgdesc="X server resource database utility"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

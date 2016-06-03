@@ -7,7 +7,7 @@ _gitroot="git://anongit.freedesktop.org/wayland/wayland"
 _gitname="repo-wayland"
 
 pkgname=wayland
-pkgver=1.10.93.0.r1901.g62d67fe
+pkgver=1.11.90.6.r1908.gd588efc
 pkgrel=1
 pkgdesc='A computer display server protocol'
 arch=('i686' 'x86_64')
