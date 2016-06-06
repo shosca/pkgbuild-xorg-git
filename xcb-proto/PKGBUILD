@@ -6,7 +6,7 @@ _gitroot="git://anongit.freedesktop.org/xcb/proto"
 _gitname="repo-proto"
 
 pkgname=xcb-proto
-pkgver=1.12.3.r474.gf7948e3
+pkgver=1.12.4.r475.g95a262e
 pkgrel=1
 pkgdesc="XML-XCB protocol descriptions"
 arch=(any)
