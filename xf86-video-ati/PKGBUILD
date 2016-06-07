@@ -7,7 +7,7 @@ _gitname="repo-xf86-video-ati"
 
 pkgname=xf86-video-ati
 pkgver=7.7.99.11.r3322.g0945db4
-pkgrel=3
+pkgrel=4
 pkgdesc="X.org ati video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

@@ -7,7 +7,7 @@ _gitname='repo-xkeyboard-config'
 
 pkgname=xkeyboard-config
 pkgver=2.18.0.r1853.gdeb6293
-pkgrel=2
+pkgrel=3
 pkgdesc="X keyboard configuration files"
 arch=(any)
 license=('custom')
