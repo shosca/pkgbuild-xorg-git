@@ -13,8 +13,8 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="repo-llvm"
 
 pkgname=('lib32-llvm' 'lib32-llvm-libs' 'lib32-clang')
-pkgver=3.9.0.r133230.gc1e27cc
-pkgrel=0
+pkgver=3.9.0.r133373.g09f4ea2
+pkgrel=1
 arch=('x86_64')
 url="http://llvm.org/"
 license=('custom:University of Illinois/NCSA Open Source License')
@@ -74,10 +74,12 @@ build() {
     -DLLVM_BUILD_DOCS=OFF \
     -DLLVM_ENABLE_SPHINX=OFF \
     -DLLVM_ENABLE_DOXYGEN=OFF \
-    -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
-    -DFFI_LIB_DIR=$(pkg-config --variable=libdir libffi) \
+    -DFFI_INCLUDE_DIR="$(pkg-config --variable=includedir libffi)" \
+    -DFFI_LIBRARY_DIR="$(pkg-config --variable=libdir libffi)" \
     -DLLVM_BINUTILS_INCDIR=/usr/include \
     ..
+
+  find .. -type f -exec sed -i 's/\/usr\/lib\/libffi.so/\/usr\/lib32\/libffi.so/g' {} +
 
   make
 
