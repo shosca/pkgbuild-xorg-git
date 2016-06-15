@@ -5,8 +5,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-amdgpu'
 _gitname="repo-xf86-video-amdgpu"
 
 pkgname=xf86-video-amdgpu
-pkgver=1.1.99.11.r175.g60ced50
-pkgrel=10
+pkgver=1.1.99.17.r181.g0007c2f
+pkgrel=1
 pkgdesc="X.org amdgpu video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

@@ -5,8 +5,8 @@ _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-libinput
 _gitname=repo-xf86-input-libinput
 
 pkgname=xf86-input-libinput
-pkgver=0.19.0.6.r172.g289de5b
-pkgrel=9
+pkgver=0.19.0.7.r173.gae4f0a8
+pkgrel=1
 pkgdesc="Generic input driver for the X.Org server based on libinput"
 arch=('i686' 'x86_64')
 license=('custom')
