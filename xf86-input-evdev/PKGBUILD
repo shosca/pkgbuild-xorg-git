@@ -7,13 +7,13 @@ _gitname=repo-xf86-input-evdev
 
 pkgname=xf86-input-evdev
 pkgver=2.10.3.2.r669.g7b1267f
-pkgrel=10
+pkgrel=11
 pkgdesc="X.org evdev input driver"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"
 license=('custom')
 depends=('glibc' 'systemd' 'mtdev' 'libevdev')
-makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=23.1' 'resourceproto' 'scrnsaverproto')
+makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=24.1' 'resourceproto' 'scrnsaverproto')
 conflicts=('X-ABI-XINPUT_VERSION<23.1')
 options=('!makeflags')
 groups=('xorg-drivers' 'xorg')

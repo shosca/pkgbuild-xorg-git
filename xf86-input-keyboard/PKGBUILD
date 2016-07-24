@@ -6,13 +6,13 @@ _gitname=repo-xf86-input-keyboard
 
 pkgname=xf86-input-keyboard
 pkgver=1.8.1.5.r246.g157e063
-pkgrel=12
+pkgrel=13
 pkgdesc="X.Org keyboard input driver"
 arch=(i686 x86_64)
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('glibc')
-makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=23.1' 'resourceproto' 'scrnsaverproto')
+makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=24.1' 'resourceproto' 'scrnsaverproto')
 conflicts=('X-ABI-XINPUT_VERSION<23.1')
 groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot)

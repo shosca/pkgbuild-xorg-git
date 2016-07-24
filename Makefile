@@ -41,7 +41,7 @@ chroot:
 		sudo mkdir -p $(CHROOTPATH64)/root/repo ;\
 		sudo bsdtar -czf $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz -T /dev/null ; \
 		sudo ln -sf $(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/$(REPO).db ; \
-		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c "yes | $(PACMAN) -Syu ; yes | $(PACMAN) -S gcc-multilib gcc-libs-multilib p7zip && chmod 777 /tmp" ; \
+		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c "yes | $(PACMAN) -Syu ; yes | $(PACMAN) -S gcc-multilib gcc-libs-multilib p7zip git && chmod 777 /tmp" ; \
 		echo "builduser ALL = NOPASSWD: /usr/bin/pacman" | sudo tee -a $(CHROOTPATH64)/root/etc/sudoers.d/builduser ; \
 		echo "builduser:x:$${SUDO_UID:-$$UID}:100:builduser:/:/usr/bin/nologin\n" | sudo tee -a $(CHROOTPATH64)/root/etc/passwd ; \
 		sudo mkdir -p $(CHROOTPATH64)/root/build; \
@@ -86,7 +86,7 @@ info: $(INFO_TARGETS)
 	_pkgrel=$$(grep '^pkgrel=' $(CHROOTPATH64)/$*/build/$*/PKGBUILD | cut -d'=' -f2 ) ;\
 	_pkgrel=$$(($$_pkgrel+1)) ; \
 	sed -i "s/^pkgrel=[^ ]*/pkgrel=$$_pkgrel/" $(CHROOTPATH64)/$*/build/$*/PKGBUILD ; \
-	sudo systemd-nspawn -q -D $(CHROOTPATH64)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg -L --noconfirm --holdver --nocolor -sf > makepkg.log'; \
+	sudo systemd-nspawn -q -D $(CHROOTPATH64)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg -L --noconfirm --holdver --nocolor -sf'; \
 	_pkgver=$$(bash -c "cd $(PWD)/$* ; source PKGBUILD ; if type -t pkgver | grep -q '^function$$' 2>/dev/null ; then srcdir=$$(pwd) pkgver ; fi") ; \
 	if [ -z "$$_pkgver" ] ; then \
 		_pkgver=$$(grep '^pkgver=' $(PWD)/$*/PKGBUILD | sed -e "s/'\|\"\|.*=//g") ; \
@@ -449,8 +449,6 @@ xf86-input-wacom: xorg-server libevdev libxi libxtst resourceproto scrnsaverprot
 xf86-video-ati: xorg-server mesa libdrm libpciaccess pixman xf86driproto glproto chroot
 
 xf86-video-amdgpu: xorg-server mesa libdrm libpciaccess pixman xf86driproto glproto chroot
-
-radeontop: chroot
 
 xtrans: chroot
 

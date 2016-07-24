@@ -6,13 +6,13 @@ _gitname=repo-xf86-input-vmmouse
 
 pkgname=xf86-input-vmmouse
 pkgver=13.1.0.2.r132.g8081bdc
-pkgrel=131
+pkgrel=132
 pkgdesc="X.org VMWare Mouse input driver"
 arch=(i686 x86_64)
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('glibc' 'libsystemd' 'sh')
-makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=23.1' 'resourceproto' 'scrnsaverproto')
+makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=24.1' 'resourceproto' 'scrnsaverproto')
 conflicts=('X-ABI-XINPUT_VERSION<23.1')
 groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot)
