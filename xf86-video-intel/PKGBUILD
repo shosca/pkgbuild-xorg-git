@@ -6,7 +6,7 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-intel'
 _gitname='repo-xf86-video-intel'
 
 pkgname=xf86-video-intel
-pkgver=2.99.917.684.r9358.g6988b87
+pkgver=2.99.917.688.r9362.g49daf5d
 pkgrel=1
 epoch=1
 arch=(i686 x86_64)

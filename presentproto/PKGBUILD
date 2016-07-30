@@ -5,8 +5,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/presentproto'
 _gitname='repo-presentproto'
 
 pkgname=presentproto
-pkgver=1.0.11.r21.gef84007
-pkgrel=6
+pkgver=1.0.12.r22.gd6d4548
+pkgrel=1
 pkgdesc="X11 Present protocol specification"
 arch=('any')
 url="http://xorg.freedesktop.org/"
