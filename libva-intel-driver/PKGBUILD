@@ -6,7 +6,7 @@ _gitroot="git://anongit.freedesktop.org/vaapi/intel-driver"
 _gitname="repo-intel-driver"
 
 pkgname=libva-intel-driver
-pkgver=1.7.2.1.r1717.g1cd6795
+pkgver=1.7.2.1.r1719.gfb7d6f5
 pkgrel=1
 pkgdesc='VA-API implementation for Intel G45 and HD Graphics family'
 arch=('i686' 'x86_64')
