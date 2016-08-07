@@ -7,7 +7,7 @@ _gitname="repo-demos"
 
 pkgname='mesa-demos'
 pkgver=8.3.0.16.r6032.g0d41e4b
-pkgrel=18
+pkgrel=19
 arch=('i686' 'x86_64')
 pkgdesc="Mesa demos and tools"
 url="http://mesa3d.sourceforge.net"

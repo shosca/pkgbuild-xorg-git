@@ -6,7 +6,7 @@ _gitname=repo-xf86-input-libinput
 
 pkgname=xf86-input-libinput
 pkgver=0.19.0.9.r175.gce85b11
-pkgrel=3
+pkgrel=4
 pkgdesc="Generic input driver for the X.Org server based on libinput"
 arch=('i686' 'x86_64')
 license=('custom')
