@@ -2,7 +2,7 @@
 # Maintainer: Laurent Carlier <lordheavym@gmail.com>
 # Contributor: Fly-away <flyaaway@gmail.com>
 
-_gitroot="git://omxil.git.sourceforge.net/gitroot/omxil/omxil"
+_gitroot="git://git.code.sf.net/p/omxil/omxil"
 _gitname="repo-omxil"
 
 pkgname=libomxil-bellagio

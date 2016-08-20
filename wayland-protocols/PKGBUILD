@@ -5,7 +5,7 @@ _gitroot='git://anongit.freedesktop.org/wayland/wayland-protocols'
 _gitname='repo-wayland-protocols'
 
 pkgname=wayland-protocols
-pkgver=1.6.0.r89.g49272ee
+pkgver=1.7.0.r104.g2e541a3
 pkgrel=1
 pkgdesc='Specifications of extended Wayland protocols'
 arch=('any')
