@@ -5,7 +5,7 @@ _gitroot="git://anongit.freedesktop.org/libevdev"
 _gitname="repo-libevdev"
 
 pkgname=libevdev
-pkgver=1.5.2.2.r544.g761687e
+pkgver=1.5.4.0.r548.g0f346f3
 pkgrel=1
 pkgdesc="Wrapper library for evdev devices"
 arch=('i686' 'x86_64')

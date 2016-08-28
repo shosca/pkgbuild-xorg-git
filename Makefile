@@ -194,6 +194,7 @@ checkvers: $(CHECKVER_TARGETS)
 			if ! ls $(PWD)/$*/$$pkgname-*$$_pkgver-*$(PKGEXT) 1> /dev/null 2>&1; then \
 				echo "==> Updating pkgrel [$*]" ; \
 				sed -i "s/^pkgrel=[^ ]*/pkgrel=0/" $(PWD)/$*/PKGBUILD ; \
+				$(MAKE) -s -C $(PWD) $*-deps ; \
 				break ; \
 			fi ; \
 		done ; \

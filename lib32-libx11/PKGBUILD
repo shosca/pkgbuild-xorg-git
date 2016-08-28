@@ -6,7 +6,7 @@ _gitname="repo-libX11"
 
 pkgname=lib32-libx11
 _pkgbasename=${pkgname:6}
-pkgver=1.6.3.40.r1301.g83adf3d
+pkgver=1.6.3.41.r1302.g78851f6
 pkgrel=1
 pkgdesc="X11 client-side library"
 arch=('x86_64')
