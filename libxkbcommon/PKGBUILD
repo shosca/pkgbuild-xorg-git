@@ -8,8 +8,8 @@ _gitname="repo-libxkbcommon"
 
 pkgbase=libxkbcommon
 pkgname=(libxkbcommon libxkbcommon-x11)
-pkgver=0.6.1.13.r1587.gd58fc90
-pkgrel=3
+pkgver=0.6.1.15.r1589.g599fd9b
+pkgrel=1
 pkgdesc="Keyboard handling library using XKB data"
 arch=(i686 x86_64)
 url="http://xkbcommon.org/"

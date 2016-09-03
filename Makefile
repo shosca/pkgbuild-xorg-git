@@ -403,8 +403,6 @@ xorg-server: bigreqsproto presentproto compositeproto dmxproto dri2proto dri3pro
 
 xorg-xauth: libxmu chroot
 
-xorg-xhost: libxmu chroot
-
 xorg-xkbcomp: libxkbfile chroot
 
 xorg-xrdb: libxmu chroot

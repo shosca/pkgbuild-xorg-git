@@ -13,7 +13,7 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="repo-llvm"
 
 pkgname=(llvm llvm-libs llvm-ocaml lldb clang clang-analyzer clang-tools-extra)
-pkgver=4.0.0.r137419.gd97fe48
+pkgver=4.0.0.r137770.gd55f315
 pkgrel=1
 arch=('i686' 'x86_64')
 url="http://llvm.org/"
@@ -81,9 +81,9 @@ build() {
     -DLLVM_LINK_LLVM_DYLIB=ON \
     -DLLVM_ENABLE_RTTI=ON \
     -DLLVM_ENABLE_FFI=ON \
-    -DLLVM_BUILD_TESTS=ON \
+    -DLLVM_BUILD_TESTS=OFF \
     -DLLVM_BUILD_DOCS=ON \
-    -DLLVM_ENABLE_SPHINX=ON \
+    -DLLVM_ENABLE_SPHINX=OFF \
     -DLLVM_ENABLE_DOXYGEN=OFF \
     -DSPHINX_WARNINGS_AS_ERRORS=OFF \
     -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
@@ -110,13 +110,6 @@ build() {
   sed -i '/compiler-rt\/cmake_install.cmake/d' projects/cmake_install.cmake
 }
 
-check() {
-  cd "$srcdir/$_gitname/build"
-  make check
-  make check-clang || warning \
-    'Ignoring Clang test failures caused by name mangling differences'
-}
-
 package_llvm() {
   pkgdesc="Low Level Virtual Machine"
   depends=("llvm-libs=$pkgver-$pkgrel" 'perl')
@@ -129,7 +122,7 @@ package_llvm() {
   make -C build DESTDIR="$pkgdir" install
 
   # Remove documentation sources
-  rm -r "$pkgdir"/usr/share/doc/$pkgname/html/{_sources,.buildinfo}
+  #rm -r "$pkgdir"/usr/share/doc/$pkgname/html/{_sources,.buildinfo}
 
   # The runtime libraries go into llvm-libs
   mv -f "$pkgdir"/usr/lib/lib{LLVM,LLVM-*,LTO}.so* "$srcdir"
@@ -222,7 +215,7 @@ package_clang() {
   make -C build/projects/compiler-rt DESTDIR="$pkgdir" install
 
   # Remove documentation sources
-  rm -r "$pkgdir"/usr/share/doc/$pkgname/html/{_sources,.buildinfo}
+  #rm -r "$pkgdir"/usr/share/doc/$pkgname/html/{_sources,.buildinfo}
 
   # Install Python bindings
   install -d "$pkgdir/usr/lib/python2.7/site-packages"
