@@ -6,8 +6,8 @@ _gitname="repo-pixman"
 
 pkgname=lib32-pixman
 _pkgbasename=${pkgname:6}
-pkgver=0.35.1.7.r2324.g7c6066b
-pkgrel=3
+pkgver=0.35.1.23.r2340.g85467ec
+pkgrel=1
 pkgdesc="Pixman library (32-bit)"
 arch=('x86_64')
 url="http://xorg.freedesktop.org"
