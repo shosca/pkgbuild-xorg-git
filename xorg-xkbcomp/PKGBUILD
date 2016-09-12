@@ -7,7 +7,7 @@ _gitname='repo-xkbcomp'
 
 pkgname=xorg-xkbcomp
 pkgver=1.3.1.2.r162.g8995ac5
-pkgrel=15
+pkgrel=16
 pkgdesc="X Keyboard description compiler"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

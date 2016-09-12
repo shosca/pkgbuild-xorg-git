@@ -1,16 +1,16 @@
-_gitroot='git://people.freedesktop.org/~aplattner/vdpauinfo'
+_gitroot='https://anongit.freedesktop.org/git/vdpau/vdpauinfo.git'
 _gitname='repo-vdpauinfo'
 
 pkgname=vdpauinfo
 pkgver=1.0.0.r30.g7b8eee7
-pkgrel=51
+pkgrel=52
 pkgdesc="CLI utility for VDPAU device querying."
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/~aplattner/vdpauinfo"
 license=('custom')
 depends=('libvdpau')
 makedepends=('git')
-source=($_gitname::$_gitroot)
+source=($_gitname::git+$_gitroot)
 sha256sums=('SKIP')
 
 pkgver() {

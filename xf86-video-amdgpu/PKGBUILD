@@ -6,7 +6,7 @@ _gitname="repo-xf86-video-amdgpu"
 
 pkgname=xf86-video-amdgpu
 pkgver=1.1.99.61.r225.g0f8df85
-pkgrel=1
+pkgrel=2
 pkgdesc="X.org amdgpu video driver"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

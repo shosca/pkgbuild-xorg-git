@@ -7,7 +7,7 @@ _gitname="repo-libva"
 
 pkgname=libva
 pkgver=1.7.3.r1203.g2ebf897
-pkgrel=4
+pkgrel=5
 pkgdesc='Video Acceleration (VA) API for Linux'
 arch=('i686' 'x86_64')
 url="http://freedesktop.org/wiki/Software/vaapi"

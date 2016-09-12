@@ -19,8 +19,9 @@ CHECKVER_TARGETS=$(addsuffix -checkver, $(DIRS))
 .PHONY: $(DIRS) chroot
 
 all:
-	@$(MAKE) srcpull
-	$(MAKE) build
+	@$(MAKE) build && \
+	$(MAKE) clean && \
+	$(MAKE) repopush push
 
 clean:
 	@sudo rm -rf */*.log */pkg */src */logpipe* $(CHROOTPATH64)

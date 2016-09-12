@@ -6,7 +6,7 @@ _gitname="repo-libSM"
 
 pkgname=libsm
 pkgver=1.2.2.4.r147.gb64aa0e
-pkgrel=11
+pkgrel=12
 pkgdesc="X11 Session Management library"
 arch=('i686' 'x86_64')
 license=('custom')
