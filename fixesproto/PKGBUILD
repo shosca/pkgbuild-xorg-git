@@ -7,7 +7,7 @@ _gitname='repo-fixesproto'
 
 pkgname=fixesproto
 pkgver=5.0.6.r53.gd6d910b
-pkgrel=7
+pkgrel=8
 pkgdesc="X11 Fixes extension wire protocol"
 arch=('any')
 url="http://xorg.freedesktop.org/"

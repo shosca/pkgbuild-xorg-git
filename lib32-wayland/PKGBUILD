@@ -5,8 +5,8 @@ _gitname="repo-wayland"
 
 pkgname=lib32-wayland
 _pkgbasename=${pkgname:6}
-pkgver=1.11.94.0.r1946.ga4aba37
-pkgrel=2
+pkgver=1.12.90.47.r1949.gf7e1dcc
+pkgrel=1
 pkgdesc='A computer display server protocol (32 bit)'
 arch=('x86_64')
 url='http://wayland.freedesktop.org'
