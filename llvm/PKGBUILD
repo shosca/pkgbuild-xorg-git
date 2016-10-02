@@ -13,7 +13,7 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="repo-llvm"
 
 pkgname=(llvm llvm-libs llvm-ocaml lldb clang clang-analyzer clang-tools-extra)
-pkgver=4.0.0.r138705.ge41f2a1
+pkgver=4.0.0.r139035.ga8c3c60
 pkgrel=1
 arch=('i686' 'x86_64')
 url="http://llvm.org/"
@@ -131,8 +131,7 @@ package_llvm() {
   # OCaml bindings go to a separate package
   rm -rf "$srcdir"/ocaml.{lib,doc}
   mv "$pkgdir/usr/lib/ocaml" "$srcdir/ocaml.lib"
-  mv "$pkgdir/usr/docs/ocaml/html" "$srcdir/ocaml.doc"
-  rm -r "$pkgdir/usr/docs"
+  rm -rf "$pkgdir/usr/docs"
 
   if [[ $CARCH == x86_64 ]]; then
     # Needed for multilib (https://bugs.archlinux.org/task/29951)
@@ -178,7 +177,6 @@ package_llvm-ocaml() {
 
   install -d "$pkgdir"/{usr/lib,usr/share/doc}
   cp -a "$srcdir/ocaml.lib" "$pkgdir/usr/lib/ocaml"
-  cp -a "$srcdir/ocaml.doc" "$pkgdir/usr/share/doc/$pkgname"
 
   install -Dm644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

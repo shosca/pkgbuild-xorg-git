@@ -2,9 +2,10 @@ REPO=xorg-git
 PWD=$(shell pwd)
 DIRS=$(shell ls -d */ | sed -e 's/\///' )
 ARCHNSPAWN=arch-nspawn
-MKARCHROOT=/usr/bin/mkarchroot -C /usr/share/devtools/pacman-multilib.conf
+MAKECONTAINER=/usr/bin/mkarchroot -C /usr/share/devtools/pacman-multilib.conf
 PKGEXT=pkg.tar.xz
-CHROOTPATH64=/var/chroot64/$(REPO)
+MACHINES=/var/lib/machines/
+BASEMACHINE=$(MACHINES)/root-$(REPO)
 LOCKFILE=/tmp/$(REPO)-sync.lock
 PACMAN=pacman -q
 REPOADD=repo-add -n --nocolor -R
@@ -16,7 +17,7 @@ INFO_TARGETS=$(addsuffix -info, $(DIRS))
 BUILD_TARGETS=$(addsuffix -build, $(DIRS))
 CHECKVER_TARGETS=$(addsuffix -checkver, $(DIRS))
 
-.PHONY: $(DIRS) chroot
+.PHONY: $(DIRS) container
 
 all:
 	@$(MAKE) build && \
@@ -24,28 +25,30 @@ all:
 	$(MAKE) repopush push
 
 clean:
-	@sudo rm -rf */*.log */pkg */src */logpipe* $(CHROOTPATH64)
+	@sudo rm -rf */*.log */pkg */src */logpipe* $(BASEMACHINE)
 
 resetall: clean
 	@sudo rm -f */built ; \
 	sed --follow-symlinks -i "s/^pkgrel=[^ ]*/pkgrel=0/" $(PWD)/**/PKGBUILD ; \
 
-chroot:
-	@if [[ ! -f $(CHROOTPATH64)/root/.arch-chroot ]]; then \
-		sudo mkdir -p $(CHROOTPATH64); \
-		sudo rm -rf $(CHROOTPATH64)/root; \
-		sudo $(MKARCHROOT) $(CHROOTPATH64)/root base-devel ; \
-		sudo cp $(PWD)/pacman.conf $(CHROOTPATH64)/root/etc/pacman.conf ;\
-		sudo cp $(PWD)/makepkg.conf $(CHROOTPATH64)/root/etc/makepkg.conf ;\
-		sudo cp $(PWD)/locale.conf $(CHROOTPATH64)/root/etc/locale.conf ;\
-		echo "MAKEFLAGS='-j$$(grep processor /proc/cpuinfo | wc -l)'" | sudo tee -a $(CHROOTPATH64)/root/etc/makepkg.conf ;\
-		sudo mkdir -p $(CHROOTPATH64)/root/repo ;\
-		sudo bsdtar -czf $(CHROOTPATH64)/root/repo/$(REPO).db.tar.gz -T /dev/null ; \
-		sudo ln -sf $(REPO).db.tar.gz $(CHROOTPATH64)/root/repo/$(REPO).db ; \
-		sudo $(ARCHNSPAWN) $(CHROOTPATH64)/root /bin/bash -c "yes | $(PACMAN) -Syu ; yes | $(PACMAN) -S gcc-multilib gcc-libs-multilib p7zip git && chmod 777 /tmp" ; \
-		echo "builduser ALL = NOPASSWD: /usr/bin/pacman" | sudo tee -a $(CHROOTPATH64)/root/etc/sudoers.d/builduser ; \
-		echo "builduser:x:$${SUDO_UID:-$$UID}:100:builduser:/:/usr/bin/nologin\n" | sudo tee -a $(CHROOTPATH64)/root/etc/passwd ; \
-		sudo mkdir -p $(CHROOTPATH64)/root/build; \
+container:
+	@if [[ ! -f $(BASEMACHINE)/.arch-chroot ]]; then \
+		sudo mkdir -p $(BASEMACHINE); \
+		sudo rm -rf $(BASEMACHINE); \
+		sudo $(MAKECONTAINER) $(BASEMACHINE) base-devel ; \
+		sudo cp $(PWD)/pacman.conf $(BASEMACHINE)/etc/pacman.conf ;\
+		sudo cp $(PWD)/makepkg.conf $(BASEMACHINE)/etc/makepkg.conf ;\
+		sudo cp $(PWD)/locale.conf $(BASEMACHINE)/etc/locale.conf ;\
+		echo "MAKEFLAGS='-j$$(grep processor /proc/cpuinfo | wc -l)'" | sudo tee -a $(BASEMACHINE)/etc/makepkg.conf ;\
+		sudo mkdir -p $(BASEMACHINE)/repo ;\
+		sudo bsdtar -czf $(BASEMACHINE)/repo/$(REPO).db.tar.gz -T /dev/null ; \
+		sudo ln -sf $(REPO).db.tar.gz $(BASEMACHINE)/repo/$(REPO).db ; \
+		sudo $(ARCHNSPAWN) $(BASEMACHINE) /bin/bash -c "yes | $(PACMAN) -Syu ; yes | $(PACMAN) -S gcc-multilib gcc-libs-multilib p7zip vim && chmod 777 /tmp" ; \
+		echo "builduser ALL = NOPASSWD: /usr/bin/pacman" | sudo tee -a $(BASEMACHINE)/etc/sudoers.d/builduser ; \
+		echo "builduser:x:$${SUDO_UID:-$$UID}:100:builduser:/:/usr/bin/bash" | sudo tee -a $(BASEMACHINE)/etc/passwd ; \
+		sudo mkdir -p $(BASEMACHINE)/build; \
+		sudo sed -i '/securetty/d' $(BASEMACHINE)/etc/pam.d/* ; \
+		sudo $(ARCHNSPAWN) $(BASEMACHINE) bash -c "echo builduser:buildme | chpasswd" ; \
 	fi ; \
 
 build: $(DIRS)
@@ -67,27 +70,27 @@ info: $(INFO_TARGETS)
 		echo "$*: $$p" ; \
 	done ; \
 
-%-chroot: chroot
-	@echo "==> Setting up chroot for [$*]" ; \
-	sudo rsync -a --delete -q -W -x $(CHROOTPATH64)/root/* $(CHROOTPATH64)/$* ; \
+%-container: container
+	@echo "==> Setting up container for [$*]" ; \
+	sudo rsync -a --delete -q -W -x $(BASEMACHINE)/* $(MACHINES)/$* ; \
 
-%-sync: %-chroot
+%-sync: %-container
 	@echo "==> Syncing packages for [$*]" ; \
 	if ls */*.$(PKGEXT) &> /dev/null ; then \
-		sudo cp -f */*.$(PKGEXT) $(CHROOTPATH64)/$*/repo ; \
-		sudo $(REPOADD) $(CHROOTPATH64)/$*/repo/$(REPO).db.tar.gz $(CHROOTPATH64)/$*/repo/*.$(PKGEXT) > /dev/null 2>&1 ; \
+		sudo cp -f */*.$(PKGEXT) $(MACHINES)/$*/repo ; \
+		sudo $(REPOADD) $(MACHINES)/$*/repo/$(REPO).db.tar.gz $(MACHINES)/$*/repo/*.$(PKGEXT) > /dev/null 2>&1 ; \
 	fi ; \
 
 %/built: %-sync
 	@echo "==> Building [$*]" ; \
 	rm -f *.log ; \
 	mkdir -p $(PWD)/$*/tmp ; mv $(PWD)/$*/*$(PKGEXT) $(PWD)/$*/tmp ; \
-	sudo mkdir -p $(CHROOTPATH64)/$*/build ; \
-	sudo rsync -a --delete -q -W -x $(PWD)/$* $(CHROOTPATH64)/$*/build/ ; \
-	_pkgrel=$$(grep '^pkgrel=' $(CHROOTPATH64)/$*/build/$*/PKGBUILD | cut -d'=' -f2 ) ;\
+	sudo mkdir -p $(MACHINES)/$*/build ; \
+	sudo rsync -a --delete -q -W -x $(PWD)/$* $(MACHINES)/$*/build/ ; \
+	_pkgrel=$$(grep '^pkgrel=' $(MACHINES)/$*/build/$*/PKGBUILD | cut -d'=' -f2 ) ;\
 	_pkgrel=$$(($$_pkgrel+1)) ; \
-	sed -i "s/^pkgrel=[^ ]*/pkgrel=$$_pkgrel/" $(CHROOTPATH64)/$*/build/$*/PKGBUILD ; \
-	sudo systemd-nspawn -q -D $(CHROOTPATH64)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg -L --noconfirm --holdver --nocolor -sf'; \
+	sed -i "s/^pkgrel=[^ ]*/pkgrel=$$_pkgrel/" $(MACHINES)/$*/build/$*/PKGBUILD ; \
+	sudo systemd-nspawn -q -D $(MACHINES)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg -L --noconfirm --holdver --nocolor -sf > makepkg.log'; \
 	_pkgver=$$(bash -c "cd $(PWD)/$* ; source PKGBUILD ; if type -t pkgver | grep -q '^function$$' 2>/dev/null ; then srcdir=$$(pwd) pkgver ; fi") ; \
 	if [ -z "$$_pkgver" ] ; then \
 		_pkgver=$$(grep '^pkgver=' $(PWD)/$*/PKGBUILD | sed -e "s/'\|\"\|.*=//g") ; \
@@ -97,27 +100,27 @@ info: $(INFO_TARGETS)
 		_pkgnames=$$(grep '^pkgname=' $(PWD)/$*/PKGBUILD | sed -e "s/'\|\"\|.*=//g") ; \
 	fi ; \
 	for pkgname in $$_pkgnames; do \
-		if ! ls $(CHROOTPATH64)/$*/build/$*/$$pkgname-*$$_pkgver-$$_pkgrel-*$(PKGEXT) 1> /dev/null 2>&1; then \
-			echo "==> Could not find $(CHROOTPATH64)/$*/build/$*/$$pkgname-*$$_pkgver-$$_pkgrel-*$(PKGEXT)" ; \
+		if ! ls $(MACHINES)/$*/build/$*/$$pkgname-*$$_pkgver-$$_pkgrel-*$(PKGEXT) 1> /dev/null 2>&1; then \
+			echo "==> Could not find $(MACHINES)/$*/build/$*/$$pkgname-*$$_pkgver-$$_pkgrel-*$(PKGEXT)" ; \
 			rm -f $(PWD)/$*/*.$(PKGEXT) ; \
 			mv $(PWD)/$*/tmp/*.$(PKGEXT) $(PWD)/$*/ && rm -rf $(PWD)/$*/tmp ; \
 			exit 1; \
 		else \
-			cp $(CHROOTPATH64)/$*/build/$*/$$pkgname-*$$_pkgver-*$(PKGEXT) $(PWD)/$*/ ; \
+			cp $(MACHINES)/$*/build/$*/$$pkgname-*$$_pkgver-*$(PKGEXT) $(PWD)/$*/ ; \
 		fi ; \
 	done ; \
-	cp $(CHROOTPATH64)/$*/build/$*/*.log $(PWD)/$*/ ; \
-    cp $(CHROOTPATH64)/$*/build/$*/PKGBUILD $(PWD)/$*/PKGBUILD ; \
+	cp $(MACHINES)/$*/build/$*/*.log $(PWD)/$*/ ; \
+    cp $(MACHINES)/$*/build/$*/PKGBUILD $(PWD)/$*/PKGBUILD ; \
 	rm -rf $(PWD)/$*/tmp ; \
 	touch $(PWD)/$*/built
 
-$(DIRS): chroot
+$(DIRS): container
 	@if [ ! -f $(PWD)/$@/built ]; then \
 		if ! $(MAKE) $@/built ; then \
 			exit 1 ; \
 		fi ; \
 	fi ; \
-	sudo rm -rf $(CHROOTPATH64)/$@ $(CHROOTPATH64)/$@.lock
+	sudo rm -rf $(MACHINES)/$@ $(MACHINES)/$@.lock
 
 %-deps:
 	@echo "==> Marking dependencies for rebuild [$*]" ; \
@@ -220,294 +223,294 @@ updateshas: $(SHA_TARGETS)
 
 -include Makefile.mk
 
-libomxil-bellagio: chroot
+libomxil-bellagio: container
 
-xorg-util-macros: chroot
+xorg-util-macros: container
 
-bigreqsproto: xorg-util-macros chroot
+bigreqsproto: xorg-util-macros container
 
-compositeproto: xorg-util-macros chroot
+compositeproto: xorg-util-macros container
 
-damageproto: xorg-util-macros chroot
+damageproto: xorg-util-macros container
 
-presentproto: xorg-util-macros chroot
+presentproto: xorg-util-macros container
 
-dmxproto: xorg-util-macros chroot
+dmxproto: xorg-util-macros container
 
-dri2proto: xorg-util-macros chroot
+dri2proto: xorg-util-macros container
 
-dri3proto: xorg-util-macros chroot
+dri3proto: xorg-util-macros container
 
-fixesproto: xorg-util-macros xproto xextproto chroot
+fixesproto: xorg-util-macros xproto xextproto container
 
-fontsproto: xorg-util-macros chroot
+fontsproto: xorg-util-macros container
 
-glproto: xorg-util-macros chroot
+glproto: xorg-util-macros container
 
-inputproto: xorg-util-macros chroot
+inputproto: xorg-util-macros container
 
-kbproto: xorg-util-macros chroot
+kbproto: xorg-util-macros container
 
-randrproto: xorg-util-macros chroot
+randrproto: xorg-util-macros container
 
-recordproto: xorg-util-macros chroot
+recordproto: xorg-util-macros container
 
-renderproto: xorg-util-macros chroot
+renderproto: xorg-util-macros container
 
-resourceproto: xorg-util-macros chroot
+resourceproto: xorg-util-macros container
 
-scrnsaverproto: xorg-util-macros chroot
+scrnsaverproto: xorg-util-macros container
 
-videoproto: xorg-util-macros chroot
+videoproto: xorg-util-macros container
 
-xcb-proto: xorg-util-macros chroot
+xcb-proto: xorg-util-macros container
 
-xcmiscproto: xorg-util-macros chroot
+xcmiscproto: xorg-util-macros container
 
-xextproto: xorg-util-macros chroot
+xextproto: xorg-util-macros container
 
-xf86dgaproto: xorg-util-macros chroot
+xf86dgaproto: xorg-util-macros container
 
-xf86driproto: xorg-util-macros chroot
+xf86driproto: xorg-util-macros container
 
-xf86vidmodeproto: xorg-util-macros chroot
+xf86vidmodeproto: xorg-util-macros container
 
-xineramaproto: xorg-util-macros chroot
+xineramaproto: xorg-util-macros container
 
-xproto: xorg-util-macros chroot
+xproto: xorg-util-macros container
 
-pixman: xorg-util-macros chroot
+pixman: xorg-util-macros container
 
-wayland-protocols: chroot
+wayland-protocols: container
 
-wayland: xorg-util-macros wayland-protocols chroot
+wayland: xorg-util-macros wayland-protocols container
 
-libpciaccess: xorg-util-macros chroot
+libpciaccess: xorg-util-macros container
 
-libshmfence: xorg-util-macros chroot
+libshmfence: xorg-util-macros container
 
-libpthread-stubs: chroot
+libpthread-stubs: container
 
-libdrm: libpciaccess xorg-util-macros chroot
+libdrm: libpciaccess xorg-util-macros container
 
-libfontenc: xproto xorg-font-util chroot
+libfontenc: xproto xorg-font-util container
 
-libxdmcp: xproto chroot
+libxdmcp: xproto container
 
-libxau: xproto chroot
+libxau: xproto container
 
-libxcb: xcb-proto libxdmcp libxau chroot
+libxcb: xcb-proto libxdmcp libxau container
 
-libx11: xproto kbproto xextproto xtrans inputproto libxcb chroot
+libx11: xproto kbproto xextproto xtrans inputproto libxcb container
 
-xcb-util: xproto libxcb chroot
+xcb-util: xproto libxcb container
 
-xcb-util-image: xcb-util chroot
+xcb-util-image: xcb-util container
 
-xcb-util-keysyms: xcb-util chroot
+xcb-util-keysyms: xcb-util container
 
-xcb-util-wm: xcb-util chroot
+xcb-util-wm: xcb-util container
 
-xcb-util-renderutil: xcb-util chroot
+xcb-util-renderutil: xcb-util container
 
-llvm: chroot
+llvm: container
 
-libxext: xextproto libx11 chroot
+libxext: xextproto libx11 container
 
-libxrender: renderproto libx11 chroot
+libxrender: renderproto libx11 container
 
-libxrandr: randrproto libxext libxrender chroot
+libxrandr: randrproto libxext libxrender container
 
-libxi: inputproto libxext chroot
+libxi: inputproto libxext container
 
-libxtst: recordproto inputproto libxi chroot
+libxtst: recordproto inputproto libxi container
 
-libice: xproto xtrans chroot
+libice: xproto xtrans container
 
-libsm: libice xtrans xorg-util-macros chroot
+libsm: libice xtrans xorg-util-macros container
 
-libxt: libx11 libsm chroot
+libxt: libx11 libsm container
 
-libxmu: libxext libxt chroot
+libxmu: libxext libxt container
 
-libxpm: libxt libxext chroot
+libxpm: libxt libxext container
 
-libxaw: libxmu libxpm chroot
+libxaw: libxmu libxpm container
 
-libxres: resourceproto damageproto compositeproto scrnsaverproto libxext chroot
+libxres: resourceproto damageproto compositeproto scrnsaverproto libxext container
 
-libdmx: dmxproto libxext chroot
+libdmx: dmxproto libxext container
 
-libxfixes: fixesproto libx11 chroot
+libxfixes: fixesproto libx11 container
 
-libxdamage: damageproto libxfixes chroot
+libxdamage: damageproto libxfixes container
 
-libxcomposite: compositeproto libxfixes chroot
+libxcomposite: compositeproto libxfixes container
 
-libxxf86vm: xf86vidmodeproto libxext chroot
+libxxf86vm: xf86vidmodeproto libxext container
 
-libxxf86dga: xf86dgaproto libxext chroot
+libxxf86dga: xf86dgaproto libxext container
 
-libxv: videoproto libxext chroot
+libxv: videoproto libxext container
 
-libxvmc: libxv chroot
+libxvmc: libxv container
 
-libvdpau: libx11 libxext chroot
+libvdpau: libx11 libxext container
 
-vdpauinfo: libvdpau chroot
+vdpauinfo: libvdpau container
 
-libva: libdrm libxfixes chroot
+libva: libdrm libxfixes container
 
-libva-intel-driver: libva chroot
+libva-intel-driver: libva container
 
-libva-vdpau-driver: libva libvdpau mesa chroot
+libva-vdpau-driver: libva libvdpau mesa container
 
-libxcursor: libxfixes libxrender chroot
+libxcursor: libxfixes libxrender container
 
-libxfont: xproto fontsproto libfontenc xtrans chroot
+libxfont: xproto fontsproto libfontenc xtrans container
 
-libxinerama: libxext xineramaproto chroot
+libxinerama: libxext xineramaproto container
 
-libxkbfile: libx11 chroot
+libxkbfile: libx11 container
 
-libxshmfence: xproto chroot
+libxshmfence: xproto container
 
-libevdev: chroot
+libevdev: container
 
-libinput: libevdev chroot
+libinput: libevdev container
 
-freerdp: libxinerama libxcursor libxkbfile wayland chroot
+freerdp: libxinerama libxcursor libxkbfile wayland container
 
-cairo: libxrender pixman xcb-util mesa chroot
+cairo: libxrender pixman xcb-util mesa container
 
-libclc: llvm chroot
+libclc: llvm container
 
-libepoxy: mesa xorg-util-macros chroot
+libepoxy: mesa xorg-util-macros container
 
-libxkbcommon: xkeyboard-config chroot
+libxkbcommon: xkeyboard-config container
 
-mesa: glproto libdrm llvm libclc libxfixes libvdpau libxdamage libxxf86vm libxvmc wayland libomxil-bellagio libxshmfence dri2proto dri3proto presentproto libpthread-stubs chroot
+mesa: glproto libdrm llvm libclc libxfixes libvdpau libxdamage libxxf86vm libxvmc wayland libomxil-bellagio libxshmfence dri2proto dri3proto presentproto libpthread-stubs container
 
-glu: mesa chroot
+glu: mesa container
 
-glew: libxmu glu chroot
+glew: libxmu glu container
 
-freeglut: libxi libxrandr mesa glu libxxf86vm chroot
+freeglut: libxi libxrandr mesa glu libxxf86vm container
 
-mesa-demos: mesa glew freeglut chroot
+mesa-demos: mesa glew freeglut container
 
-xorg-font-util: xorg-util-macros chroot
+xorg-font-util: xorg-util-macros container
 
-xorg-setxkbmap: libxkbfile xorg-util-macros chroot
+xorg-setxkbmap: libxkbfile xorg-util-macros container
 
-xorg-server: bigreqsproto presentproto compositeproto dmxproto dri2proto dri3proto fontsproto glproto inputproto randrproto recordproto renderproto resourceproto scrnsaverproto videoproto xcmiscproto xextproto xf86dgaproto xf86driproto xineramaproto libdmx libdrm libpciaccess libx11 libxau libxaw libxdmcp libxext libxfixes libxfont libxi libxkbfile libxmu libxrender libxres libxtst libxv libepoxy mesa pixman xkeyboard-config xorg-font-util xorg-setxkbmap xorg-util-macros xorg-xkbcomp xtrans wayland xcb-util-image xcb-util-wm xcb-util-keysyms xcb-util-renderutil libxshmfence chroot
+xorg-server: bigreqsproto presentproto compositeproto dmxproto dri2proto dri3proto fontsproto glproto inputproto randrproto recordproto renderproto resourceproto scrnsaverproto videoproto xcmiscproto xextproto xf86dgaproto xf86driproto xineramaproto libdmx libdrm libpciaccess libx11 libxau libxaw libxdmcp libxext libxfixes libxfont libxi libxkbfile libxmu libxrender libxres libxtst libxv libepoxy mesa pixman xkeyboard-config xorg-font-util xorg-setxkbmap xorg-util-macros xorg-xkbcomp xtrans wayland xcb-util-image xcb-util-wm xcb-util-keysyms xcb-util-renderutil libxshmfence container
 
-xorg-xauth: libxmu chroot
+xorg-xauth: libxmu container
 
-xorg-xkbcomp: libxkbfile chroot
+xorg-xkbcomp: libxkbfile container
 
-xorg-xrdb: libxmu chroot
+xorg-xrdb: libxmu container
 
-xorg-xrandr: libxrandr libx11 chroot
+xorg-xrandr: libxrandr libx11 container
 
-xorg-xprop: libx11 chroot
+xorg-xprop: libx11 container
 
-xorg-xev: libx11 libxrandr xproto chroot
+xorg-xev: libx11 libxrandr xproto container
 
-xorg-xset: libxmu xorg-util-macros chroot
+xorg-xset: libxmu xorg-util-macros container
 
-xorg-mkfontscale: libfontenc xproto chroot
+xorg-mkfontscale: libfontenc xproto container
 
-xorg-xwininfo: libxcb libx11 chroot
+xorg-xwininfo: libxcb libx11 container
 
-xorg-xmessage: libxaw chroot
+xorg-xmessage: libxaw container
 
-xorg-fonts-alias: chroot
+xorg-fonts-alias: container
 
-xorg-fonts-encodings: xorg-mkfontscale xorg-util-macros xorg-font-util chroot
+xorg-fonts-encodings: xorg-mkfontscale xorg-util-macros xorg-font-util container
 
-xf86-input-evdev: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto chroot
+xf86-input-evdev: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto container
 
-xf86-input-libinput: xorg-server libinput libxi libxtst resourceproto scrnsaverproto chroot
+xf86-input-libinput: xorg-server libinput libxi libxtst resourceproto scrnsaverproto container
 
-xf86-input-synaptics: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto chroot
+xf86-input-synaptics: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto container
 
-xf86-input-joystick: xorg-server resourceproto scrnsaverproto chroot
+xf86-input-joystick: xorg-server resourceproto scrnsaverproto container
 
-xf86-input-keyboard: xorg-server resourceproto scrnsaverproto chroot
+xf86-input-keyboard: xorg-server resourceproto scrnsaverproto container
 
-xf86-input-mouse: xorg-server resourceproto scrnsaverproto chroot
+xf86-input-mouse: xorg-server resourceproto scrnsaverproto container
 
-xf86-input-vmmouse: xorg-server resourceproto scrnsaverproto chroot
+xf86-input-vmmouse: xorg-server resourceproto scrnsaverproto container
 
-xf86-input-void: xorg-server resourceproto scrnsaverproto chroot
+xf86-input-void: xorg-server resourceproto scrnsaverproto container
 
-xf86-input-vesa: xorg-server resourceproto scrnsaverproto chroot
+xf86-input-vesa: xorg-server resourceproto scrnsaverproto container
 
-xf86-input-wacom: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto chroot
+xf86-input-wacom: xorg-server libevdev libxi libxtst resourceproto scrnsaverproto container
 
-xf86-video-ati: xorg-server mesa libdrm libpciaccess pixman xf86driproto glproto chroot
+xf86-video-ati: xorg-server mesa libdrm libpciaccess pixman xf86driproto glproto container
 
-xf86-video-amdgpu: xorg-server mesa libdrm libpciaccess pixman xf86driproto glproto chroot
+xf86-video-amdgpu: xorg-server mesa libdrm libpciaccess pixman xf86driproto glproto container
 
-xtrans: chroot
+xtrans: container
 
-xkeyboard-config: kbproto xcb-proto xproto libx11 libxau libxcb libxdmcp libxkbfile xorg-xkbcomp chroot
+xkeyboard-config: kbproto xcb-proto xproto libx11 libxau libxcb libxdmcp libxkbfile xorg-xkbcomp container
 
-libxklavier: libxi xkeyboard-config chroot
+libxklavier: libxi xkeyboard-config container
 
-xf86-video-intel: xorg-server mesa libxvmc libpciaccess libdrm dri2proto dri3proto libxfixes libx11 xf86driproto glproto resourceproto xcb-util chroot
+xf86-video-intel: xorg-server mesa libxvmc libpciaccess libdrm dri2proto dri3proto libxfixes libx11 xf86driproto glproto resourceproto xcb-util container
 
-xf86-video-nouveau: libdrm mesa xorg-server chroot
+xf86-video-nouveau: libdrm mesa xorg-server container
 
-xf86-video-fbdev: xorg-server chroot
+xf86-video-fbdev: xorg-server container
 
-xf86-video-vesa: xorg-server chroot
+xf86-video-vesa: xorg-server container
 
-weston: libinput libxkbcommon wayland mesa cairo libxcursor pixman glu wayland-protocols chroot
+weston: libinput libxkbcommon wayland mesa cairo libxcursor pixman glu wayland-protocols container
 
-lib32-libpciaccess: libpciaccess chroot
+lib32-libpciaccess: libpciaccess container
 
-lib32-pixman: pixman chroot
+lib32-pixman: pixman container
 
-lib32-libxdmcp: libxdmcp chroot
+lib32-libxdmcp: libxdmcp container
 
-lib32-libice: libice chroot
+lib32-libice: libice container
 
-lib32-libxau: libxau chroot
+lib32-libxau: libxau container
 
-lib32-libxcb: libxcb lib32-libxdmcp  lib32-libxau chroot
+lib32-libxcb: libxcb lib32-libxdmcp  lib32-libxau container
 
-lib32-libx11: libx11 lib32-libxcb chroot
+lib32-libx11: libx11 lib32-libxcb container
 
-lib32-libxrender: libxrender lib32-libx11 chroot
+lib32-libxrender: libxrender lib32-libx11 container
 
-lib32-libxext: libxext lib32-libx11 chroot
+lib32-libxext: libxext lib32-libx11 container
 
-lib32-libxv: libxv lib32-libxext chroot
+lib32-libxv: libxv lib32-libxext container
 
-lib32-libxvmc: libxvmc lib32-libxv chroot
+lib32-libxvmc: libxvmc lib32-libxv container
 
-lib32-libvdpau: libvdpau lib32-libx11 chroot
+lib32-libvdpau: libvdpau lib32-libx11 container
 
-lib32-libxxf86vm: libxxf86vm lib32-libxext chroot
+lib32-libxxf86vm: libxxf86vm lib32-libxext container
 
-lib32-libxfixes: libxfixes lib32-libx11 chroot
+lib32-libxfixes: libxfixes lib32-libx11 container
 
-lib32-libxdamage: libxdamage lib32-libxfixes chroot
+lib32-libxdamage: libxdamage lib32-libxfixes container
 
-lib32-libsm: libsm lib32-libice chroot
+lib32-libsm: libsm lib32-libice container
 
-lib32-libxt: libxt lib32-libsm lib32-libx11 chroot
+lib32-libxt: libxt lib32-libsm lib32-libx11 container
 
-lib32-wayland: wayland chroot
+lib32-wayland: wayland container
 
-lib32-libdrm: libdrm lib32-libpciaccess chroot
+lib32-libdrm: libdrm lib32-libpciaccess container
 
-lib32-mesa: glproto lib32-libxshmfence lib32-libdrm lib32-llvm lib32-libxvmc lib32-libvdpau lib32-libxxf86vm lib32-libxdamage lib32-libx11 lib32-libxt lib32-wayland mesa lib32-libxshmfence lib32-libpthread-stubs chroot
+lib32-mesa: glproto lib32-libxshmfence lib32-libdrm lib32-llvm lib32-libxvmc lib32-libvdpau lib32-libxxf86vm lib32-libxdamage lib32-libx11 lib32-libxt lib32-wayland mesa lib32-libxshmfence lib32-libpthread-stubs container
 
-lib32-llvm: llvm chroot
+lib32-llvm: llvm container
 
-lib32-libxshmfence: libxshmfence chroot
+lib32-libxshmfence: libxshmfence container
 
-lib32-libpthread-stubs: libpthread-stubs chroot
+lib32-libpthread-stubs: libpthread-stubs container
