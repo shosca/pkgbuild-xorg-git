@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXtst"
 _gitname="repo-libXtst"
 
 pkgname=libxtst
-pkgver=1.2.2.1.r112.g48d2656
-pkgrel=109
+pkgver=1.2.3.0.r114.g9f5621a
+pkgrel=1
 pkgdesc="X11 Testing -- Resource extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
