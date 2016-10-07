@@ -6,7 +6,7 @@ _gitname=repo-xf86-input-mouse
 
 pkgname=xf86-input-mouse
 pkgver=1.9.1.5.r263.g2dda9b9
-pkgrel=9
+pkgrel=10
 pkgdesc="X.org mouse input driver"
 arch=(i686 x86_64)
 license=('custom')

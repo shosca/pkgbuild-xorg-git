@@ -12,7 +12,7 @@ EXTENSION_VERSION=$(git --git-dir=$_gitname show HEAD:hw/xfree86/common/xf86Modu
 
 pkgbase=xorg-server
 pkgname=('xorg-server' 'xorg-server-xephyr' 'xorg-server-xdmx' 'xorg-server-xvfb' 'xorg-server-xnest' 'xorg-server-xwayland' 'xorg-server-common' 'xorg-server-devel')
-pkgver=1.18.99.901.52.r15727.g2b6a068
+pkgver=1.18.99.901.76.r15751.g97a8353
 pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
@@ -24,7 +24,7 @@ makedepends=('git' 'pixman' 'libx11' 'mesa' 'mesa-libgl' 'xf86driproto' 'xcmiscp
              'xf86dgaproto' 'libxmu' 'libxrender' 'libxi' 'dmxproto' 'libxaw' 'libdmx' 'libxtst' 'libxres'
              'xorg-xkbcomp' 'xorg-util-macros' 'xorg-font-util' 'glproto' 'dri2proto' 'libgcrypt' 'libepoxy'
              'xcb-util' 'xcb-util-image' 'xcb-util-renderutil' 'xcb-util-wm' 'xcb-util-keysyms' 'dri3proto'
-             'libxshmfence' 'libunwind' 'libpthread-stubs')
+             'libxshmfence' 'libunwind' 'libpthread-stubs' 'wayland-protocols' 'wayland')
 source=($_gitname::$_gitroot
         xvfb-run
         xvfb-run.1
@@ -211,7 +211,7 @@ package_xorg-server-xdmx() {
 
 package_xorg-server-xwayland() {
   pkgdesc="run X clients under wayland"
-  depends=(libxfont libepoxy libgl pixman xorg-server-common)
+  depends=(libxfont libepoxy libgl pixman xorg-server-common wayland wayland-protocols)
 
   cd "${srcdir}/${_gitname}/hw/xwayland"
   make DESTDIR="${pkgdir}" install

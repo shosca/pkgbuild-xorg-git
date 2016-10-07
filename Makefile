@@ -43,7 +43,7 @@ container:
 		sudo mkdir -p $(BASEMACHINE)/repo ;\
 		sudo bsdtar -czf $(BASEMACHINE)/repo/$(REPO).db.tar.gz -T /dev/null ; \
 		sudo ln -sf $(REPO).db.tar.gz $(BASEMACHINE)/repo/$(REPO).db ; \
-		sudo $(ARCHNSPAWN) $(BASEMACHINE) /bin/bash -c "yes | $(PACMAN) -Syu ; yes | $(PACMAN) -S gcc-multilib gcc-libs-multilib p7zip vim && chmod 777 /tmp" ; \
+		sudo $(ARCHNSPAWN) $(BASEMACHINE) /bin/bash -c "yes | $(PACMAN) -Syu ; yes | $(PACMAN) -S git gcc-multilib gcc-libs-multilib p7zip vim && chmod 777 /tmp" ; \
 		echo "builduser ALL = NOPASSWD: /usr/bin/pacman" | sudo tee -a $(BASEMACHINE)/etc/sudoers.d/builduser ; \
 		echo "builduser:x:$${SUDO_UID:-$$UID}:100:builduser:/:/usr/bin/bash" | sudo tee -a $(BASEMACHINE)/etc/passwd ; \
 		sudo mkdir -p $(BASEMACHINE)/build; \
