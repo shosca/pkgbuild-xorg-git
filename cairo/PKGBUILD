@@ -7,7 +7,7 @@ _gitroot='git://anongit.freedesktop.org/git/cairo'
 _gitname='repo-cairo'
 
 pkgname=cairo
-pkgver=1.15.2.73.r11375.gcd1040e
+pkgver=1.15.2.75.r11377.g3f1a6f7
 pkgrel=1
 pkgdesc="Cairo vector graphics library"
 arch=(i686 x86_64)

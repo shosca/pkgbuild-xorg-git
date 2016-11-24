@@ -7,7 +7,7 @@ _gitname='repo-drm'
 
 pkgname=lib32-libdrm
 _pkgbasename=${pkgname:6}
-pkgver=2.4.71.0.r5927.ga44c9c3
+pkgver=2.4.73.9.r5957.g1924b67
 pkgrel=1
 pkgdesc="Userspace interface to kernel DRM services (32-bit)"
 arch=(x86_64)

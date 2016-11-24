@@ -43,12 +43,12 @@ container:
 		sudo mkdir -p $(BASEMACHINE)/repo ;\
 		sudo bsdtar -czf $(BASEMACHINE)/repo/$(REPO).db.tar.gz -T /dev/null ; \
 		sudo ln -sf $(REPO).db.tar.gz $(BASEMACHINE)/repo/$(REPO).db ; \
-		sudo $(ARCHNSPAWN) $(BASEMACHINE) /bin/bash -c "yes | $(PACMAN) -Syu ; yes | $(PACMAN) -S git gcc-multilib gcc-libs-multilib p7zip vim && chmod 777 /tmp" ; \
-		echo "builduser ALL = NOPASSWD: /usr/bin/pacman" | sudo tee -a $(BASEMACHINE)/etc/sudoers.d/builduser ; \
-		echo "builduser:x:$${SUDO_UID:-$$UID}:100:builduser:/:/usr/bin/bash" | sudo tee -a $(BASEMACHINE)/etc/passwd ; \
-		sudo mkdir -p $(BASEMACHINE)/build; \
-		sudo sed -i '/securetty/d' $(BASEMACHINE)/etc/pam.d/* ; \
+		sudo $(ARCHNSPAWN) $(BASEMACHINE) bash -c "yes | $(PACMAN) -Syu ; yes | $(PACMAN) -S git gcc-multilib gcc-libs-multilib p7zip vim && chmod 777 /tmp" ; \
+		sudo $(ARCHNSPAWN) $(BASEMACHINE) bash -c "useradd -m -u $${SUDO_UID:-$$UID} -g wheel -s /bin/bash -d /build builduser || true" ; \
 		sudo $(ARCHNSPAWN) $(BASEMACHINE) bash -c "echo builduser:buildme | chpasswd" ; \
+		echo "builduser ALL = NOPASSWD: /usr/bin/pacman" | sudo tee -a $(BASEMACHINE)/etc/sudoers.d/builduser ; \
+		sudo mkdir -p $(BASEMACHINE)/build; \
+		sudo bash -c "sed -i '/securetty/d' $(BASEMACHINE)/etc/pam.d/*" ; \
 	fi ; \
 
 build: $(DIRS)
@@ -72,7 +72,8 @@ info: $(INFO_TARGETS)
 
 %-container: container
 	@echo "==> Setting up container for [$*]" ; \
-	sudo rsync -a --delete -q -W -x $(BASEMACHINE)/* $(MACHINES)/$* ; \
+	sudo chmod 755 /var/lib/machines ; \
+	sudo bash -c "rsync -a --delete -q -W -x $(BASEMACHINE)/* $(MACHINES)/$*" ; \
 
 %-sync: %-container
 	@echo "==> Syncing packages for [$*]" ; \
@@ -90,7 +91,7 @@ info: $(INFO_TARGETS)
 	_pkgrel=$$(grep '^pkgrel=' $(MACHINES)/$*/build/$*/PKGBUILD | cut -d'=' -f2 ) ;\
 	_pkgrel=$$(($$_pkgrel+1)) ; \
 	sed -i "s/^pkgrel=[^ ]*/pkgrel=$$_pkgrel/" $(MACHINES)/$*/build/$*/PKGBUILD ; \
-	sudo systemd-nspawn -q -D $(MACHINES)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg -L --noconfirm --holdver --nocolor -sf > makepkg.log'; \
+	sudo systemd-nspawn -q -D $(MACHINES)/$* /bin/bash -c 'yes | $(PACMAN) -Syu && chown builduser -R /build && cd /build/$* && sudo -u builduser makepkg -L --noconfirm --holdver --nocolor -sf'; \
 	_pkgver=$$(bash -c "cd $(PWD)/$* ; source PKGBUILD ; if type -t pkgver | grep -q '^function$$' 2>/dev/null ; then srcdir=$$(pwd) pkgver ; fi") ; \
 	if [ -z "$$_pkgver" ] ; then \
 		_pkgver=$$(grep '^pkgver=' $(PWD)/$*/PKGBUILD | sed -e "s/'\|\"\|.*=//g") ; \

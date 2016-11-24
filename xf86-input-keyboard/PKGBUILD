@@ -5,8 +5,8 @@ _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-keyboard
 _gitname=repo-xf86-input-keyboard
 
 pkgname=xf86-input-keyboard
-pkgver=1.8.1.5.r246.g157e063
-pkgrel=34
+pkgver=1.9.0.0.r247.g0c7f512
+pkgrel=1
 pkgdesc="X.Org keyboard input driver"
 arch=(i686 x86_64)
 license=('custom')
