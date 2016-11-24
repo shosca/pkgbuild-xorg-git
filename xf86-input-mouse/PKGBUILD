@@ -6,14 +6,14 @@ _gitname=repo-xf86-input-mouse
 
 pkgname=xf86-input-mouse
 pkgver=1.9.2.0.r264.g9d6c38e
-pkgrel=1
+pkgrel=2
 pkgdesc="X.org mouse input driver"
 arch=(i686 x86_64)
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('glibc')
 makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=24.1' 'resourceproto' 'scrnsaverproto')
-conflicts=('X-ABI-XINPUT_VERSION<23.1')
+conflicts=('xorg-server<1.19.99' 'X-ABI-XINPUT_VERSION<24.1')
 groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')

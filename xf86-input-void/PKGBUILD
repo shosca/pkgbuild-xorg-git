@@ -6,14 +6,14 @@ _gitname=repo-xf86-input-void
 
 pkgname=xf86-input-void
 pkgver=1.4.1.0.r89.gaad3902
-pkgrel=154
+pkgrel=155
 pkgdesc="X.org void input driver"
 arch=(i686 x86_64)
 license=('custom')
 url="http://xorg.freedesktop.org/"
 depends=('glibc')
 makedepends=('git' 'xorg-server-devel' 'X-ABI-XINPUT_VERSION=24.1' 'resourceproto' 'scrnsaverproto')
-conflicts=('X-ABI-XINPUT_VERSION<23.1')
+conflicts=('xorg-server<1.19.99' 'X-ABI-XINPUT_VERSION<24.1')
 groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot)
 sha256sums=('SKIP')

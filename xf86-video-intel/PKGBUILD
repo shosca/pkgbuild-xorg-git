@@ -7,7 +7,7 @@ _gitname='repo-xf86-video-intel'
 
 pkgname=xf86-video-intel
 pkgver=2.99.917.736.r9410.gbde9460
-pkgrel=1
+pkgrel=4
 epoch=1
 arch=(i686 x86_64)
 url="https://01.org/linuxgraphics"
@@ -27,7 +27,7 @@ optdepends=('libxrandr: for intel-virtual-output'
             'libxss: for intel-virtual-output')
 replaces=('xf86-video-intel-uxa' 'xf86-video-intel-sna')
 provides=('xf86-video-intel-uxa' 'xf86-video-intel-sna')
-conflicts=('xorg-server<1.18.98' 'X-ABI-VIDEODRV_VERSION<21' 'X-ABI-VIDEODRV_VERSION>=22'
+conflicts=('xorg-server<1.19.99' 'X-ABI-VIDEODRV_VERSION<23' 'X-ABI-VIDEODRV_VERSION>=24'
            'xf86-video-intel-sna' 'xf86-video-intel-uxa' 'xf86-video-i810' 'xf86-video-intel-legacy')
 groups=('xorg-drivers' 'xorg')
 source=($_gitname::$_gitroot)
