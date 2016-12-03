@@ -6,7 +6,7 @@ _gitname=repo-xf86-input-joystick
 
 pkgname=xf86-input-joystick
 pkgver=1.6.3.0.r284.gde42486
-pkgrel=2
+pkgrel=3
 pkgdesc="X.Org Joystick input driver"
 arch=(i686 x86_64)
 url="http://xorg.freedesktop.org/"

@@ -5,7 +5,7 @@ _gitname="repo-wayland"
 
 pkgname=lib32-wayland
 _pkgbasename=${pkgname:6}
-pkgver=1.12.90.83.r1985.g20742b7
+pkgver=1.12.90.84.r1986.gdeb370c
 pkgrel=1
 pkgdesc='A computer display server protocol (32 bit)'
 arch=('x86_64')
