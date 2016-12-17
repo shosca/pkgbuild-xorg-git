@@ -126,7 +126,8 @@ $(DIRS): container
 %-deps:
 	@echo "==> Marking dependencies for rebuild [$*]" ; \
 	rm -f $(PWD)/$*/built ; \
-	for dep in $$(grep ' $* ' $(PWD)/Makefile | cut -d':' -f1) ; do \
+	for dep in $$(grep '^[a-zA-Z0-9_-].*: ' $(PWD)/Makefile | grep ' $* ' | cut -d':' -f1) ; do \
+		echo "==> [$*]: [$$dep]" ; \
 		$(MAKE) -s -C $(PWD) $$dep-deps ; \
 	done ; \
 
