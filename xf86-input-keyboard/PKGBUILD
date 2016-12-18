@@ -6,7 +6,7 @@ _gitname=repo-xf86-input-keyboard
 
 pkgname=xf86-input-keyboard
 pkgver=1.9.0.0.r247.g0c7f512
-pkgrel=7
+pkgrel=8
 pkgdesc="X.Org keyboard input driver"
 arch=(i686 x86_64)
 license=('custom')
