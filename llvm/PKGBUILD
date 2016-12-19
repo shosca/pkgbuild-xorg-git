@@ -13,7 +13,7 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="repo-llvm"
 
 pkgname=(llvm llvm-libs llvm-ocaml lldb clang clang-analyzer clang-tools-extra)
-pkgver=4.0.0.r142406.g717d8686857
+pkgver=4.0.0.r142416.g9950c0fd74b
 pkgrel=1
 arch=('i686' 'x86_64')
 url="http://llvm.org/"
