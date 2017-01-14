@@ -82,6 +82,7 @@ info: $(INFO_TARGETS)
 	sudo mkdir -p $(MACHINES)/$*/build ; \
 	echo "==> Setting up build for [$*]" ; \
 	sudo rsync -a --delete -q -W -x $(PWD)/$* $(MACHINES)/$*/build/ ; \
+	sudo $(ARCHNSPAWN) $(BASEMACHINE) bash -c "yes | $(PACMAN) -Syu ;" ; \
 
 %/built: %-container
 	@echo "==> Building [$*]" ; \
