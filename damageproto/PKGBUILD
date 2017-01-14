@@ -7,7 +7,7 @@ _gitname='repo-damageproto'
 
 pkgname=damageproto
 pkgver=1.2.1.5.r39.gd6f17be
-pkgrel=4
+pkgrel=1
 pkgdesc="X11 Damage extension wire protocol"
 arch=(any)
 url="http://xorg.freedesktop.org/"

@@ -7,7 +7,7 @@ _gitname="repo-pthread-stubs"
 
 pkgname=lib32-libpthread-stubs
 pkgver=0.3.17.gfa6db2f
-pkgrel=2
+pkgrel=1
 pkgdesc="This library provides weak aliases for pthread functions not provided in libc or otherwise available by default."
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org/dist/"

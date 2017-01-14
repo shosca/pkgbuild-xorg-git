@@ -6,7 +6,7 @@ _gitname='repo-resourceproto'
 
 pkgname=resourceproto
 pkgver=1.2.0.2.r42.gada91f5
-pkgrel=7
+pkgrel=1
 pkgdesc="X11 Resource extension wire protocol"
 arch=('any')
 url="http://xorg.freedesktop.org/"

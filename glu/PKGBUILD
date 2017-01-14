@@ -8,7 +8,7 @@ _gitname="repo-glu"
 
 pkgname=glu
 pkgver=9.0.0.3.r199.g0bf42e4
-pkgrel=42
+pkgrel=1
 pkgdesc="Mesa OpenGL Utility library"
 arch=('i686' 'x86_64')
 url="http://cgit.freedesktop.org/mesa/glu/"

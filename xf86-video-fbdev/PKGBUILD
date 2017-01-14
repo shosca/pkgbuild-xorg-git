@@ -5,8 +5,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-fbdev'
 _gitname='repo-xf86-video-fbdev'
 
 pkgname=xf86-video-fbdev
-pkgver=0.4.4.4.r102.g66e7909
-pkgrel=107
+pkgver=0.4.4.5.r103.g2c5eba8
+pkgrel=1
 pkgdesc="X.org framebuffer video driver"
 arch=(i686 x86_64)
 license=('custom')

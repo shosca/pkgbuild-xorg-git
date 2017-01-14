@@ -8,7 +8,7 @@ _gitname="repo-glproto"
 
 pkgname=glproto
 pkgver=1.4.17.1.r84.gbd3d751
-pkgrel=5
+pkgrel=1
 pkgdesc="X11 OpenGL extension wire protocol"
 arch=(any)
 url="http://xorg.freedesktop.org/"

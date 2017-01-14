@@ -6,7 +6,7 @@ _gitname='repo-scrnsaverproto'
 
 pkgname=scrnsaverproto
 pkgver=1.2.2.3.r58.g5cf9455
-pkgrel=7
+pkgrel=1
 pkgdesc="X11 Screen Saver extension wire protocol"
 arch=('any')
 license=('custom')

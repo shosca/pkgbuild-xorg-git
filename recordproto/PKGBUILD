@@ -6,7 +6,7 @@ _gitname='repo-recordproto'
 
 pkgname=recordproto
 pkgver=1.14.2.3.r56.gc414387
-pkgrel=8
+pkgrel=1
 pkgdesc="X11 Record extension wire protocol"
 arch=('any')
 url="http://xorg.freedesktop.org/"

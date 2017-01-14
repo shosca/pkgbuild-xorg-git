@@ -6,8 +6,8 @@ _gitroot='git://anongit.freedesktop.org/xorg/driver/xf86-video-intel'
 _gitname='repo-xf86-video-intel'
 
 pkgname=xf86-video-intel
-pkgver=2.99.917.746.r9420.g169c74fa
-pkgrel=8
+pkgver=2.99.917.747.r9421.g028c946d
+pkgrel=1
 epoch=1
 arch=(i686 x86_64)
 url="https://01.org/linuxgraphics"
@@ -17,7 +17,7 @@ pkgdesc="X.org Intel i810/i830/i915/945G/G965+ video drivers"
 depends=('mesa-dri' 'libxvmc' 'pixman' 'xcb-util>=0.3.9')
 makedepends=('git' 'xorg-server-devel>1.18.98' 'libx11' 'libxrender'
              # additional deps for intel-virtual-output
-             'libxrandr' 'libxinerama' 'libxcursor' 'libxtst' 'libxss' 'libxfont'
+             'libxrandr' 'libxinerama' 'libxcursor' 'libxtst' 'libxss' 'libxfont2'
              # additional for git snapshot
              'git')
 optdepends=('libxrandr: for intel-virtual-output'

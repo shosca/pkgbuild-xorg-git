@@ -6,7 +6,7 @@ _gitname='repo-xextproto'
 
 pkgname=xextproto
 pkgver=7.3.0.0.r138.g66afec3
-pkgrel=7
+pkgrel=1
 pkgdesc="X11 various extension wire protocol"
 arch=('any')
 license=('custom')

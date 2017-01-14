@@ -7,7 +7,7 @@ _gitname='repo-kbproto'
 
 pkgname=kbproto
 pkgver=1.0.7.0.r70.gec54606
-pkgrel=5
+pkgrel=1
 pkgdesc="X11 XKB extension wire protocol"
 arch=('any')
 url="http://xorg.freedesktop.org/"

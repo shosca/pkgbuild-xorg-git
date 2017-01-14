@@ -7,7 +7,7 @@ _gitname='repo-compositeproto'
 
 pkgname=compositeproto
 pkgver=0.4.2.4.r52.gef261dc
-pkgrel=6
+pkgrel=1
 pkgdesc="X11 Composite extension wire protocol"
 arch=('any')
 url="http://xorg.freedesktop.org/"

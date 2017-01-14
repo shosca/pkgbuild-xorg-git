@@ -2,11 +2,11 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 _gitroot="git://anongit.freedesktop.org/xorg/lib/libXfont"
-_gitname="repo-libXfont"
+_gitname="repo-xfont2"
 
-pkgname=libxfont
+pkgname=libxfont2
 pkgver=2.0.1.15.r324.g33a98f2
-pkgrel=4
+pkgrel=1
 pkgdesc="X11 font rasterisation library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

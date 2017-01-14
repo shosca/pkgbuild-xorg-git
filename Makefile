@@ -74,20 +74,19 @@ info: $(INFO_TARGETS)
 	@echo "==> Setting up container for [$*]" ; \
 	sudo chmod 755 /var/lib/machines ; \
 	sudo bash -c "rsync -a --delete -q -W -x $(BASEMACHINE)/* $(MACHINES)/$*" ; \
-
-%-sync: %-container
-	@echo "==> Syncing packages for [$*]" ; \
+	echo "==> Syncing packages for [$*]" ; \
 	if ls */*.$(PKGEXT) &> /dev/null ; then \
 		sudo cp -f */*.$(PKGEXT) $(MACHINES)/$*/repo ; \
 		sudo $(REPOADD) $(MACHINES)/$*/repo/$(REPO).db.tar.gz $(MACHINES)/$*/repo/*.$(PKGEXT) > /dev/null 2>&1 ; \
 	fi ; \
+	sudo mkdir -p $(MACHINES)/$*/build ; \
+	echo "==> Setting up build for [$*]" ; \
+	sudo rsync -a --delete -q -W -x $(PWD)/$* $(MACHINES)/$*/build/ ; \
 
-%/built: %-sync
+%/built: %-container
 	@echo "==> Building [$*]" ; \
 	rm -f *.log ; \
 	mkdir -p $(PWD)/$*/tmp ; mv $(PWD)/$*/*$(PKGEXT) $(PWD)/$*/tmp ; \
-	sudo mkdir -p $(MACHINES)/$*/build ; \
-	sudo rsync -a --delete -q -W -x $(PWD)/$* $(MACHINES)/$*/build/ ; \
 	_pkgrel=$$(grep '^pkgrel=' $(MACHINES)/$*/build/$*/PKGBUILD | cut -d'=' -f2 ) ;\
 	_pkgrel=$$(($$_pkgrel+1)) ; \
 	sed -i "s/^pkgrel=[^ ]*/pkgrel=$$_pkgrel/" $(MACHINES)/$*/build/$*/PKGBUILD ; \
@@ -369,7 +368,7 @@ libva-vdpau-driver: libva libvdpau mesa container
 
 libxcursor: libxfixes libxrender container
 
-libxfont: xproto fontsproto libfontenc xtrans container
+libxfont2: xproto fontsproto libfontenc xtrans container
 
 libxinerama: libxext xineramaproto container
 
@@ -405,7 +404,7 @@ xorg-font-util: xorg-util-macros container
 
 xorg-setxkbmap: libxkbfile xorg-util-macros container
 
-xorg-server: bigreqsproto presentproto compositeproto dmxproto dri2proto dri3proto fontsproto glproto inputproto randrproto recordproto renderproto resourceproto scrnsaverproto videoproto xcmiscproto xextproto xf86dgaproto xf86driproto xineramaproto libdmx libdrm libpciaccess libx11 libxau libxaw libxdmcp libxext libxfixes libxfont libxi libxkbfile libxmu libxrender libxres libxtst libxv libepoxy mesa pixman xkeyboard-config xorg-font-util xorg-setxkbmap xorg-util-macros xorg-xkbcomp xtrans wayland xcb-util-image xcb-util-wm xcb-util-keysyms xcb-util-renderutil libxshmfence container
+xorg-server: bigreqsproto presentproto compositeproto dmxproto dri2proto dri3proto fontsproto glproto inputproto randrproto recordproto renderproto resourceproto scrnsaverproto videoproto xcmiscproto xextproto xf86dgaproto xf86driproto xineramaproto libdmx libdrm libpciaccess libx11 libxau libxaw libxdmcp libxext libxfixes libxfont2 libxi libxkbfile libxmu libxrender libxres libxtst libxv libepoxy mesa pixman xkeyboard-config xorg-font-util xorg-setxkbmap xorg-util-macros xorg-xkbcomp xtrans wayland xcb-util-image xcb-util-wm xcb-util-keysyms xcb-util-renderutil libxshmfence container
 
 xorg-xauth: libxmu container
 
