@@ -6,7 +6,7 @@ _gitname='repo-xf86-video-fbdev'
 
 pkgname=xf86-video-fbdev
 pkgver=0.4.4.5.r103.g2c5eba8
-pkgrel=1
+pkgrel=2
 pkgdesc="X.org framebuffer video driver"
 arch=(i686 x86_64)
 license=('custom')

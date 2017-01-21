@@ -6,7 +6,7 @@ _gitroot="git://anongit.freedesktop.org/mesa/demos"
 _gitname="repo-demos"
 
 pkgname='mesa-demos'
-pkgver=8.3.0.16.r6032.g0d41e4b4
+pkgver=8.3.0.23.r6039.g0eb5bef6
 pkgrel=1
 arch=('i686' 'x86_64')
 pkgdesc="Mesa demos and tools"

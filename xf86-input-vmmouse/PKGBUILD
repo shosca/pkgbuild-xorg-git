@@ -6,7 +6,7 @@ _gitname=repo-xf86-input-vmmouse
 
 pkgname=xf86-input-vmmouse
 pkgver=13.1.0.2.r132.g8081bdc
-pkgrel=1
+pkgrel=2
 pkgdesc="X.org VMWare Mouse input driver"
 arch=(i686 x86_64)
 license=('custom')

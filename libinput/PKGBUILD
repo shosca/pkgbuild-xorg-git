@@ -6,7 +6,7 @@ _gitroot="git://anongit.freedesktop.org/wayland/libinput"
 _gitname="repo-libinput"
 
 pkgname=libinput
-pkgver=1.5.901.76.r2300.g72e0148
+pkgver=1.6.0.32.r2353.gebeba8e
 pkgrel=1
 pkgdesc="library that handles input devices for display servers and other applications that need to directly deal with input devices."
 arch=(i686 x86_64)

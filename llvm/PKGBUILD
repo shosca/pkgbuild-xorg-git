@@ -13,8 +13,8 @@ _gitroot="http://llvm.org/git/llvm"
 _gitname="repo-llvm"
 
 pkgname=(llvm llvm-libs llvm-ocaml lldb clang clang-analyzer clang-tools-extra)
-pkgver=5.0.0.r143366.g6dbd68e62b1
-pkgrel=0
+pkgver=5.0.0.r143763.ga5d7e7c789c
+pkgrel=1
 arch=('i686' 'x86_64')
 url="http://llvm.org/"
 license=('custom:University of Illinois/NCSA Open Source License')

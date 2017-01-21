@@ -6,7 +6,7 @@ _gitname='repo-libepoxy'
 
 pkgname=libepoxy
 pkgver=1.3.1.38.r280.g0aa9d1b
-pkgrel=1
+pkgrel=2
 pkgdesc="Epoxy is a library for handling OpenGL function pointer management for you"
 url="https://github.com/anholt/libepoxy"
 arch=('i686' 'x86_64')
