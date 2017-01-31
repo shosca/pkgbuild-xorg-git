@@ -6,7 +6,7 @@ _gitname="repo-libXvMC"
 
 pkgname=lib32-libxvmc
 _pkgbasename=${pkgname:6}
-pkgver=1.0.10.0.r93.g44a4628
+pkgver=1.0.10.3.r96.g48ca786
 pkgrel=1
 pkgdesc="X11 Video Motion Compensation extension library (32-bit)"
 arch=('x86_64')

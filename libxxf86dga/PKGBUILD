@@ -7,7 +7,7 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXxf86dga"
 _gitname="repo-libXxf86dga"
 
 pkgname=libxxf86dga
-pkgver=1.1.4.1.r83.g7fad129
+pkgver=1.1.4.4.r86.g91f4518
 pkgrel=1
 pkgdesc="X11 Direct Graphics Access extension library"
 arch=('i686' 'x86_64')

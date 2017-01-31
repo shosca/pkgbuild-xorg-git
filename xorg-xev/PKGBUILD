@@ -6,7 +6,7 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xev"
 _gitname="repo-xev"
 
 pkgname=xorg-xev
-pkgver=1.2.2.0.r72.ga92082c
+pkgver=1.2.2.3.r75.gd1f08f6
 pkgrel=1
 pkgdesc='Print contents of X events'
 url='http://xorg.freedesktop.org/'

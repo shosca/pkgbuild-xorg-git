@@ -6,7 +6,7 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXi"
 _gitname="repo-libXi"
 
 pkgname=libxi
-pkgver=1.7.8.3.r484.g557b607
+pkgver=1.7.9.3.r488.g8ffaac5
 pkgrel=1
 pkgdesc="X11 Input extension library"
 arch=('i686' 'x86_64')

@@ -5,8 +5,8 @@ _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-mouse
 _gitname=repo-xf86-input-mouse
 
 pkgname=xf86-input-mouse
-pkgver=1.9.2.0.r264.g9d6c38e
-pkgrel=2
+pkgver=1.9.2.3.r267.g9d0d12c
+pkgrel=1
 pkgdesc="X.org mouse input driver"
 arch=(i686 x86_64)
 license=('custom')

@@ -6,8 +6,8 @@ _gitname="repo-libxshmfence"
 
 pkgname=lib32-libxshmfence
 _pkgbasename=${pkgname:6}
-pkgver=1.2.0.r26.gfe2d6db
-pkgrel=1
+pkgver=1.2.3.r29.gdb7966b
+pkgrel=2
 pkgdesc="a library that exposes a event API on top of Linux futexes (32-bit)"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"

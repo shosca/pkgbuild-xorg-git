@@ -6,8 +6,8 @@ _gitname="repo-libX11"
 
 pkgname=lib32-libx11
 _pkgbasename=${pkgname:6}
-pkgver=1.6.4.9.r1314.gc74b070f
-pkgrel=1
+pkgver=1.6.4.13.r1318.g23d9623c
+pkgrel=2
 pkgdesc="X11 client-side library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"

@@ -8,7 +8,7 @@ _gitname='repo-dri2proto'
 
 pkgname=dri2proto
 pkgver=2.8.4.r50.gb118dfb
-pkgrel=1
+pkgrel=3
 pkgdesc="X11 DRI protocol"
 arch=(any)
 license=('custom')

@@ -5,8 +5,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/randrproto'
 _gitname='repo-randrproto'
 
 pkgname=randrproto
-pkgver=1.5.0.2.r163.gcf32727
-pkgrel=1
+pkgver=1.5.0.5.r166.g57d3ab1
+pkgrel=2
 pkgdesc="X11 RandR extension wire protocol"
 arch=('any')
 license=('custom')

@@ -5,7 +5,7 @@ _gitroot="git://anongit.freedesktop.org/xorg/app/xrdb"
 _gitname="repo-xrdb"
 
 pkgname=xorg-xrdb
-pkgver=1.1.0.12.r100.g3ae3e2f
+pkgver=1.1.0.15.r103.gae86081
 pkgrel=1
 pkgdesc="X server resource database utility"
 arch=('i686' 'x86_64')

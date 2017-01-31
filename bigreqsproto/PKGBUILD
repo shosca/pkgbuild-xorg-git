@@ -6,8 +6,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/bigreqsproto'
 _gitname='repo-bigreqsproto'
 
 pkgname=bigreqsproto
-pkgver=1.1.2.4.r57.g869dca1
-pkgrel=1
+pkgver=1.1.2.7.r60.g04797d4
+pkgrel=2
 pkgdesc="X11 Big Requests extension wire protocol"
 arch=(any)
 url="http://xorg.freedesktop.org/"

@@ -7,8 +7,8 @@ _gitname="repo-libXau"
 
 pkgname=lib32-libxau
 _pkgbasename=${pkgname:6}
-pkgver=1.0.8.3.r100.g1e4635b
-pkgrel=1
+pkgver=1.0.8.6.r103.g42e152c
+pkgrel=2
 pkgdesc="X11 authorisation library"
 arch=('x86_64')
 url="http://xorg.freedesktop.org/"

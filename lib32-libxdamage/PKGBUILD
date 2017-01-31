@@ -6,7 +6,7 @@ _gitname="repo-libXdamage"
 
 pkgname=lib32-libxdamage
 _pkgbasename=${pkgname:6}
-pkgver=1.1.4.4.r58.g41cc41d
+pkgver=1.1.4.7.r61.g8c8f9c1
 pkgrel=1
 pkgdesc="X11 damaged region extension library (32-bit)"
 arch=(x86_64)

@@ -6,7 +6,7 @@ _gitname="repo-libXfixes"
 
 pkgname=lib32-libxfixes
 _pkgbasename=${pkgname:6}
-pkgver=5.0.3.0.r77.g84df9cb
+pkgver=5.0.3.3.r80.gb9b75d7
 pkgrel=1
 pkgdesc="X11 miscellaneous 'fixes' extension library (32-bit)"
 arch=('x86_64')

@@ -6,8 +6,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/dmxproto'
 _gitname='repo-dmxproto'
 
 pkgname=dmxproto
-pkgver=2.3.1.2.r37.g395f6fc
-pkgrel=1
+pkgver=2.3.1.5.r40.g338ff98
+pkgrel=2
 pkgdesc="X11 Distributed Multihead X extension wire protocol"
 arch=('any')
 makedepends=('git' 'xorg-util-macros')

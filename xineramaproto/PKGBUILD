@@ -5,8 +5,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/xineramaproto'
 _gitname='repo-xineramaproto'
 
 pkgname=xineramaproto
-pkgver=1.2.1.4.r48.g441b8d8
-pkgrel=1
+pkgver=1.2.1.7.r51.g6c277d5
+pkgrel=2
 pkgdesc="X11 Xinerama extension wire protocol"
 arch=('any')
 url="http://xorg.freedesktop.org/"

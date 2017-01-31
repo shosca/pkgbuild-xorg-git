@@ -6,8 +6,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/xf86driproto'
 _gitname='repo-xf86driproto'
 
 pkgname=xf86driproto
-pkgver=2.1.1.4.r43.gc856293
-pkgrel=1
+pkgver=2.1.1.7.r46.g0f8bc70
+pkgrel=2
 pkgdesc='X11 composite extention protocol specification and header files'
 arch=('any')
 makedepends=('git' 'xorg-util-macros')

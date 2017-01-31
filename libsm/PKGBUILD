@@ -5,8 +5,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libSM"
 _gitname="repo-libSM"
 
 pkgname=libsm
-pkgver=1.2.2.4.r147.gb64aa0e
-pkgrel=1
+pkgver=1.2.2.7.r150.gb347e9f
+pkgrel=2
 pkgdesc="X11 Session Management library"
 arch=('i686' 'x86_64')
 license=('custom')

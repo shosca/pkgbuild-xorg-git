@@ -8,7 +8,7 @@ _gitname="repo-util"
 
 pkgname=xcb-util
 pkgver=0.4.0.0.r123.gacf790d
-pkgrel=1
+pkgrel=3
 pkgdesc="Utility libraries for XC Binding"
 arch=('i686' 'x86_64')
 url="http://xcb.freedesktop.org"

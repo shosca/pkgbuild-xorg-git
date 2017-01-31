@@ -5,8 +5,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/videoproto'
 _gitname='repo-videoproto'
 
 pkgname=videoproto
-pkgver=2.3.3.0.r49.g65e7449
-pkgrel=1
+pkgver=2.3.3.3.r52.g708fcc7
+pkgrel=2
 pkgdesc="X11 Video extension wire protocol"
 arch=('any')
 url="http://xorg.freedesktop.org/"

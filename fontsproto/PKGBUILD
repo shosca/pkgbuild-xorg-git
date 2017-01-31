@@ -6,8 +6,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/fontsproto'
 _gitname='repo-fontsproto'
 
 pkgname=fontsproto
-pkgver=2.1.3.1.r95.gf900146
-pkgrel=1
+pkgver=2.1.3.4.r98.gd69de20
+pkgrel=2
 pkgdesc="X11 font extension wire protocol"
 arch=('any')
 url="http://xorg.freedesktop.org/"

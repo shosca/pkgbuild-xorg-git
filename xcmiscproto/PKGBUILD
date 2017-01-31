@@ -5,8 +5,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/xcmiscproto'
 _gitname='repo-xcmiscproto'
 
 pkgname=xcmiscproto
-pkgver=1.2.2.3.r53.gc27c825
-pkgrel=1
+pkgver=1.2.2.6.r56.g141dc81
+pkgrel=2
 pkgdesc="X11 XC-Miscellaneous extension wire protocol"
 arch=('any')
 url="http://xorg.freedesktop.org/"

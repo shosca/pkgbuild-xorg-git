@@ -6,8 +6,8 @@ _gitroot="git://anongit.freedesktop.org/xorg/lib/libXfixes"
 _gitname="repo-libXfixes"
 
 pkgname=libxfixes
-pkgver=5.0.3.0.r77.g84df9cb
-pkgrel=1
+pkgver=5.0.3.3.r80.gb9b75d7
+pkgrel=2
 pkgdesc="X11 miscellaneous 'fixes' extension library"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"

@@ -8,8 +8,8 @@ _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-synaptics
 _gitname=repo-xf86-input-synaptics
 
 pkgname=xf86-input-synaptics
-pkgver=1.9.0.0.r1484.g3261e07
-pkgrel=2
+pkgver=1.9.0.2.r1486.gafa8d7b
+pkgrel=1
 pkgdesc="Synaptics driver for notebook touchpads"
 arch=('i686' 'x86_64')
 license=('MIT')

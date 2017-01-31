@@ -6,8 +6,8 @@ _gitname="repo-libXdmcp"
 
 pkgname=lib32-libxdmcp
 _pkgbasename=${pkgname:6}
-pkgver=1.1.2.2.r111.g5021b93
-pkgrel=1
+pkgver=1.1.2.5.r114.gf1bf902
+pkgrel=2
 pkgdesc="X11 Display Manager Control Protocol library (32-bit)"
 arch=(x86_64)
 url="http://xorg.freedesktop.org/"

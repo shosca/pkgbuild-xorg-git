@@ -5,8 +5,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/renderproto'
 _gitname='repo-renderproto'
 
 pkgname=renderproto
-pkgver=0.11.1.7.r71.gda705f9
-pkgrel=1
+pkgver=0.11.1.10.r74.gbbb10a9
+pkgrel=2
 pkgdesc="X11 Render extension wire protocol"
 arch=('any')
 url="http://xorg.freedesktop.org/"

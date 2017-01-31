@@ -6,8 +6,8 @@ _gitroot='git://git.freedesktop.org/git/xorg/proto/xf86dgaproto'
 _gitname='repo-xf86dgaproto'
 
 pkgname=xf86dgaproto
-pkgver=2.1.12.r45.g199f7ae
-pkgrel=1
+pkgver=2.1.15.r48.g6a5a93b
+pkgrel=2
 pkgdesc="X11 Direct Graphics Access extension wire protocol"
 arch=('any')
 url="http://xorg.freedesktop.org/"

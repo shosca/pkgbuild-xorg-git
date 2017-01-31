@@ -5,8 +5,8 @@ _gitroot=git://anongit.freedesktop.org/xorg/driver/xf86-input-vmmouse
 _gitname=repo-xf86-input-vmmouse
 
 pkgname=xf86-input-vmmouse
-pkgver=13.1.0.2.r132.g8081bdc
-pkgrel=2
+pkgver=13.1.0.7.r137.g4b0126a
+pkgrel=1
 pkgdesc="X.org VMWare Mouse input driver"
 arch=(i686 x86_64)
 license=('custom')
